@@ -1,0 +1,31 @@
+{
+    "name": "yab/laracogs",
+    "description": "Laracogs - A set of tools to help with awesome Laravel develoopment",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matt Lantz",
+            "email": "matt@yabhq.com"
+        },
+        {
+            "name": "Chris Blackwell",
+            "email": "chris@yabhq.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/support": "5.*",
+        "doctrine/dbal": "^2.5",
+        "laravelcollective/html": "^5.2|^5.1",
+        "alfredo-ramos/parsedown-extra-laravel": "~0.3",
+        "illuminate/container": "^5.2|^5.1",
+        "mockery/mockery": "^0.9.4",
+        "mikey179/vfsStream": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Yab\\Laracogs\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}

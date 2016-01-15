@@ -1,0 +1,13 @@
+@include('partials.message')
+
+<div class="container">
+
+    {!! Form::open(['route' => '_lower_casePlural_.store']) !!}
+
+    {!! FormMaker::fromTable("_lower_casePlural_") !!}
+
+    {!! Form::submit('Save') !!}
+
+    {!! Form::close() !!}
+
+</div>

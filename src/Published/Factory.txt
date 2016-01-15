@@ -1,0 +1,34 @@
+
+/*
+|--------------------------------------------------------------------------
+| Account Factory
+|--------------------------------------------------------------------------
+*/
+
+$factory->define(\App\Repositories\Account\Account::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => 1,
+        'phone' => $faker->phoneNumber,
+        'marketing' => 1,
+    ];
+});
+
+$factory->define(\App\Repositories\Role\Role::class, function (Faker\Generator $faker) {
+    return [
+        'name' => 'member',
+        'label' => 'Member',
+    ];
+});
+
+/*
+|--------------------------------------------------------------------------
+| Team Factory
+|--------------------------------------------------------------------------
+*/
+
+$factory->define(\App\Repositories\Team\Team::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => 1,
+        'name' => $faker->name
+    ];
+});

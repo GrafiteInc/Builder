@@ -1,0 +1,23 @@
+<?php
+
+namespace _namespace_model_;
+
+use Eloquent;
+
+class _camel_case_ extends Eloquent
+{
+    public $table = "_lower_casePlural_";
+
+    public $primaryKey = "id";
+
+    public $timestamps = true;
+
+    public $fillable = [
+        // fill this in
+    ];
+
+    public static $rules = [
+        // create rules
+    ];
+
+}

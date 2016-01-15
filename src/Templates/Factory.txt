@@ -1,0 +1,14 @@
+
+/*
+|--------------------------------------------------------------------------
+| _camel_case_ Factory
+|--------------------------------------------------------------------------
+*/
+
+$factory->define(\App\Repositories\_camel_case_\_camel_case_::class, function (Faker\Generator $faker) {
+    return [
+
+        // prepare your table here
+
+    ];
+});
