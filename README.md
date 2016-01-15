@@ -9,7 +9,7 @@ This is a set of tools to help speed up development of Laravel apps. You can sta
 
 **Author(s):**
 * [Matt Lantz](https://github.com/mlantz) ([@mattylantz](http://twitter.com/mattylantz), matt at yabhq dot com)
-* [Chris Blackwell](https://github.com/chrisblackwell) ([@mattylantz](https://twitter.com/chrisblackwell), chris at yabhq dot com)
+* [Chris Blackwell](https://github.com/chrisblackwell) ([@chrisblackwell](https://twitter.com/chrisblackwell), chris at yabhq dot com)
 
 ## Requirements
 
