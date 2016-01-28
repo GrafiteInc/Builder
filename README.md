@@ -2,6 +2,8 @@
 
 **Laracogs** - A handful of tools for Laravel
 
+[![Codeship](https://img.shields.io/codeship/013b03f0-a7c6-0133-63e0-5a0bf9327500.svg)](https://github.com/YABhq/Laracogs)
+
 This is a set of tools to help speed up development of Laravel apps. You can start an app with various parts prewritten (Users, Accounts, Roles, Teams). And it comes with a powerful FormMaker which can generate form content from tables, and objects. It can generate epic CRUD prototypes rapidly with full testing scripts prepared for you, requiring very little editing. It also provides an elegant Cryptography tool which is URL friendly. Finally it brings along some friends with the LaravelCollective as a vendor.
 
 ## Documentation
