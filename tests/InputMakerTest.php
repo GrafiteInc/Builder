@@ -1,6 +1,5 @@
 <?php
 
-use Mockery;
 use Yab\Laracogs\Utilities\InputMaker;
 use \Illuminate\Container\Container as Container;
 use \Illuminate\Support\Facades\Facade as Facade;

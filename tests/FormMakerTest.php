@@ -1,6 +1,5 @@
 <?php
 
-use Mockery;
 use Illuminate\Support\Facades\Config;
 use Yab\Laracogs\Utilities\FormMaker;
 use \Illuminate\Container\Container as Container;
@@ -8,9 +7,6 @@ use \Illuminate\Support\Facades\Facade as Facade;
 
 class FormMakerTest extends PHPUnit_Framework_TestCase
 {
-    // use TestCase;
-    protected $inputMaker;
-
     public function setUp()
     {
         $this->app = new Container();
