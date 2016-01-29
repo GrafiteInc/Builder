@@ -79,6 +79,10 @@ Add the following line to the 'phpunit.xml' file
 ```xml
 <env name="DB_CONNECTION" value="testing"/>
 ```
+and then add this line for the unit tests:
+```xml
+<env name="MAIL_DRIVER" value="log"/>
+```
 
 ### Things to note
 - You may try and start quickly by testing the registration - make sure your app's
