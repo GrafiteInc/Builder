@@ -92,7 +92,13 @@ class User extends Model implements AuthenticatableContract,
      */
     public function isTeamMember($id)
     {
-        return in_array($id, array_fetch($this->teams->toArray(), 'id'));
+        $teamIdArray = [];
+
+        foreach ($this->teams->toArray() as $team) {
+            $teamIdArray[] = $team->id;
+        }
+
+        return in_array($id, $teamIdArray);
     }
 
     /**
