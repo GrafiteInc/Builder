@@ -104,9 +104,7 @@ class TeamServiceTest extends TestCase
         $admin = factory(App\Repositories\User\User::class)->create();
         $team = $this->service->create($admin->id, $this->originalArray);
 
-        $response = $this->service->destroy($admin->id, $team->id);
+        $response = $this->service->destroy($admin, $team->id);
         $this->assertTrue($response);
     }
-
 }
-
