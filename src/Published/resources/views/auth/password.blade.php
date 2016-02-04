@@ -5,6 +5,7 @@
     {!! csrf_field() !!}
 
     @include('partials.errors')
+    @include('partials.status')
 
     <div>
         Email

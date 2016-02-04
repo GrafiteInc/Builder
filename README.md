@@ -78,10 +78,21 @@ You will want to create an sqlite memory test DB
 Add the following line to the 'phpunit.xml' file
 ```xml
 <env name="DB_CONNECTION" value="testing"/>
-```
-and then add this line for the unit tests:
-```xml
 <env name="MAIL_DRIVER" value="log"/>
+```
+
+### For Laravel 5.2
+You will also need to set the location of the email for password reminders.
+
+```php
+'passwords' => [
+    'users' => [
+        'provider' => 'users',
+        'email' => 'emails.password',
+        'table' => 'password_resets',
+        'expire' => 60,
+    ],
+],
 ```
 
 ### Things to note

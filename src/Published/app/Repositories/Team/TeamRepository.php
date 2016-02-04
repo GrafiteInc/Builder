@@ -41,7 +41,7 @@ class TeamRepository
      */
     public function search($input, $id, $paginate)
     {
-        $query = $this->model->orderBy('created_at', 'desc')->where('user_id', $id);
+        $query = $this->model->orderBy('created_at', 'desc');
 
         $columns = Schema::getColumnListing('teams');
 
@@ -49,7 +49,7 @@ class TeamRepository
             $query->orWhere($attribute, 'LIKE', '%'.$input.'%');
         };
 
-        return $query->paginate($paginate);
+        return $query->where('user_id', $id)->paginate($paginate);
     }
 
     /**

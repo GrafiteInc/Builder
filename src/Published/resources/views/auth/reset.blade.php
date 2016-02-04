@@ -13,12 +13,12 @@
 
     <div>
         Password
-        <input type="password" name="new_password">
+        <input type="password" name="password">
     </div>
 
     <div>
         Confirm Password
-        <input type="password" name="new_password_confirmation">
+        <input type="password" name="password_confirmation">
     </div>
 
     <div>
