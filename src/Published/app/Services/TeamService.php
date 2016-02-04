@@ -10,11 +10,11 @@ use App\Repositories\User\UserRepository;
 
 class TeamService
 {
-    public function __construct(TeamRepository $teamRepository,
+    public function __construct(
+        TeamRepository $teamRepository,
         UserRepository $userRepository,
         AccountService $accountService
-    )
-    {
+    ) {
         $this->repo = $teamRepository;
         $this->userRepo = $userRepository;
         $this->accountService = $accountService;
@@ -62,13 +62,17 @@ class TeamService
         return $this->repo->update($id, $input);
     }
 
-    public function destroy($id)
+    public function destroy($user, $id)
     {
-        $team = $this->repo->find($id);
-        foreach ($team->members as $member) {
-            $this->userRepo->leaveTeam($id, $member->id);
+        if ($user->isTeamAdmin($id)) {
+            $team = $this->repo->find($id);
+            foreach ($team->members as $member) {
+                $this->userRepo->leaveTeam($id, $member->id);
+            }
+            return $this->repo->destroy($id);
         }
-        return $this->repo->destroy($id);
+
+        return false;
     }
 
     public function invite($admin, $id, $email)
@@ -121,5 +125,4 @@ class TeamService
             throw new Exception("Failed to remove member", 1);
         }
     }
-
 }

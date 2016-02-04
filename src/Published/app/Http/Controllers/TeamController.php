@@ -133,7 +133,7 @@ class TeamController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->service->destroy(Auth::id(), $id);
+        $result = $this->service->destroy(Auth::user(), $id);
 
         if ($result) {
             return redirect('teams')->with('message', 'Successfully deleted');

@@ -21,14 +21,16 @@
 
     @include('account.account')
 
-    <div>
-        Role
-        <select name="role">
-            @foreach(App\Repositories\Role\Role::all() as $role)
-                <option @if($account->roles->first()->id === $role->id) selected @endif value="{{ $role->name }}">{{ $role->label }}</option>
-            @endforeach
-        </select>
-    </div>
+    @if ($account->roles->first()->name === 'admin' || $account->id == 1)
+        <div>
+            Role
+            <select name="role">
+                @foreach(App\Repositories\Role\Role::all() as $role)
+                    <option @if($account->roles->first()->id === $role->id) selected @endif value="{{ $role->name }}">{{ $role->label }}</option>
+                @endforeach
+            </select>
+        </div>
+    @endif
 
     <div>
         <button type="submit">Save</button>
