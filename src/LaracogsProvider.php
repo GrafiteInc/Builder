@@ -38,11 +38,11 @@ class LaracogsProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
 
-        $this->app->bind('FormMaker', function($app) {
+        $this->app->bind('FormMaker', function ($app) {
             return new \Yab\Laracogs\Utilities\FormMaker();
         });
 
-        $this->app->bind('InputMaker', function($app) {
+        $this->app->bind('InputMaker', function ($app) {
             return new \Yab\Laracogs\Utilities\InputMaker();
         });
 
@@ -64,6 +64,7 @@ class LaracogsProvider extends ServiceProvider
         */
 
         $this->commands([
+            \Yab\Laracogs\Console\Bootstrap::class,
             \Yab\Laracogs\Console\Docs::class,
             \Yab\Laracogs\Console\Crud::class,
             \Yab\Laracogs\Console\Starter::class,

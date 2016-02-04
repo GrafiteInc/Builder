@@ -46,10 +46,10 @@ class TeamRepository
         $columns = Schema::getColumnListing('teams');
 
         foreach ($columns as $attribute) {
-            $query->orWhere($attribute, 'LIKE', '%'.$input.'%');
+            $query->orWhere($attribute, 'LIKE', '%'.$input.'%')->where('user_id', $id);
         };
 
-        return $query->where('user_id', $id)->paginate($paginate);
+        return $query->paginate($paginate);
     }
 
     /**
