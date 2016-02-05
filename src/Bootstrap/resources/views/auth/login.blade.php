@@ -28,9 +28,7 @@
                 </div>
 
                 <div class="col-md-12 raw-margin-top-24">
-                    @if (Config::get('quarx.registrationAvailable'))
-                        <a class="btn raw100 btn-info" href="/register">Register</a>
-                    @endif
+                    <a class="btn raw100 btn-info" href="/register">Register</a>
                 </div>
             </form>
 
