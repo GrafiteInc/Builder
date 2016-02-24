@@ -6,7 +6,7 @@ use Eloquent;
 
 class _camel_case_ extends Eloquent
 {
-    public $table = "_lower_casePlural_";
+    public $table = "_table_name_";
 
     public $primaryKey = "id";
 

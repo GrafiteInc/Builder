@@ -30,9 +30,16 @@ class Crud extends Command
      */
     public function handle()
     {
+        $section = false;
         $crudGenerator = new CrudGenerator();
 
         $table = ucfirst(str_singular($this->argument('table')));
+
+        if (stristr($table, '_')) {
+            $splitTable = explode('_', $table);
+            $table = $splitTable[1];
+            $section = $splitTable[0];
+        }
 
         $config = [
             '_path_facade_'              => app_path('Facades'),
@@ -52,12 +59,51 @@ class Crud extends Command
             '_namespace_model_'          => 'App\Repositories\\'.ucfirst($table),
             '_namespace_controller_'     => 'App\Http\Controllers',
             '_namespace_request_'        => 'App\Http\Requests',
+            '_table_name_'               => str_plural(strtolower($table)),
             '_lower_case_'               => strtolower($table),
             '_lower_casePlural_'         => str_plural(strtolower($table)),
             '_camel_case_'               => ucfirst(camel_case($table)),
             '_camel_casePlural_'         => str_plural(camel_case($table)),
-            'template_source'            => __DIR__.'/../Templates/',
         ];
+
+        if ($section) {
+            $config = [
+                '_path_facade_'              => app_path('Facades'),
+                '_path_service_'             => app_path('Services'),
+                '_path_repository_'          => app_path('Repositories/'.ucfirst($section).'/'.ucfirst($table)),
+                '_path_model_'               => app_path('Repositories/'.ucfirst($section).'/'.ucfirst($table)),
+                '_path_controller_'          => app_path('Http/Controllers/'.ucfirst($section).'/'),
+                '_path_views_'               => base_path('resources/views/'.strtolower($section)),
+                '_path_tests_'               => base_path('tests'),
+                '_path_request_'             => app_path('Http/Requests/'.ucfirst($section)),
+                '_path_routes_'              => app_path('Http/routes.php'),
+                'routes_prefix'              => "\n\nRoute::group(['namespace' => '".ucfirst($section)."', 'prefix' => '".strtolower($section)."', 'middleware' => ['web']], function () { \n",
+                'routes_suffix'              => "\n});",
+                '_namespace_services_'       => 'App\Services\\'.ucfirst($section),
+                '_namespace_facade_'         => 'App\Facades',
+                '_namespace_repository_'     => 'App\Repositories\\'.ucfirst($section).'\\'.ucfirst($table),
+                '_namespace_model_'          => 'App\Repositories\\'.ucfirst($section).'\\'.ucfirst($table),
+                '_namespace_controller_'     => 'App\Http\Controllers\\'.ucfirst($section),
+                '_namespace_request_'        => 'App\Http\Requests\\'.ucfirst($section),
+                '_table_name_'               => str_plural(strtolower(implode('_', $splitTable))),
+                '_lower_case_'               => strtolower($table),
+                '_lower_casePlural_'         => str_plural(strtolower($table)),
+                '_camel_case_'               => ucfirst(camel_case($table)),
+                '_camel_casePlural_'         => str_plural(camel_case($table)),
+            ];
+
+            foreach ($config as $key => $value) {
+                if (in_array($key, ['_path_repository_', '_path_model_', '_path_controller_', '_path_views_', '_path_request_',])) {
+                    @mkdir($value, 0777, true);
+                }
+            }
+        }
+
+        $config = array_merge($config, Config::get('laracogs.crud'));
+
+        if (! isset($config['template_source'])) {
+            $config['template_source'] = __DIR__.'/../Templates';
+        }
 
         try {
             $this->line('Building controller...');
@@ -76,7 +122,7 @@ class Crud extends Command
             $crudGenerator->createViews($config);
 
             $this->line('Building routes...');
-            $crudGenerator->createRoutes($config);
+            $crudGenerator->createRoutes($config, false);
 
             $this->line('Building tests...');
             $crudGenerator->createTests($config);
@@ -91,11 +137,19 @@ class Crud extends Command
         }
 
         if ($this->option('migration')) {
-            Artisan::call('make:migration', [
-                'name' => 'create_'.str_plural(strtolower($table)).'_table',
-                '--table' => str_plural(strtolower($table)),
-                '--create' => true,
-            ]);
+            if ($section) {
+                Artisan::call('make:migration', [
+                    'name' => 'create_'.str_plural(strtolower(implode('_', $splitTable))).'_table',
+                    '--table' => str_plural(strtolower(implode('_', $splitTable))),
+                    '--create' => true,
+                ]);
+            } else {
+                Artisan::call('make:migration', [
+                    'name' => 'create_'.str_plural(strtolower($table)).'_table',
+                    '--table' => str_plural(strtolower($table)),
+                    '--create' => true,
+                ]);
+            }
         }
 
         $this->line('You may wish to add this as your testing database');
