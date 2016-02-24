@@ -137,6 +137,7 @@ class Crud extends Command
         }
 
         if ($this->option('migration')) {
+            $this->line('Building migration...');
             if ($section) {
                 Artisan::call('make:migration', [
                     'name' => 'create_'.str_plural(strtolower(implode('_', $splitTable))).'_table',
