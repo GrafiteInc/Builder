@@ -99,7 +99,7 @@ class Crud extends Command
             }
         }
 
-        $config = array_merge($config, Config::get('laracogs.crud'));
+        $config = array_merge($config, Config::get('laracogs.crud', ['template_source' => __DIR__.'/../Templates']));
 
         if (! isset($config['template_source'])) {
             $config['template_source'] = __DIR__.'/../Templates';

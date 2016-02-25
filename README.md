@@ -23,6 +23,7 @@ This is a set of tools to help speed up development of Laravel apps. You can sta
 
 ```php
 composer require "yab/laracogs"
+php artisan vendor:publish --provider="Yab\Laracogs\LaracogsProvider"
 ```
 
 ### Providers
