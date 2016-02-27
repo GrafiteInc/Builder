@@ -4,13 +4,17 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h1>Create A Team</h1>
-
-            <div class="col-md-12">
-                @include('partials.errors')
-                @include('partials.message')
-            </div>
-
+            <h1>Team Creator</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @include('partials.errors')
+            @include('partials.message')
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <div class="col-md-4 col-md-offset-4">
                 {!! Form::open(['route' => 'teams.store']) !!}
 

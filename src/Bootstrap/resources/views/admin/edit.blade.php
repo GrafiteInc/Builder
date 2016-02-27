@@ -3,12 +3,18 @@
 @section('content')
 
     <div class="row">
-        <h1>Admin Edit: Account</h1>
-
+        <div class="col-md-12">
+            <h1>Admin Edit: Account</h1>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-12">
             @include('partials.errors')
             @include('partials.message')
-
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <form method="POST" action="/admin/accounts/{{ $account->id }}">
                 <input name="_method" type="hidden" value="PATCH">
                 {!! csrf_field() !!}

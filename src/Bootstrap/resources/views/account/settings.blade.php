@@ -3,12 +3,18 @@
 @section('content')
 
     <div class="row">
-        <h1>Account Settings</h1>
-
+        <div class="col-md-12">
+            <h1>Account Settings</h1>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-12">
             @include('partials.errors')
             @include('partials.message')
-
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <form method="POST" action="/account/settings">
                 {!! csrf_field() !!}
 

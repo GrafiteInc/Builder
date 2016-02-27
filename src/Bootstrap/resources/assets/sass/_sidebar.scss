@@ -1,0 +1,61 @@
+.sidebar {
+    display: block;
+    position: fixed !important;
+    z-index: 1000;
+    bottom: 0;
+    top: 45px;
+    width: 300px;
+    padding: 0px;
+    padding-top: 24px;
+    background-color: #DDD;
+    border-right: 1px solid #222;
+    overflow-x: hidden;
+    height: 100%;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+.sidebar-header {
+    padding: 16px 0;
+    text-align: center;
+    background-color: #EEE;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Sidebar
+|--------------------------------------------------------------------------
+*/
+
+@media (min-width: 768px) {
+    .sidebar {
+        width: 16.66666667%;
+        min-width: 200px;
+    }
+}
+@media (max-width: 768px) {
+    .sidebar {
+        left: -300px;
+    }
+}
+
+.nav-sidebar > li > a {
+    padding-right: 20px;
+    padding-left: 20px;
+}
+.nav-sidebar li {
+    margin: 0px;
+    .fa {
+        margin-left: 10px;
+    }
+    .fa:before {
+        margin-right: 8px;
+    }
+}
+
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+    color: #fff;
+    background-color: #333;
+}
+
