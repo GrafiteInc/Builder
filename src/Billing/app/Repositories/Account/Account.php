@@ -4,6 +4,7 @@ namespace App\Repositories\Account;
 
 use Eloquent;
 use Laravel\Cashier\Billable;
+use App\Repositories\User\User;
 
 class Account extends Eloquent
 {
@@ -29,5 +30,15 @@ class Account extends Eloquent
         'card_brand',
         'card_last_four',
     ];
+
+    /**
+     * User
+     *
+     * @return Relationship
+     */
+    public function user()
+    {
+        return User::where('id', $this->user_id)->first();
+    }
 
 }

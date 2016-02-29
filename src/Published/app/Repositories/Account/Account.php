@@ -3,6 +3,7 @@
 namespace App\Repositories\Account;
 
 use Eloquent;
+use App\Repositories\User\User;
 
 class Account extends Eloquent
 {
@@ -23,5 +24,15 @@ class Account extends Eloquent
         'phone',
         'marketing',
     ];
+
+    /**
+     * User
+     *
+     * @return Relationship
+     */
+    public function user()
+    {
+        return User::where('id', $this->user_id)->first();
+    }
 
 }
