@@ -27,7 +27,7 @@ class Bootstrap extends Command
      *
      * @var string
      */
-    protected $description = 'Laracogs will prepare your app';
+    protected $description = 'Laracogs will bootstrap your app';
 
     /**
      * Execute the console command.
