@@ -58,13 +58,6 @@ $gate->define('team-member', function ($user, $team) {
 });
 ```
 
-### Migrate
-You will need to migrate to add in the users, accounts, roles and teams tables. The seeding is run to set the initial roles for your application.
-
-```php
-php artisan migrate --seed
-```
-
 ### Testing
 You will want to create an sqlite memory test DB
 
@@ -107,15 +100,119 @@ Please consult the documentation here: [http://laracogs.com](http://laracogs.com
 The commands provided by Laracogs are as follows:
 
 #### Starter
+Once you've added in all these parts you may want to run the starter for your application!
+
+```php
+php artisan laracogs:starter
+```
+
+Once the files are all set up it may be best to run: `artisan migrate`
+
+Migrate
+----
+You will need to migrate to add in the users, accounts, roles and teams tables. The seeding is run to set the initial roles for your application.
+
+```php
+php artisan migrate --seed
+```
+
+#### Boostrap
+Boostrap prepares your application with bootstrap as a view/ css framework
+
+```php
+php artisan laracogs:bootstrap
+```
+
+#### Billing
+The billing command sets up your app with Laravel's cashier - it prepares the whole app to handle subscriptions with a policy structure.
+```php
+php artisan laracogs:billing
+```
+
+Requires
+----
+```php
+composer require laravel/cashier
+```
+
+You may want to add this line to your navigation:
+```php
+<li><a href="{!! url('account/billing/details') !!}"><span class="fa fa-dollar"></span> Billing</a></li>
+```
+
+This to the app/Providers/ReouteServiceProvider.php:
+```php
+require app_path('Http/billing-routes.php');
+```
+
+This to the .env:
+```php
+SUBSCRIPTION=basic
+STRIPE_SECRET=public-key
+STRIPE_PUBLIC=secret-key
+```
+
+This to the app/Providers/ReouteServiceProvider.php:
+```php
+$gate->define('access-billing', function ($user) {
+    return ($user->account->subscribed('main') && is_null($user->account->subscription('main')->endDate));
+});
+```
+
+For the `config/services.php` you will want yours to resemble:
+```php
+'stripe' => [
+    'model'  => App\Repositories\Account\Account::class,
+    'key'    => env('STRIPE_PUBLIC'),
+    'secret' => env('STRIPE_SECRET'),
+],
+```
+
+Finally run migrate to add the subscrptions and bind them to the accounts:
+```php
+php artisan migrate
+```
+
+You will also want to update your gulpfile.js to include the card.js, and subscription.js
+```js
+elixir(function(mix) {
+    mix.scripts([
+        'app.js',
+        'card.js',
+        'subscription.js'
+    ]);
+});
+```
+
 #### Crud
+The CRUD command builds a basic crud for a table
+```php
+php artisan laracogs:crud {table} {--migration}
+```
+
 #### Docs
+The docs can prepare documentation for buisness rules or prepare your app for API doc generation with Sami.
+```php
+php artisan laracogs:crud {action} {name=null} {version=null}
+```
 
 ## Facades/ Utilities
 Laracogs provides a handful of easy to use tools outside of the app starter kit, and CRUD builder:
 
 #### Crypto
+```php
+Crypto::encrypt('string');
+Crypto::decrypt('enc-string');
+Crypto::shared()->encrypt('string');
+Crypto::shared()->decrypt('enc-string');
+```
+
 #### FormMaker
-#### InputMaker
+```php
+FormMaker::fromTable($table, $columns = null, $class = 'form-control', $view = null, $reformatted = true, $populated = false, $idAndTimestamps = false)
+FormMaker::fromObject($object, $columns = null, $view = null, $class = 'form-control', $populated = true, $reformatted = false, $idAndTimestamps = false)
+FormMaker::fromArray($array, $columns = null, $view = null, $class = 'form-control', $populated = true, $reformatted = false, $idAndTimestamps = false)
+```
 
 ## License
 Laracogs is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)

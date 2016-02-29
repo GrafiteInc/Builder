@@ -68,6 +68,7 @@ class LaracogsProvider extends ServiceProvider
         */
 
         $this->commands([
+            \Yab\Laracogs\Console\Billing::class,
             \Yab\Laracogs\Console\Bootstrap::class,
             \Yab\Laracogs\Console\Docs::class,
             \Yab\Laracogs\Console\Crud::class,
