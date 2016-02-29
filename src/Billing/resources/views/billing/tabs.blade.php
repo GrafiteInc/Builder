@@ -1,5 +1,11 @@
 <div class="row">
     <div class="col-md-12">
+        <h1>Billing</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
         @include('partials.errors')
         @include('partials.message')
     </div>
@@ -12,6 +18,9 @@
     @can('access-billing', Auth::user())
         <li role="presentation" class="tabs-title {{ Request::is('account/billing/change-card') ? 'active' : '' }}">
             <a href="{{ url('account/billing/change-card') }}">Change Card</a>
+        </li>
+        <li role="presentation" class="tabs-title {{ Request::is('account/billing/coupon') ? 'active' : '' }}">
+            <a href="{{ url('account/billing/coupon') }}">Coupon</a>
         </li>
         <li role="presentation" class="tabs-title {{ Request::is('account/billing/invoices') ? 'active' : '' }}">
             <a href="{{ url('account/billing/invoices') }}">Invoices</a>
