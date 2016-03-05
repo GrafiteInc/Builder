@@ -24,7 +24,9 @@
                 <tbody>
                 @foreach($_lower_casePlural_ as $_lower_case_)
                     <tr>
-                        <td>{{ $_lower_case_->name }}</td>
+                        <td>
+                            <a href="{!! route('_lower_casePlural_.edit', [$_lower_case_->id]) !!}">{{ $_lower_case_->name }}</a>
+                        </td>
                         <td>
                             <a href="{!! route('_lower_casePlural_.edit', [$_lower_case_->id]) !!}">
                                 <i class="fa fa-pencil"></i> Edit</a>
