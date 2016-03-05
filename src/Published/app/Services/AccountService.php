@@ -83,8 +83,10 @@ class AccountService
                     'email' => $inputs['email'],
                     'name' => $inputs['name'],
                 ]);
-                $this->userRepo->unassignAllRoles($userId);
-                $this->userRepo->assignRole($inputs['role'], $userId);
+                if (isset($inputs['role'])) {
+                    $this->userRepo->unassignAllRoles($userId);
+                    $this->userRepo->assignRole($inputs['role'], $userId);
+                }
             DB::commit();
         } catch (Exception $e) {
             throw new Exception("We were unable to update your account", 1);
