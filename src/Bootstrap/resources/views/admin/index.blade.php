@@ -28,8 +28,8 @@
                             <tr>
                                 <td>{{ $account->email }}</td>
                                 <td>
-                                    <a class="btn btn-danger btn-sm raw-margin-left-16 pull-right" href="{{ url('admin/accounts/'.$account->id.'/delete') }}" onclick="return confirm('Are you sure you want to delete this user?')"><span class="fa fa-edit"> Delete</span></a>
-                                    <a class="btn btn-warning btn-sm pull-right" href="{{ url('admin/accounts/'.$account->id.'/edit') }}"><span class="fa fa-edit"> Edit</span></a>
+                                    <a class="btn btn-danger btn-xs raw-margin-left-16 pull-right" href="{{ url('admin/accounts/'.$account->id.'/delete') }}" onclick="return confirm('Are you sure you want to delete this user?')"><span class="fa fa-edit"> Delete</span></a>
+                                    <a class="btn btn-warning btn-xs pull-right" href="{{ url('admin/accounts/'.$account->id.'/edit') }}"><span class="fa fa-edit"> Edit</span></a>
                                 </td>
                             </tr>
                         @endif
