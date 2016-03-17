@@ -1,36 +1,38 @@
 <?php
 
-namespace App\Repositories\Account;
+namespace App\Repositories\UserMeta;
 
-class AccountRepository
+use App\Repositories\UserMeta\UserMeta;
+
+class UserMetaRepository
 {
-    public function __construct(Account $account)
+    public function __construct(UserMeta $userMeta)
     {
-        $this->model = $account;
+        $this->model = $userMeta;
     }
 
     /**
-     * Update an account
+     * Update an userMeta
      * @param  int $userId User Id
      * @param  array $inputs
      * @return boolean
      */
     public function update($userId, $inputs)
     {
-        $account = $this->findByUserId($userId);
+        $userMeta = $this->findByUserId($userId);
 
         if (! isset($inputs['marketing'])) {
             $inputs['marketing'] = 0;
         }
 
-        $account->fill($inputs);
-        return $account->save();
+        $userMeta->fill($inputs);
+        return $userMeta->save();
     }
 
     /**
      * Find by user Id
      * @param  int $userId
-     * @return Account
+     * @return UserMeta
      */
     public function findByUserId($userId)
     {
@@ -38,7 +40,7 @@ class AccountRepository
     }
 
     /**
-     * Delete an account
+     * Delete an userMeta
      *
      * @param  int $id
      * @return boolean

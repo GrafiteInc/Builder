@@ -8,13 +8,13 @@ use Mail;
 use Config;
 use Exception;
 use App\Repositories\User\UserRepository;
-use App\Repositories\Account\AccountRepository;
+use App\Repositories\UserMeta\UserMetaRepository;
 
-class AccountService
+class UserService
 {
-    public function __construct(AccountRepository $accountRepo, UserRepository $userRepo)
+    public function __construct(UserMetaRepository $userMetaRepo, UserRepository $userRepo)
     {
-        $this->accountRepo = $accountRepo;
+        $this->userMetaRepo = $userMetaRepo;
         $this->userRepo = $userRepo;
     }
 
@@ -24,12 +24,12 @@ class AccountService
     |--------------------------------------------------------------------------
     */
 
-    public function allAccounts()
+    public function all()
     {
-        return $this->userRepo->all(Auth::id());
+        return $this->userRepo->all();
     }
 
-    public function getAccount($id)
+    public function find($id)
     {
         return $this->userRepo->find($id);
     }
@@ -41,7 +41,7 @@ class AccountService
     */
 
     /**
-     * Create a user's account
+     * Create a user's profile
      *
      * @param  User $user User
      * @return User
@@ -51,34 +51,34 @@ class AccountService
         try {
             DB::beginTransaction();
                 // create the user meta
-                $this->accountRepo->findByUserId($user->id);
+                $this->userMetaRepo->findByUserId($user->id);
                 // Set the user's role
                 $this->userRepo->assignRole('member', $user->id);
-                // Email the user about their account
-                Mail::send('emails.new-account', ['user' => $user, 'password' => $password], function ($m) use ($user) {
+                // Email the user about their profile
+                Mail::send('emails.new-user', ['user' => $user, 'password' => $password], function ($m) use ($user) {
                     $m->from('info@app.com', 'App');
-                    $m->to($user->email, $user->name)->subject('You have a new account!');
+                    $m->to($user->email, $user->name)->subject('You have a new profile!');
                 });
             DB::commit();
 
             return $user;
         } catch (Exception $e) {
-            throw new Exception("We were unable to generate your account, please try again later.", 1);
+            throw new Exception("We were unable to generate your profile, please try again later.", 1);
         }
     }
 
     /**
-     * Update a user's account
+     * Update a user's profile
      *
      * @param  int $userId User Id
-     * @param  array $inputs Account info
+     * @param  array $inputs UserMeta info
      * @return boolean
      */
     public function update($userId, $inputs)
     {
         try {
             DB::beginTransaction();
-                $accountResult = $this->accountRepo->update($userId, $inputs['account']);
+                $userMetaResult = $this->userMetaRepo->update($userId, $inputs['meta']);
                 $userResult = $this->userRepo->update($userId, [
                     'email' => $inputs['email'],
                     'name' => $inputs['name'],
@@ -89,14 +89,14 @@ class AccountService
                 }
             DB::commit();
         } catch (Exception $e) {
-            throw new Exception("We were unable to update your account", 1);
+            throw new Exception("We were unable to update your profile", 1);
         }
 
-        return ($accountResult && $userResult);
+        return ($userMetaResult && $userResult);
     }
 
     /**
-     * Destroy the account
+     * Destroy the profile
      *
      * @param  int $id
      * @return bool
@@ -106,14 +106,14 @@ class AccountService
         try {
             DB::beginTransaction();
                 $this->userRepo->unassignAllRoles($id);
-                $accountResult = $this->accountRepo->destroy($id);
+                $userMetaResult = $this->userMetaRepo->destroy($id);
                 $userResult = $this->userRepo->destroy($id);
             DB::commit();
         } catch (Exception $e) {
-            throw new Exception("We were unable to delete this account", 1);
+            throw new Exception("We were unable to delete this profile", 1);
         }
 
-        return ($accountResult && $userResult);
+        return ($userMetaResult && $userResult);
     }
 
 }

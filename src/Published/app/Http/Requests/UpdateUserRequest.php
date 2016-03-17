@@ -6,7 +6,7 @@ use Auth;
 use App\Http\Requests\Request;
 use App\Repositories\User\User;
 
-class UpdateAccountRequest extends Request
+class UpdateUserRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.

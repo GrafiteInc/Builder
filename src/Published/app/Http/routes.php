@@ -53,11 +53,11 @@ Route::group(['middleware' => 'web'], function() {
 
         /*
         |--------------------------------------------------------------------------
-        | Account
+        | User
         |--------------------------------------------------------------------------
         */
 
-        Route::group(['prefix' => 'account', 'namespace' => 'Account'], function(){
+        Route::group(['prefix' => 'user', 'namespace' => 'User'], function(){
             Route::get('settings', 'SettingsController@settings');
             Route::post('settings', 'SettingsController@update');
             Route::get('password', 'PasswordController@password');
@@ -95,8 +95,8 @@ Route::group(['middleware' => 'web'], function() {
         */
 
         Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admin'], function(){
-            Route::resource('accounts', 'AccountController', ['except' => ['create', 'show', 'destroy']]);
-            Route::get('accounts/{id}/delete', 'AccountController@destroy');
+            Route::resource('users', 'UserController', ['except' => ['create', 'show', 'destroy']]);
+            Route::get('users/{id}/delete', 'UserController@destroy');
         });
 
     });

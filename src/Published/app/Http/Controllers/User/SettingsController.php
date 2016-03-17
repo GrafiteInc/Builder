@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Account;
+namespace App\Http\Controllers\User;
 
 use Auth;
 use App\Http\Requests;
 use Illuminate\Http\Request;
-use App\Services\AccountService;
+use App\Services\UserService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateAccountRequest;
+use App\Http\Requests\UpdateUserRequest;
 
 class SettingsController extends Controller
 {
-    public function __construct(AccountService $accountService)
+    public function __construct(UserService $userService)
     {
-        $this->service = $accountService;
+        $this->service = $userService;
     }
 
     /**
@@ -23,23 +23,23 @@ class SettingsController extends Controller
      */
     public function settings(Request $request)
     {
-        $account = $request->user();
+        $user = $request->user();
 
-        if ($account) {
-            return view('account.settings')
-            ->with('account', $account);
+        if ($user) {
+            return view('user.settings')
+            ->with('user', $user);
         }
 
         return back()->withErrors(['Could not find user']);
     }
 
     /**
-     * Update the account
+     * Update the user
      *
      * @param  UpdateAccountRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateAccountRequest $request)
+    public function update(UpdateUserRequest $request)
     {
         if ($this->service->update(Auth::id(), $request->all())) {
             return back()->with('message', 'Settings updated successfully');

@@ -12,7 +12,7 @@
             </div>
 
             <div class="col-md-6 col-md-offset-3 raw-margin-top-24 well">
-                <form method="POST" action="/account/billing/change-card">
+                <form method="POST" action="/user/billing/change-card">
 
                     @include('billing.card-form')
 

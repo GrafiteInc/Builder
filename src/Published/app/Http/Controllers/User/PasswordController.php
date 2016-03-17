@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Account;
+namespace App\Http\Controllers\User;
 
 use Hash;
 use Auth;
 use App\Http\Requests;
 use Illuminate\Http\Request;
-use App\Services\AccountService;
+use App\Services\UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdatePasswordRequest;
 use Illuminate\Foundation\Auth\ResetsPasswords;
@@ -15,11 +15,11 @@ class PasswordController extends Controller
 {
     use ResetsPasswords;
 
-    protected $redirectPath = '/account/password';
+    protected $redirectPath = '/user/password';
 
-    public function __construct(AccountService $accountService)
+    public function __construct(UserService $userService)
     {
-        $this->service = $accountService;
+        $this->service = $userService;
     }
 
     /**
@@ -29,11 +29,11 @@ class PasswordController extends Controller
      */
     public function password(Request $request)
     {
-        $account = $request->user();
+        $user = $request->user();
 
-        if ($account) {
-            return view('account.password')
-            ->with('account', $account);
+        if ($user) {
+            return view('user.password')
+            ->with('user', $user);
         }
 
         return back()->withErrors(['Could not find user']);
@@ -51,7 +51,7 @@ class PasswordController extends Controller
 
         if (Hash::check($request->old_password, Auth::user()->password)) {
             $this->resetPassword(Auth::user(), $password);
-            return redirect('account/settings')
+            return redirect('user/settings')
                 ->with('message', 'Password updated successfully');
         }
 

@@ -24,7 +24,7 @@ class TeamController extends Controller
      */
     public function index(Request $request)
     {
-        $teams = $this->service->paginated(Auth::id());
+        $teams = $this->service->paginated($request->user()->id);
         return view('team.index')->with('teams', $teams);
     }
 
@@ -35,7 +35,7 @@ class TeamController extends Controller
      */
     public function search(Request $request)
     {
-        $teams = $this->service->search(Auth::id(), $request->search);
+        $teams = $this->service->search($request->user()->id, $request->search);
         return view('team.index')->with('teams', $teams);
     }
 

@@ -11,11 +11,6 @@
                 {!! csrf_field() !!}
                 <input type="hidden" name="token" value="{{ $token }}">
 
-                <div class="col-md-12">
-                    @include('partials.errors')
-                    @include('partials.status')
-                </div>
-
                 <div class="col-md-12 raw-margin-top-24">
                     <label>Email</label>
                     <input class="form-control" type="email" name="email" value="{{ old('email') }}">

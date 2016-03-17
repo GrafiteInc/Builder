@@ -10,11 +10,6 @@
             <form method="POST" action="/register">
                 {!! csrf_field() !!}
 
-                <div class="col-md-12">
-                    @include('partials.errors')
-                    @include('partials.status')
-                </div>
-
                 <div class="col-md-12 raw-margin-top-24">
                     <label>Name</label>
                     <input class="form-control" type="text" name="name" value="{{ old('name') }}">

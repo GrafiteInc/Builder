@@ -12,12 +12,12 @@
     <div class="tabs-content">
         <div role="tabpanel" class="tab-pane tab-active">
 
-            <div class=" raw-margin-top-24">
+            <div class="raw-margin-top-24">
                 <div class='card-wrapper'></div>
             </div>
 
             <div class="col-md-6 col-md-offset-3 raw-margin-top-24 well">
-                <form method="POST" action="/account/billing/subscribe">
+                <form method="POST" action="/user/billing/subscribe">
 
                     @include('billing.card-form')
 

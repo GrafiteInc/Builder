@@ -8,7 +8,7 @@
 
 Route::group(['middleware' => 'web'], function() {
     Route::group(['middleware' => 'auth'], function(){
-        Route::group(['prefix' => 'account', 'namespace' => 'Account'], function(){
+        Route::group(['prefix' => 'user', 'namespace' => 'User'], function(){
 
             Route::group(['prefix' => 'billing'], function() {
                 Route::get('details', 'BillingController@getSubscribe');
@@ -26,4 +26,14 @@ Route::group(['middleware' => 'web'], function() {
 
         });
     });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Failed Payments
+|--------------------------------------------------------------------------
+*/
+
+Route::group(['middleware' => 'web'], function() {
+    Route::post('failed/payment', 'Laravel\Cashier\WebhookController@handleWebhook');
 });

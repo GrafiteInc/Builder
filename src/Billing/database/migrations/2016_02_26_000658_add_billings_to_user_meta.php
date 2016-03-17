@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddBillingsToAccounts extends Migration
+class AddBillingsToUserMeta extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class AddBillingsToAccounts extends Migration
      */
     public function up()
     {
-        Schema::table('accounts', function ($table) {
+        Schema::table('user_meta', function ($table) {
             $table->string('stripe_id')->nullable();
             $table->string('card_brand')->nullable();
             $table->string('card_last_four')->nullable();
@@ -26,7 +26,7 @@ class AddBillingsToAccounts extends Migration
      */
     public function down()
     {
-        Schema::table('accounts', function ($table) {
+        Schema::table('user_meta', function ($table) {
             $table->dropColumn(['stripe_id', 'card_brand', 'card_last_four']);
         });
     }

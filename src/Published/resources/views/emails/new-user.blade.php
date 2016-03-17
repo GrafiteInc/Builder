@@ -1,6 +1,6 @@
 Welcome: {{ $user->email }}
 
-You have a new account!
+You have a new profile!
 
 Email: {{ $user->email }}
 Password: {{ $password }}

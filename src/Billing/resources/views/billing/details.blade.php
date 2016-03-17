@@ -17,7 +17,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <a class="btn btn-danger float-right" href="{{ url('account/billing/cancellation') }}">Cancel My Subscription</a>
+                    <a class="btn btn-danger float-right" href="{{ url('user/billing/cancellation') }}">Cancel My Subscription</a>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-group">
                     <label for="number">Credit Card</label>
-                    <input class="form-control" disabled type="text" name="number" value="**** **** **** {{ $account->account->card_last_four }}">
+                    <input class="form-control" disabled type="text" name="number" value="**** **** **** {{ $user->meta->card_last_four }}">
                 </div>
                 <div class="form-group">
                     <a class="btn btn-danger pull-right" data-toggle="modal" data-target="#cancelSubscription">Cancel Subscription</a>

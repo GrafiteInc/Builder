@@ -4,38 +4,32 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h1>Admin Edit: Account</h1>
+            <h1>Admin Edit: Settings</h1>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            @include('partials.errors')
-            @include('partials.message')
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <form method="POST" action="/admin/accounts/{{ $account->id }}">
+            <form method="POST" action="/admin/users/{{ $user->id }}">
                 <input name="_method" type="hidden" value="PATCH">
                 {!! csrf_field() !!}
 
                 <div class="col-md-12 raw-margin-top-24">
                     <label>Email</label>
-                    <input class="form-control" type="email" name="email" value="{{ $account->email }}">
+                    <input class="form-control" type="email" name="email" value="{{ $user->email }}">
                 </div>
 
                 <div class="col-md-12 raw-margin-top-24">
                    <label> Name</label>
-                    <input class="form-control" type="name" name="name" value="{{ $account->name }}">
+                    <input class="form-control" type="name" name="name" value="{{ $user->name }}">
                 </div>
 
-                @include('account.account')
+                @include('user.meta')
 
                 <div class="col-md-12 raw-margin-top-24">
                    <label> Role</label>
                     <select class="form-control" name="role">
                         @foreach(App\Repositories\Role\Role::all() as $role)
-                            <option @if($account->roles->first()->id === $role->id) selected @endif value="{{ $role->name }}">{{ $role->label }}</option>
+                            <option @if($user->roles->first()->id === $role->id) selected @endif value="{{ $role->name }}">{{ $role->label }}</option>
                         @endforeach
                     </select>
                 </div>

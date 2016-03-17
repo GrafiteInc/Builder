@@ -1,6 +1,6 @@
 @include('partials.errors')
 
-<form method="POST" action="/account/password">
+<form method="POST" action="/user/password">
     {!! csrf_field() !!}
 
     <div>
@@ -23,5 +23,5 @@
     </div>
 </form>
 
-<a href="/account/settings">Settings</a><br>
+<a href="/user/settings">Settings</a><br>
 <a href="/dashboard">Dashboard</a>

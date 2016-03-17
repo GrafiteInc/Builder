@@ -1,11 +1,11 @@
 
 /*
 |--------------------------------------------------------------------------
-| Account Factory
+| UserMeta Factory
 |--------------------------------------------------------------------------
 */
 
-$factory->define(\App\Repositories\Account\Account::class, function (Faker\Generator $faker) {
+$factory->define(\App\Repositories\UserMeta\UserMeta::class, function (Faker\Generator $faker) {
     return [
         'user_id' => 1,
         'phone' => $faker->phoneNumber,

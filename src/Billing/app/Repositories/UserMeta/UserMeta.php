@@ -1,18 +1,21 @@
 <?php
 
-namespace App\Repositories\Account;
+namespace App\Repositories\UserMeta;
 
 use Eloquent;
+use Laravel\Cashier\Billable;
 use App\Repositories\User\User;
 
-class Account extends Eloquent
+class UserMeta extends Eloquent
 {
+    use Billable;
+
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'accounts';
+    protected $table = 'user_meta';
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +26,9 @@ class Account extends Eloquent
         'user_id',
         'phone',
         'marketing',
+        'stripe_id',
+        'card_brand',
+        'card_last_four',
     ];
 
     /**

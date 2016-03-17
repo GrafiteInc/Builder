@@ -20,7 +20,7 @@
 
                         @foreach($invoices as $invoice)
                         <tr>
-                            <td><a href="{{ url('account/billing/invoice/'.$invoice->id) }}">{{ date('Y-m-d', $invoices[0]->date) }}</a></td>
+                            <td><a href="{{ url('user/billing/invoice/'.$invoice->id) }}">{{ date('Y-m-d', $invoices[0]->date) }}</a></td>
                             <td>{{ $invoice->id }}</td>
                             <td>${{ ($invoice->total / 100) }}</td>
                         </tr>

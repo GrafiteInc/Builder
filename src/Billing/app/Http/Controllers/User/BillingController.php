@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Account;
+namespace App\Http\Controllers\User;
 
 use Auth;
 use Activity;
@@ -19,17 +19,17 @@ class BillingController extends Controller
     public function getSubscribe(Request $request)
     {
         $user = $request->user();
-        $invoice = $user->account->upcomingInvoice();
+        $invoice = $user->meta->upcomingInvoice();
 
-        if ($user->account->subscribed('main') && ! is_null($invoice)) {
+        if ($user->meta->subscribed('main') && ! is_null($invoice)) {
             return view('billing.details')
                 ->with('invoice', $invoice)
                 ->with('invoiceDate', Carbon::createFromTimestamp($invoice->date))
-                ->with('account', $user);
+                ->with('user', $user);
         }
 
         return view('billing.subscribe')
-            ->with('account', $user);
+            ->with('user', $user);
     }
 
     /**
@@ -44,8 +44,8 @@ class BillingController extends Controller
         $creditCardToken = $inputs['stripeToken'];
 
         try {
-            Auth::user()->account->newSubscription('main', env('SUBSCRIPTION'))->create($creditCardToken);
-            return redirect('account/billing/details')->with('message', 'You\'re now subscribed!');
+            Auth::user()->meta->newSubscription('main', env('SUBSCRIPTION'))->create($creditCardToken);
+            return redirect('user/billing/details')->with('message', 'You\'re now subscribed!');
         } catch (Exception $e) {
             throw new Exception("Could not process the billing please try again.", 1);
         }
@@ -64,7 +64,7 @@ class BillingController extends Controller
         $user = $request->user();
 
         return view('billing.change-card')
-            ->with('account', $user);
+            ->with('user', $user);
     }
 
     /**
@@ -79,8 +79,8 @@ class BillingController extends Controller
         $creditCardToken = $inputs['stripeToken'];
 
         try {
-            Auth::user()->account->updateCard($creditCardToken);
-            return redirect('account/billing/details')->with('message', 'Your subscription has been updated!');
+            Auth::user()->meta->updateCard($creditCardToken);
+            return redirect('user/billing/details')->with('message', 'Your subscription has been updated!');
         } catch (Exception $e) {
             throw new Exception("Could not process the billing please try again.", 1);
         }
@@ -99,7 +99,7 @@ class BillingController extends Controller
         $user = $request->user();
 
         return view('billing.coupon')
-            ->with('account', $user);
+            ->with('user', $user);
     }
 
     /**
@@ -113,8 +113,8 @@ class BillingController extends Controller
         $inputs = $request->all();
 
         try {
-            Auth::user()->account->coupon($inputs['coupon']);
-            return redirect('account/billing/details')->with('message', 'Your coupon was used!');
+            Auth::user()->meta->coupon($inputs['coupon']);
+            return redirect('user/billing/details')->with('message', 'Your coupon was used!');
         } catch (Exception $e) {
             throw new Exception("Could not process the coupon please try again.", 1);
         }
@@ -131,11 +131,11 @@ class BillingController extends Controller
     public function getInvoices(Request $request)
     {
         $user = $request->user();
-        $invoices = $user->account->invoices('main');
+        $invoices = $user->meta->invoices('main');
 
         return view('billing.invoices')
             ->with('invoices', $invoices)
-            ->with('account', $user);
+            ->with('user', $user);
     }
 
     /**
@@ -149,7 +149,7 @@ class BillingController extends Controller
         $user = $request->user();
 
         try {
-            $response = $user->account->downloadInvoice($id, [
+            $response = $user->meta->downloadInvoice($id, [
                 'vendor'    => config("invoice.company"),
                 'street'    => config("invoice.street"),
                 'location'  => config("invoice.location"),
@@ -174,12 +174,12 @@ class BillingController extends Controller
     public function cancelSubscription(Request $request)
     {
         $user = $request->user();
-        $invoice = $user->account->upcomingInvoice();
+        $invoice = $user->meta->upcomingInvoice();
         $date = Carbon::createFromTimestamp($invoice->date);
 
         try {
-            $user->account->subscription('main')->cancel();
-            return redirect('account/billing/details')->with('message', 'Your subscription has been cancelled! It will be availale until '.$date);
+            $user->meta->subscription('main')->cancel();
+            return redirect('user/billing/details')->with('message', 'Your subscription has been cancelled! It will be availale until '.$date);
         } catch (Exception $e) {
             throw new Exception("Could not process the cancellation please try again.", 1);
         }

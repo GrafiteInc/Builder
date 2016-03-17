@@ -6,27 +6,27 @@
     </div>
 @endif
 
-<form method="POST" action="/account/settings">
+<form method="POST" action="/user/settings">
     {!! csrf_field() !!}
 
     <div>
         Email
-        <input type="email" name="email" value="{{ $account->email }}">
+        <input type="email" name="email" value="{{ $user->email }}">
     </div>
 
     <div>
         Name
-        <input type="name" name="name" value="{{ $account->name }}">
+        <input type="name" name="name" value="{{ $user->name }}">
     </div>
 
-    @include('account.account')
+    @include('user.meta')
 
-    @if ($account->roles->first()->name === 'admin' || $account->id == 1)
+    @if ($user->roles->first()->name === 'admin' || $user->id == 1)
         <div>
             Role
             <select name="role">
                 @foreach(App\Repositories\Role\Role::all() as $role)
-                    <option @if($account->roles->first()->id === $role->id) selected @endif value="{{ $role->name }}">{{ $role->label }}</option>
+                    <option @if($user->roles->first()->id === $role->id) selected @endif value="{{ $role->name }}">{{ $role->label }}</option>
                 @endforeach
             </select>
         </div>
@@ -37,5 +37,5 @@
     </div>
 </form>
 
-<a href="/account/password">Change Password</a><br>
+<a href="/user/password">Change Password</a><br>
 <a href="/dashboard">Dashboard</a>

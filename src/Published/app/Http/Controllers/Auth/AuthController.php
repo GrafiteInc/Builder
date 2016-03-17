@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use DB;
 use Validator;
+use App\Services\UserService;
 use App\Repositories\User\User;
-use App\Services\AccountService;
 use App\Http\Controllers\Controller;
 use App\Repositories\Account\Account;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -35,10 +35,10 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct(AccountService $accountService)
+    public function __construct(UserService $userService)
     {
         $this->middleware('guest', ['except' => 'getLogout']);
-        $this->service = $accountService;
+        $this->service = $userService;
     }
 
     /**

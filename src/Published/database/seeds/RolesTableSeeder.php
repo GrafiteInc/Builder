@@ -12,7 +12,7 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        if (! Role::where('name', 'member')) {
+        if (! Role::where('name', 'member')->first()) {
             Role::create([
                 'name' => 'member',
                 'label' => 'Member',

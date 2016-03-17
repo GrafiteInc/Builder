@@ -4,18 +4,12 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h1>Account Password</h1>
+            <h1>Password</h1>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            @include('partials.errors')
-            @include('partials.message')
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <form method="POST" action="/account/password">
+            <form method="POST" action="/user/password">
                 {!! csrf_field() !!}
 
                 <div class="col-md-12 raw-margin-top-24">

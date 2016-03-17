@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use Illuminate\Support\Str;
+use App\Services\UserService;
 use App\Repositories\User\User;
-use App\Services\AccountService;
 use App\Repositories\Team\TeamRepository;
 use App\Repositories\User\UserRepository;
 
@@ -13,11 +13,11 @@ class TeamService
     public function __construct(
         TeamRepository $teamRepository,
         UserRepository $userRepository,
-        AccountService $accountService
+        UserService $userService
     ) {
         $this->repo = $teamRepository;
         $this->userRepo = $userRepository;
-        $this->accountService = $accountService;
+        $this->userService = $userService;
     }
 
     public function all($userId)
@@ -90,7 +90,7 @@ class TeamService
                         'password' => bcrypt($password),
                     ]);
 
-                    $this->accountService->create($user, $password);
+                    $this->userService->create($user, $password);
                 }
 
                 if ($user->isTeamMember($id)) {

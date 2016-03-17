@@ -16,7 +16,10 @@ class UpdateTeamRequest extends Request
      */
     public function authorize()
     {
-        if ((int)Auth::user()->teams->find($this->segment(2))->user_id === (int)Auth::id()) {
+        $teamOwnerId = (int) Auth::user()->teams->find($this->segment(2))->user_id;
+        $userId = (int) Auth::id();
+
+        if ($teamOwnerId === $userId) {
             return true;
         }
 

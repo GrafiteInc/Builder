@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
-use App\Services\AccountService;
+use App\Services\UserService;
 use App\Http\Controllers\Controller;
 
-class AccountController extends Controller
+class UserController extends Controller
 {
-    public function __construct(AccountService $accountService)
+    public function __construct(UserService $accountService)
     {
         $this->service = $accountService;
     }
@@ -21,8 +21,8 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts = $this->service->allAccounts();
-        return view('admin.index')->with('accounts', $accounts);
+        $users = $this->service->all();
+        return view('admin.index')->with('users', $users);
     }
 
     /**
@@ -33,8 +33,8 @@ class AccountController extends Controller
      */
     public function edit($id)
     {
-        $account = $this->service->getAccount($id);
-        return view('admin.edit')->with('account', $account);
+        $user = $this->service->find($id);
+        return view('admin.edit')->with('user', $user);
     }
 
     /**
@@ -66,9 +66,9 @@ class AccountController extends Controller
         $result = $this->service->destroy($id);
 
         if ($result) {
-            return redirect('admin/accounts')->with('message', 'Successfully deleted');
+            return redirect('admin/users')->with('message', 'Successfully deleted');
         }
 
-        return redirect('admin/accounts')->with('message', 'Failed to delete');
+        return redirect('admin/users')->with('message', 'Failed to delete');
     }
 }

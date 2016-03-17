@@ -10,7 +10,7 @@
 
 <div class="form-group name">
     <label for="name">Name</label>
-    <input class="form-control" type="text" name="name" id="name" required placeholder="Full Name" value="{{ $account->name }}" data-stripe="name">
+    <input class="form-control" type="text" name="name" id="name" required placeholder="Full Name" value="{{ $user->name }}" data-stripe="name">
 </div>
 
 <div class="form-group expiry">

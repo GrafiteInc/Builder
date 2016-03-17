@@ -5,7 +5,7 @@ namespace App\Repositories\User;
 use App\Repositories\Role\Role;
 use App\Repositories\Team\Team;
 use Illuminate\Auth\Authenticatable;
-use App\Repositories\Account\Account;
+use App\Repositories\UserMeta\UserMeta;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -42,13 +42,13 @@ class User extends Model implements
     protected $hidden = ['password', 'remember_token'];
 
     /**
-     * User Account
+     * User UserMeta
      *
      * @return Relationship
      */
-    public function account()
+    public function meta()
     {
-        return $this->hasOne(Account::class);
+        return $this->hasOne(UserMeta::class);
     }
 
     /**

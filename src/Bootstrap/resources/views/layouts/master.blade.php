@@ -29,6 +29,13 @@
 
         @include("layouts.navigation")
 
+        <div class="row">
+            <div class="col-md-12">
+                @include('partials.errors')
+                @include('partials.message')
+            </div>
+        </div>
+
         <div class="app-wrapper container-fluid raw-margin-top-50">
             <div class="row">
                 @yield("app-content")
