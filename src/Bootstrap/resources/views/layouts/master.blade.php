@@ -29,16 +29,16 @@
 
         @include("layouts.navigation")
 
-        <div class="row">
-            <div class="col-md-12">
-                @include('partials.errors')
-                @include('partials.message')
-            </div>
+        <div class="app-wrapper container-fluid raw-margin-top-50">
+            @yield("app-content")
         </div>
 
-        <div class="app-wrapper container-fluid raw-margin-top-50">
+        <div class="container-fluid">
             <div class="row">
-                @yield("app-content")
+                <div class="col-md-12">
+                    @include('partials.errors')
+                    @include('partials.message')
+                </div>
             </div>
         </div>
 
