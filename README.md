@@ -4,7 +4,7 @@
 
 [![Codeship](https://img.shields.io/codeship/013b03f0-a7c6-0133-63e0-5a0bf9327500.svg)](https://github.com/YABhq/Laracogs)
 
-This is a set of tools to help speed up development of Laravel apps. You can start an app with various parts prewritten (Users, Accounts, Roles, Teams). And it comes with a powerful FormMaker which can generate form content from tables, and objects. It can generate epic CRUD prototypes rapidly with full testing scripts prepared for you, requiring very little editing. It also provides an elegant Cryptography tool which is URL friendly. Finally it brings along some friends with the LaravelCollective as a vendor.
+This is a set of tools to help speed up development of Laravel apps. You can start an app with various parts prewritten (Users, User Meta, Roles, Teams). And it comes with a powerful FormMaker which can generate form content from tables, and objects. It can generate epic CRUD prototypes rapidly with full testing scripts prepared for you, requiring very little editing. It also provides an elegant Cryptography tool which is URL friendly. Finally it brings along some friends with the LaravelCollective as a vendor.
 
 ## Documentation
 [http://laracogs.com](http://laracogs.com)
@@ -110,7 +110,7 @@ Once the files are all set up it may be best to run: `artisan migrate`
 
 Migrate
 ----
-You will need to migrate to add in the users, accounts, roles and teams tables. The seeding is run to set the initial roles for your application.
+You will need to migrate to add in the users, user meta, roles and teams tables. The seeding is run to set the initial roles for your application.
 
 ```php
 php artisan migrate --seed
@@ -137,7 +137,7 @@ composer require laravel/cashier
 
 You may want to add this line to your navigation:
 ```php
-<li><a href="{!! url('account/billing/details') !!}"><span class="fa fa-dollar"></span> Billing</a></li>
+<li><a href="{!! url('user/billing/details') !!}"><span class="fa fa-dollar"></span> Billing</a></li>
 ```
 
 This to the app/Providers/ReouteServiceProvider.php:
@@ -155,7 +155,7 @@ STRIPE_PUBLIC=secret-key
 This to the app/Providers/ReouteServiceProvider.php:
 ```php
 $gate->define('access-billing', function ($user) {
-    return ($user->account->subscribed('main') && is_null($user->account->subscription('main')->endDate));
+    return ($user->meta->subscribed('main') && is_null($user->meta->subscription('main')->endDate));
 });
 ```
 
@@ -168,7 +168,7 @@ For the `config/services.php` you will want yours to resemble:
 ],
 ```
 
-Finally run migrate to add the subscrptions and bind them to the accounts:
+Finally run migrate to add the subscrptions and bind them to the user meta:
 ```php
 php artisan migrate
 ```
