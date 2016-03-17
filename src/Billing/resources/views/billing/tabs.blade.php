@@ -4,7 +4,7 @@
     </div>
 </div>
 
-<ul class="nav nav-tabs" role="tablist">
+<ul class="nav nav-tabs raw-margin-top-24" role="tablist">
     <li role="presentation" class="tabs-title {{ Request::is('user/billing/details') ? 'active' : '' }}">
         <a href="{{ url('user/billing/details') }}">Billing</a>
     </li>
