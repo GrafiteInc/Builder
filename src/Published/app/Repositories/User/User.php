@@ -96,7 +96,7 @@ class User extends Model implements
         $teamIdArray = [];
 
         foreach ($this->teams->toArray() as $team) {
-            $teamIdArray[] = $team->id;
+            $teamIdArray[] = $team['id'];
         }
 
         return in_array($id, $teamIdArray);

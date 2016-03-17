@@ -44,21 +44,27 @@ class UserService
      * Create a user's profile
      *
      * @param  User $user User
+     * @param  string $password the user password
+     * @param  string $role the role of this user
+     * @param  boolean $sendEmail Whether to send the email or not
      * @return User
      */
-    public function create($user, $password)
+    public function create($user, $password, $role = 'member', $sendEmail = true)
     {
         try {
             DB::beginTransaction();
                 // create the user meta
                 $this->userMetaRepo->findByUserId($user->id);
                 // Set the user's role
-                $this->userRepo->assignRole('member', $user->id);
-                // Email the user about their profile
-                Mail::send('emails.new-user', ['user' => $user, 'password' => $password], function ($m) use ($user) {
-                    $m->from('info@app.com', 'App');
-                    $m->to($user->email, $user->name)->subject('You have a new profile!');
-                });
+                $this->userRepo->assignRole($role, $user->id);
+
+                if ($sendEmail) {
+                    // Email the user about their profile
+                    Mail::send('emails.new-user', ['user' => $user, 'password' => $password], function ($m) use ($user) {
+                        $m->from('info@app.com', 'App');
+                        $m->to($user->email, $user->name)->subject('You have a new profile!');
+                    });
+                }
             DB::commit();
 
             return $user;
