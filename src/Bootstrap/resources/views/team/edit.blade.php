@@ -58,7 +58,7 @@
                                     <td>{{ $member->name }}</td>
                                     <td>
                                         @if (! $member->isTeamAdmin($team->id))
-                                            <a class="btn btn-danger pull-right btn-sm" href="{{ url('teams/'.$team->id.'/remove/'.$member->id) }}" onclick="return confirm('Are you sure you want to remove this member?')">Remove</a>
+                                            <a class="btn btn-danger pull-right btn-xs" href="{{ url('teams/'.$team->id.'/remove/'.$member->id) }}" onclick="return confirm('Are you sure you want to remove this member?')">Remove</a>
                                         @endif
                                     </td>
                                 </tr>
