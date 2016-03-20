@@ -34,6 +34,7 @@ Route::group(['middleware' => 'web'], function() {
 |--------------------------------------------------------------------------
 */
 
-Route::group(['middleware' => 'web'], function() {
-    Route::post('failed/payment', 'Laravel\Cashier\WebhookController@handleWebhook');
-});
+Route::post(
+    'stripe/webhook',
+    '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
+);

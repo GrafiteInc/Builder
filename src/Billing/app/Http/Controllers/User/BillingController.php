@@ -40,10 +40,9 @@ class BillingController extends Controller
      */
     public function postSubscribe(Request $request)
     {
-        $inputs = $request->all();
-        $creditCardToken = $inputs['stripeToken'];
-
         try {
+            $inputs = $request->all();
+            $creditCardToken = $inputs['stripeToken'];
             Auth::user()->meta->newSubscription('main', env('SUBSCRIPTION'))->create($creditCardToken);
             return redirect('user/billing/details')->with('message', 'You\'re now subscribed!');
         } catch (Exception $e) {
@@ -75,10 +74,9 @@ class BillingController extends Controller
      */
     public function postChangeCard(Request $request)
     {
-        $inputs = $request->all();
-        $creditCardToken = $inputs['stripeToken'];
-
         try {
+            $inputs = $request->all();
+            $creditCardToken = $inputs['stripeToken'];
             Auth::user()->meta->updateCard($creditCardToken);
             return redirect('user/billing/details')->with('message', 'Your subscription has been updated!');
         } catch (Exception $e) {
@@ -110,9 +108,8 @@ class BillingController extends Controller
      */
     public function postCoupon(Request $request)
     {
-        $inputs = $request->all();
-
         try {
+            $inputs = $request->all();
             Auth::user()->meta->coupon($inputs['coupon']);
             return redirect('user/billing/details')->with('message', 'Your coupon was used!');
         } catch (Exception $e) {
@@ -146,9 +143,8 @@ class BillingController extends Controller
      */
     public function getInvoiceById($id, Request $request)
     {
-        $user = $request->user();
-
         try {
+            $user = $request->user();
             $response = $user->meta->downloadInvoice($id, [
                 'vendor'    => config("invoice.company"),
                 'street'    => config("invoice.street"),
@@ -173,11 +169,10 @@ class BillingController extends Controller
      */
     public function cancelSubscription(Request $request)
     {
-        $user = $request->user();
-        $invoice = $user->meta->upcomingInvoice();
-        $date = Carbon::createFromTimestamp($invoice->date);
-
         try {
+            $user = $request->user();
+            $invoice = $user->meta->upcomingInvoice();
+            $date = Carbon::createFromTimestamp($invoice->date);
             $user->meta->subscription('main')->cancel();
             return redirect('user/billing/details')->with('message', 'Your subscription has been cancelled! It will be availale until '.$date);
         } catch (Exception $e) {
