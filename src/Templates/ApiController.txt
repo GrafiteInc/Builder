@@ -22,7 +22,7 @@ class _camel_case_Controller extends Controller
     public function index(Request $request)
     {
         $_lower_casePlural_ = $this->service->paginated();
-        return response->json($_lower_casePlural_);
+        return response()->json($_lower_casePlural_);
     }
 
     /**
@@ -33,7 +33,7 @@ class _camel_case_Controller extends Controller
     public function search(Request $request)
     {
         $_lower_casePlural_ = $this->service->search($request->search);
-        return response->json($_lower_casePlural_);
+        return response()->json($_lower_casePlural_);
     }
 
     /**
@@ -47,10 +47,10 @@ class _camel_case_Controller extends Controller
         $result = $this->service->create($request->except('_token'));
 
         if ($result) {
-            return response->json($result);
+            return response()->json($result);
         }
 
-        return response->json(['error' => 'Unable to create _lower_case_'], 500);
+        return response()->json(['error' => 'Unable to create _lower_case_'], 500);
     }
 
     /**
@@ -62,7 +62,7 @@ class _camel_case_Controller extends Controller
     public function show($id)
     {
         $_lower_case_ = $this->service->find($id);
-        return response->json($_lower_case_);
+        return response()->json($_lower_case_);
     }
 
     /**
@@ -77,10 +77,10 @@ class _camel_case_Controller extends Controller
         $result = $this->service->update($id, $request->except('_token'));
 
         if ($result) {
-            return response->json($result);
+            return response()->json($result);
         }
 
-        return response->json(['error' => 'Unable to update _lower_case_'], 500);
+        return response()->json(['error' => 'Unable to update _lower_case_'], 500);
     }
 
     /**
@@ -94,9 +94,9 @@ class _camel_case_Controller extends Controller
         $result = $this->service->destroy($id);
 
         if ($result) {
-            return response->json(['success' => '_lower_case_ was deleted'], 200);
+            return response()->json(['success' => '_lower_case_ was deleted'], 200);
         }
 
-        return response->json(['error' => 'Unable to delete _lower_case_'], 500);
+        return response()->json(['error' => 'Unable to delete _lower_case_'], 500);
     }
 }
