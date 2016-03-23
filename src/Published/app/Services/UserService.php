@@ -84,11 +84,8 @@ class UserService
     {
         try {
             DB::beginTransaction();
-                $userMetaResult = $this->userMetaRepo->update($userId, $inputs['meta']);
-                $userResult = $this->userRepo->update($userId, [
-                    'email' => $inputs['email'],
-                    'name' => $inputs['name'],
-                ]);
+                $userMetaResult = (isset($inputs['meta'])) ? $this->userMetaRepo->update($userId, $inputs['meta']) : true;
+                $userResult = $this->userRepo->update($userId, $inputs);
                 if (isset($inputs['role'])) {
                     $this->userRepo->unassignAllRoles($userId);
                     $this->userRepo->assignRole($inputs['role'], $userId);
