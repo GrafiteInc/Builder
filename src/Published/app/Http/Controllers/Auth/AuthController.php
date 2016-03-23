@@ -7,7 +7,6 @@ use Validator;
 use App\Services\UserService;
 use App\Repositories\User\User;
 use App\Http\Controllers\Controller;
-use App\Repositories\Account\Account;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
