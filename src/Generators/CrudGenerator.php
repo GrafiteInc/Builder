@@ -209,7 +209,7 @@ class CrudGenerator
      * @param  array $config
      * @return bool
      */
-    public function createApi($config)
+    public function createApi($config, $appendRoutes = true)
     {
         if ($appendRoutes) {
             $routesMaster = app_path('Http/api-routes.php');
