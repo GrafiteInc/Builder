@@ -5,4 +5,6 @@
 |--------------------------------------------------------------------------
 */
 
-Route::resource('api/v1/_lower_casePlural_', 'Api\_camel_case_Controller');
+Route::group(['middleware' => 'jwt.auth'], function(){
+    Route::resource('api/v1/_lower_casePlural_', 'Api\_camel_case_Controller');
+});

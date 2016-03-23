@@ -5,7 +5,6 @@
 |--------------------------------------------------------------------------
 */
 
-Route::resource('api/v1/_lower_casePlural_', 'Api\_camel_case_Controller');
 Route::resource('_lower_casePlural_', '_camel_case_Controller');
 Route::post('_lower_casePlural_/search', '_camel_case_Controller@search');
 Route::get('_lower_casePlural_/{id}/delete', [
