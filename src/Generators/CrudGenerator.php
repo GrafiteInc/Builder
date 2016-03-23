@@ -204,4 +204,39 @@ class CrudGenerator
         return ($createdView);
     }
 
+    /**
+     * Create the Api
+     * @param  array $config
+     * @return bool
+     */
+    public function createApi($config)
+    {
+        if ($appendRoutes) {
+            $routesMaster = app_path('Http/api-routes.php');
+        } else {
+            $routesMaster = $config['_path_api_routes_'];
+            file_put_contents($routesMaster, $config['routes_prefix'], FILE_APPEND);
+        }
+
+        $routes = file_get_contents($config['template_source'].'/ApiRoutes.txt');
+
+        foreach ($config as $key => $value) {
+            $routes = str_replace($key, $value, $routes);
+        }
+
+        file_put_contents($routesMaster, $routes, FILE_APPEND);
+
+        $routeBuild = file_put_contents($routesMaster, $config['routes_suffix'], FILE_APPEND);
+
+        $request = file_get_contents($config['template_source'].'/ApiController.txt');
+
+        foreach ($config as $key => $value) {
+            $request = str_replace($key, $value, $request);
+        }
+
+        $request = file_put_contents($config['_path_api_controller_'].'/'.$config['_camel_case_'].'Controller.php', $request);
+
+        return $request;
+    }
+
 }

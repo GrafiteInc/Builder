@@ -14,14 +14,14 @@ class Crud extends Command
      *
      * @var string
      */
-    protected $signature = 'laracogs:crud {table} {--migration}';
+    protected $signature = 'laracogs:crud {table} {--api} {--migration}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Generate a basic CRUD for a table';
+    protected $description = 'Generate a basic CRUD for a table with option for migration and api';
 
     /**
      * Generate a CRUD stack
@@ -47,10 +47,12 @@ class Crud extends Command
             '_path_repository_'          => app_path('Repositories/'.ucfirst($table)),
             '_path_model_'               => app_path('Repositories/'.ucfirst($table)),
             '_path_controller_'          => app_path('Http/Controllers/'),
+            '_path_api_controller_'      => app_path('Http/Controllers/Api'),
             '_path_views_'               => base_path('resources/views'),
             '_path_tests_'               => base_path('tests'),
             '_path_request_'             => app_path('Http/Requests/'),
             '_path_routes_'              => app_path('Http/routes.php'),
+            '_path_api_routes_'          => app_path('Http/api-routes.php'),
             'routes_prefix'              => '',
             'routes_suffix'              => '',
             '_namespace_services_'       => 'App\Services',
@@ -58,6 +60,7 @@ class Crud extends Command
             '_namespace_repository_'     => 'App\Repositories\\'.ucfirst($table),
             '_namespace_model_'          => 'App\Repositories\\'.ucfirst($table),
             '_namespace_controller_'     => 'App\Http\Controllers',
+            '_namespace_api_controller_' => 'App\Http\Controllers\Api',
             '_namespace_request_'        => 'App\Http\Requests',
             '_table_name_'               => str_plural(strtolower($table)),
             '_lower_case_'               => strtolower($table),
@@ -73,10 +76,12 @@ class Crud extends Command
                 '_path_repository_'          => app_path('Repositories/'.ucfirst($section).'/'.ucfirst($table)),
                 '_path_model_'               => app_path('Repositories/'.ucfirst($section).'/'.ucfirst($table)),
                 '_path_controller_'          => app_path('Http/Controllers/'.ucfirst($section).'/'),
+                '_path_api_controller_'      => app_path('Http/Controllers/'.ucfirst($section).'/Api'),
                 '_path_views_'               => base_path('resources/views/'.strtolower($section)),
                 '_path_tests_'               => base_path('tests'),
                 '_path_request_'             => app_path('Http/Requests/'.ucfirst($section)),
                 '_path_routes_'              => app_path('Http/routes.php'),
+                '_path_api_routes_'          => app_path('Http/api-routes.php'),
                 'routes_prefix'              => "\n\nRoute::group(['namespace' => '".ucfirst($section)."', 'prefix' => '".strtolower($section)."', 'middleware' => ['web']], function () { \n",
                 'routes_suffix'              => "\n});",
                 '_namespace_services_'       => 'App\Services\\'.ucfirst($section),
@@ -84,6 +89,7 @@ class Crud extends Command
                 '_namespace_repository_'     => 'App\Repositories\\'.ucfirst($section).'\\'.ucfirst($table),
                 '_namespace_model_'          => 'App\Repositories\\'.ucfirst($section).'\\'.ucfirst($table),
                 '_namespace_controller_'     => 'App\Http\Controllers\\'.ucfirst($section),
+                '_namespace_api_controller_' => 'App\Http\Controllers\\'.ucfirst($section).'\Api\\',
                 '_namespace_request_'        => 'App\Http\Requests\\'.ucfirst($section),
                 '_table_name_'               => str_plural(strtolower(implode('_', $splitTable))),
                 '_lower_case_'               => strtolower($table),
@@ -132,6 +138,12 @@ class Crud extends Command
 
             $this->line('Building facade...');
             $crudGenerator->createFacade($config);
+
+            if ($this->option('api')) {
+                $this->line('Building Api...');
+                $crudGenerator->createApi($config);
+            }
+
         } catch (Exception $e) {
             throw new Exception("Unable to generate your CRUD", 1);
         }
