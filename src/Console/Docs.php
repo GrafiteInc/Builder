@@ -14,7 +14,7 @@ class Docs extends Command
      *
      * @var string
      */
-    protected $signature = 'laracogs:docs {action} {name=null} {version=null}';
+    protected $signature = 'laracogs:docs {action} {name=null} {version=null} {--related=null}';
 
     /**
      * The console command description.
@@ -52,6 +52,16 @@ class Docs extends Command
         */
         if ($this->argument('action') === 'create') {
             $ruleTemplate = file_get_contents(__DIR__.'/../Documentation/RuleTemplate.txt');
+
+            $ruleTemplate = str_replace('_source_service_', 'App\Services\\'.ucfirst($name).'Service', $ruleTemplate);
+            $ruleTemplate = str_replace('_source_model_', 'App\Repositories\\'.ucfirst($name).'\\'.ucfirst($name), $ruleTemplate);
+            $ruleTemplate = str_replace('_source_repository_', 'App\Repositories\\'.ucfirst($name).'\\'.ucfirst($name).'Repository', $ruleTemplate);
+
+            $related = $this->option('related');
+            $ruleTemplate = str_replace('_related_service_', 'App\Services\\'.ucfirst($related).'Service', $ruleTemplate);
+            $ruleTemplate = str_replace('_related_model_', 'App\Repositories\\'.ucfirst($related).'\\'.ucfirst($related), $ruleTemplate);
+            $ruleTemplate = str_replace('_related_repository_', 'App\Repositories\\'.ucfirst($related).'\\'.ucfirst($related).'Repository', $ruleTemplate);
+
             $ruleBuild = str_replace('<name>', $name, $ruleTemplate);
             if (! file_exists(base_path('documentation/rules/index.md'))) {
                 file_put_contents(base_path('documentation/rules/index.md'), file_get_contents(__DIR__.'/../Documentation/IndexTemplate.txt'));
