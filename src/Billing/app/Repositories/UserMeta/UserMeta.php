@@ -29,6 +29,7 @@ class UserMeta extends Eloquent
         'stripe_id',
         'card_brand',
         'card_last_four',
+        'terms_and_cond',
     ];
 
     /**
