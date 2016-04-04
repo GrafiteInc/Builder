@@ -82,6 +82,10 @@ class UserService
      */
     public function update($userId, $inputs)
     {
+        if (isset($inputs['meta']) && ! isset($inputs['meta']['terms_and_cond'])) {
+            throw new Exception("You must agree to the terms and conditions.", 1);
+        }
+
         try {
             DB::beginTransaction();
                 $userMetaResult = (isset($inputs['meta'])) ? $this->userMetaRepo->update($userId, $inputs['meta']) : true;

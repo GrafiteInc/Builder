@@ -20,6 +20,7 @@ class CreateUserMetaTable extends Migration
 
             $table->string('phone')->nullable();
             $table->boolean('marketing')->default(0);
+            $table->boolean('terms_and_cond')->default(1);
 
             $table->timestamps();
         });

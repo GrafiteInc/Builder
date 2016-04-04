@@ -23,6 +23,7 @@ class UserMeta extends Eloquent
         'user_id',
         'phone',
         'marketing',
+        'terms_and_cond',
     ];
 
     /**

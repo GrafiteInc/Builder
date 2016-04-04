@@ -25,6 +25,10 @@ class UserMetaRepository
             $inputs['marketing'] = 0;
         }
 
+        if (! isset($inputs['terms_and_cond'])) {
+            $inputs['terms_and_cond'] = 0;
+        }
+
         $userMeta->fill($inputs);
         return $userMeta->save();
     }
