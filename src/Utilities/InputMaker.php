@@ -2,6 +2,8 @@
 
 namespace Yab\Laracogs\Utilities;
 
+use DB;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
@@ -28,19 +30,28 @@ class InputMaker
         'decimal',
         'bigint',
         'smallint',
+        'one-one',
+        'one-many',
     ];
+
+    public function __construct(Application $app)
+    {
+        $this->app = $app;
+    }
 
     /**
      * Create the input HTML
+     *
      * @param  string   $name        Column/ Field name
      * @param  array    $field       Array of config info for item
      * @param  object   $object      Object or Table Object
      * @param  string   $class       CSS class
      * @param  boolean  $reformatted Clean the labels and placeholder values
      * @param  boolean  $populated   Set the value of the input to the object's value
+     *
      * @return string
      */
-    public function create($name, $field, $object, $class, $reformatted = false, $populated)
+    public function create($name, $field, $object = null, $class = 'form-control', $reformatted = false, $populated = false)
     {
         $config = [];
 
@@ -62,7 +73,9 @@ class InputMaker
         if (Session::isStarted()) {
             $config['inputs']           = Request::old();
         }
-        $config['objectName']       = (isset($object->$name)) ? $object->$name : $name;
+
+        $config['object']           = $object;
+        $config['objectName']       = (isset($object->$name) && ! method_exists($object, $name)) ? $object->$name : $name;
         $config['placeholder']      = $this->placeholder($field, $name);
 
         $config = $this->setConfigs($config, $reformatted, $name, $field);
@@ -85,11 +98,38 @@ class InputMaker
     }
 
     /**
-     * Before input
+     * Create a label for an input
+     *
+     * @param  string $name
      * @param  array $config
+     *
      * @return string
      */
-    public function before($config)
+    public function label($name, $config)
+    {
+        $attributes = '';
+
+        foreach ($config as $key => $value) {
+            $attributes .= $key.'="'.$value.'"';
+        }
+
+        return '<label '.$attributes.'>'.$name.'</label>';
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Private Methods
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Before input
+     *
+     * @param  array $config
+     *
+     * @return string
+     */
+    private function before($config)
     {
         $before = (isset($config['field']['before'])) ? $config['field']['before'] : '';
         return $before;
@@ -97,10 +137,12 @@ class InputMaker
 
     /**
      * After input
+     *
      * @param  array $config
+     *
      * @return string
      */
-    public function after($config)
+    private function after($config)
     {
         $after = (isset($config['field']['after'])) ? $config['field']['after'] : '';
         return $after;
@@ -108,6 +150,7 @@ class InputMaker
 
     /**
      * Set the configs
+     *
      * @param array $config
      * @param bool $reformatted
      * @param string $name
@@ -115,7 +158,7 @@ class InputMaker
      *
      * @return  array
      */
-    public function setConfigs($config, $reformatted, $name, $field)
+    private function setConfigs($config, $reformatted, $name, $field)
     {
         // If validation inputs are available lets prepopulate the fields!
         if (isset($config['inputs'][$name])) {
@@ -142,21 +185,24 @@ class InputMaker
 
     /**
      * The input string generator
+     *
      * @param  array $config  Config
+     *
      * @return string
      */
-    public function inputStringGenerator($config)
+    private function inputStringGenerator($config)
     {
-        $textInputs     = ['text', 'textarea'];
-        $selectInputs   = ['select'];
-        $hiddenInputs   = ['hidden'];
-        $checkboxInputs = ['checkbox', 'checkbox-inline'];
-        $radioInputs    = ['radio', 'radio-inline'];
+        $textInputs             = ['text', 'textarea'];
+        $selectInputs           = ['select'];
+        $hiddenInputs           = ['hidden'];
+        $checkboxInputs         = ['checkbox', 'checkbox-inline'];
+        $radioInputs            = ['radio', 'radio-inline'];
+        $relationshipInputs     = ['relationship'];
 
-        $population = $this->getPopulation($config);
-        $checkType = $this->checkType($config, $checkboxInputs);
-        $selected = $this->isSelected($config, $checkType);
-        $custom = $this->getCustom($config);
+        $population     = $this->getPopulation($config);
+        $checkType      = $this->checkType($config, $checkboxInputs);
+        $selected       = $this->isSelected($config, $checkType);
+        $custom         = $this->getCustom($config);
 
         switch ($config['fieldType']) {
             case in_array($config['fieldType'], $hiddenInputs):
@@ -179,9 +225,15 @@ class InputMaker
                 $inputString = $this->makeRadio($config, $selected, $custom);
                 break;
 
+            case in_array($config['fieldType'], $relationshipInputs):
+                $inputString = $this->makeRelationship($config, $config['field']['label'], $custom);
+                break;
+
             default:
-                // Pass along the config
-                $config['type'] = $config['inputTypes'][$config['fieldType']];
+                $config['type'] = $config['inputTypes']['string'];
+                if (isset($config['inputTypes'][$config['fieldType']])) {
+                    $config['type'] = $config['inputTypes'][$config['fieldType']];
+                }
                 $inputString = $this->makeHTMLInputString($config);
                 break;
         }
@@ -189,88 +241,153 @@ class InputMaker
         return $inputString;
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Standard HTML Inputs
+    |--------------------------------------------------------------------------
+    */
+
     /**
      * Make a hidden input
+     *
      * @param  array $config
      * @param  string $population
      * @param  string $custom
+     *
      * @return string
      */
-    public function makeHidden($config, $population, $custom)
+    private function makeHidden($config, $population, $custom)
     {
         return '<input '.$custom.' id="'.ucfirst($config['name']).'" name="'.$config['name'].'" type="hidden" value="'.$population.'">';
     }
 
     /**
      * Make text input
+     *
      * @param  array $config
      * @param  string $population
      * @param  string $custom
+     *
      * @return string
      */
-    public function makeText($config, $population, $custom)
+    private function makeText($config, $population, $custom)
     {
         return '<textarea '.$custom.' id="'.ucfirst($config['name']).'" class="'.$config['class'].'" name="'.$config['name'].'" placeholder="'.$config['placeholder'].'">'.$population.'</textarea>';
     }
 
     /**
      * Make a select input
+     *
      * @param  array $config
      * @param  string $population
      * @param  string $custom
+     *
      * @return string
      */
-    public function makeSelected($config, $population, $custom)
+    private function makeSelected($config, $selected, $custom)
     {
         $options = '';
         foreach ($config['field']['options'] as $key => $value) {
-            $selected = ((string) $config['objectName'] === (string) $value) ? 'selected' : '';
-            $options .= '<option value="'.$value.'" '.$selected.'>'.$key.'</option>';
+            if ($selected == '') {
+                $selectedValue = ((string) $config['objectName'] === (string) $value) ? 'selected' : '';
+            } else {
+                $selectedValue = ((string) $selected === (string) $value) ? 'selected' : '';
+            }
+            $options .= '<option value="'.$value.'" '.$selectedValue.'>'.$key.'</option>';
         }
         return '<select '.$custom.' id="'.ucfirst($config['name']).'" class="'.$config['class'].'" name="'.$config['name'].'">'.$options.'</select>';
     }
 
     /**
      * Make a checkbox
+     *
      * @param  array $config
      * @param  string $selected
      * @param  string $custom
+     *
      * @return string
      */
-    public function makeCheckbox($config, $selected, $custom)
+    private function makeCheckbox($config, $selected, $custom)
     {
         return '<input '.$custom.' id="'.ucfirst($config['name']).'" '.$selected.' type="checkbox" name="'.$config['name'].'">';
     }
 
     /**
      * Make a radio input
+     *
      * @param  array $config
      * @param  string $selected
      * @param  string $custom
+     *
      * @return string
      */
-    public function makeRadio($config, $selected, $custom)
+    private function makeRadio($config, $selected, $custom)
     {
         return '<input '.$custom.' id="'.ucfirst($config['name']).'" '.$selected.' type="radio" name="'.$config['name'].'">';
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Relationship based
+    |--------------------------------------------------------------------------
+    */
+
     /**
-     * Get the content of the input
+     * Make a relationship input
+     *
      * @param  array $config
+     * @param  string $selected
+     * @param  string $custom
+     *
      * @return string
      */
-    public function getPopulation($config)
+    private function makeRelationship($config, $label, $custom)
+    {
+        $object = $config['object'];
+        $relationship = $config['name'];
+
+        $table = $object->$relationship()->getRelated()->getTable();
+        $items = DB::select('select * from '.$table);
+
+        foreach ($items as $item) {
+            $config['field']['options'][$item->$label] = $item->id;
+        }
+
+        $selected = '';
+        if ($object->$relationship()->first()) {
+            $selected = $object->$relationship()->first()->id;
+        }
+
+        return $this->makeSelected($config, $selected, $custom);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Utilities
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Get the content of the input
+     *
+     * @param  array $config
+     *
+     * @return string
+     */
+    private function getPopulation($config)
     {
         return ($config['populated']) ? $config['objectName'] : '';
     }
 
     /**
      * Has been selected
+     *
      * @param  array  $config
      * @param  string  $checkType Type of checkmark
+     *
      * @return boolean
      */
-    public function isSelected($config, $checkType)
+    private function isSelected($config, $checkType)
     {
         $selected = (isset($config['inputs'][$config['name']])
             || isset($config['field']['selected'])
@@ -282,11 +399,13 @@ class InputMaker
 
     /**
      * Check type of checkbox/ radio
+     *
      * @param  array $config
      * @param  array $checkboxInputs
+     *
      * @return string
      */
-    public function checkType($config, $checkboxInputs)
+    private function checkType($config, $checkboxInputs)
     {
         $checkType = (in_array($config['fieldType'], $checkboxInputs)) ? 'checked' : 'selected';
         return $checkType;
@@ -294,10 +413,12 @@ class InputMaker
 
     /**
      * Get Custom attributes
+     *
      * @param  array $config
+     *
      * @return string
      */
-    public function getCustom($config)
+    private function getCustom($config)
     {
         $custom = (isset($config['field']['custom'])) ? $config['field']['custom'] : '';
         return $custom;
@@ -305,10 +426,12 @@ class InputMaker
 
     /**
      * Generate a standard HTML input string
+     *
      * @param  array $config        Config array
+     *
      * @return string
      */
-    public function makeHTMLInputString($config)
+    private function makeHTMLInputString($config)
     {
         $custom             = (isset($config['field']['custom'])) ? $config['field']['custom'] : '';
         $multiple           = (isset($config['field']['multiple'])) ? 'multiple' : '';
@@ -328,11 +451,13 @@ class InputMaker
 
     /**
      * Create the placeholder
+     *
      * @param  array  $field  Field from Column Array
      * @param  string $column Column name
+     *
      * @return string
      */
-    public function placeholder($field, $column)
+    private function placeholder($field, $column)
     {
         if (! is_array($field) && ! in_array($field, $this->columnTypes)) {
             return ucfirst($field);
@@ -346,7 +471,9 @@ class InputMaker
 
     /**
      * Clean the string for the column name swap
+     *
      * @param  string $string Original column name
+     *
      * @return string
      */
     public function cleanString($string)
