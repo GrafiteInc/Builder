@@ -3,7 +3,6 @@
 namespace Yab\Laracogs\Utilities;
 
 use DB;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
@@ -33,11 +32,6 @@ class InputMaker
         'one-one',
         'one-many',
     ];
-
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
 
     /**
      * Create the input HTML

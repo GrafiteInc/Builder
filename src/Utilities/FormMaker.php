@@ -4,7 +4,6 @@ namespace Yab\Laracogs\Utilities;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
@@ -36,10 +35,9 @@ class FormMaker
         'one-many',
     ];
 
-    public function __construct(Application $app)
+    public function __construct()
     {
-        $this->app = $app;
-        $this->inputMaker = $this->app->make(InputMaker::class);
+        $this->inputMaker = new InputMaker();
     }
 
     /**

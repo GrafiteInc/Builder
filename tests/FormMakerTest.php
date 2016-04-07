@@ -24,7 +24,7 @@ class FormMakerTest extends PHPUnit_Framework_TestCase
 
         Facade::setFacadeApplication($this->app);
 
-        $this->formMaker = new FormMaker;
+        $this->formMaker = new FormMaker();
     }
 
     public function testFromArray()
