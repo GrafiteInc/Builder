@@ -2,11 +2,11 @@
 
 namespace App\Repositories\UserMeta;
 
-use Eloquent;
 use Laravel\Cashier\Billable;
 use App\Repositories\User\User;
+use Illuminate\Database\Eloquent\Model;
 
-class UserMeta extends Eloquent
+class UserMeta extends Model
 {
     use Billable;
 

@@ -2,10 +2,10 @@
 
 namespace App\Repositories\Team;
 
-use Eloquent;
 use App\Repositories\User\User;
+use Illuminate\Database\Eloquent\Model;
 
-class Team extends Eloquent
+class Team extends Model
 {
     public $table = "teams";
 

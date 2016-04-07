@@ -2,10 +2,10 @@
 
 namespace App\Repositories\UserMeta;
 
-use Eloquent;
 use App\Repositories\User\User;
+use Illuminate\Database\Eloquent\Model;
 
-class UserMeta extends Eloquent
+class UserMeta extends Model
 {
     /**
      * The database table used by the model.

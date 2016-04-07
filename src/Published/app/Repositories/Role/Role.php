@@ -2,10 +2,10 @@
 
 namespace App\Repositories\Role;
 
-use Eloquent;
 use App\Repositories\User\User;
+use Illuminate\Database\Eloquent\Model;
 
-class Role extends Eloquent
+class Role extends Model
 {
     public $timestamps = false;
 

@@ -2,9 +2,9 @@
 
 namespace _namespace_model_;
 
-use Eloquent;
+use Illuminate\Database\Eloquent\Model;
 
-class _camel_case_ extends Eloquent
+class _camel_case_ extends Model
 {
     public $table = "_table_name_";
 
