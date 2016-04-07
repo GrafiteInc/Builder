@@ -99,15 +99,15 @@ class InputMaker
      *
      * @return string
      */
-    public function label($name, $config)
+    public function label($name, $attributes = [])
     {
-        $attributes = '';
+        $attributeString = '';
 
-        foreach ($config as $key => $value) {
-            $attributes .= $key.'="'.$value.'"';
+        foreach ($attributes as $key => $value) {
+            $attributeString .= $key.'="'.$value.'"';
         }
 
-        return '<label '.$attributes.'>'.$name.'</label>';
+        return '<label '.$attributeString.'>'.$name.'</label>';
     }
 
     /*
@@ -196,7 +196,7 @@ class InputMaker
         $population     = $this->getPopulation($config);
         $checkType      = $this->checkType($config, $checkboxInputs);
         $selected       = $this->isSelected($config, $checkType);
-        $custom         = $this->getCustom($config);
+        $custom         = $this->getField($config, 'custom');
 
         switch ($config['fieldType']) {
             case in_array($config['fieldType'], $hiddenInputs):
@@ -220,7 +220,7 @@ class InputMaker
                 break;
 
             case in_array($config['fieldType'], $relationshipInputs):
-                $inputString = $this->makeRelationship($config, $config['field']['label'], $custom);
+                $inputString = $this->makeRelationship($config, $this->getField($config, 'label'), $custom);
                 break;
 
             default:
@@ -335,20 +335,20 @@ class InputMaker
      *
      * @return string
      */
-    private function makeRelationship($config, $label, $custom)
+    private function makeRelationship($config, $label = 'name', $custom)
     {
         $object = $config['object'];
         $relationship = $config['name'];
 
-        $table = $object->$relationship()->getRelated()->getTable();
-        $items = DB::select('select * from '.$table);
+        $class = app()->make($config['field']['class']);
+        $items = $class->all();
 
         foreach ($items as $item) {
             $config['field']['options'][$item->$label] = $item->id;
         }
 
         $selected = '';
-        if ($object->$relationship()->first()) {
+        if (is_object($object) && $object->$relationship()->first()) {
             $selected = $object->$relationship()->first()->id;
         }
 
@@ -406,16 +406,16 @@ class InputMaker
     }
 
     /**
-     * Get Custom attributes
+     * Get attributes
      *
      * @param  array $config
      *
      * @return string
      */
-    private function getCustom($config)
+    private function getField($config, $field)
     {
-        $custom = (isset($config['field']['custom'])) ? $config['field']['custom'] : '';
-        return $custom;
+        $data = (isset($config['field'][$field])) ? $config['field'][$field] : 'name';
+        return $data;
     }
 
     /**

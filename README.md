@@ -93,7 +93,7 @@ You will also need to set the location of the email for password reminders.
 - You may try and start quickly by testing the registration - make sure your app's
 **email** is configured or it will throw an exception.
 
-## Starter App Structure etc
+## Starter App Kit etc
 Please consult the documentation here: [http://laracogs.com](http://laracogs.com)
 
 ## Commands
@@ -152,7 +152,7 @@ STRIPE_SECRET=public-key
 STRIPE_PUBLIC=secret-key
 ```
 
-This to the app/Providers/ReouteServiceProvider.php:
+This to the app/Providers/RouteServiceProvider.php:
 ```php
 $gate->define('access-billing', function ($user) {
     return ($user->meta->subscribed('main') && is_null($user->meta->subscription('main')->endDate));
@@ -162,7 +162,7 @@ $gate->define('access-billing', function ($user) {
 For the `config/services.php` you will want yours to resemble:
 ```php
 'stripe' => [
-    'model'  => App\Repositories\Account\Account::class,
+    'model'  => App\Repositories\UserMeta\UserMeta::class,
     'key'    => env('STRIPE_PUBLIC'),
     'secret' => env('STRIPE_SECRET'),
 ],
@@ -212,6 +212,12 @@ Crypto::shared()->decrypt('enc-string');
 FormMaker::fromTable($table, $columns = null, $class = 'form-control', $view = null, $reformatted = true, $populated = false, $idAndTimestamps = false)
 FormMaker::fromObject($object, $columns = null, $view = null, $class = 'form-control', $populated = true, $reformatted = false, $idAndTimestamps = false)
 FormMaker::fromArray($array, $columns = null, $view = null, $class = 'form-control', $populated = true, $reformatted = false, $idAndTimestamps = false)
+```
+
+#### InputMaker
+```php
+InputMaker::label($name, $attributes = [])
+InputMaker::create($name, $field, $object = null, $class = 'form-control', $reformatted = false, $populated = false)
 ```
 
 ## License

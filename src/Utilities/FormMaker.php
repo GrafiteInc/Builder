@@ -31,8 +31,7 @@ class FormMaker
         'decimal',
         'bigint',
         'smallint',
-        'one-one',
-        'one-many',
+        'relationship',
     ];
 
     public function __construct()
@@ -80,14 +79,12 @@ class FormMaker
                 $column = $field;
             }
 
-            if (in_array($column, $tableColumns)) {
-                $errors = null;
-                if (Session::isStarted()) {
-                    $errors = Session::get('errors');
-                }
-                $input = $this->inputMaker->create($column, $field, $column, $class, $reformatted, $populated);
-                $formBuild .= $this->formBuilder($view, $errors, $field, $column, $input);
+            $errors = null;
+            if (Session::isStarted()) {
+                $errors = Session::get('errors');
             }
+            $input = $this->inputMaker->create($column, $field, $column, $class, $reformatted, $populated);
+            $formBuild .= $this->formBuilder($view, $errors, $field, $column, $input);
         }
 
         return $formBuild;
@@ -163,7 +160,13 @@ class FormMaker
     public function fromObject($object, $columns = null, $view = null, $class = 'form-control', $populated = true, $reformatted = false, $idAndTimestamps = false)
     {
         $formBuild = "";
-        $attributes = $object['attributes'];
+
+        if (isset($object->attributes)) {
+            $attributes = $object['attributes'];
+        } else {
+            $attributes = $columns;
+        }
+
 
         if (! $idAndTimestamps) {
             unset($attributes['created_at']);
@@ -182,10 +185,8 @@ class FormMaker
                 if (is_numeric($column)) {
                     $column = $field;
                 }
-                if (in_array($column, $tableColumns)) {
-                    $input = $this->inputMaker->create($column, $field, $object, $class, $reformatted, $populated);
-                    $formBuild .= $this->formBuilder($view, $errors, $field, $column, $input);
-                }
+                $input = $this->inputMaker->create($column, $field, $object, $class, $reformatted, $populated);
+                $formBuild .= $this->formBuilder($view, $errors, $field, $column, $input);
             }
         } else {
             foreach ($attributes as $column => $field) {
