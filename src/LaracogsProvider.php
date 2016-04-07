@@ -2,6 +2,10 @@
 
 namespace Yab\Laracogs;
 
+use Yab\Laracogs\Utilities\Crypto;
+use Yab\Laracogs\Utilities\FormMaker;
+use Illuminate\Support\Facades\Blade;
+use Yab\Laracogs\Utilities\InputMaker;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
@@ -42,12 +46,16 @@ class LaracogsProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
 
-        $this->app->bind('FormMaker', function ($app) {
-            return new \Yab\Laracogs\Utilities\FormMaker();
+        $this->app->singleton('FormMaker', function ($app) {
+            return new FormMaker();
         });
 
-        $this->app->bind('InputMaker', function ($app) {
-            return new \Yab\Laracogs\Utilities\InputMaker();
+        $this->app->singleton('InputMaker', function ($app) {
+            return new InputMaker();
+        });
+
+        $this->app->singleton('Crypto', function ($app) {
+            return new Crypto();
         });
 
         $loader = AliasLoader::getInstance();
@@ -60,6 +68,43 @@ class LaracogsProvider extends ServiceProvider
         $loader->alias('Form', \Collective\Html\FormFacade::class);
         $loader->alias('HTML', \Collective\Html\HtmlFacade::class);
         $loader->alias('Markdown', \AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra::class);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Blade Directives
+        |--------------------------------------------------------------------------
+        */
+
+        // Form Maker
+        Blade::directive('form_maker_table', function($expression) {
+            return "<?php echo FormMaker::fromTable$expression; ?>";
+        });
+
+        Blade::directive('form_maker_array', function($expression) {
+            return "<?php echo FormMaker::fromArray$expression; ?>";
+        });
+
+        Blade::directive('form_maker_object', function($expression) {
+            return "<?php echo FormMaker::fromObject$expression; ?>";
+        });
+
+        // Label Maker
+        Blade::directive('input_maker_label', function($expression) {
+            return "<?php echo InputMaker::label$expression; ?>";
+        });
+
+        Blade::directive('input_maker_create', function($expression) {
+            return "<?php echo InputMaker::create$expression; ?>";
+        });
+
+        // Crypto
+        Blade::directive('crypto_encrypt', function($expression) {
+            return "<?php echo Crypto::encrypt$expression; ?>";
+        });
+
+        Blade::directive('crypto_decrypt', function($expression) {
+            return "<?php echo Crypto::encrypt$expression; ?>";
+        });
 
         /*
         |--------------------------------------------------------------------------

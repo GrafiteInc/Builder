@@ -31,6 +31,8 @@ class FormMaker
         'decimal',
         'bigint',
         'smallint',
+        'one-one',
+        'one-many',
     ];
 
     public function __construct()
@@ -40,6 +42,7 @@ class FormMaker
 
     /**
      * Generate a form from a table
+     *
      * @param  string  $table       Table name
      * @param  array   $columns     Array of columns and details regarding them see config/forms.php for examples
      * @param  string  $class       Class names to be given to the inputs
@@ -47,6 +50,7 @@ class FormMaker
      * @param  boolean $reformatted Corrects the table column names to clean words if no columns array provided
      * @param  boolean $populated   Populates the inputs with the column names as values
      * @param  boolean $$idAndTimestamps   Allows id and Timestamp columns
+     *
      * @return string
      */
     public function fromTable($table, $columns = null, $class = 'form-control', $view = null, $reformatted = true, $populated = false, $idAndTimestamps = false)
@@ -91,6 +95,7 @@ class FormMaker
 
     /**
      * Build the form from an array
+     *
      * @param  array  $array
      * @param  string  $view        A template to use for the rows
      * @param  object  $object      An object to base the form off
@@ -98,6 +103,7 @@ class FormMaker
      * @param  boolean $populated   Is content populated
      * @param  boolean $reformatted Are column names reformatted
      * @param  boolean $idAndTimestamps Are the timestamps and id available?
+     *
      * @return string
      */
     public function fromArray($array, $columns = null, $view = null, $class = 'form-control', $populated = true, $reformatted = false, $idAndTimestamps = false)
@@ -133,7 +139,6 @@ class FormMaker
                 if ($column === 'id') {
                     $field = [ 'type' => 'hidden' ];
                 }
-
                 $input = $this->inputMaker->create($column, $field, $array, $class, $reformatted, $populated);
                 $formBuild .= $this->formBuilder($view, $errors, $field, $column, $input);
             }
@@ -144,6 +149,7 @@ class FormMaker
 
     /**
      * Build the form from the an object
+     *
      * @param  array  $columns      Columns desired and specified
      * @param  string  $view        A template to use for the rows
      * @param  object  $object      An object to base the form off
@@ -151,6 +157,7 @@ class FormMaker
      * @param  boolean $populated   Is content populated
      * @param  boolean $reformatted Are column names reformatted
      * @param  boolean $idAndTimestamps Are the timestamps and id available?
+     *
      * @return string
      */
     public function fromObject($object, $columns = null, $view = null, $class = 'form-control', $populated = true, $reformatted = false, $idAndTimestamps = false)
@@ -200,11 +207,13 @@ class FormMaker
 
     /**
      * Constructs HTML forms
+     *
      * @param  string $view   View template
      * @param  array $errors Array of errors
      * @param  array $field  Array of field values
      * @param  string $column Column name
      * @param  string $input  Input string
+     *
      * @return string
      */
     private function formBuilder($view, $errors, $field, $column, $input)
@@ -247,7 +256,9 @@ class FormMaker
 
     /**
      * Generate the error message for the input
+     *
      * @param  string $message Error message
+     *
      * @return string
      */
     private function errorMessage($message)
@@ -263,8 +274,10 @@ class FormMaker
 
     /**
      * Create the column label
+     *
      * @param  array  $field  Field from Column Array
      * @param  string $column Column name
+     *
      * @return string
      */
     private function columnLabel($field, $column)
@@ -278,7 +291,9 @@ class FormMaker
 
     /**
      * Get Table Columns
+     *
      * @param  string $table Table name
+     *
      * @return array
      */
     public function getTableColumns($table)
