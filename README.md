@@ -201,6 +201,7 @@ Laracogs provides a handful of easy to use tools outside of the app starter kit,
 
 #### Crypto
 ```php
+Crypto::uuid();
 Crypto::encrypt('string');
 Crypto::decrypt('enc-string');
 Crypto::shared()->encrypt('string');

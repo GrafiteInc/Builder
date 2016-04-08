@@ -69,6 +69,26 @@ class LaracogsEncrypter implements LaracogsEncrypterInterface
     }
 
     /**
+     * Generates a UUID
+     *
+     * @return string
+     */
+    public function uuid()
+    {
+        $uid = uniqid(NULL, TRUE);
+
+        $rawid = strtoupper(sha1(uniqid(rand(), true)));
+
+        $uuid = substr($uid, 6, 8);
+        $uuid .= '-'.substr($uid, 0, 4);
+        $uuid .= '-'.substr(sha1(substr($uid, 3, 3)), 0, 4);
+        $uuid .= '-'.substr(sha1(substr(time(), 3, 4)), 0, 4);
+        $uuid .= '-'.strtolower(substr($rawid, 10, 12));
+
+        return $uuid;
+    }
+
+    /**
      * Encrypt the string using your app and session keys,
      * then return the new encrypted string
      *

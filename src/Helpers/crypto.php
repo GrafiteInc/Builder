@@ -14,3 +14,10 @@ if (! function_exists('crypto_decrypt')) {
     }
 }
 
+if (! function_exists('crypto_uuid')) {
+    function crypto_uuid()
+    {
+        return app('Crypto')->uuid();
+    }
+}
+

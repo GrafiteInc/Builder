@@ -39,4 +39,14 @@ class Crypto
     {
         return (new LaravelCrypto())->decrypt($value);
     }
+
+    /**
+     * Generate a UUID
+     *
+     * @return string
+     */
+    public static function uuid()
+    {
+        return (new LaravelCrypto())->uuid();
+    }
 }

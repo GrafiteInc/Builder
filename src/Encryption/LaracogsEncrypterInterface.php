@@ -22,4 +22,11 @@ interface LaracogsEncrypterInterface
    * @return string
    */
   public function decrypt($value);
+
+  /**
+   * Generates a UUID
+   *
+   * @return string
+   */
+  public function uuid();
 }

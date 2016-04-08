@@ -67,7 +67,6 @@ class LaracogsProvider extends ServiceProvider
         // Thrid party
         $loader->alias('Form', \Collective\Html\FormFacade::class);
         $loader->alias('HTML', \Collective\Html\HtmlFacade::class);
-        $loader->alias('Markdown', \AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra::class);
 
         /*
         |--------------------------------------------------------------------------
