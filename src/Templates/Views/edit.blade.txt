@@ -4,7 +4,7 @@
 
     {!! Form::model($_lower_case_, ['route' => ['_lower_casePlural_.update', $_lower_case_->id], 'method' => 'patch']) !!}
 
-    {!! FormMaker::fromObject($_lower_case_, FormMaker::getTableColumns('_lower_casePlural_')) !!}
+    @form_maker_object($_lower_case_, FormMaker::getTableColumns('_lower_casePlural_'))
 
     {!! Form::submit('Update') !!}
 
