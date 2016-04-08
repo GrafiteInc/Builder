@@ -1,6 +1,6 @@
 <?php
 
-use App\Services\_camel_case_Service;
+use _namespace_services_\_camel_case_Service;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class _camel_case_ServiceTest extends TestCase

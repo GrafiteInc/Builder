@@ -1,6 +1,6 @@
 <?php
 
-use App\Repositories\_camel_case_\_camel_case_Repository;
+use _namespace_repository_\_camel_case_Repository;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class _camel_case_RepositoryTest extends TestCase

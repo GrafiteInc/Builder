@@ -44,8 +44,8 @@ class Crud extends Command
         $config = [
             '_path_facade_'              => app_path('Facades'),
             '_path_service_'             => app_path('Services'),
-            '_path_repository_'          => app_path('Repositories/'.ucfirst($table)),
-            '_path_model_'               => app_path('Repositories/'.ucfirst($table)),
+            '_path_repository_'          => app_path('Repositories/_table_'),
+            '_path_model_'               => app_path('Repositories/_table_'),
             '_path_controller_'          => app_path('Http/Controllers/'),
             '_path_api_controller_'      => app_path('Http/Controllers/Api'),
             '_path_views_'               => base_path('resources/views'),
@@ -57,8 +57,8 @@ class Crud extends Command
             'routes_suffix'              => '',
             '_namespace_services_'       => 'App\Services',
             '_namespace_facade_'         => 'App\Facades',
-            '_namespace_repository_'     => 'App\Repositories\\'.ucfirst($table),
-            '_namespace_model_'          => 'App\Repositories\\'.ucfirst($table),
+            '_namespace_repository_'     => 'App\Repositories\_table_',
+            '_namespace_model_'          => 'App\Repositories\_table_',
             '_namespace_controller_'     => 'App\Http\Controllers',
             '_namespace_api_controller_' => 'App\Http\Controllers\Api',
             '_namespace_request_'        => 'App\Http\Requests',
@@ -69,7 +69,13 @@ class Crud extends Command
             '_camel_casePlural_'         => str_plural(camel_case($table)),
         ];
 
+        $config = array_merge($config, Config::get('laracogs.crud.single'));
+        $config['template_source'] = Config::get('laracogs.crud.template_source', ['template_source' => __DIR__.'/../Templates']);
+        $config = $this->setConfig($config, $section, $table);
+
         if ($section) {
+            $config = [];
+            $config['template_source'] = Config::get('laracogs.crud.template_source', ['template_source' => __DIR__.'/../Templates']);
             $config = [
                 '_path_facade_'              => app_path('Facades'),
                 '_path_service_'             => app_path('Services'),
@@ -103,9 +109,10 @@ class Crud extends Command
                     @mkdir($value, 0777, true);
                 }
             }
-        }
 
-        $config = array_merge($config, Config::get('laracogs.crud', ['template_source' => __DIR__.'/../Templates']));
+            $config = array_merge($config, Config::get('laracogs.crud.sectioned'));
+            $config = $this->setConfig($config, $section, $table);
+        }
 
         if (! isset($config['template_source'])) {
             $config['template_source'] = __DIR__.'/../Templates';
@@ -168,5 +175,29 @@ class Crud extends Command
         $this->line('You may wish to add this as your testing database');
         $this->line("'testing' => [ 'driver' => 'sqlite', 'database' => ':memory:', 'prefix' => '' ],");
         $this->info('CRUD for '.$table.' is done.');
+    }
+
+    /**
+     * Set the config
+     *
+     * @param array $config
+     * @param string $section
+     * @param string $table
+     *
+     * @return  array
+     */
+    public function setConfig($config, $section, $table)
+    {
+        if (! is_null($section)) {
+            foreach ($config as $key => $value) {
+                $config[$key] = str_replace('_table_', ucfirst($table), str_replace('_section_', ucfirst($section), str_replace('_sectionLowerCase_', ucfirst($section), $value)));
+            }
+        } else {
+            foreach ($config as $key => $value) {
+                $config[$key] = str_replace('_table_', ucfirst($table), $value);
+            }
+        }
+
+        return $config;
     }
 }
