@@ -18,7 +18,7 @@
             <div class="col-md-4 col-md-offset-4">
                 {!! Form::open(['route' => 'teams.store']) !!}
 
-                {!! FormMaker::fromTable("teams", ['name' => 'string']) !!}
+                @form_maker_table("teams", ['name' => 'string'])
 
                 {!! Form::submit('Save', ['class' => 'btn btn-primary pull-right']) !!}
 

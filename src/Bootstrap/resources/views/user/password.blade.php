@@ -12,18 +12,18 @@
             {!! csrf_field() !!}
 
             <div class="col-md-12 raw-margin-top-24">
-                <label>Old Password</label>
-                <input class="form-control" type="password" name="old_password" placeholder="Old Password">
+                @input_maker_label('Old Password')
+                @input_maker_create('old_password', ['type' => 'password', 'placeholder' => 'Old Password'])
             </div>
 
             <div class="col-md-12 raw-margin-top-24">
-                <label>New Password</label>
-                <input class="form-control" type="password" name="new_password" placeholder="New Password">
+                @input_maker_label('New Password')
+                @input_maker_create('new_password', ['type' => 'password', 'placeholder' => 'New Password'])
             </div>
 
             <div class="col-md-12 raw-margin-top-24">
-                <label>Confirm Password</label>
-                <input class="form-control" type="password" name="new_password_confirmation" placeholder="Confirm Password">
+                @input_maker_label('Confirm Password')
+                @input_maker_create('new_password_confirmation', ['type' => 'password', 'placeholder' => 'Confirm Password'])
             </div>
 
             <div class="col-md-12 raw-margin-top-24">

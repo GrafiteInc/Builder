@@ -13,24 +13,20 @@
             {!! csrf_field() !!}
 
             <div class="col-md-12 raw-margin-top-24">
-                <label>Email</label>
-                <input class="form-control" type="email" name="email" value="{{ $user->email }}">
+                @input_maker_label('Email')
+                @input_maker_create('email', ['type' => 'string'], $user)
             </div>
 
             <div class="col-md-12 raw-margin-top-24">
-               <label> Name</label>
-                <input class="form-control" type="name" name="name" value="{{ $user->name }}">
+                @input_maker_label('Name')
+                @input_maker_create('name', ['type' => 'string'], $user)
             </div>
 
             @include('user.meta')
 
             <div class="col-md-12 raw-margin-top-24">
-               <label> Role</label>
-                <select class="form-control" name="role">
-                    @foreach(App\Repositories\Role\Role::all() as $role)
-                        <option @if($user->roles->first()->id === $role->id) selected @endif value="{{ $role->name }}">{{ $role->label }}</option>
-                    @endforeach
-                </select>
+                @input_maker_label('Role')
+                @input_maker_create('roles', ['type' => 'relationship', 'model' => 'App\Repositories\Role\Role', 'label' => 'label'], $user)
             </div>
 
             <div class="col-md-12 raw-margin-top-24">

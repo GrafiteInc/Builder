@@ -18,7 +18,7 @@
             <div>
                 {!! Form::model($team, ['route' => ['teams.update', $team->id], 'method' => 'patch']) !!}
 
-                {!! FormMaker::fromObject($team, ['name' => 'string']) !!}
+                @form_maker_object($team, ['name' => 'string'])
 
                 {!! Form::submit('Update', ['class' => 'btn btn-primary pull-right']) !!}
 
