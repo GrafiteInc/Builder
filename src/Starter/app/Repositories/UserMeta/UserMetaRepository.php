@@ -29,6 +29,9 @@ class UserMetaRepository
             $inputs['terms_and_cond'] = 0;
         }
 
+        $inputs['marketing'] = (bool) $inputs['marketing'];
+        $inputs['terms_and_cond'] = (bool) $inputs['terms_and_cond'];
+
         $userMeta->fill($inputs);
         return $userMeta->save();
     }

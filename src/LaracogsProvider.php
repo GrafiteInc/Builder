@@ -88,6 +88,10 @@ class LaracogsProvider extends ServiceProvider
             return "<?php echo FormMaker::fromObject$expression; ?>";
         });
 
+        Blade::directive('form_maker_columns', function($expression) {
+            return "<?php echo FormMaker::getTableColumns$expression; ?>";
+        });
+
         // Label Maker
         Blade::directive('input_maker_label', function($expression) {
             return "<?php echo InputMaker::label$expression; ?>";

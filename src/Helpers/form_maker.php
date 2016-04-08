@@ -20,3 +20,10 @@ if (! function_exists('form_maker_array')) {
         return app('FormMaker')->fromArray($array, $columns, $view, $class, $populated, $reformatted, $idAndTimestamps);
     }
 }
+
+if (! function_exists('form_maker_columns')) {
+    function form_maker_columns($table)
+    {
+        return app('FormMaker')->getTableColumns($table);
+    }
+}

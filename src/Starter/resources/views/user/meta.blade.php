@@ -2,7 +2,6 @@
     <div>
         @input_maker_label('Phone')
         @input_maker_create('meta[phone]', ['type' => 'string'], $user)
-        <input type="text" name="meta[phone]" value="{{ $user->meta->phone }}">
     </div>
 
     <div>
