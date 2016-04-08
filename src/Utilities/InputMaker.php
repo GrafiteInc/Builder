@@ -45,7 +45,7 @@ class InputMaker
      *
      * @return string
      */
-    public function create($name, $field, $object = null, $class = 'form-control', $reformatted = false, $populated = false)
+    public function create($name, $field, $object = null, $class = 'form-control', $reformatted = false, $populated = true)
     {
         $config = [];
 
@@ -58,18 +58,15 @@ class InputMaker
             $config['class']     = $class.' '.$field['class'];
         }
 
-        if (Config::get('form-maker')) {
-            $config['inputTypes'] = Config::get('form-maker');
-        } else {
-            $config['inputTypes'] = include(__DIR__.'/../Published/config/form-maker.php');
-        }
+        $config['inputTypes'] = Config::get('form-maker', include(__DIR__.'/../Starter/config/form-maker.php'));
+
         $config['inputs']           = [];
         if (Session::isStarted()) {
             $config['inputs']           = Request::old();
         }
 
         $config['object']           = $object;
-        $config['objectName']       = (isset($object->$name) && ! method_exists($object, $name)) ? $object->$name : $name;
+        $config['objectValue']      = (isset($object->$name) && ! method_exists($object, $name)) ? $object->$name : $name;
         $config['placeholder']      = $this->placeholder($field, $name);
 
         $config = $this->setConfigs($config, $reformatted, $name, $field);
@@ -155,9 +152,9 @@ class InputMaker
     private function setConfigs($config, $reformatted, $name, $field)
     {
         // If validation inputs are available lets prepopulate the fields!
-        if (isset($config['inputs'][$name])) {
+        if (! empty($config['inputs']) && isset($config['inputs'][$name])) {
             $config['populated'] = true;
-            $config['objectName'] = $config['inputs'][$name];
+            $config['objectValue'] = $config['inputs'][$name];
         }
 
         if ($reformatted) {
@@ -193,6 +190,17 @@ class InputMaker
         $radioInputs            = ['radio', 'radio-inline'];
         $relationshipInputs     = ['relationship'];
 
+        // Super Magic!
+        if (strpos($config['objectValue'], '[') > 0 && $config['object']) {
+            $final = $config['object'];
+            $nameProperties = explode('[', $config['objectValue']);
+            foreach ($nameProperties as $property) {
+                $realProperty = str_replace(']', '', $property);
+                $final = $final->$realProperty;
+            }
+            $config['objectValue'] = $final;
+        }
+
         $population     = $this->getPopulation($config);
         $checkType      = $this->checkType($config, $checkboxInputs);
         $selected       = $this->isSelected($config, $checkType);
@@ -220,7 +228,7 @@ class InputMaker
                 break;
 
             case in_array($config['fieldType'], $relationshipInputs):
-                $inputString = $this->makeRelationship($config, $this->getField($config, 'label'), $custom);
+                $inputString = $this->makeRelationship($config, $this->getField($config, 'label', 'name'), $this->getField($config, 'value', 'id'), $custom);
                 break;
 
             default:
@@ -228,7 +236,7 @@ class InputMaker
                 if (isset($config['inputTypes'][$config['fieldType']])) {
                     $config['type'] = $config['inputTypes'][$config['fieldType']];
                 }
-                $inputString = $this->makeHTMLInputString($config);
+                $inputString = $this->makeHTMLInputString($config, $population);
                 break;
         }
 
@@ -283,12 +291,13 @@ class InputMaker
         $options = '';
         foreach ($config['field']['options'] as $key => $value) {
             if ($selected == '') {
-                $selectedValue = ((string) $config['objectName'] === (string) $value) ? 'selected' : '';
+                $selectedValue = ((string) $config['objectValue'] === (string) $value) ? 'selected' : '';
             } else {
                 $selectedValue = ((string) $selected === (string) $value) ? 'selected' : '';
             }
             $options .= '<option value="'.$value.'" '.$selectedValue.'>'.$key.'</option>';
         }
+
         return '<select '.$custom.' id="'.ucfirst($config['name']).'" class="'.$config['class'].'" name="'.$config['name'].'">'.$options.'</select>';
     }
 
@@ -335,21 +344,21 @@ class InputMaker
      *
      * @return string
      */
-    private function makeRelationship($config, $label = 'name', $custom)
+    private function makeRelationship($config, $label = 'name', $value = 'id', $custom = '')
     {
         $object = $config['object'];
         $relationship = $config['name'];
 
-        $class = app()->make($config['field']['class']);
+        $class = app()->make($config['field']['model']);
         $items = $class->all();
 
         foreach ($items as $item) {
-            $config['field']['options'][$item->$label] = $item->id;
+            $config['field']['options'][$item->$label] = $item->$value;
         }
 
         $selected = '';
         if (is_object($object) && $object->$relationship()->first()) {
-            $selected = $object->$relationship()->first()->id;
+            $selected = $object->$relationship()->first()->$value;
         }
 
         return $this->makeSelected($config, $selected, $custom);
@@ -370,7 +379,7 @@ class InputMaker
      */
     private function getPopulation($config)
     {
-        return ($config['populated']) ? $config['objectName'] : '';
+        return ($config['populated']) ? $config['objectValue'] : '';
     }
 
     /**
@@ -385,8 +394,8 @@ class InputMaker
     {
         $selected = (isset($config['inputs'][$config['name']])
             || isset($config['field']['selected'])
-            || $config['objectName'] === 'on'
-            || $config['objectName'] == 1) ? $checkType : '';
+            || $config['objectValue'] === 'on'
+            || $config['objectValue'] == 1) ? $checkType : '';
 
         return $selected;
     }
@@ -412,9 +421,9 @@ class InputMaker
      *
      * @return string
      */
-    private function getField($config, $field)
+    private function getField($config, $field, $default = '')
     {
-        $data = (isset($config['field'][$field])) ? $config['field'][$field] : 'name';
+        $data = (isset($config['field'][$field])) ? $config['field'][$field] : $default;
         return $data;
     }
 
@@ -432,10 +441,10 @@ class InputMaker
         $multipleArray      = (isset($config['field']['multiple'])) ? '[]' : '';
         $floatingNumber     = ($config['fieldType'] === 'float' || $config['fieldType'] === 'decimal') ? 'step="any"' : '';
 
-        if (is_array($config['objectName']) && $config['type'] === 'file') {
+        if (is_array($config['objectValue']) && $config['type'] === 'file') {
             $population = '';
         } else {
-            $population = ($config['populated'] && $config['name'] !== $config['objectName']) ? 'value="'.$config['objectName'].'"' : '';
+            $population = ($config['populated'] && $config['name'] !== $config['objectValue']) ? 'value="'.$config['objectValue'].'"' : '';
         }
 
         $inputString        = '<input '.$custom.' id="'.ucfirst($config['name']).'" class="'.$config['class'].'" type="'.$config['type'].'" name="'.$config['name'].$multipleArray.'" '.$floatingNumber.' '.$multiple.' '.$population.' placeholder="'.$config['placeholder'].'">';
@@ -455,6 +464,11 @@ class InputMaker
     {
         if (! is_array($field) && ! in_array($field, $this->columnTypes)) {
             return ucfirst($field);
+        }
+
+        if (strpos($column, '[') > 0) {
+            preg_match_all("/\[([^\]]*)\]/", $column, $matches);
+            $column = $matches[1][0];
         }
 
         $alt_name = (isset($field['alt_name'])) ? $field['alt_name'] : ucfirst($column);
