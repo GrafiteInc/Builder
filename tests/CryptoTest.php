@@ -24,4 +24,14 @@ class CryptoTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(is_string($test));
         $this->assertEquals($test, 'js/card.sjs');
     }
+
+    public function testUuid()
+    {
+        $test = $this->encrypter->uuid();
+        $this->assertTrue(is_string($test));
+        $this->assertEquals(strlen($test), 36);
+        $this->assertContains('-', $test);
+    }
 }
+
+
