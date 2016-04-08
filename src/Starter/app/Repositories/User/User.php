@@ -69,11 +69,11 @@ class User extends Model implements
      */
     public function hasRole($role)
     {
-        $teamIds = [];
+        $roleIds = [];
         foreach ($this->teams->toArray() as $team) {
-            array_push($teamIds, $team['id']);
+            array_push($roleIds, $team['id']);
         }
-        return in_array($id, $teamIds);
+        return in_array($id, $roleIds);
     }
 
     /**
@@ -93,13 +93,13 @@ class User extends Model implements
      */
     public function isTeamMember($id)
     {
-        $teamIdArray = [];
+        $teamIds = [];
 
         foreach ($this->teams->toArray() as $team) {
-            $teamIdArray[] = $team['id'];
+            $teamIds[] = $team['id'];
         }
 
-        return in_array($id, $teamIdArray);
+        return in_array($id, $teamIds);
     }
 
     /**

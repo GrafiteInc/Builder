@@ -4,7 +4,7 @@
 
     {!! Form::open(['route' => 'teams.store']) !!}
 
-    {!! FormMaker::fromTable("teams", ['name' => 'string']) !!}
+    @form_maker_table("teams", ['name' => 'string'])
 
     {!! Form::submit('Save') !!}
 

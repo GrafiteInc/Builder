@@ -90,9 +90,9 @@ class UserService
             DB::beginTransaction();
                 $userMetaResult = (isset($inputs['meta'])) ? $this->userMetaRepo->update($userId, $inputs['meta']) : true;
                 $userResult = $this->userRepo->update($userId, $inputs);
-                if (isset($inputs['role'])) {
+                if (isset($inputs['roles'])) {
                     $this->userRepo->unassignAllRoles($userId);
-                    $this->userRepo->assignRole($inputs['role'], $userId);
+                    $this->userRepo->assignRole($inputs['roles'], $userId);
                 }
             DB::commit();
         } catch (Exception $e) {

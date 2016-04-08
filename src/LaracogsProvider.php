@@ -20,7 +20,7 @@ class LaracogsProvider extends ServiceProvider
         @mkdir(base_path('resources/laracogs/crud'));
         $this->publishes([
             __DIR__.'/Templates' => base_path('resources/laracogs/crud'),
-            __DIR__.'/Published/config/laracogs.php' => base_path('config/laracogs.php'),
+            __DIR__.'/Starter/config/laracogs.php' => base_path('config/laracogs.php'),
         ]);
     }
 

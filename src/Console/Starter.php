@@ -35,34 +35,34 @@ class Starter extends Command
     {
         $fileSystem = new Filesystem;
 
-        $files = $fileSystem->allFiles(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Published');
+        $files = $fileSystem->allFiles(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter');
 
         $this->info("These files will be published");
 
         foreach ($files as $file) {
-            $this->line(str_replace(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Published'.DIRECTORY_SEPARATOR, '', $file));
+            $this->line(str_replace(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR, '', $file));
         }
 
         $result = $this->confirm("Are you sure you want to overwrite any files of the same name?");
 
         if ($result) {
             $this->line("Copying app/Http...");
-            $fileSystem->copyDirectory(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Published'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Http', app_path('Http'));
+            $fileSystem->copyDirectory(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Http', app_path('Http'));
 
             $this->line("Copying app/Repositories...");
-            $fileSystem->copyDirectory(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Published'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Repositories', app_path('Repositories'));
+            $fileSystem->copyDirectory(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Repositories', app_path('Repositories'));
 
             $this->line("Copying app/Services...");
-            $fileSystem->copyDirectory(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Published'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Services', app_path('Services'));
+            $fileSystem->copyDirectory(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Services', app_path('Services'));
 
             $this->line("Copying database...");
-            $fileSystem->copyDirectory(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Published'.DIRECTORY_SEPARATOR.'database', base_path('database'));
+            $fileSystem->copyDirectory(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR.'database', base_path('database'));
 
             $this->line("Copying resources/views...");
-            $fileSystem->copyDirectory(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Published'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'views', base_path('resources/views'));
+            $fileSystem->copyDirectory(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'views', base_path('resources/views'));
 
             $this->line("Copying tests...");
-            $fileSystem->copyDirectory(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Published'.DIRECTORY_SEPARATOR.'tests', base_path('tests'));
+            $fileSystem->copyDirectory(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR.'tests', base_path('tests'));
 
             $this->line("Appending database/factory...");
             $this->createFactory();
@@ -82,7 +82,7 @@ class Starter extends Command
 
     public function createFactory()
     {
-        $factory = file_get_contents(__DIR__.'/../Published/Factory.txt');
+        $factory = file_get_contents(__DIR__.'/../Starter/Factory.txt');
         $factoryMaster = base_path('database/factories/ModelFactory.php');
         return file_put_contents($factoryMaster, $factory, FILE_APPEND);
     }
