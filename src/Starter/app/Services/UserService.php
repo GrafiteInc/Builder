@@ -39,6 +39,11 @@ class UserService
         return $this->userRepo->search($input, env('paginate', 25));
     }
 
+    public function findByEmail($email)
+    {
+        return $this->userRepo->findByEmail($email);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Setters
