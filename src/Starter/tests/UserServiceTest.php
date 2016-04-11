@@ -48,7 +48,8 @@ class UserServiceTest extends TestCase
             'role' => 'member',
             'meta' => [
                 'phone' => '666',
-                'marketing' => 1
+                'marketing' => 1,
+                'terms_and_cond' => 1
             ]
         ]);
 
