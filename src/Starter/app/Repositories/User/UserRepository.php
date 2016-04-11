@@ -2,6 +2,7 @@
 
 namespace App\Repositories\User;
 
+use Schema;
 use App\Repositories\Role\Role;
 use App\Repositories\Team\Team;
 
@@ -41,6 +42,26 @@ class UserRepository
     }
 
     /**
+     * Search User
+     *
+     * @param string $input
+     *
+     * @return User
+     */
+    public function search($input, $paginate)
+    {
+        $query = $this->model->orderBy('created_at', 'desc');
+
+        $columns = Schema::getColumnListing('users');
+
+        foreach ($columns as $attribute) {
+            $query->orWhere($attribute, 'LIKE', '%'.$input.'%');
+        };
+
+        return $query->paginate($paginate);
+    }
+
+    /**
      * Find by email
      * @param  string $email
      * @return User
@@ -48,6 +69,16 @@ class UserRepository
     public function findByEmail($email)
     {
         return $this->model->where('email', $email)->first();
+    }
+
+   /**
+     * create something
+     * @param  int $id
+     * @return User
+     */
+    public function create($info)
+    {
+        return $this->model->create($info);
     }
 
     /**

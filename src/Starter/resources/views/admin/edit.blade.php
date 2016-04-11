@@ -28,6 +28,7 @@
     </div>
 
     <div>
+        <a href="{{ URL::previous() }}">Cancel</a>
         <button type="submit">Save</button>
     </div>
 </form>

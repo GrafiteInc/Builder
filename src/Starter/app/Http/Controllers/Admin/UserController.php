@@ -26,6 +26,47 @@ class UserController extends Controller
     }
 
     /**
+     * Display a listing of the resource searched.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        if (! $request->search) {
+            return redirect('admin/users');
+        }
+
+        $users = $this->service->search($request->search);
+        return view('admin.index')->with('users', $users);
+    }
+
+    /**
+     * Show the form for inviting a customer.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getInvite()
+    {
+        return view('admin.invite');
+    }
+
+    /**
+     * Show the form for inviting a customer.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function postInvite(Request $request)
+    {
+        $result = $this->service->invite($request->except(['_token', '_method']));
+
+        if ($result) {
+            return redirect('admin/users')->with('message', 'Successfully invited');
+        }
+
+        return back()->with('error', 'Failed to invite');
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id

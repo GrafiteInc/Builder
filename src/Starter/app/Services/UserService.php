@@ -34,6 +34,11 @@ class UserService
         return $this->userRepo->find($id);
     }
 
+    public function search($input)
+    {
+        return $this->userRepo->search($input, env('paginate', 25));
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Setters
@@ -100,6 +105,24 @@ class UserService
         }
 
         return ($userMetaResult && $userResult);
+    }
+
+    /**
+     * Invite a new member
+     * @param  array $info
+     * @return void
+     */
+    public function invite($info)
+    {
+        $password = substr(md5(rand(1111, 9999)), 0, 10);
+
+        $user = $this->userRepo->create([
+            'email' => $info['email'],
+            'name' => $info['name'],
+            'password' => bcrypt($password)
+        ]);
+
+        return $this->create($user, $password, $info['roles'], true);
     }
 
     /**

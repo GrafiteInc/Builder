@@ -95,10 +95,19 @@ Route::group(['middleware' => 'web'], function() {
         */
 
         Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admin'], function(){
+
+            /*
+            |--------------------------------------------------------------------------
+            | Users
+            |--------------------------------------------------------------------------
+            */
             Route::resource('users', 'UserController', ['except' => ['create', 'show', 'destroy']]);
+            Route::post('users/search', 'UserController@search');
+            Route::get('users/search', 'UserController@index');
+            Route::get('users/invite', 'UserController@getInvite');
+            Route::post('users/invite', 'UserController@postInvite');
             Route::get('users/{id}/delete', 'UserController@destroy');
         });
-
     });
 
 });

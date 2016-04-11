@@ -4,6 +4,14 @@
     </div>
 @endif
 
+<h1>User Admin</h1>
+<a href="/admin/users/invite">Invite New User</a>
+
+<form id="" method="post" action="/admin/users/search">
+    {!! csrf_field() !!}
+    <input name="search" placeholder="Search">
+</form>
+
 <table>
 
 <thead>
