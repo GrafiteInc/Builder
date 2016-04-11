@@ -4,6 +4,11 @@
 
     <div class="row">
         <div class="col-md-12">
+            <form id="" class="pull-right raw-margin-top-24 raw-margin-left-24" method="post" action="/admin/users/search">
+                {!! csrf_field() !!}
+                <input class="form-control" name="search" placeholder="Search">
+            </form>
+            <a class="btn btn-default pull-right raw-margin-top-24" href="{{ url('admin/users/invite') }}">Invite New User</a>
             <h1>User Admin</h1>
         </div>
     </div>
