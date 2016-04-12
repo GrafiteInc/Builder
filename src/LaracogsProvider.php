@@ -38,7 +38,6 @@ class LaracogsProvider extends ServiceProvider
         */
 
         $this->app->register(\Collective\Html\HtmlServiceProvider::class);
-        $this->app->register(\AlfredoRamos\ParsedownExtra\ParsedownExtraServiceProvider::class);
 
         /*
         |--------------------------------------------------------------------------
