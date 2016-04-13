@@ -10,6 +10,7 @@ $factory->define(\App\Repositories\UserMeta\UserMeta::class, function (Faker\Gen
         'user_id' => 1,
         'phone' => $faker->phoneNumber,
         'marketing' => 1,
+        'terms_and_cond' => 1,
     ];
 });
 
