@@ -14,7 +14,7 @@ class Crud extends Command
      *
      * @var string
      */
-    protected $signature = 'laracogs:crud {table} {--api} {--migration}';
+    protected $signature = 'laracogs:crud {table} {--api} {--migration} {--bootstrap}';
 
     /**
      * The console command description.
@@ -42,6 +42,7 @@ class Crud extends Command
         }
 
         $config = [
+            'bootstrap'                  => false,
             '_path_facade_'              => app_path('Facades'),
             '_path_service_'             => app_path('Services'),
             '_path_repository_'          => app_path('Repositories/_table_'),
@@ -67,6 +68,7 @@ class Crud extends Command
             '_lower_casePlural_'         => str_plural(strtolower($table)),
             '_camel_case_'               => ucfirst(camel_case($table)),
             '_camel_casePlural_'         => str_plural(camel_case($table)),
+            '_ucCamel_casePlural_'       => ucfirst(str_plural(camel_case($table))),
         ];
 
         $config = array_merge($config, Config::get('laracogs.crud.single'));
@@ -77,6 +79,7 @@ class Crud extends Command
             $config = [];
             $config['template_source'] = Config::get('laracogs.crud.template_source', ['template_source' => __DIR__.'/../Templates']);
             $config = [
+                'bootstrap'                  => false,
                 '_path_facade_'              => app_path('Facades'),
                 '_path_service_'             => app_path('Services'),
                 '_path_repository_'          => app_path('Repositories/'.ucfirst($section).'/'.ucfirst($table)),
@@ -102,6 +105,7 @@ class Crud extends Command
                 '_lower_casePlural_'         => str_plural(strtolower($table)),
                 '_camel_case_'               => ucfirst(camel_case($table)),
                 '_camel_casePlural_'         => str_plural(camel_case($table)),
+                '_ucCamel_casePlural_'       => ucfirst(str_plural(camel_case($table))),
             ];
 
             foreach ($config as $key => $value) {
@@ -112,6 +116,10 @@ class Crud extends Command
 
             $config = array_merge($config, Config::get('laracogs.crud.sectioned'));
             $config = $this->setConfig($config, $section, $table);
+        }
+
+        if ($this->option('bootstrap')) {
+            $config['bootstrap'] = true;
         }
 
         if (! isset($config['template_source'])) {

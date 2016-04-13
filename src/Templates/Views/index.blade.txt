@@ -8,7 +8,7 @@
             <input class="form-control form-inline pull-right" name="search" placeholder="Search">
             {!! Form::close() !!}
         </div>
-        <h1 class="pull-left">_camel_casePlural_</h1>
+        <h1 class="pull-left">_ucCamel_casePlural_</h1>
         <a class="btn btn-primary pull-right" style="margin-top: 25px" href="{!! route('_lower_casePlural_.create') !!}">Add New</a>
     </div>
 

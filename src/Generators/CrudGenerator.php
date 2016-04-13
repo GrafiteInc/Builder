@@ -192,7 +192,13 @@ class CrudGenerator
     {
         if (! is_dir($config['_path_views_'].'/'.$config['_lower_casePlural_'])) mkdir($config['_path_views_'].'/'.$config['_lower_casePlural_']);
 
-        foreach (glob($config['template_source'].'/Views/*') as $file) {
+        $viewTemplates = 'Views';
+
+        if ($config['bootstrap']) {
+            $viewTemplates = 'BootstrapViews';
+        }
+
+        foreach (glob($config['template_source'].'/'.$viewTemplates.'/*') as $file) {
             $createdView = file_get_contents($file);
             $basename = str_replace('txt', 'php', basename($file));
             foreach ($config as $key => $value) {

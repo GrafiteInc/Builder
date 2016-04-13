@@ -5,7 +5,7 @@ namespace _namespace_controller_;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use _namespace_services_\_camel_case_Service;
-use _namespace_services_\_camel_case_Request;
+use _namespace_request_\_camel_case_Request;
 
 class _camel_case_Controller extends Controller
 {
