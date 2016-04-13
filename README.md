@@ -187,7 +187,7 @@ elixir(function(mix) {
 #### Crud
 The CRUD command builds a basic crud for a table
 ```php
-php artisan laracogs:crud {table} {--migration}
+php artisan laracogs:crud {table} {--migration} {--bootstrap}
 ```
 
 #### Docs
