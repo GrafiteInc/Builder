@@ -24,6 +24,7 @@
                             <th>Date</th>
                             <th>Flag</th>
                             <th>Headline</th>
+                            <th>Read</th>
                             <th width="150px">Action</th>
                         </thead>
                         <tbody>
@@ -32,6 +33,7 @@
                                 <td><a href="{!! url('user/notifications/'.$notification->uuid.'/read') !!}">{{ $notification->created_at->format('Y-m-d') }}</a></td>
                                 <td>{{ ucfirst($notification->flag) }}</td>
                                 <td>{{ $notification->title }}</td>
+                                <td><span class="fa fa-{{ ($notification->is_read == 1) ? 'check' : 'close' }}"></span></td>
                                 <td class="text-right">
                                     <a class="btn btn-danger btn-xs" href="{!! url('user/notifications/'.$notification->id.'/delete') !!}" onclick="return confirm('Are you sure you want to delete this notification?')">
                                         <i class="fa fa-trash"></i> Delete</a>

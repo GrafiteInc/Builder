@@ -29,7 +29,7 @@
                 ]], $notification)
 
                 @input_maker_label('User')
-                @input_maker_create('user_id', ['type' => 'select', 'options' => Notifications::usersAsOptions() ], $notification)
+                @input_maker_create('user_id', ['type' => 'select', 'options' => Notifications::usersAsOptions(), 'custom' => 'disabled' ], $notification)
 
                 @input_maker_label('Title')
                 @input_maker_create('title', ['type' => 'string'], $notification)

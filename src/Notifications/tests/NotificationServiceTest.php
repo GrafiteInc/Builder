@@ -11,8 +11,22 @@ class NotificationServiceTest extends TestCase
     {
         parent::setUp();
         $this->service = $this->app->make(NotificationService::class);
-        $this->originalArray = [];
-        $this->editedArray = [];
+        $this->originalArray = [
+            'user_id' => 1,
+            'flag' => 'info',
+            'uuid' => 'lksjdflaskhdf',
+            'title' => 'Testing',
+            'details' => 'Your car has been impounded!',
+            'is_read' => 0,
+        ];
+        $this->editedArray = [
+            'user_id' => 1,
+            'flag' => 'info',
+            'uuid' => 'lksjdflaskhdf',
+            'title' => 'Testing',
+            'details' => 'Your car has been impounded!',
+            'is_read' => 1,
+        ];
         $this->searchTerm = '';
     }
 
