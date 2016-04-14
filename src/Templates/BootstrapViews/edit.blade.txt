@@ -1,4 +1,4 @@
-@extends('dashboard', ['pageTitle' => '_upper_casePlural_ &raquo; Edit'])
+@extends('dashboard', ['pageTitle' => '_camelUpper_casePlural_ &raquo; Edit'])
 
 @section('content')
 
