@@ -32,7 +32,7 @@
                             <tr>
                                 <td><a href="{!! route('admin.notifications.edit', [$notification->id]) !!}">{{ $notification->title }}</a></td>
                                 <td>{{ Notifications::getUser($notification->user_id)->name }}</td>
-                                <td>{{ ucfirst($notification->flag) }}</td>
+                                <td><span class="text-{{ $notification->flag }}">{{ ucfirst($notification->flag) }}</span></td>
                                 <td class="text-right">
                                     <a class="btn btn-default btn-xs" href="{!! route('admin.notifications.edit', [$notification->id]) !!}">
                                         <i class="fa fa-pencil"></i> Edit</a>

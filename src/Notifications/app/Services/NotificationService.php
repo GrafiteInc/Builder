@@ -55,11 +55,11 @@ class NotificationService
     public function create($input)
     {
         try {
-            $input['uuid'] = Crypto::uuid();
             if ($input['user_id'] == 0) {
                 $users = $this->userService->all();
 
                 foreach ($users as $user) {
+                    $input['uuid'] = Crypto::uuid();
                     $input['user_id'] = $user->id;
                     $this->repo->create($input);
                 }
@@ -67,6 +67,7 @@ class NotificationService
                 return true;
             }
 
+            $input['uuid'] = Crypto::uuid();
             return $this->repo->create($input);
         } catch (Exception $e) {
             throw new Exception("Could not send notifications please try agian.", 1);
