@@ -64,24 +64,26 @@ class Billing extends Command
                         $fileSystem->copy($file, base_path($newFileName));
                     }
                 }
-            }
 
-            $this->info("\n\n You will need to run: composer require laravel/cashier");
-            $this->info("\n\n Then follow the directions regarding billing on: https://laravel.com/docs/");
-            $this->info("\n\n Please review the setup details for billing.");
-            $this->info("\n\n You will want to add things like:");
-            $this->line("\n This link: ");
-            $this->comment("\n <li><a href='{!! url('user/billing/details') !!}'><span class='fa fa-dollar'></span> Billing</a></li>");
-            $this->line("\n Add this line to (app/Providers/RouteServiceProvider.php):");
-            $this->comment("\n require app_path('Http/billing-routes.php');");
-            $this->line("\n Add this line to (.env):");
-            $this->comment("\n SUBSCRIPTION=basic");
-            $this->line("\n Add this to (app/Providers/AuthServiceProvider.php):");
-            $this->comment("\n \$gate->define('access-billing', function (\$user) {");
-            $this->comment("\n\t return (\$user->meta->subscribed('main') && is_null(\$user->meta->subscription('main')->endDate));");
-            $this->comment("\n });");
-            $this->info("\n\n Please make sure you run the migration for cashier structure.");
-            $this->info("Finished setting up billing");
+                $this->info("\n\n You will need to run: composer require laravel/cashier");
+                $this->info("\n\n Then follow the directions regarding billing on: https://laravel.com/docs/");
+                $this->info("\n\n Please review the setup details for billing.");
+                $this->info("\n\n You will want to add things like:");
+                $this->line("\n This link: ");
+                $this->comment("\n <li><a href='{!! url('user/billing/details') !!}'><span class='fa fa-dollar'></span> Billing</a></li>");
+                $this->line("\n Add this line to (app/Providers/RouteServiceProvider.php):");
+                $this->comment("\n require app_path('Http/billing-routes.php');");
+                $this->line("\n Add this line to (.env):");
+                $this->comment("\n SUBSCRIPTION=basic");
+                $this->line("\n Add this to (app/Providers/AuthServiceProvider.php):");
+                $this->comment("\n \$gate->define('access-billing', function (\$user) {");
+                $this->comment("\n\t return (\$user->meta->subscribed('main') && is_null(\$user->meta->subscription('main')->endDate));");
+                $this->comment("\n });");
+                $this->info("\n\n Please make sure you run the migration for cashier structure.");
+                $this->info("Finished setting up billing");
+            } else {
+                $this->info("You cancelled billing setup");
+            }
         }
     }
 
