@@ -71,6 +71,14 @@ class Billing extends Command
                 $this->comment("\n \$gate->define('access-billing', function (\$user) {");
                 $this->comment("\n\t return (\$user->meta->subscribed('main') && is_null(\$user->meta->subscription('main')->endDate));");
                 $this->comment("\n });");
+                $this->line("\n Your gulpfile will want to resemble this: (gulpfile.js):");
+                $this->comment("\n elixir(function(mix) {");
+                $this->comment("\n\t mix.scripts([");
+                $this->comment("\n\t\t 'app.js',");
+                $this->comment("\n\t\t 'card.js',");
+                $this->comment("\n\t\t 'subscription.js'");
+                $this->comment("\n\t ]);");
+                $this->comment("\n });");
                 $this->info("\n\n Please make sure you run the migration for cashier structure.");
                 $this->comment("\n\n ** You will need to configure your app to handle cancelling subscriptions when deleting users. **");
                 $this->info("Finished setting up billing");
