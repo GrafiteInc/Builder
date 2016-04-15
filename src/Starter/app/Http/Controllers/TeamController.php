@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Services\TeamService;
 use App\Http\Requests\TeamRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\InviteUserRequest;
 use App\Http\Requests\UpdateTeamRequest;
 
 class TeamController extends Controller
@@ -148,7 +149,7 @@ class TeamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function inviteMember(Request $request, $id)
+    public function inviteMember(InviteUserRequest $request, $id)
     {
         $result = $this->service->invite(Auth::user(), $id, $request->email);
 

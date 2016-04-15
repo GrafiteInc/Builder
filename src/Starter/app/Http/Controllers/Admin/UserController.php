@@ -6,6 +6,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\InviteUserRequest;
 
 class UserController extends Controller
 {
@@ -55,7 +56,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function postInvite(Request $request)
+    public function postInvite(InviteUserRequest $request)
     {
         $result = $this->service->invite($request->except(['_token', '_method']));
 

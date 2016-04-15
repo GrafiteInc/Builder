@@ -22,7 +22,10 @@ class Notification extends Model
     ];
 
     public static $rules = [
-        // create rules
+        'title' => 'required',
+        'details' => 'required',
+        'flag' => 'required',
+        'user_id' => 'required',
     ];
 
 }
