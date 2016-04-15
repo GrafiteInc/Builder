@@ -72,6 +72,7 @@ class Billing extends Command
                 $this->comment("\n\t return (\$user->meta->subscribed('main') && is_null(\$user->meta->subscription('main')->endDate));");
                 $this->comment("\n });");
                 $this->info("\n\n Please make sure you run the migration for cashier structure.");
+                $this->comment("\n\n ** You will need to configure your app to handle cancelling subscriptions when deleting users. **");
                 $this->info("Finished setting up billing");
             } else {
                 $this->info("You cancelled the laracogs billing");
