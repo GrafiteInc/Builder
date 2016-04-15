@@ -53,7 +53,13 @@ class Notifications extends Command
                         $fileSystem->copyDirectory($file, base_path($newFileName));
                     } else {
                         @mkdir(base_path(str_replace(basename($newFileName), '', $newFileName)), 0755, true);
-                        $fileSystem->copy($file, base_path($newFileName));
+                        if (! stristr($file, 'Factory.txt') ) {
+                            $fileSystem->copy($file, base_path($newFileName));
+                        } else {
+                            $factory = file_get_contents($file);
+                            $factoryMaster = base_path('database/factories/ModelFactory.php');
+                            file_put_contents($factoryMaster, $factory, FILE_APPEND);
+                        }
                     }
                 }
 
