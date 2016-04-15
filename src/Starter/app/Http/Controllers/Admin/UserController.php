@@ -22,7 +22,7 @@ class UserController extends Controller
     public function index()
     {
         $users = $this->service->all();
-        return view('admin.index')->with('users', $users);
+        return view('admin.users.index')->with('users', $users);
     }
 
     /**
@@ -37,7 +37,7 @@ class UserController extends Controller
         }
 
         $users = $this->service->search($request->search);
-        return view('admin.index')->with('users', $users);
+        return view('admin.users.index')->with('users', $users);
     }
 
     /**
@@ -47,7 +47,7 @@ class UserController extends Controller
      */
     public function getInvite()
     {
-        return view('admin.invite');
+        return view('admin.users.invite');
     }
 
     /**
@@ -75,7 +75,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = $this->service->find($id);
-        return view('admin.edit')->with('user', $user);
+        return view('admin.users.edit')->with('user', $user);
     }
 
     /**
