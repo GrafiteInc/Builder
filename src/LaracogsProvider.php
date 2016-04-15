@@ -38,6 +38,7 @@ class LaracogsProvider extends ServiceProvider
         */
 
         $this->app->register(\Collective\Html\HtmlServiceProvider::class);
+        $this->app->register(\AlfredoRamos\ParsedownExtra\ParsedownExtraServiceProvider::class);
 
         /*
         |--------------------------------------------------------------------------
@@ -62,6 +63,7 @@ class LaracogsProvider extends ServiceProvider
         $loader->alias('FormMaker', \Yab\Laracogs\Facades\FormMaker::class);
         $loader->alias('InputMaker', \Yab\Laracogs\Facades\InputMaker::class);
         $loader->alias('Crypto', \Yab\Laracogs\Utilities\Crypto::class);
+        $loader->alias('Markdown', \AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra::class);
 
         // Thrid party
         $loader->alias('Form', \Collective\Html\FormFacade::class);

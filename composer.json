@@ -1,6 +1,6 @@
 {
     "name": "yab/laracogs",
-    "description": "Laracogs - A set of tools to help with awesome Laravel development",
+    "description": "Prepare your Laravel apps incredibly fast, with various commands, services, facades and boilerplates.",
     "license": "MIT",
     "authors": [
         {
@@ -18,6 +18,7 @@
         "doctrine/dbal": "^2.5",
         "laravelcollective/html": "^5.2|^5.1",
         "illuminate/container": "^5.2|^5.1",
+        "alfredo-ramos/parsedown-extra-laravel": "~0.3",
         "mockery/mockery": "^0.9.4",
         "mikey179/vfsStream": "^1.6"
     },
