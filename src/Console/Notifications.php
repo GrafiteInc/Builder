@@ -2,14 +2,8 @@
 
 namespace Yab\Laracogs\Console;
 
-use Artisan;
-use Illuminate\Support\Str;
-use Illuminate\Support\Schema;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Config;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
 class Notifications extends Command
 {
@@ -18,9 +12,7 @@ class Notifications extends Command
      *
      * @var string
      */
-    protected $name = 'laracogs:notifications';
-
-    protected $files;
+    protected $signature = 'laracogs:notifications';
 
     /**
      * The console command description.
@@ -34,7 +26,7 @@ class Notifications extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         if (! file_exists(base_path('resources/views/team/create.blade.php'))) {
             $this->line("\n\nPlease perform the starter command:\n");
@@ -82,18 +74,8 @@ class Notifications extends Command
                 $this->comment("\n });");
                 $this->info("\n Finished setting up notifications");
             } else {
-                $this->info("\n You cancelled notifications setup");
+                $this->info("\n You cancelled the laracogs notifications");
             }
         }
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [];
     }
 }

@@ -2,14 +2,8 @@
 
 namespace Yab\Laracogs\Console;
 
-use Artisan;
-use Illuminate\Support\Str;
-use Illuminate\Support\Schema;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Config;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
 class Socialite extends Command
 {
@@ -18,9 +12,7 @@ class Socialite extends Command
      *
      * @var string
      */
-    protected $name = 'laracogs:socialite';
-
-    protected $files;
+    protected $signature = 'laracogs:socialite';
 
     /**
      * The console command description.
@@ -34,7 +26,7 @@ class Socialite extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         if (! file_exists(base_path('resources/views/team/create.blade.php'))) {
             $this->line("\n\nPlease perform the starter command:\n");
@@ -64,39 +56,31 @@ class Socialite extends Command
                         $fileSystem->copy($file, base_path($newFileName));
                     }
                 }
+
+                $this->info("\n\n You will need to run: composer require laravel/socialite");
+                $this->info("\n\n Then follow the directions regarding billing on: https://laravel.com/docs/");
+                $this->info("\n\n Please review the setup details for socialite including your provider details.");
+                $this->info("\n\n You will want to add things like:");
+                $this->line("\n This to the provdiers in the app config: ");
+                $this->comment("\n 'providers' => [");
+                $this->comment("\n\t // Other service providers...");
+                $this->comment("\n\t Laravel\Socialite\SocialiteServiceProvider::class,");
+                $this->comment("\n ],");
+                $this->line("\n Also you will need to add your providers to your services: (example) ");
+                $this->comment("\n'github' => [");
+                $this->comment("\n\t'client_id' => 'your-github-app-id',");
+                $this->comment("\n\t'client_secret' => 'your-github-app-secret',");
+                $this->comment("\n\t'redirect' => 'http://domain/auth/github/callback',");
+                $this->comment("\n\t'scopes' => ['user:email'],");
+                $this->comment("\n],");
+                $this->line("\n This to the aliases in the app config: ");
+                $this->comment("\n 'Socialite' => Laravel\Socialite\Facades\Socialite::class,");
+                $this->line("\n Add this line to (app/Providers/RouteServiceProvider.php):");
+                $this->comment("\n require app_path('Http/social-routes.php');");
+                $this->info("Finished setting up a basic socialite structure");
+            } else {
+                $this->info("You cancelled the laracogs socialite");
             }
-
-            $this->info("\n\n You will need to run: composer require laravel/socialite");
-            $this->info("\n\n Then follow the directions regarding billing on: https://laravel.com/docs/");
-            $this->info("\n\n Please review the setup details for socialite including your provider details.");
-            $this->info("\n\n You will want to add things like:");
-            $this->line("\n This to the provdiers in the app config: ");
-            $this->comment("\n 'providers' => [");
-            $this->comment("\n\t // Other service providers...");
-            $this->comment("\n\t Laravel\Socialite\SocialiteServiceProvider::class,");
-            $this->comment("\n ],");
-            $this->line("\n Also you will need to add your providers to your services: (example) ");
-            $this->comment("\n'github' => [");
-            $this->comment("\n\t'client_id' => 'your-github-app-id',");
-            $this->comment("\n\t'client_secret' => 'your-github-app-secret',");
-            $this->comment("\n\t'redirect' => 'http://domain/auth/github/callback',");
-            $this->comment("\n\t'scopes' => ['user:email'],");
-            $this->comment("\n],");
-            $this->line("\n This to the aliases in the app config: ");
-            $this->comment("\n 'Socialite' => Laravel\Socialite\Facades\Socialite::class,");
-            $this->line("\n Add this line to (app/Providers/RouteServiceProvider.php):");
-            $this->comment("\n require app_path('Http/social-routes.php');");
-            $this->info("Finished setting up a basic socialite structure");
         }
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [];
     }
 }

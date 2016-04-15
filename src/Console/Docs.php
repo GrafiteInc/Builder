@@ -2,8 +2,6 @@
 
 namespace Yab\Laracogs\Console;
 
-use Config;
-use Artisan;
 use Markdown;
 use Illuminate\Console\Command;
 

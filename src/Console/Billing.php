@@ -2,14 +2,8 @@
 
 namespace Yab\Laracogs\Console;
 
-use Artisan;
-use Illuminate\Support\Str;
-use Illuminate\Support\Schema;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Config;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
 class Billing extends Command
 {
@@ -18,9 +12,7 @@ class Billing extends Command
      *
      * @var string
      */
-    protected $name = 'laracogs:billing';
-
-    protected $files;
+    protected $signature = 'laracogs:billing';
 
     /**
      * The console command description.
@@ -34,7 +26,7 @@ class Billing extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         if (! file_exists(base_path('resources/views/team/create.blade.php'))) {
             $this->line("\n\nPlease perform the starter command:\n");
@@ -82,18 +74,8 @@ class Billing extends Command
                 $this->info("\n\n Please make sure you run the migration for cashier structure.");
                 $this->info("Finished setting up billing");
             } else {
-                $this->info("You cancelled billing setup");
+                $this->info("You cancelled the laracogs billing");
             }
         }
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [];
     }
 }

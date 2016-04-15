@@ -2,13 +2,7 @@
 
 namespace Yab\Laracogs\Console;
 
-use Artisan;
-use Illuminate\Support\Str;
-use Illuminate\Support\Schema;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Config;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Filesystem\Filesystem;
 
 class Bootstrap extends Command
@@ -18,9 +12,7 @@ class Bootstrap extends Command
      *
      * @var string
      */
-    protected $name = 'laracogs:bootstrap';
-
-    protected $files;
+    protected $signature = 'laracogs:bootstrap';
 
     /**
      * The console command description.
@@ -34,7 +26,7 @@ class Bootstrap extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         if (! file_exists(base_path('resources/views/team/create.blade.php'))) {
             $this->line("\n\nPlease perform the starter command:\n");
@@ -64,20 +56,12 @@ class Bootstrap extends Command
                         $fileSystem->copy($file, base_path($newFileName));
                     }
                 }
+
+                $this->info("\n\nMake sure you set the PagesController@dashboard to use the following view: 'dashboard.main'\n\n");
+                $this->info("Finished bootstrapping your app");
+            } else {
+                $this->info("You cancelled the laracogs bootstrap");
             }
-
-            $this->info("\n\nMake sure you set the PagesController@dashboard to use the following view: 'dashboard.main'\n\n");
-            $this->info("Finished bootsrapping your app");
         }
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [];
     }
 }
