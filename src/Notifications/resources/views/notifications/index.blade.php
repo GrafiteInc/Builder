@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row raw-margin-top-24">
             <div class="col-md-12">
                 @if ($notifications->isEmpty())
                     <div class="well text-center">No notifications found.</div>

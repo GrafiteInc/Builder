@@ -15,29 +15,34 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row raw-margin-top-24">
             <div class="col-md-12">
 
                 {!! Form::model($notification, ['route' => ['admin.notifications.update', $notification->id], 'method' => 'patch']) !!}
 
-                @input_maker_label('Flag')
-                @input_maker_create('flag', ['type' => 'select', 'options' => [
-                    'Info' => 'info',
-                    'Success' => 'success',
-                    'Warning' => 'warning',
-                    'Danger' => 'danger',
-                ]], $notification)
+                <div class="form-group">
+                    @input_maker_label('Flag')
+                    @input_maker_create('flag', ['type' => 'select', 'options' => [
+                        'Info' => 'info',
+                        'Success' => 'success',
+                        'Warning' => 'warning',
+                        'Danger' => 'danger',
+                    ]], $notification)
+                </div>
+                <div class="raw-margin-top-24 form-group">
+                    @input_maker_label('User')
+                    @input_maker_create('user_id', ['type' => 'select', 'options' => Notifications::usersAsOptions(), 'custom' => 'disabled' ], $notification)
+                </div>
+                <div class="raw-margin-top-24 form-group">
+                    @input_maker_label('Title')
+                    @input_maker_create('title', ['type' => 'string'], $notification)
+                </div>
+                <div class="raw-margin-top-24 form-group">
+                    @input_maker_label('Details')
+                    @input_maker_create('details', ['type' => 'textarea'], $notification)
+                </div>
 
-                @input_maker_label('User')
-                @input_maker_create('user_id', ['type' => 'select', 'options' => Notifications::usersAsOptions(), 'custom' => 'disabled' ], $notification)
-
-                @input_maker_label('Title')
-                @input_maker_create('title', ['type' => 'string'], $notification)
-
-                @input_maker_label('Details')
-                @input_maker_create('details', ['type' => 'textarea'], $notification)
-
-                {!! Form::submit('Update', ['class' => 'btn btn-primary pull-right']) !!}
+                {!! Form::submit('Update', ['class' => 'btn btn-primary pull-right raw-margin-top-24 ']) !!}
 
                 {!! Form::close() !!}
 

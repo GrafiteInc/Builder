@@ -15,12 +15,12 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row raw-margin-top-24">
             <div class="col-md-12 alert-{{ $notification->flag }}">
-                <h1 style="padding-bottom: 12px;"> {{ $notification->title }} <small>{{ $notification->created_at->format('Y-m-d') }}</small></h1>
+                <h1 class="raw-padding-bottom-12 text-center"> {{ $notification->title }} <small>{{ $notification->created_at->format('Y-m-d') }}</small></h1>
             </div>
         </div>
-        <div class="row">
+        <div class="row raw-margin-top-24">
             <div class="col-md-12">
                 <p>{{ $notification->details }}</p>
             </div>

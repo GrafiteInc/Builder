@@ -13,29 +13,37 @@
                 <h1 class="pull-left" style="margin: 0;">Notifications: Create</h1>
             </div>
         </div>
-        <div class="row">
+        <div class="row raw-margin-top-24">
             <div class="col-md-12">
 
                 {!! Form::open(['route' => 'admin.notifications.store']) !!}
 
-                @input_maker_label('Flag')
-                @input_maker_create('flag', ['type' => 'select', 'options' => [
-                    'Info' => 'info',
-                    'Success' => 'success',
-                    'Warning' => 'warning',
-                    'Danger' => 'danger',
-                ]])
+                <div class="form-group">
+                    @input_maker_label('Flag')
+                    @input_maker_create('flag', ['type' => 'select', 'options' => [
+                        'Info' => 'info',
+                        'Success' => 'success',
+                        'Warning' => 'warning',
+                        'Danger' => 'danger',
+                    ]])
+                </div>
 
-                @input_maker_label('User')
-                @input_maker_create('user_id', ['type' => 'select', 'options' => Notifications::usersAsOptions() ])
+                <div class="raw-margin-top-24 form-group">
+                    @input_maker_label('User')
+                    @input_maker_create('user_id', ['type' => 'select', 'options' => Notifications::usersAsOptions() ])
+                </div>
 
-                @input_maker_label('Title')
-                @input_maker_create('title', ['type' => 'string'])
+                <div class="raw-margin-top-24 form-group">
+                    @input_maker_label('Title')
+                    @input_maker_create('title', ['type' => 'string'])
+                </div>
 
-                @input_maker_label('Details')
-                @input_maker_create('details', ['type' => 'textarea'], null, 'form-control', false, false)
+                <div class="raw-margin-top-24 form-group">
+                    @input_maker_label('Details')
+                    @input_maker_create('details', ['type' => 'textarea'], null, 'form-control', false, false)
+                </div>
 
-                {!! Form::submit('Save', ['class' => 'btn btn-primary pull-right']) !!}
+                {!! Form::submit('Save', ['class' => 'btn btn-primary pull-right raw-margin-top-24']) !!}
 
                 {!! Form::close() !!}
 
