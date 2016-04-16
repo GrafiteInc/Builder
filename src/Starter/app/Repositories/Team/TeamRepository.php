@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories\Team;
+namespace {{App\}}Repositories\Team;
 
-use App\Repositories\Team\Team;
+use {{App\}}Repositories\Team\Team;
 use Illuminate\Support\Facades\Schema;
 
 class TeamRepository

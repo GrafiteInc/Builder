@@ -5,7 +5,7 @@
 |--------------------------------------------------------------------------
 */
 
-$factory->define(\App\Repositories\UserMeta\UserMeta::class, function (Faker\Generator $faker) {
+$factory->define({{App\}}Repositories\UserMeta\UserMeta::class, function (Faker\Generator $faker) {
     return [
         'user_id' => 1,
         'phone' => $faker->phoneNumber,
@@ -14,7 +14,7 @@ $factory->define(\App\Repositories\UserMeta\UserMeta::class, function (Faker\Gen
     ];
 });
 
-$factory->define(\App\Repositories\Role\Role::class, function (Faker\Generator $faker) {
+$factory->define({{App\}}Repositories\Role\Role::class, function (Faker\Generator $faker) {
     return [
         'name' => 'member',
         'label' => 'Member',
@@ -27,7 +27,7 @@ $factory->define(\App\Repositories\Role\Role::class, function (Faker\Generator $
 |--------------------------------------------------------------------------
 */
 
-$factory->define(\App\Repositories\Team\Team::class, function (Faker\Generator $faker) {
+$factory->define({{App\}}Repositories\Team\Team::class, function (Faker\Generator $faker) {
     return [
         'user_id' => 1,
         'name' => $faker->name

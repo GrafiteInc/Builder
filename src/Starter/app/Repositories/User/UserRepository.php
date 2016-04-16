@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories\User;
+namespace {{App\}}Repositories\User;
 
 use Schema;
-use App\Repositories\Role\Role;
-use App\Repositories\Team\Team;
+use {{App\}}Repositories\Role\Role;
+use {{App\}}Repositories\Team\Team;
 
 class UserRepository
 {

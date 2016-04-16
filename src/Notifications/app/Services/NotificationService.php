@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace {{App\}}Services;
 
 use Crypto;
-use App\Services\UserService;
-use App\Repositories\Notification\NotificationRepository;
+use {{App\}}Services\UserService;
+use {{App\}}Repositories\Notification\NotificationRepository;
 
 class NotificationService
 {

@@ -4,9 +4,12 @@ namespace Yab\Laracogs\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Yab\Laracogs\Generators\FileMakerTrait;
 
 class Notifications extends Command
 {
+    use FileMakerTrait;
+
     /**
      * The console command name.
      *
@@ -46,22 +49,8 @@ class Notifications extends Command
             $result = $this->confirm("Are you sure you want to overwrite any files of the same name?");
 
             if ($result) {
-                foreach ($files as $file) {
-                    $newFileName = str_replace(__DIR__.'/../Notifications/', '', $file);
-                    $this->line("Copying ".$newFileName."...");
-                    if (is_dir($file)) {
-                        $fileSystem->copyDirectory($file, base_path($newFileName));
-                    } else {
-                        @mkdir(base_path(str_replace(basename($newFileName), '', $newFileName)), 0755, true);
-                        if (! stristr($file, 'Factory.txt') ) {
-                            $fileSystem->copy($file, base_path($newFileName));
-                        } else {
-                            $factory = file_get_contents($file);
-                            $factoryMaster = base_path('database/factories/ModelFactory.php');
-                            file_put_contents($factoryMaster, $factory, FILE_APPEND);
-                        }
-                    }
-                }
+                $this->copyPreparedFiles(__DIR__.'/../Notifications', base_path());
+                $this->appendTheFactory();
 
                 $this->info("\n\n You will need to run: composer require laravel/cashier");
                 $this->info("\n\n Then follow the directions regarding notifications on: https://laravel.com/docs/");
@@ -83,5 +72,32 @@ class Notifications extends Command
                 $this->info("\n You cancelled the laracogs notifications");
             }
         }
+    }
+
+    public function appendTheFactory()
+    {
+        $factory = file_get_contents(__DIR__.'/../Starter/Factory.txt');
+        $factoryPrepared = "
+/*
+|--------------------------------------------------------------------------
+| Notification Factory
+|--------------------------------------------------------------------------
+*/
+
+\$factory->define(".$this->getAppNamespace()."Repositories\Notification\Notification::class, function (Faker\Generator \$faker) {
+    return [
+        'id' => 1,
+        'user_id' => 1,
+        'flag' => 'info',
+        'uuid' => 'lksjdflaskhdf',
+        'title' => 'Testing',
+        'details' => 'Your car has been impounded!',
+        'is_read' => 0,
+    ];
+});
+";
+
+        $factoryMaster = base_path('database/factories/ModelFactory.php');
+        return file_put_contents($factoryMaster, $factoryPrepared, FILE_APPEND);
     }
 }

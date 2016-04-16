@@ -1,6 +1,6 @@
 <?php
 
-use App\Repositories\Notification\NotificationRepository;
+use {{App\}}Repositories\Notification\NotificationRepository;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class NotificationRepositoryTest extends TestCase

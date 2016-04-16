@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace {{App\}}Http\Controllers\User;
 
 use Auth;
 use Activity;
 use Carbon\Carbon;
-use App\Http\Requests;
+use {{App\}}Http\Requests;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use {{App\}}Http\Controllers\Controller;
 
 class BillingController extends Controller
 {

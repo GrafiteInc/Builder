@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repositories\User;
+namespace {{App\}}Repositories\User;
 
-use App\Repositories\Role\Role;
-use App\Repositories\Team\Team;
+use {{App\}}Repositories\Role\Role;
+use {{App\}}Repositories\Team\Team;
 use Illuminate\Auth\Authenticatable;
-use App\Repositories\UserMeta\UserMeta;
+use {{App\}}Repositories\UserMeta\UserMeta;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Foundation\Auth\Access\Authorizable;

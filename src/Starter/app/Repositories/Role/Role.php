@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories\Role;
+namespace {{App\}}Repositories\Role;
 
-use App\Repositories\User\User;
+use {{App\}}Repositories\User\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model

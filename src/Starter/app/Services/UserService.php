@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Services;
+namespace {{App\}}Services;
 
 use DB;
 use Auth;
 use Mail;
 use Config;
 use Exception;
-use App\Repositories\User\UserRepository;
-use App\Repositories\UserMeta\UserMetaRepository;
+use {{App\}}Repositories\User\UserRepository;
+use {{App\}}Repositories\UserMeta\UserMetaRepository;
 
 class UserService
 {

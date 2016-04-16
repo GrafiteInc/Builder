@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace {{App\}}Http\Controllers\Auth;
 
 use DB;
 use URL;
 use Auth;
 use Config;
 use Socialite;
-use App\Services\UserService;
-use App\Repositories\User\User;
-use App\Http\Controllers\Controller;
+use {{App\}}Services\UserService;
+use {{App\}}Repositories\User\User;
+use {{App\}}Http\Controllers\Controller;
 
 class SocialiteAuthController extends Controller
 {

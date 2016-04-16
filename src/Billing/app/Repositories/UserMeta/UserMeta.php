@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories\UserMeta;
+namespace {{App\}}Repositories\UserMeta;
 
 use Laravel\Cashier\Billable;
-use App\Repositories\User\User;
+use {{App\}}Repositories\User\User;
 use Illuminate\Database\Eloquent\Model;
 
 class UserMeta extends Model

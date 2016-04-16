@@ -12,7 +12,7 @@ class NotificationIntegrationTest extends TestCase
     {
         parent::setUp();
 
-        $this->notification = factory(App\Repositories\Notification\Notification::class)->make([
+        $this->notification = factory({{App\}}Repositories\Notification\Notification::class)->make([
             'id' => 1,
             'user_id' => 1,
             'flag' => 'info',
@@ -21,7 +21,7 @@ class NotificationIntegrationTest extends TestCase
             'details' => 'Your car has been impounded!',
             'is_read' => 0,
         ]);
-        $this->notificationEdited = factory(App\Repositories\Notification\Notification::class)->make([
+        $this->notificationEdited = factory({{App\}}Repositories\Notification\Notification::class)->make([
             'id' => 1,
             'user_id' => 1,
             'flag' => 'info',
@@ -30,7 +30,7 @@ class NotificationIntegrationTest extends TestCase
             'details' => 'Your car has been impounded!',
             'is_read' => 1,
         ]);
-        $user = factory(App\Repositories\User\User::class)->make();
+        $user = factory({{App\}}Repositories\User\User::class)->make();
         $this->actor = $this->actingAs($user);
     }
 

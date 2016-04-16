@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories\Notification;
+namespace {{App\}}Repositories\Notification;
 
-use App\Repositories\Notification\Notification;
+use {{App\}}Repositories\Notification\Notification;
 use Illuminate\Support\Facades\Schema;
 
 class NotificationRepository

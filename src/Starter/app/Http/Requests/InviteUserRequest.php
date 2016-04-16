@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace {{App\}}Http\Requests;
 
 use Auth;
-use App\Http\Requests\Request;
+use {{App\}}Http\Requests\Request;
 
 class InviteUserRequest extends Request
 {

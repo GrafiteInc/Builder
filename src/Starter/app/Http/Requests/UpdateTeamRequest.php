@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace {{App\}}Http\Requests;
 
 use Auth;
 use Route;
-use App\Http\Requests\Request;
-use App\Repositories\Team\Team;
+use {{App\}}Http\Requests\Request;
+use {{App\}}Repositories\Team\Team;
 
 class UpdateTeamRequest extends Request
 {

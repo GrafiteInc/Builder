@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace {{App\}}Http\Controllers\Api;
 
 use Auth;
-use App\Http\Requests;
+use {{App\}}Http\Requests;
 use Illuminate\Http\Request;
-use App\Services\UserService;
+use {{App\}}Services\UserService;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateUserRequest;
+use {{App\}}Http\Controllers\Controller;
+use {{App\}}Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {

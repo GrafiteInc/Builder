@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories\UserMeta;
+namespace {{App\}}Repositories\UserMeta;
 
-use App\Repositories\User\User;
+use {{App\}}Repositories\User\User;
 use Illuminate\Database\Eloquent\Model;
 
 class UserMeta extends Model

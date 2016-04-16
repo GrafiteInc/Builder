@@ -6,9 +6,12 @@ use Config;
 use Artisan;
 use Illuminate\Console\Command;
 use Yab\Laracogs\Generators\CrudGenerator;
+use Illuminate\Console\AppNamespaceDetectorTrait;
 
 class Crud extends Command
 {
+    use AppNamespaceDetectorTrait;
+
     /**
      * The console command name.
      *
@@ -56,13 +59,14 @@ class Crud extends Command
             '_path_api_routes_'          => app_path('Http/api-routes.php'),
             'routes_prefix'              => '',
             'routes_suffix'              => '',
-            '_namespace_services_'       => 'App\Services',
-            '_namespace_facade_'         => 'App\Facades',
-            '_namespace_repository_'     => 'App\Repositories\_table_',
-            '_namespace_model_'          => 'App\Repositories\_table_',
-            '_namespace_controller_'     => 'App\Http\Controllers',
-            '_namespace_api_controller_' => 'App\Http\Controllers\Api',
-            '_namespace_request_'        => 'App\Http\Requests',
+            '_app_namespace_'            => $this->getAppNamespace(),
+            '_namespace_services_'       => $this->getAppNamespace().'Services',
+            '_namespace_facade_'         => $this->getAppNamespace().'Facades',
+            '_namespace_repository_'     => $this->getAppNamespace().'Repositories\_table_',
+            '_namespace_model_'          => $this->getAppNamespace().'Repositories\_table_',
+            '_namespace_controller_'     => $this->getAppNamespace().'Http\Controllers',
+            '_namespace_api_controller_' => $this->getAppNamespace().'Http\Controllers\Api',
+            '_namespace_request_'        => $this->getAppNamespace().'Http\Requests',
             '_table_name_'               => str_plural(strtolower($table)),
             '_lower_case_'               => strtolower($table),
             '_lower_casePlural_'         => str_plural(strtolower($table)),
@@ -93,13 +97,14 @@ class Crud extends Command
                 '_path_api_routes_'          => app_path('Http/api-routes.php'),
                 'routes_prefix'              => "\n\nRoute::group(['namespace' => '".ucfirst($section)."', 'prefix' => '".strtolower($section)."', 'middleware' => ['web']], function () { \n",
                 'routes_suffix'              => "\n});",
-                '_namespace_services_'       => 'App\Services\\'.ucfirst($section),
-                '_namespace_facade_'         => 'App\Facades',
-                '_namespace_repository_'     => 'App\Repositories\\'.ucfirst($section).'\\'.ucfirst($table),
-                '_namespace_model_'          => 'App\Repositories\\'.ucfirst($section).'\\'.ucfirst($table),
-                '_namespace_controller_'     => 'App\Http\Controllers\\'.ucfirst($section),
-                '_namespace_api_controller_' => 'App\Http\Controllers\\'.ucfirst($section).'\Api\\',
-                '_namespace_request_'        => 'App\Http\Requests\\'.ucfirst($section),
+                '_app_namespace_'            => $this->getAppNamespace(),
+                '_namespace_services_'       => $this->getAppNamespace().'Services\\'.ucfirst($section),
+                '_namespace_facade_'         => $this->getAppNamespace().'Facades',
+                '_namespace_repository_'     => $this->getAppNamespace().'Repositories\\'.ucfirst($section).'\\'.ucfirst($table),
+                '_namespace_model_'          => $this->getAppNamespace().'Repositories\\'.ucfirst($section).'\\'.ucfirst($table),
+                '_namespace_controller_'     => $this->getAppNamespace().'Http\Controllers\\'.ucfirst($section),
+                '_namespace_api_controller_' => $this->getAppNamespace().'Http\Controllers\\'.ucfirst($section).'\Api\\',
+                '_namespace_request_'        => $this->getAppNamespace().'Http\Requests\\'.ucfirst($section),
                 '_table_name_'               => str_plural(strtolower(implode('_', $splitTable))),
                 '_lower_case_'               => strtolower($table),
                 '_lower_casePlural_'         => str_plural(strtolower($table)),

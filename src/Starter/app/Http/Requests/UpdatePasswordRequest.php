@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace {{App\}}Http\Requests;
 
 use Auth;
-use App\Http\Requests\Request;
-use App\Repositories\User\User;
+use {{App\}}Http\Requests\Request;
+use {{App\}}Repositories\User\User;
 
 class UpdatePasswordRequest extends Request
 {

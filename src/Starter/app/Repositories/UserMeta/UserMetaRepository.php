@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories\UserMeta;
+namespace {{App\}}Repositories\UserMeta;
 
-use App\Repositories\UserMeta\UserMeta;
+use {{App\}}Repositories\UserMeta\UserMeta;
 
 class UserMetaRepository
 {

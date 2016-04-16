@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories\Team;
+namespace {{App\}}Repositories\Team;
 
-use App\Repositories\User\User;
+use {{App\}}Repositories\User\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Team extends Model

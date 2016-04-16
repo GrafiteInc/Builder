@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services;
+namespace {{App\}}Services;
 
 use Illuminate\Support\Str;
-use App\Services\UserService;
-use App\Repositories\User\User;
-use App\Repositories\Team\TeamRepository;
-use App\Repositories\User\UserRepository;
+use {{App\}}Services\UserService;
+use {{App\}}Repositories\User\User;
+use {{App\}}Repositories\Team\TeamRepository;
+use {{App\}}Repositories\User\UserRepository;
 
 class TeamService
 {

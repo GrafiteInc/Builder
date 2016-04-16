@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace {{App\}}Http\Controllers\User;
 
 use Hash;
 use Auth;
-use App\Http\Requests;
+use {{App\}}Http\Requests;
 use Illuminate\Http\Request;
-use App\Services\UserService;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdatePasswordRequest;
+use {{App\}}Services\UserService;
+use {{App\}}Http\Controllers\Controller;
+use {{App\}}Http\Requests\UpdatePasswordRequest;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class PasswordController extends Controller

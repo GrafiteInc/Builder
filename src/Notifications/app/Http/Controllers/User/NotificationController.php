@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace {{App\}}Http\Controllers\User;
 
 use Auth;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Services\NotificationService;
-use App\Http\Requests\NotificationRequest;
+use {{App\}}Http\Controllers\Controller;
+use {{App\}}Services\NotificationService;
+use {{App\}}Http\Requests\NotificationRequest;
 
 class NotificationController extends Controller
 {

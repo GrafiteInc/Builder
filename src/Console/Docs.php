@@ -4,9 +4,12 @@ namespace Yab\Laracogs\Console;
 
 use Markdown;
 use Illuminate\Console\Command;
+use Illuminate\Console\AppNamespaceDetectorTrait;
 
 class Docs extends Command
 {
+    use AppNamespaceDetectorTrait;
+
     /**
      * The console command name.
      *

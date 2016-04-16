@@ -4,9 +4,12 @@ namespace Yab\Laracogs\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Yab\Laracogs\Generators\FileMakerTrait;
 
 class Api extends Command
 {
+    use FileMakerTrait;
+
     /**
      * The console command name.
      *
@@ -46,16 +49,7 @@ class Api extends Command
             $result = $this->confirm("Are you sure you want to overwrite any files of the same name?");
 
             if ($result) {
-                foreach ($files as $file) {
-                    $newFileName = str_replace(__DIR__.'/../Api/', '', $file);
-                    $this->line("Copying ".$newFileName."...");
-                    if (is_dir($file)) {
-                        $fileSystem->copyDirectory($file, base_path($newFileName));
-                    } else {
-                        @mkdir(base_path(str_replace(basename($newFileName), '', $newFileName)), 0755, true);
-                        $fileSystem->copy($file, base_path($newFileName));
-                    }
-                }
+                $this->copyPreparedFiles(__DIR__.'/../Api/', base_path());
 
                 $this->info("\n\n You will need to run: composer require tymon/jwt-auth");
                 $this->info("\n\n Then follow the directions regarding installation on: https://github.com/tymondesigns/jwt-auth/wiki/Installation");

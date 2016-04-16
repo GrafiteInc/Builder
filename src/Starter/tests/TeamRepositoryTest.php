@@ -1,6 +1,6 @@
 <?php
 
-use App\Repositories\Team\TeamRepository;
+use {{App\}}Repositories\Team\TeamRepository;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class TeamRepositoryTest extends TestCase

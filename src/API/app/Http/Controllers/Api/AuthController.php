@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace {{App\}}Http\Controllers\Api;
 
 use DB;
 use Validator;
 use Illuminate\Http\Request;
-use App\Services\UserService;
-use App\Repositories\User\User;
+use {{App\}}Services\UserService;
+use {{App\}}Repositories\User\User;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use App\Http\Controllers\Controller;
+use {{App\}}Http\Controllers\Controller;
 
 class AuthController extends Controller
 {

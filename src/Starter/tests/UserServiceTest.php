@@ -1,6 +1,6 @@
 <?php
 
-use App\Services\UserService;
+use {{App\}}Services\UserService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class UserServiceTest extends TestCase
@@ -21,8 +21,8 @@ class UserServiceTest extends TestCase
 
     public function testGetUser()
     {
-        $user = factory(App\Repositories\User\User::class)->create();
-        factory(App\Repositories\UserMeta\UserMeta::class)->create([ 'user_id' => $user->id ]);
+        $user = factory({{App\}}Repositories\User\User::class)->create();
+        factory({{App\}}Repositories\UserMeta\UserMeta::class)->create([ 'user_id' => $user->id ]);
         $response = $this->service->find($user->id);
 
         $this->assertTrue(is_object($response));
@@ -31,7 +31,7 @@ class UserServiceTest extends TestCase
 
     public function testCreateUserMeta()
     {
-        $user = factory(App\Repositories\User\User::class)->create();
+        $user = factory({{App\}}Repositories\User\User::class)->create();
         $response = $this->service->create($user, 'password');
 
         $this->assertTrue(is_object($response));
@@ -40,7 +40,7 @@ class UserServiceTest extends TestCase
 
     public function testUpdateUserMeta()
     {
-        $user = factory(App\Repositories\User\User::class)->create();
+        $user = factory({{App\}}Repositories\User\User::class)->create();
 
         $response = $this->service->update($user->id, [
             'email' => $user->email,

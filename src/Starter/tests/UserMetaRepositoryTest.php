@@ -1,6 +1,6 @@
 <?php
 
-use App\Repositories\UserMeta\UserMetaRepository;
+use {{App\}}Repositories\UserMeta\UserMetaRepository;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class UserMetaRepositoryTest extends TestCase
@@ -16,8 +16,8 @@ class UserMetaRepositoryTest extends TestCase
 
     public function testUpdate()
     {
-        $user = factory(App\Repositories\User\User::class)->create();
-        $account = factory(App\Repositories\UserMeta\UserMeta::class)->create([ 'user_id' => $user->id ]);
+        $user = factory({{App\}}Repositories\User\User::class)->create();
+        $account = factory({{App\}}Repositories\UserMeta\UserMeta::class)->create([ 'user_id' => $user->id ]);
 
         $response = $this->repo->update($user->id, ['phone' => '666']);
         $this->assertTrue($response);
@@ -26,8 +26,8 @@ class UserMetaRepositoryTest extends TestCase
 
     public function testFindByUserId()
     {
-        $user = factory(App\Repositories\User\User::class)->create();
-        $account = factory(App\Repositories\UserMeta\UserMeta::class)->create([ 'user_id' => $user->id ]);
+        $user = factory({{App\}}Repositories\User\User::class)->create();
+        $account = factory({{App\}}Repositories\UserMeta\UserMeta::class)->create([ 'user_id' => $user->id ]);
 
         $response = $this->repo->findByUserId($user->id);
         $this->assertEquals($account->phone, $response->phone);

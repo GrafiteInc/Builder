@@ -1,7 +1,7 @@
 <?php
 
-use App\Services\TeamService;
-use App\Repositories\User\UserRepository;
+use {{App\}}Services\TeamService;
+use {{App\}}Repositories\User\UserRepository;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class TeamServiceTest extends TestCase
@@ -27,7 +27,7 @@ class TeamServiceTest extends TestCase
 
     public function testAll()
     {
-        $user = factory(App\Repositories\User\User::class)->create();
+        $user = factory({{App\}}Repositories\User\User::class)->create();
         $this->userRepo->joinTeam($user->id, 1);
         $response = $this->service->all($user->id);
         $this->assertEquals(get_class($response), 'Illuminate\Database\Eloquent\Collection');
@@ -37,7 +37,7 @@ class TeamServiceTest extends TestCase
 
     public function testPaginated()
     {
-        $user = factory(App\Repositories\User\User::class)->create();
+        $user = factory({{App\}}Repositories\User\User::class)->create();
         $this->userRepo->joinTeam($user->id, 1);
         $response = $this->service->paginated(1, 25);
         $this->assertEquals(get_class($response), 'Illuminate\Pagination\LengthAwarePaginator');
@@ -46,7 +46,7 @@ class TeamServiceTest extends TestCase
 
     public function testSearch()
     {
-        $user = factory(App\Repositories\User\User::class)->create();
+        $user = factory({{App\}}Repositories\User\User::class)->create();
         $this->userRepo->joinTeam($user->id, 1);
         $response = $this->service->search(1, $this->searchTerm, 25);
         $this->assertEquals(get_class($response), 'Illuminate\Pagination\LengthAwarePaginator');
@@ -55,7 +55,7 @@ class TeamServiceTest extends TestCase
 
     public function testCreate()
     {
-        $user = factory(App\Repositories\User\User::class)->create();
+        $user = factory({{App\}}Repositories\User\User::class)->create();
         $response = $this->service->create($user->id, $this->originalArray);
         $this->assertEquals(get_class($response), 'App\Repositories\Team\Team');
         $this->assertEquals(1, $response->id);
@@ -63,25 +63,25 @@ class TeamServiceTest extends TestCase
 
     public function testInvite()
     {
-        $admin = factory(App\Repositories\User\User::class)->create();
+        $admin = factory({{App\}}Repositories\User\User::class)->create();
         $team = $this->service->create($admin->id, $this->originalArray);
-        $user = factory(App\Repositories\User\User::class)->create();
+        $user = factory({{App\}}Repositories\User\User::class)->create();
         $response = $this->service->invite($admin, $team->id, $user->email);
         $this->assertTrue($response);
     }
 
     public function testRemove()
     {
-        $admin = factory(App\Repositories\User\User::class)->create();
+        $admin = factory({{App\}}Repositories\User\User::class)->create();
         $team = $this->service->create($admin->id, $this->originalArray);
-        $user = factory(App\Repositories\User\User::class)->create();
+        $user = factory({{App\}}Repositories\User\User::class)->create();
         $response = $this->service->remove($admin, $team->id, $user->id);
         $this->assertTrue($response);
     }
 
     public function testFind()
     {
-        $admin = factory(App\Repositories\User\User::class)->create();
+        $admin = factory({{App\}}Repositories\User\User::class)->create();
         $team = $this->service->create($admin->id, $this->originalArray);
 
         $response = $this->service->find($team->id);
@@ -90,7 +90,7 @@ class TeamServiceTest extends TestCase
 
     public function testUpdate()
     {
-        $admin = factory(App\Repositories\User\User::class)->create();
+        $admin = factory({{App\}}Repositories\User\User::class)->create();
         $team = $this->service->create($admin->id, $this->originalArray);
 
         $response = $this->service->update($team->id, $this->editedArray);
@@ -101,7 +101,7 @@ class TeamServiceTest extends TestCase
 
     public function testDestroy()
     {
-        $admin = factory(App\Repositories\User\User::class)->create();
+        $admin = factory({{App\}}Repositories\User\User::class)->create();
         $team = $this->service->create($admin->id, $this->originalArray);
 
         $response = $this->service->destroy($admin, $team->id);

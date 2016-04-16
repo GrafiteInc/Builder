@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace {{App\}}Http\Controllers\Admin;
 
-use App\Http\Requests;
+use {{App\}}Http\Requests;
 use Illuminate\Http\Request;
-use App\Services\UserService;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\InviteUserRequest;
+use {{App\}}Services\UserService;
+use {{App\}}Http\Controllers\Controller;
+use {{App\}}Http\Requests\InviteUserRequest;
 
 class UserController extends Controller
 {
