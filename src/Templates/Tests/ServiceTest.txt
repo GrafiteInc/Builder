@@ -41,7 +41,7 @@ class _camel_case_ServiceTest extends TestCase
     public function testCreate()
     {
         $response = $this->service->create($this->originalArray);
-        $this->assertEquals(get_class($response), 'App\Repositories\_camel_case_\_camel_case_');
+        $this->assertEquals(get_class($response), '_namespace_repository_\_camel_case_');
         $this->assertEquals(1, $response->id);
     }
 

@@ -3,7 +3,7 @@
 namespace _namespace_request_;
 
 use Auth;
-use App\Http\Requests\Request;
+use _app_namespace_Http\Requests\Request;
 use _namespace_repository_\_camel_case_;
 
 class _camel_case_Request extends Request
