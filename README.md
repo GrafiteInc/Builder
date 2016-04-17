@@ -23,13 +23,18 @@ This is a set of tools to help speed up development of Laravel apps. You can sta
 
 ```php
 composer require "yab/laracogs"
-php artisan vendor:publish --provider="Yab\Laracogs\LaracogsProvider"
 ```
 
 ### Providers
 
 ```php
 Yab\Laracogs\LaracogsProvider::class
+```
+
+### Publish
+
+```php
+php artisan vendor:publish --provider="Yab\Laracogs\LaracogsProvider"
 ```
 
 ### Kernel Route Middleware
@@ -39,7 +44,7 @@ Yab\Laracogs\LaracogsProvider::class
 ```
 
 ### Model
-Update the model in: 'config/auth.php' and 'database/factory/ModelFactory.php'
+Update the model in: 'config/auth.php' and 'database/factory/ModelFactory.php' it should look similar to:
 
 ```php
 App\Repositories\User\User::class
