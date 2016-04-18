@@ -105,35 +105,60 @@ Please consult the documentation here: [http://laracogs.com](http://laracogs.com
 The commands provided by Laracogs are as follows:
 
 ### Starter
+----
 Once you've added in all these parts you may want to run the starter for your application!
 
 ```php
 php artisan laracogs:starter
 ```
 
-#### Migrate
-----
+##### Migrate
 You will need to migrate to add in the users, user meta, roles and teams tables. The seeding is run to set the initial roles for your application.
 
 ```php
 php artisan migrate --seed
 ```
 
-#### Boostrap
+### Boostrap
+----
 Boostrap prepares your application with bootstrap as a view/ css framework
 
 ```php
 php artisan laracogs:bootstrap
 ```
 
-#### Billing
+### Notifications
+----
+Boostrap prepares your application with a notification system
+
+```php
+php artisan laracogs:notifications
+```
+
+### Socialite
+----
+Boostrap prepares your application with a socialite system, with GitHub as the example:
+
+```php
+php artisan laracogs:socialite
+```
+
+### Api
+----
+Boostrap prepares your application with an API system using JWT (logins, and user profile):
+
+```php
+php artisan laracogs:api
+```
+
+### Billing
+----
 The billing command sets up your app with Laravel's cashier - it prepares the whole app to handle subscriptions with a policy structure.
 ```php
 php artisan laracogs:billing
 ```
 
 ##### Requires
-----
 ```php
 composer require laravel/cashier
 ```
@@ -188,19 +213,21 @@ elixir(function(mix) {
 ```
 
 ## CRUD
-
+----
 The CRUD command builds a basic crud for a table
 ```php
 php artisan laracogs:crud {table} {--migration} {--bootstrap}
 ```
 
 ## Docs
+----
 The docs can prepare documentation for buisness rules or prepare your app for API doc generation with Sami.
 ```php
 php artisan laracogs:crud {action} {name=null} {version=null}
 ```
 
 ## Facades/ Utilities
+----
 Laracogs provides a handful of easy to use tools outside of the app starter kit, and CRUD builder:
 
 #### Crypto
