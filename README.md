@@ -104,16 +104,14 @@ Please consult the documentation here: [http://laracogs.com](http://laracogs.com
 ## Commands
 The commands provided by Laracogs are as follows:
 
-#### Starter
+### Starter
 Once you've added in all these parts you may want to run the starter for your application!
 
 ```php
 php artisan laracogs:starter
 ```
 
-Once the files are all set up it may be best to run: `artisan migrate`
-
-Migrate
+#### Migrate
 ----
 You will need to migrate to add in the users, user meta, roles and teams tables. The seeding is run to set the initial roles for your application.
 
@@ -134,7 +132,7 @@ The billing command sets up your app with Laravel's cashier - it prepares the wh
 php artisan laracogs:billing
 ```
 
-Requires
+##### Requires
 ----
 ```php
 composer require laravel/cashier
@@ -189,13 +187,14 @@ elixir(function(mix) {
 });
 ```
 
-#### Crud
+## CRUD
+
 The CRUD command builds a basic crud for a table
 ```php
 php artisan laracogs:crud {table} {--migration} {--bootstrap}
 ```
 
-#### Docs
+## Docs
 The docs can prepare documentation for buisness rules or prepare your app for API doc generation with Sami.
 ```php
 php artisan laracogs:crud {action} {name=null} {version=null}
