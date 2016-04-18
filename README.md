@@ -37,20 +37,43 @@ Yab\Laracogs\LaracogsProvider::class
 php artisan vendor:publish --provider="Yab\Laracogs\LaracogsProvider"
 ```
 
-### Kernel Route Middleware
+----
+
+## Master Documentation
+Please consult the documentation here: [http://laracogs.com/docs](http://laracogs.com/docs)
+
+## Commands
+The console commands provided by Laracogs are as follows:
+
+### Starter
+----
+Once you've added in all these parts you may want to run the starter for your application!
+
+```php
+php artisan laracogs:starter
+```
+
+##### Migrate
+You will need to migrate to add in the users, user meta, roles and teams tables. The seeding is run to set the initial roles for your application.
+
+```php
+php artisan migrate --seed
+```
+
+##### Route Middleware
 
 ```php
 'admin' => \App\Http\Middleware\Admin::class,
 ```
 
-### Model
+##### User Model
 Update the model in: 'config/auth.php' and 'database/factory/ModelFactory.php' it should look similar to:
 
 ```php
 App\Repositories\User\User::class
 ```
 
-### AuthServiceProvider
+##### AuthServiceProvider
 Add the following to 'app/Providers/AuthServiceProvider.php' in the boot method
 
 ```php
@@ -63,7 +86,7 @@ $gate->define('team-member', function ($user, $team) {
 });
 ```
 
-### Testing
+##### Testing
 You will want to create an sqlite memory test DB
 
 ```php
@@ -80,7 +103,7 @@ Add the following line to the 'phpunit.xml' file
 <env name="MAIL_DRIVER" value="log"/>
 ```
 
-### For Laravel 5.2
+##### For Laravel 5.2
 You will also need to set the location of the email for password reminders.
 
 ```php
@@ -94,30 +117,9 @@ You will also need to set the location of the email for password reminders.
 ],
 ```
 
-### Things to note
+##### Things to note
 - You may try and start quickly by testing the registration - make sure your app's
 **email** is configured or it will throw an exception.
-
-## Starter App Kit etc
-Please consult the documentation here: [http://laracogs.com](http://laracogs.com)
-
-## Commands
-The commands provided by Laracogs are as follows:
-
-### Starter
-----
-Once you've added in all these parts you may want to run the starter for your application!
-
-```php
-php artisan laracogs:starter
-```
-
-##### Migrate
-You will need to migrate to add in the users, user meta, roles and teams tables. The seeding is run to set the initial roles for your application.
-
-```php
-php artisan migrate --seed
-```
 
 ### Boostrap
 ----
@@ -143,7 +145,7 @@ Boostrap prepares your application with a socialite system, with GitHub as the e
 php artisan laracogs:socialite
 ```
 
-### Api
+### API
 ----
 Boostrap prepares your application with an API system using JWT (logins, and user profile):
 
@@ -213,21 +215,18 @@ elixir(function(mix) {
 ```
 
 ## CRUD
-----
 The CRUD command builds a basic crud for a table
 ```php
 php artisan laracogs:crud {table} {--migration} {--bootstrap}
 ```
 
 ## Docs
-----
 The docs can prepare documentation for buisness rules or prepare your app for API doc generation with Sami.
 ```php
 php artisan laracogs:crud {action} {name=null} {version=null}
 ```
 
 ## Facades/ Utilities
-----
 Laracogs provides a handful of easy to use tools outside of the app starter kit, and CRUD builder:
 
 #### Crypto
