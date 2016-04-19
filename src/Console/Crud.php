@@ -44,7 +44,9 @@ class Crud extends Command
             $section = $splitTable[0];
         }
 
+        $config = [];
         $config = [
+            'template_source'            => '',
             'bootstrap'                  => false,
             '_path_facade_'              => app_path('Facades'),
             '_path_service_'             => app_path('Services'),
@@ -75,14 +77,21 @@ class Crud extends Command
             '_ucCamel_casePlural_'       => ucfirst(str_plural(camel_case($table))),
         ];
 
-        $config = array_merge($config, Config::get('laracogs.crud.single'));
-        $config['template_source'] = Config::get('laracogs.crud.template_source', ['template_source' => __DIR__.'/../Templates']);
+        $templateDirectory = __DIR__.'/../Templates';
+
+        if (is_dir(base_path('resources/laracogs/crud'))) {
+            $templateDirectory = base_path('resources/laracogs/crud');
+        }
+
+        $config['template_source'] = Config::get('laracogs.crud.template_source', $templateDirectory);
+
+        $config = array_merge($config, Config::get('laracogs.crud.single', []));
         $config = $this->setConfig($config, $section, $table);
 
         if ($section) {
             $config = [];
-            $config['template_source'] = Config::get('laracogs.crud.template_source', ['template_source' => __DIR__.'/../Templates']);
             $config = [
+                'template_source'            => '',
                 'bootstrap'                  => false,
                 '_path_facade_'              => app_path('Facades'),
                 '_path_service_'             => app_path('Services'),
@@ -113,13 +122,21 @@ class Crud extends Command
                 '_ucCamel_casePlural_'       => ucfirst(str_plural(camel_case($table))),
             ];
 
+            $templateDirectory = __DIR__.'/../Templates';
+
+            if (is_dir(base_path('resources/laracogs/crud'))) {
+                $templateDirectory = base_path('resources/laracogs/crud');
+            }
+
+            $config['template_source'] = Config::get('laracogs.crud.template_source', $templateDirectory);
+            $config = array_merge($config, Config::get('laracogs.crud.sectioned', []));
+
             foreach ($config as $key => $value) {
                 if (in_array($key, ['_path_repository_', '_path_model_', '_path_controller_', '_path_views_', '_path_request_',])) {
                     @mkdir($value, 0777, true);
                 }
             }
 
-            $config = array_merge($config, Config::get('laracogs.crud.sectioned'));
             $config = $this->setConfig($config, $section, $table);
         }
 
