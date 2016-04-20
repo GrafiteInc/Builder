@@ -21,7 +21,7 @@ class BillingController extends Controller
         $user = $request->user();
         $invoice = $user->meta->upcomingInvoice();
 
-        if ($user->meta->subscribed('main') && ! is_null($invoice)) {
+        if ($user->meta->subscribed(Config::get('plans.subscription_name')) && ! is_null($invoice)) {
             return view('billing.details')
                 ->with('invoice', $invoice)
                 ->with('invoiceDate', Carbon::createFromTimestamp($invoice->date))
@@ -43,7 +43,7 @@ class BillingController extends Controller
         try {
             $inputs = $request->all();
             $creditCardToken = $inputs['stripeToken'];
-            Auth::user()->meta->newSubscription('main', env('SUBSCRIPTION'))->create($creditCardToken);
+            Auth::user()->meta->newSubscription(Config::get('plans.subscription_name'), env('SUBSCRIPTION'))->create($creditCardToken);
             return redirect('user/billing/details')->with('message', 'You\'re now subscribed!');
         } catch (Exception $e) {
             throw new Exception("Could not process the billing please try again.", 1);
@@ -128,7 +128,7 @@ class BillingController extends Controller
     public function getInvoices(Request $request)
     {
         $user = $request->user();
-        $invoices = $user->meta->invoices('main');
+        $invoices = $user->meta->invoices(Config::get('plans.subscription_name'));
 
         return view('billing.invoices')
             ->with('invoices', $invoices)
@@ -173,7 +173,7 @@ class BillingController extends Controller
             $user = $request->user();
             $invoice = $user->meta->upcomingInvoice();
             $date = Carbon::createFromTimestamp($invoice->date);
-            $user->meta->subscription('main')->cancel();
+            $user->meta->subscription(Config::get('plans.subscription_name'))->cancel();
             return redirect('user/billing/details')->with('message', 'Your subscription has been cancelled! It will be availale until '.$date);
         } catch (Exception $e) {
             throw new Exception("Could not process the cancellation please try again.", 1);

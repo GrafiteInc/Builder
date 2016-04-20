@@ -251,6 +251,22 @@ InputMaker::label($name, $attributes = [])
 InputMaker::create($name, $field, $object = null, $class = 'form-control', $reformatted = false, $populated = false)
 ```
 
+#### Accounts
+```php
+Account::getClause('box_limit');
+Account::canAccess('area_51');
+Account::cannotAccess('restricted_area');
+Account::getLimit('team_user');
+Account::withinLimit('App\Repositories\Team\Team');
+Account::creditsAvailable('App\Repositories\Team\Team');
+Account::creditsUsed('App\Repositories\Team\Team');
+Account::currentBillingCycle()->withinLimit('App\Repositories\Team\Team');
+Account::clause('custom', function($user, $subscription, $clause, $query) {
+    // do your own logic!
+    // model is optional if you dont provide it the query is null - otherwise is a query builder
+}, 'App\Repositories\Team\Team');
+```
+
 ## License
 Laracogs is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
 

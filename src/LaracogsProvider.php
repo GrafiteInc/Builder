@@ -3,6 +3,7 @@
 namespace Yab\Laracogs;
 
 use Yab\Laracogs\Utilities\Crypto;
+use Yab\Laracogs\Utilities\Account;
 use Yab\Laracogs\Utilities\FormMaker;
 use Illuminate\Support\Facades\Blade;
 use Yab\Laracogs\Utilities\InputMaker;
@@ -58,11 +59,16 @@ class LaracogsProvider extends ServiceProvider
             return new Crypto($app);
         });
 
+        $this->app->singleton('Account', function ($app) {
+            return app(Account::class);
+        });
+
         $loader = AliasLoader::getInstance();
 
         $loader->alias('FormMaker', \Yab\Laracogs\Facades\FormMaker::class);
         $loader->alias('InputMaker', \Yab\Laracogs\Facades\InputMaker::class);
         $loader->alias('Crypto', \Yab\Laracogs\Utilities\Crypto::class);
+        $loader->alias('Account', \Yab\Laracogs\Facades\Account::class);
         $loader->alias('Markdown', \AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra::class);
 
         // Thrid party
