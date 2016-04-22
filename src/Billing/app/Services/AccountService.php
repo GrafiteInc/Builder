@@ -1,6 +1,6 @@
 <?php
 
-namespace Yab\Laracogs\Utilities;
+namespace {{App\}}Services;
 
 use DB;
 use Schema;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Config;
 /**
  * Account methods for billing controls
  */
-class Account
+class AccountService
 {
     protected $user;
     protected $config;
@@ -23,8 +23,7 @@ class Account
     public function __construct()
     {
         $this->user = Auth::user();
-        $plans = include(__DIR__.'/../Billing/config/plans.php');
-        $this->config = Config::get('plans', $plans);
+        $this->config = Config::get('plans');
         $this->subscription = $this->user->meta->subscription($this->config['subscription_name']);
         $this->inBillingCycle = false;
 
@@ -198,7 +197,6 @@ class Account
             $query = DB::table(app($model)->table);
 
             if ($this->inBillingCycle) {
-
                 $customer = Customer::retrieve($this->user->meta->stripe_id);
                 $stripeSubscription = $customer->subscriptions->retrieve($this->subscription->stripe_id);
 
