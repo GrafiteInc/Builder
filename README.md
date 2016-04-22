@@ -252,6 +252,7 @@ InputMaker::create($name, $field, $object = null, $class = 'form-control', $refo
 ```
 
 #### Accounts
+These are relative to *billing* only. They provide extra tools for handling restrictions in your application based on the plan the user subscribed to.
 ```php
 Account::getClause('box_limit');
 Account::canAccess('area_51');

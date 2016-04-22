@@ -96,8 +96,12 @@ class Account
      * @param  string $model
      * @return bool
      */
-    public function withinLimit($model)
+    public function withinLimit($model, $key = 'user_id', $value = null)
     {
+        if (is_null($value)) {
+            $value = $this->user->id;
+        }
+
         $limit = $this->config['plans'][$this->subscription->stripe_plan]['limits'][$model];
 
         if (Schema::hasTable($model)) {
@@ -106,7 +110,7 @@ class Account
             $newModel = app($model);
         }
 
-        $countQuery = $newModel->where('user_id', $this->user->id);
+        $countQuery = $newModel->where($key, $value);
 
         if ($this->inBillingCycle) {
             $customer = Customer::retrieve($this->user->meta->stripe_id);
@@ -134,13 +138,17 @@ class Account
      * @param  string $model
      * @return int
      */
-    public function creditsUsed($model)
+    public function creditsUsed($model, $key = 'user_id', $value = null)
     {
+        if (is_null($value)) {
+            $value = $this->user->id;
+        }
+
         $credits = $this->config['plans'][$this->subscription->stripe_plan]['credits'];
 
         $appModel = app($model);
 
-        $creditQuery = $appModel->where('user_id', $this->user->id);
+        $creditQuery = $appModel->where($key, $value);
 
         if ($this->inBillingCycle) {
             $customer = Customer::retrieve($this->user->meta->stripe_id);
