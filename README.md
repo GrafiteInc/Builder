@@ -214,6 +214,23 @@ elixir(function(mix) {
 });
 ```
 
+#### AccountService
+These are relative to *billing* only. They provide extra tools for handling restrictions in your application based on the plan the user subscribed to.
+```php
+getClause('box_limit');
+canAccess('area_51');
+cannotAccess('restricted_area');
+getLimit('team_user');
+withinLimit('App\Repositories\Team\Team');
+creditsAvailable('App\Repositories\Team\Team');
+creditsUsed('App\Repositories\Team\Team');
+currentBillingCycle()->withinLimit('App\Repositories\Team\Team');
+clause('custom', function($user, $subscription, $clause, $query) {
+    // do your own logic!
+    // model is optional if you dont provide it the query is null - otherwise is a query builder
+}, 'App\Repositories\Team\Team');
+```
+
 ## CRUD
 The CRUD command builds a basic crud for a table
 ```php
@@ -249,23 +266,6 @@ FormMaker::fromArray($array, $columns = null, $view = null, $class = 'form-contr
 ```php
 InputMaker::label($name, $attributes = [])
 InputMaker::create($name, $field, $object = null, $class = 'form-control', $reformatted = false, $populated = false)
-```
-
-#### Accounts
-These are relative to *billing* only. They provide extra tools for handling restrictions in your application based on the plan the user subscribed to.
-```php
-Account::getClause('box_limit');
-Account::canAccess('area_51');
-Account::cannotAccess('restricted_area');
-Account::getLimit('team_user');
-Account::withinLimit('App\Repositories\Team\Team');
-Account::creditsAvailable('App\Repositories\Team\Team');
-Account::creditsUsed('App\Repositories\Team\Team');
-Account::currentBillingCycle()->withinLimit('App\Repositories\Team\Team');
-Account::clause('custom', function($user, $subscription, $clause, $query) {
-    // do your own logic!
-    // model is optional if you dont provide it the query is null - otherwise is a query builder
-}, 'App\Repositories\Team\Team');
 ```
 
 ## License
