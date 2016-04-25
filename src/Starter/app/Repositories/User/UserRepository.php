@@ -154,7 +154,7 @@ class UserRepository
     }
 
     /**
-     * Remove a role
+     * Leave a team
      *
      * @param  int $teamId
      * @param  int $userId
@@ -167,6 +167,20 @@ class UserRepository
 
         $user->teams()->detach($team);
     }
+
+    /**
+     * Leave all teams
+     *
+     * @param  int $userId
+     * @param  string $role
+     * @return boolean
+     */
+    public function leaveAllTeams($userId)
+    {
+        $user = $this->model->find($userId);
+        $user->teams()->detach();
+    }
+
 
     /**
      * Delete someone

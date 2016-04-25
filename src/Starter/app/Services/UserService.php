@@ -141,6 +141,7 @@ class UserService
         try {
             DB::beginTransaction();
                 $this->userRepo->unassignAllRoles($id);
+                $this->userRepo->leaveAllTeams($id);
                 $userMetaResult = $this->userMetaRepo->destroy($id);
                 $userResult = $this->userRepo->destroy($id);
             DB::commit();
