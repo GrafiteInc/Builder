@@ -13,7 +13,7 @@ class CrudGeneratorTest extends PHPUnit_Framework_TestCase
         $this->config = [
             'bootstrap'                  => false,
             'semantic'                   => false,
-            'table-definition'           => null,
+            'schema'                     => null,
             '_path_facade_'              => vfsStream::url('Facades'),
             '_path_service_'             => vfsStream::url('Services'),
             '_path_repository_'          => vfsStream::url('Repositories/'.ucfirst('testTable')),
