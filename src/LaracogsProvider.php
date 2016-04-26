@@ -122,6 +122,7 @@ class LaracogsProvider extends ServiceProvider
             \Yab\Laracogs\Console\Notifications::class,
             \Yab\Laracogs\Console\Socialite::class,
             \Yab\Laracogs\Console\Bootstrap::class,
+            \Yab\Laracogs\Console\Semantic::class,
             \Yab\Laracogs\Console\Docs::class,
             \Yab\Laracogs\Console\Crud::class,
             \Yab\Laracogs\Console\TableCrud::class,
