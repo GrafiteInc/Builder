@@ -297,14 +297,17 @@ class FormMaker
      *
      * @return array
      */
-    public function getTableColumns($table)
+    public function getTableColumns($table, $allColumns = false)
     {
         $tableColumns = Schema::getColumnListing($table);
 
         $tableTypeColumns = [];
+        $badColumns = ['id', 'created_at', 'updated_at'];
+
+        if ($allColumns) { $badColumns = []; }
 
         foreach ($tableColumns as $column) {
-            if ( ! in_array($column, array('id', 'created_at', 'updated_at'))) {
+            if ( ! in_array($column, $badColumns)) {
                 $type = DB::connection()->getDoctrineColumn($table, $column)->getType()->getName();
                 $tableTypeColumns[$column]['type'] = $type;
             }

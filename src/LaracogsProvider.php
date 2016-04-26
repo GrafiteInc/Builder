@@ -124,6 +124,7 @@ class LaracogsProvider extends ServiceProvider
             \Yab\Laracogs\Console\Bootstrap::class,
             \Yab\Laracogs\Console\Docs::class,
             \Yab\Laracogs\Console\Crud::class,
+            \Yab\Laracogs\Console\TableCrud::class,
             \Yab\Laracogs\Console\Starter::class,
         ]);
     }

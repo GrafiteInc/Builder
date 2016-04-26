@@ -13,10 +13,10 @@ class _camel_case_IntegrationTest extends TestCase
         parent::setUp();
 
         $this->_lower_case_ = factory(_namespace_repository_\_camel_case_::class)->make([
-            // put fields here
+            // _camel_case_ table data
         ]);
         $this->_lower_case_Edited = factory(_namespace_repository_\_camel_case_::class)->make([
-            // put fields here
+            // _camel_case_ table data
         ]);
         $user = factory(_app_namespace_Repositories\User\User::class)->make();
         $this->actor = $this->actingAs($user);

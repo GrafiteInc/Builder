@@ -4,7 +4,9 @@ namespace Yab\Laracogs\Console;
 
 use Config;
 use Artisan;
+use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
 use Yab\Laracogs\Generators\CrudGenerator;
 use Illuminate\Console\AppNamespaceDetectorTrait;
 
@@ -13,11 +15,33 @@ class Crud extends Command
     use AppNamespaceDetectorTrait;
 
     /**
+     * Column Types
+     * @var array
+     */
+    protected $columnTypes = [
+        'increments',
+        'integer',
+        'string',
+        'datetime',
+        'date',
+        'float',
+        'binary',
+        'blob',
+        'boolean',
+        'datetimetz',
+        'time',
+        'decimal',
+        'bigint',
+        'smallint',
+        'tinyint',
+    ];
+
+    /**
      * The console command name.
      *
      * @var string
      */
-    protected $signature = 'laracogs:crud {table} {--api} {--migration} {--bootstrap}';
+    protected $signature = 'laracogs:crud {table} {--api} {--migration} {--bootstrap} {--semantic} {--table-definition=null}';
 
     /**
      * The console command description.
@@ -35,6 +59,7 @@ class Crud extends Command
     {
         $section = false;
         $crudGenerator = new CrudGenerator();
+        $filesystem = new Filesystem();
 
         $table = ucfirst(str_singular($this->argument('table')));
 
@@ -44,10 +69,21 @@ class Crud extends Command
             $section = $splitTable[0];
         }
 
+        if ($this->option('table-definition')) {
+            foreach (explode(',', $this->option('table-definition')) as $column) {
+                $columnDefinition = explode(':', $column);
+                if (! in_array($columnDefinition[1], $this->columnTypes)) {
+                    throw new Exception("$columnDefinition[1] is not in the array of valid column types: ".implode(', ', $this->columnTypes), 1);
+                }
+            }
+        }
+
         $config = [];
         $config = [
             'template_source'            => '',
             'bootstrap'                  => false,
+            'semantic'                   => false,
+            'table-definition'           => null,
             '_path_facade_'              => app_path('Facades'),
             '_path_service_'             => app_path('Services'),
             '_path_repository_'          => app_path('Repositories/_table_'),
@@ -93,6 +129,8 @@ class Crud extends Command
             $config = [
                 'template_source'            => '',
                 'bootstrap'                  => false,
+                'semantic'                   => false,
+                'table-definition'           => null,
                 '_path_facade_'              => app_path('Facades'),
                 '_path_service_'             => app_path('Services'),
                 '_path_repository_'          => app_path('Repositories/'.ucfirst($section).'/'.ucfirst($table)),
@@ -144,6 +182,14 @@ class Crud extends Command
             $config['bootstrap'] = true;
         }
 
+        if ($this->option('semantic')) {
+            $config['semantic'] = true;
+        }
+
+        if ($this->option('table-definition')) {
+            $config['table-definition'] = $this->option('table-definition');
+        }
+
         if (! isset($config['template_source'])) {
             $config['template_source'] = __DIR__.'/../Templates';
         }
@@ -182,24 +228,51 @@ class Crud extends Command
             }
 
         } catch (Exception $e) {
+            throw new Exception($e->getMessage(), 1);
             throw new Exception("Unable to generate your CRUD", 1);
         }
 
-        if ($this->option('migration')) {
-            $this->line('Building migration...');
-            if ($section) {
-                Artisan::call('make:migration', [
-                    'name' => 'create_'.str_plural(strtolower(implode('_', $splitTable))).'_table',
-                    '--table' => str_plural(strtolower(implode('_', $splitTable))),
-                    '--create' => true,
-                ]);
-            } else {
-                Artisan::call('make:migration', [
-                    'name' => 'create_'.str_plural(strtolower($table)).'_table',
-                    '--table' => str_plural(strtolower($table)),
-                    '--create' => true,
-                ]);
+        try {
+            if ($this->option('migration')) {
+                $this->line('Building migration...');
+                if ($section) {
+                    $migrationName = 'create_'.str_plural(strtolower(implode('_', $splitTable))).'_table';
+                    Artisan::call('make:migration', [
+                        'name' => $migrationName,
+                        '--table' => str_plural(strtolower(implode('_', $splitTable))),
+                        '--create' => true,
+                    ]);
+                } else {
+                    $migrationName = 'create_'.str_plural(strtolower($table)).'_table';
+                    Artisan::call('make:migration', [
+                        'name' => $migrationName,
+                        '--table' => str_plural(strtolower($table)),
+                        '--create' => true,
+                    ]);
+                }
+
+                $migrationFiles = $filesystem->allFiles(base_path('database/migrations'));
+                foreach ($migrationFiles as $file) {
+                    if (stristr($file->getBasename(), $migrationName) ) {
+                        $migrationData = file_get_contents($file->getPathname());
+                        $parsedTable = "";
+
+                        foreach (explode(',', $this->option('table-definition')) as $key => $column) {
+                            $columnDefinition = explode(':', $column);
+                            if ($key === 0) {
+                                $parsedTable .= "\$table->$columnDefinition[1]('$columnDefinition[0]');\n";
+                            } else {
+                                $parsedTable .= "\t\t\t\$table->$columnDefinition[1]('$columnDefinition[0]');\n";
+                            }
+                        }
+
+                        $migrationData = str_replace("\$table->increments('id');", $parsedTable, $migrationData);
+                        file_put_contents($file->getPathname(), $migrationData);
+                    }
+                }
             }
+        } catch (Exception $e) {
+            throw new Exception("Could not process the migration but your CRUD was generated", 1);
         }
 
         $this->line('You may wish to add this as your testing database');

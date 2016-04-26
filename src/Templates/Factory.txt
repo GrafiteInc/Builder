@@ -8,7 +8,7 @@
 $factory->define(_app_namespace_Repositories\_camel_case_\_camel_case_::class, function (Faker\Generator $faker) {
     return [
 
-        // prepare your table here
+        // _camel_case_ table data
 
     ];
 });

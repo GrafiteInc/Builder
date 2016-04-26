@@ -13,7 +13,7 @@ class _camel_case_ extends Model
     public $timestamps = true;
 
     public $fillable = [
-        // fill this in
+        // _camel_case_ table data
     ];
 
     public static $rules = [

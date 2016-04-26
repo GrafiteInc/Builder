@@ -11,9 +11,12 @@ class _camel_case_RepositoryTest extends TestCase
     {
         parent::setUp();
         $this->repo = $this->app->make(_camel_case_Repository::class);
-
-        $this->originalArray = [];
-        $this->editedArray = [];
+        $this->originalArray = [
+            // _camel_case_ table data
+        ];
+        $this->editedArray = [
+            // _camel_case_ table data
+        ];
         $this->searchTerm = '';
     }
 

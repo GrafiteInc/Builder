@@ -13,6 +13,7 @@ class CrudGenerator
     public function __construct()
     {
         $this->filesystem = new Filesystem;
+        $this->faker = \Faker\Factory::create();
     }
 
     /**
@@ -45,6 +46,10 @@ class CrudGenerator
 
         $repo = file_get_contents($config['template_source'].'/Repository/Repository.txt');
         $model = file_get_contents($config['template_source'].'/Repository/Model.txt');
+
+        if (! is_null($config['table-definition'])) {
+            $model = str_replace('// _camel_case_ table data', $this->prepareTableDefinition($config['table-definition']), $model);
+        }
 
         foreach ($config as $key => $value) {
             $repo = str_replace($key, $value, $repo);
@@ -129,14 +134,19 @@ class CrudGenerator
      */
     public function createFactory($config)
     {
-        $routes = file_get_contents($config['template_source'].'/Factory.txt');
-        $routesMaster = base_path('database/factories/ModelFactory.php');
+        $factory = file_get_contents($config['template_source'].'/Factory.txt');
 
-        foreach ($config as $key => $value) {
-            $routes = str_replace($key, $value, $routes);
+        if (! is_null($config['table-definition'])) {
+            $factory = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['table-definition']), $factory);
         }
 
-        return file_put_contents($routesMaster, $routes, FILE_APPEND);
+        $factoryMaster = base_path('database/factories/ModelFactory.php');
+
+        foreach ($config as $key => $value) {
+            $factory = str_replace($key, $value, $factory);
+        }
+
+        return file_put_contents($factoryMaster, $factory, FILE_APPEND);
     }
 
     /**
@@ -170,6 +180,12 @@ class CrudGenerator
         $repositoryTest = file_get_contents($config['template_source'].'/Tests/RepositoryTest.txt');
         $serviceTest = file_get_contents($config['template_source'].'/Tests/ServiceTest.txt');
 
+        if (! is_null($config['table-definition'])) {
+            $integrationTest = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['table-definition']), $integrationTest);
+            $repositoryTest = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['table-definition']), $repositoryTest);
+            $serviceTest = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['table-definition']), $serviceTest);
+        }
+
         foreach ($config as $key => $value) {
             $integrationTest = str_replace($key, $value, $integrationTest);
             $repositoryTest = str_replace($key, $value, $repositoryTest);
@@ -196,6 +212,10 @@ class CrudGenerator
 
         if ($config['bootstrap']) {
             $viewTemplates = 'BootstrapViews';
+        }
+
+        if ($config['semantic']) {
+            $viewTemplates = 'SemanticViews';
         }
 
         foreach (glob($config['template_source'].'/'.$viewTemplates.'/*') as $file) {
@@ -243,6 +263,70 @@ class CrudGenerator
         $request = file_put_contents($config['_path_api_controller_'].'/'.$config['_camel_case_'].'Controller.php', $request);
 
         return $request;
+    }
+
+    /**
+     * Prepare a string of the table
+     * @param  string $table
+     * @return string
+     */
+    private function prepareTableDefinition($table)
+    {
+        $tableDefintion = '';
+
+        foreach (explode(',', $table) as $column) {
+            $columnDefinition = explode(':', $column);
+            $tableDefintion .= "\t\t'$columnDefinition[0]',\n";
+        }
+
+        return $tableDefintion;
+    }
+
+    /**
+     * Prepare a table array example
+     * @param  string $table
+     * @return string
+     */
+    private function prepareTableExample($table)
+    {
+        $tableExample = '';
+
+        foreach (explode(',', $table) as $key => $column) {
+            $columnDefinition = explode(':', $column);
+            $example = $this->createExampleByType($columnDefinition[1]);
+              if ($key === 0) {
+                    $tableExample .= "'$columnDefinition[0]' => '$example',\n";
+                } else {
+                    $tableExample .= "\t\t'$columnDefinition[0]' => '$example',\n";
+                }
+        }
+
+        return $tableExample;
+    }
+
+    /**
+     * Create an example by type for table definitions
+     * @param  string  $type
+     * @return mixed
+     */
+    private function createExampleByType($type)
+    {
+        switch ($type) {
+            case 'increments':      return 1;
+            case 'string':          return $this->faker->word;
+            case 'boolean':         return 1;
+            case 'text':            return $this->faker->sentence;
+            case 'datetime':        return $this->faker->dateTime()->format('Y-m-d h:i:s');
+            case 'date':            return $this->faker->date()->format('Y-m-d');
+            case 'time':            return $this->faker->time()->format('h:i:s');
+            case 'float':           return 1.1;
+            case 'decimal':         return 1.1;
+            case 'integer':         return 1;
+            case 'bigint':          return 1;
+            case 'smallint':        return 1;
+            case 'tinyint':         return 1;
+            default:                return 1;
+        }
     }
 
 }

@@ -11,8 +11,12 @@ class _camel_case_ServiceTest extends TestCase
     {
         parent::setUp();
         $this->service = $this->app->make(_camel_case_Service::class);
-        $this->originalArray = [];
-        $this->editedArray = [];
+        $this->originalArray = [
+            // _camel_case_ table data
+        ];
+        $this->editedArray = [
+            // _camel_case_ table data
+        ];
         $this->searchTerm = '';
     }
 
