@@ -19,20 +19,24 @@ This is a set of tools to help speed up development of Laravel apps. You can sta
 2. OpenSSL
 3. Laravel 5.1+
 
-### Composer install
+### Composer
+Start a new Laravel project:
+```php
+composer create-project laravel/laravel your-project-name
+```
 
+Then run the following to add Laracogs
 ```php
 composer require "yab/laracogs"
 ```
 
 ### Providers
-
+Add this to the `config/app.php` in the providers array:
 ```php
 Yab\Laracogs\LaracogsProvider::class
 ```
 
 ### Publish
-
 ```php
 php artisan vendor:publish --provider="Yab\Laracogs\LaracogsProvider"
 ```
@@ -61,6 +65,7 @@ php artisan migrate --seed
 ```
 
 ##### Route Middleware
+Add the following to your `app/Http/Kernel.php` $middlewareGroups array.
 
 ```php
 'admin' => \App\Http\Middleware\Admin::class,
