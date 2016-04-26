@@ -10,10 +10,11 @@ use Illuminate\Filesystem\Filesystem;
  */
 class CrudGenerator
 {
+    protected $filesystem;
+
     public function __construct()
     {
         $this->filesystem = new Filesystem;
-        $this->faker = \Faker\Factory::create();
     }
 
     /**
@@ -311,20 +312,23 @@ class CrudGenerator
      */
     private function createExampleByType($type)
     {
+        $faker = \Faker\Factory::create();
+
         switch ($type) {
             case 'increments':      return 1;
-            case 'string':          return $this->faker->word;
+            case 'string':          return $faker->word;
             case 'boolean':         return 1;
-            case 'text':            return $this->faker->sentence;
-            case 'datetime':        return $this->faker->dateTime()->format('Y-m-d h:i:s');
-            case 'date':            return $this->faker->date()->format('Y-m-d');
-            case 'time':            return $this->faker->time()->format('h:i:s');
+            case 'text':            return $faker->sentence;
+            case 'datetime':        return $faker->dateTime()->format('Y-m-d h:i:s');
+            case 'date':            return $faker->date()->format('Y-m-d');
+            case 'time':            return $faker->time()->format('h:i:s');
             case 'float':           return 1.1;
             case 'decimal':         return 1.1;
             case 'integer':         return 1;
             case 'bigint':          return 1;
             case 'smallint':        return 1;
             case 'tinyint':         return 1;
+
             default:                return 1;
         }
     }
