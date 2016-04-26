@@ -3,6 +3,7 @@
 namespace {{App\}}Http\Controllers\User;
 
 use Auth;
+use Config;
 use Activity;
 use Carbon\Carbon;
 use {{App\}}Http\Requests;
