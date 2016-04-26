@@ -134,9 +134,19 @@ Boostrap prepares your application with bootstrap as a view/ css framework
 php artisan laracogs:bootstrap
 ```
 
+### Semantic
+----
+Semantic prepares your application with semantic-ui as a view/ css framework
+
+```php
+php artisan laracogs:semantic
+```
+
+<small>Please note that Billing and Notifications are still set for bootstrap</small>
+
 ### Notifications
 ----
-Boostrap prepares your application with a notification system
+Notifications prepares your application with a notification system
 
 ```php
 php artisan laracogs:notifications
@@ -144,7 +154,7 @@ php artisan laracogs:notifications
 
 ### Socialite
 ----
-Boostrap prepares your application with a socialite system, with GitHub as the example:
+Socialite prepares your application with a socialite system, with GitHub as the example:
 
 ```php
 php artisan laracogs:socialite
@@ -152,7 +162,7 @@ php artisan laracogs:socialite
 
 ### API
 ----
-Boostrap prepares your application with an API system using JWT (logins, and user profile):
+Api prepares your application with an API system using JWT (logins, and user profile):
 
 ```php
 php artisan laracogs:api
