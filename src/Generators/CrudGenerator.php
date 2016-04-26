@@ -48,8 +48,8 @@ class CrudGenerator
         $repo = file_get_contents($config['template_source'].'/Repository/Repository.txt');
         $model = file_get_contents($config['template_source'].'/Repository/Model.txt');
 
-        if (! is_null($config['table-definition'])) {
-            $model = str_replace('// _camel_case_ table data', $this->prepareTableDefinition($config['table-definition']), $model);
+        if (! is_null($config['schema'])) {
+            $model = str_replace('// _camel_case_ table data', $this->prepareTableDefinition($config['schema']), $model);
         }
 
         foreach ($config as $key => $value) {
@@ -137,8 +137,8 @@ class CrudGenerator
     {
         $factory = file_get_contents($config['template_source'].'/Factory.txt');
 
-        if (! is_null($config['table-definition'])) {
-            $factory = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['table-definition']), $factory);
+        if (! is_null($config['schema'])) {
+            $factory = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $factory);
         }
 
         $factoryMaster = base_path('database/factories/ModelFactory.php');
@@ -181,10 +181,10 @@ class CrudGenerator
         $repositoryTest = file_get_contents($config['template_source'].'/Tests/RepositoryTest.txt');
         $serviceTest = file_get_contents($config['template_source'].'/Tests/ServiceTest.txt');
 
-        if (! is_null($config['table-definition'])) {
-            $integrationTest = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['table-definition']), $integrationTest);
-            $repositoryTest = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['table-definition']), $repositoryTest);
-            $serviceTest = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['table-definition']), $serviceTest);
+        if (! is_null($config['schema'])) {
+            $integrationTest = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $integrationTest);
+            $repositoryTest = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $repositoryTest);
+            $serviceTest = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $serviceTest);
         }
 
         foreach ($config as $key => $value) {

@@ -41,7 +41,7 @@ class Crud extends Command
      *
      * @var string
      */
-    protected $signature = 'laracogs:crud {table} {--api} {--migration} {--bootstrap} {--semantic} {--table-definition=null}';
+    protected $signature = 'laracogs:crud {table} {--api} {--migration} {--bootstrap} {--semantic} {--schema=null}';
 
     /**
      * The console command description.
@@ -69,8 +69,8 @@ class Crud extends Command
             $section = $splitTable[0];
         }
 
-        if ($this->option('table-definition')) {
-            foreach (explode(',', $this->option('table-definition')) as $column) {
+        if ($this->option('schema')) {
+            foreach (explode(',', $this->option('schema')) as $column) {
                 $columnDefinition = explode(':', $column);
                 if (! in_array($columnDefinition[1], $this->columnTypes)) {
                     throw new Exception("$columnDefinition[1] is not in the array of valid column types: ".implode(', ', $this->columnTypes), 1);
@@ -83,7 +83,7 @@ class Crud extends Command
             'template_source'            => '',
             'bootstrap'                  => false,
             'semantic'                   => false,
-            'table-definition'           => null,
+            'schema'           => null,
             '_path_facade_'              => app_path('Facades'),
             '_path_service_'             => app_path('Services'),
             '_path_repository_'          => app_path('Repositories/_table_'),
@@ -130,7 +130,7 @@ class Crud extends Command
                 'template_source'            => '',
                 'bootstrap'                  => false,
                 'semantic'                   => false,
-                'table-definition'           => null,
+                'schema'           => null,
                 '_path_facade_'              => app_path('Facades'),
                 '_path_service_'             => app_path('Services'),
                 '_path_repository_'          => app_path('Repositories/'.ucfirst($section).'/'.ucfirst($table)),
@@ -186,8 +186,8 @@ class Crud extends Command
             $config['semantic'] = true;
         }
 
-        if ($this->option('table-definition')) {
-            $config['table-definition'] = $this->option('table-definition');
+        if ($this->option('schema')) {
+            $config['schema'] = $this->option('schema');
         }
 
         if (! isset($config['template_source'])) {
@@ -257,7 +257,7 @@ class Crud extends Command
                         $migrationData = file_get_contents($file->getPathname());
                         $parsedTable = "";
 
-                        foreach (explode(',', $this->option('table-definition')) as $key => $column) {
+                        foreach (explode(',', $this->option('schema')) as $key => $column) {
                             $columnDefinition = explode(':', $column);
                             if ($key === 0) {
                                 $parsedTable .= "\$table->$columnDefinition[1]('$columnDefinition[0]');\n";

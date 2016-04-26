@@ -45,7 +45,7 @@ class TableCrud extends Command
             '--migration' => $this->option('migration'),
             '--bootstrap' => $this->option('bootstrap'),
             '--semantic' => $this->option('semantic'),
-            '--table-definition' => $tableDefintion,
+            '--schema' => $tableDefintion,
         ]);
 
         $migrationName = 'create_'.$table.'_table';
