@@ -247,9 +247,9 @@ clause('custom', function($user, $subscription, $clause, $query) {
 ```
 
 ## CRUD
-The CRUD command builds a basic crud for a table
+The CRUD command builds a crud for a table with unit tests!
 ```php
-php artisan laracogs:crud {table} {--migration} {--bootstrap}
+php artisan laracogs:crud {table} {--migration} {--bootstrap} {--semantic} {--schema}
 ```
 
 ## Docs
