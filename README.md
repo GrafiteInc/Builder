@@ -65,7 +65,7 @@ php artisan migrate --seed
 ```
 
 ##### Route Middleware
-Add the following to your `app/Http/Kernel.php` $middlewareGroups array.
+Add the following to your `app/Http/Kernel.php` $routeMiddleware array.
 
 ```php
 'admin' => \App\Http\Middleware\Admin::class,
