@@ -2,28 +2,33 @@
 
 @section('content')
 
-    <div class="container-fluid">
+    <div class="ui fluid container">
         <div class="row">
-            <div class="col-md-12">
-                <div class="pull-right">
-                    {!! Form::open(['url' => '_lower_casePlural_/search']) !!}
-                    <input class="form-control form-inline pull-right" name="search" placeholder="Search">
+            <div class="ui four column grid">
+                <div class="column">
+                    <h1>_ucCamel_casePlural_: Create</h1>
+                </div>
+                <div class="column right floated">
+                    {!! Form::open(['url' => '_lower_casePlural_/search', 'class' => 'ui form']) !!}
+                        <div class="field">
+                            <input class="fluid" name="search" placeholder="Search">
+                        </div>
                     {!! Form::close() !!}
                 </div>
-                <h1 class="pull-left" style="margin: 0;">_ucCamel_casePlural_: Create</h1>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-
-                {!! Form::open(['route' => '_lower_casePlural_.store']) !!}
-
-                @form_maker_table("_lower_casePlural_")
-
-                {!! Form::submit('Save', ['class' => 'btn btn-primary pull-right']) !!}
-
-                {!! Form::close() !!}
-
+            <div class="column">
+                <div class="raw-margin-top-24">
+                    {!! Form::open(['route' => '_lower_casePlural_.store', 'class' => 'ui form']) !!}
+                        @form_maker_table("_lower_casePlural_", FormMaker::getTableColumns("_lower_casePlural_"), '', '_lower_casePlural_.form')
+                        <div class="field">
+                            <div class="raw-margin-top-24">
+                                {!! Form::submit('Save', ['class' => 'ui button primary right floated']) !!}
+                            </div>
+                        </div>
+                    {!! Form::close() !!}
+                </div>
             </div>
         </div>
     </div>
