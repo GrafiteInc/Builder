@@ -229,8 +229,35 @@ elixir(function(mix) {
 });
 ```
 
-#### AccountService
-These are relative to *billing* only. They provide extra tools for handling restrictions in your application based on the plan the user subscribed to.
+#### Accounts (Billing Only)
+
+##### Plans
+This is the basic config for `config/plans.php`. It sets the default subscription name, as well as the plans and the rules pertaining to them.
+
+```
+'subscription_name' => 'main',
+'plans' => [
+    'basic' => [
+        'access' => [
+            'some name'
+        ],
+        'limits' => [
+            'Model\Namespace' => 5,
+            'pivot_table' => 1
+        ],
+        'credits' => [
+            'column' => 'credits_spent',
+            'limit' => 10
+        ],
+        'custom' => [
+            'anything' => 'anything'
+        ],
+    ],
+]
+```
+
+##### Service
+The service provides extra tools for handling restrictions in your application based on the plan the user subscribed to.
 ```php
 getClause('box_limit');
 canAccess('area_51');
