@@ -22,7 +22,7 @@ class _camel_case_Controller extends Controller
     public function index(Request $request)
     {
         $_lower_casePlural_ = $this->service->paginated();
-        return view('_lower_casePlural_.index')->with('_lower_casePlural_', $_lower_casePlural_);
+        return view('_sectionPrefix__lower_casePlural_.index')->with('_lower_casePlural_', $_lower_casePlural_);
     }
 
     /**
@@ -33,7 +33,7 @@ class _camel_case_Controller extends Controller
     public function search(Request $request)
     {
         $_lower_casePlural_ = $this->service->search($request->search);
-        return view('_lower_casePlural_.index')->with('_lower_casePlural_', $_lower_casePlural_);
+        return view('_sectionPrefix__lower_casePlural_.index')->with('_lower_casePlural_', $_lower_casePlural_);
     }
 
     /**
@@ -43,7 +43,7 @@ class _camel_case_Controller extends Controller
      */
     public function create()
     {
-        return view('_lower_casePlural_.create');
+        return view('_sectionPrefix__lower_casePlural_.create');
     }
 
     /**
@@ -57,10 +57,10 @@ class _camel_case_Controller extends Controller
         $result = $this->service->create($request->except('_token'));
 
         if ($result) {
-            return redirect('_lower_casePlural_/'.$result->id.'/edit')->with('message', 'Successfully created');
+            return redirect('_sectionRoutePrefix__lower_casePlural_/'.$result->id.'/edit')->with('message', 'Successfully created');
         }
 
-        return redirect('_lower_casePlural_')->with('message', 'Failed to create');
+        return redirect('_sectionRoutePrefix__lower_casePlural_')->with('message', 'Failed to create');
     }
 
     /**
@@ -72,7 +72,7 @@ class _camel_case_Controller extends Controller
     public function show($id)
     {
         $_lower_case_ = $this->service->find($id);
-        return view('_lower_casePlural_.show')->with('_lower_case_', $_lower_case_);
+        return view('_sectionPrefix__lower_casePlural_.show')->with('_lower_case_', $_lower_case_);
     }
 
     /**
@@ -84,7 +84,7 @@ class _camel_case_Controller extends Controller
     public function edit($id)
     {
         $_lower_case_ = $this->service->find($id);
-        return view('_lower_casePlural_.edit')->with('_lower_case_', $_lower_case_);
+        return view('_sectionPrefix__lower_casePlural_.edit')->with('_lower_case_', $_lower_case_);
     }
 
     /**
@@ -116,9 +116,9 @@ class _camel_case_Controller extends Controller
         $result = $this->service->destroy($id);
 
         if ($result) {
-            return redirect('_lower_casePlural_')->with('message', 'Successfully deleted');
+            return redirect('_sectionRoutePrefix__lower_casePlural_')->with('message', 'Successfully deleted');
         }
 
-        return redirect('_lower_casePlural_')->with('message', 'Failed to delete');
+        return redirect('_sectionRoutePrefix__lower_casePlural_')->with('message', 'Failed to delete');
     }
 }

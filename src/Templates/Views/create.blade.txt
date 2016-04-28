@@ -2,9 +2,9 @@
 
 <div class="container">
 
-    {!! Form::open(['route' => '_lower_casePlural_.store']) !!}
+    {!! Form::open(['route' => '_sectionPrefix__lower_casePlural_.store']) !!}
 
-    @form_maker_table("_lower_casePlural_")
+    @form_maker_table("_sectionTablePrefix__lower_casePlural_")
 
     {!! Form::submit('Save') !!}
 
