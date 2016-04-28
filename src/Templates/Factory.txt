@@ -5,7 +5,7 @@
 |--------------------------------------------------------------------------
 */
 
-$factory->define(_app_namespace_Repositories\_camel_case_\_camel_case_::class, function (Faker\Generator $faker) {
+$factory->define(_model_namespace_\_camel_case_::class, function (Faker\Generator $faker) {
     return [
 
         // _camel_case_ table data
