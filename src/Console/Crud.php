@@ -83,7 +83,9 @@ class Crud extends Command
             'template_source'            => '',
             'bootstrap'                  => false,
             'semantic'                   => false,
-            'schema'           => null,
+            'schema'                     => null,
+            '_sectionPrefix_'            => '',
+            '_sectionTablePrefix_'       => '',
             '_path_facade_'              => app_path('Facades'),
             '_path_service_'             => app_path('Services'),
             '_path_repository_'          => app_path('Repositories/_table_'),
@@ -131,6 +133,8 @@ class Crud extends Command
                 'bootstrap'                  => false,
                 'semantic'                   => false,
                 'schema'                     => null,
+                '_sectionPrefix_'            => strtolower($section).'.',
+                '_sectionTablePrefix_'       => strtolower($section).'_',
                 '_path_facade_'              => app_path('Facades'),
                 '_path_service_'             => app_path('Services'),
                 '_path_repository_'          => app_path('Repositories/'.ucfirst($section).'/'.ucfirst($table)),
@@ -292,7 +296,7 @@ class Crud extends Command
     {
         if (! is_null($section)) {
             foreach ($config as $key => $value) {
-                $config[$key] = str_replace('_table_', ucfirst($table), str_replace('_section_', ucfirst($section), str_replace('_sectionLowerCase_', ucfirst($section), $value)));
+                $config[$key] = str_replace('_table_', ucfirst($table), str_replace('_section_', ucfirst($section), str_replace('_sectionLowerCase_', strtolower($section), $value)));
             }
         } else {
             foreach ($config as $key => $value) {
