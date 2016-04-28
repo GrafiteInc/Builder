@@ -130,13 +130,13 @@ class Crud extends Command
                 'template_source'            => '',
                 'bootstrap'                  => false,
                 'semantic'                   => false,
-                'schema'           => null,
+                'schema'                     => null,
                 '_path_facade_'              => app_path('Facades'),
                 '_path_service_'             => app_path('Services'),
                 '_path_repository_'          => app_path('Repositories/'.ucfirst($section).'/'.ucfirst($table)),
                 '_path_model_'               => app_path('Repositories/'.ucfirst($section).'/'.ucfirst($table)),
                 '_path_controller_'          => app_path('Http/Controllers/'.ucfirst($section).'/'),
-                '_path_api_controller_'      => app_path('Http/Controllers/'.ucfirst($section).'/Api'),
+                '_path_api_controller_'      => app_path('Http/Controllers/Api/'.ucfirst($section).'/'),
                 '_path_views_'               => base_path('resources/views/'.strtolower($section)),
                 '_path_tests_'               => base_path('tests'),
                 '_path_request_'             => app_path('Http/Requests/'.ucfirst($section)),
@@ -150,7 +150,7 @@ class Crud extends Command
                 '_namespace_repository_'     => $this->getAppNamespace().'Repositories\\'.ucfirst($section).'\\'.ucfirst($table),
                 '_namespace_model_'          => $this->getAppNamespace().'Repositories\\'.ucfirst($section).'\\'.ucfirst($table),
                 '_namespace_controller_'     => $this->getAppNamespace().'Http\Controllers\\'.ucfirst($section),
-                '_namespace_api_controller_' => $this->getAppNamespace().'Http\Controllers\\'.ucfirst($section).'\Api\\',
+                '_namespace_api_controller_' => $this->getAppNamespace().'Http\Controllers\Api\\'.ucfirst($section),
                 '_namespace_request_'        => $this->getAppNamespace().'Http\Requests\\'.ucfirst($section),
                 '_table_name_'               => str_plural(strtolower(implode('_', $splitTable))),
                 '_lower_case_'               => strtolower($table),
@@ -169,13 +169,13 @@ class Crud extends Command
             $config['template_source'] = Config::get('laracogs.crud.template_source', $templateDirectory);
             $config = array_merge($config, Config::get('laracogs.crud.sectioned', []));
 
+            $config = $this->setConfig($config, $section, $table);
+
             foreach ($config as $key => $value) {
-                if (in_array($key, ['_path_repository_', '_path_model_', '_path_controller_', '_path_views_', '_path_request_',])) {
+                if (in_array($key, ['_path_repository_', '_path_model_', '_path_controller_', '_path_api_controller_', '_path_views_', '_path_request_',])) {
                     @mkdir($value, 0777, true);
                 }
             }
-
-            $config = $this->setConfig($config, $section, $table);
         }
 
         if ($this->option('bootstrap')) {
@@ -228,8 +228,7 @@ class Crud extends Command
             }
 
         } catch (Exception $e) {
-            throw new Exception($e->getMessage(), 1);
-            throw new Exception("Unable to generate your CRUD", 1);
+            throw new Exception("Unable to generate your CRUD: ".$e->getMessage(), 1);
         }
 
         try {

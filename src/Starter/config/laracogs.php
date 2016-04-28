@@ -61,7 +61,7 @@ return [
             '_path_repository_'          => app_path('Repositories/_section_/_table_'),
             '_path_model_'               => app_path('Repositories/_section_/_table_'),
             '_path_controller_'          => app_path('Http/Controllers/_section_/'),
-            '_path_api_controller_'      => app_path('Http/Controllers/_section_/Api'),
+            '_path_api_controller_'      => app_path('Http/Controllers/Api/_section_/'),
             '_path_views_'               => base_path('resources/views/_sectionLowerCase_'),
             '_path_tests_'               => base_path('tests'),
             '_path_request_'             => app_path('Http/Requests/_section_'),
@@ -75,7 +75,7 @@ return [
             '_namespace_repository_'     => app()->getInstance()->getNamespace().'Repositories\_section_\_table_',
             '_namespace_model_'          => app()->getInstance()->getNamespace().'Repositories\_section_\_table_',
             '_namespace_controller_'     => app()->getInstance()->getNamespace().'Http\Controllers\_section_',
-            '_namespace_api_controller_' => app()->getInstance()->getNamespace().'Http\Controllers\_section_\Api\\',
+            '_namespace_api_controller_' => app()->getInstance()->getNamespace().'Http\Controllers\Api\_section_',
             '_namespace_request_'        => app()->getInstance()->getNamespace().'Http\Requests\_section_',
         ]
     ]

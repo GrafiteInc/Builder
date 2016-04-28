@@ -114,8 +114,9 @@ class CrudGenerator
             $routesMaster = app_path('Http/routes.php');
         } else {
             $routesMaster = $config['_path_routes_'];
-            file_put_contents($routesMaster, $config['routes_prefix'], FILE_APPEND);
         }
+
+        file_put_contents($routesMaster, $config['routes_prefix'], FILE_APPEND);
 
         $routes = file_get_contents($config['template_source'].'/Routes.txt');
 
@@ -242,8 +243,9 @@ class CrudGenerator
             $routesMaster = app_path('Http/api-routes.php');
         } else {
             $routesMaster = $config['_path_api_routes_'];
-            file_put_contents($routesMaster, $config['routes_prefix'], FILE_APPEND);
         }
+
+        file_put_contents($routesMaster, $config['routes_prefix'], FILE_APPEND);
 
         $routes = file_get_contents($config['template_source'].'/ApiRoutes.txt');
 
