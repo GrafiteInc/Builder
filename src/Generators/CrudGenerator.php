@@ -116,7 +116,9 @@ class CrudGenerator
             $routesMaster = $config['_path_routes_'];
         }
 
-        file_put_contents($routesMaster, $config['routes_prefix'], FILE_APPEND);
+        if (! empty($config['routes_prefix'])) {
+            file_put_contents($routesMaster, $config['routes_prefix'], FILE_APPEND);
+        }
 
         $routes = file_get_contents($config['template_source'].'/Routes.txt');
 
@@ -126,7 +128,11 @@ class CrudGenerator
 
         file_put_contents($routesMaster, $routes, FILE_APPEND);
 
-        return file_put_contents($routesMaster, $config['routes_suffix'], FILE_APPEND);
+        if (! empty($config['routes_prefix'])) {
+            file_put_contents($routesMaster, $config['routes_suffix'], FILE_APPEND);
+        }
+
+        return true;
     }
 
     /**
@@ -245,8 +251,6 @@ class CrudGenerator
             $routesMaster = $config['_path_api_routes_'];
         }
 
-        file_put_contents($routesMaster, $config['routes_prefix'], FILE_APPEND);
-
         $routes = file_get_contents($config['template_source'].'/ApiRoutes.txt');
 
         foreach ($config as $key => $value) {
@@ -254,8 +258,6 @@ class CrudGenerator
         }
 
         file_put_contents($routesMaster, $routes, FILE_APPEND);
-
-        $routeBuild = file_put_contents($routesMaster, $config['routes_suffix'], FILE_APPEND);
 
         $request = file_get_contents($config['template_source'].'/ApiController.txt');
 

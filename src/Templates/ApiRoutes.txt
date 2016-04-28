@@ -6,5 +6,5 @@
 */
 
 Route::group(['middleware' => 'jwt.auth'], function(){
-    Route::resource('api/v1/_lower_casePlural_', 'Api\_camel_case_Controller');
+    Route::resource('api/v1/_sectionRoutePrefix__lower_casePlural_', 'Api\_sectionNamespace__camel_case_Controller');
 });
