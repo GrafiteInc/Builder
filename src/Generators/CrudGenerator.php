@@ -251,6 +251,10 @@ class CrudGenerator
             $routesMaster = $config['_path_api_routes_'];
         }
 
+        if (! file_exists($routesMaster)) {
+            file_put_contents($routesMaster, "<?php\n\n");
+        }
+
         $routes = file_get_contents($config['template_source'].'/ApiRoutes.txt');
 
         foreach ($config as $key => $value) {

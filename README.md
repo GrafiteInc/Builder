@@ -6,7 +6,7 @@
 
 This is a set of tools to help speed up development of Laravel apps. You can start an app with various parts prewritten (Users, User Meta, Roles, Teams). And it comes with a powerful FormMaker which can generate form content from tables, and objects. It can generate epic CRUD prototypes rapidly with full testing scripts prepared for you, requiring very little editing. It also provides an elegant Cryptography tool which is URL friendly. Finally it brings along some friends with the LaravelCollective as a vendor.
 
-## Documentation
+## Website
 [http://laracogs.com](http://laracogs.com)
 
 **Author(s):**
@@ -43,7 +43,7 @@ php artisan vendor:publish --provider="Yab\Laracogs\LaracogsProvider"
 
 ----
 
-## Master Documentation
+## Documentation
 Please consult the documentation here: [http://laracogs.com/docs](http://laracogs.com/docs)
 
 ## Commands

@@ -232,6 +232,8 @@ class Crud extends Command
 
             if ($this->option('api')) {
                 $this->line('Building Api...');
+                $this->comment("\nAdd the following to your app/Providers/RouteServiceProvider.php: \n");
+                $this->info("require app_path('Http/api-routes.php'); \n");
                 $crudGenerator->createApi($config);
             }
 
