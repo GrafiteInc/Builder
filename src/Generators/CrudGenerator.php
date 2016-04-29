@@ -42,8 +42,8 @@ class CrudGenerator
      */
     public function createRepository($config)
     {
-        if (! is_dir($config['_path_repository_'])) mkdir($config['_path_repository_'], '0777', true);
-        if (! is_dir($config['_path_model_'])) mkdir($config['_path_model_'], '0777', true);
+        if (! is_dir($config['_path_repository_'])) mkdir($config['_path_repository_'], 0777, true);
+        if (! is_dir($config['_path_model_'])) mkdir($config['_path_model_'], 0777, true);
 
         $repo = file_get_contents($config['template_source'].'/Repository/Repository.txt');
         $model = file_get_contents($config['template_source'].'/Repository/Model.txt');
@@ -70,7 +70,7 @@ class CrudGenerator
      */
     public function createRequest($config)
     {
-        if (! is_dir($config['_path_request_'])) mkdir($config['_path_request_'], '0777', true);
+        if (! is_dir($config['_path_request_'])) mkdir($config['_path_request_'], 0777, true);
 
         $request = file_get_contents($config['template_source'].'/Request.txt');
 
@@ -90,7 +90,7 @@ class CrudGenerator
      */
     public function createService($config)
     {
-        if (! is_dir($config['_path_service_'])) mkdir($config['_path_service_'], '0777', true);
+        if (! is_dir($config['_path_service_'])) mkdir($config['_path_service_'], 0777, true);
 
         $request = file_get_contents($config['template_source'].'/Service.txt');
 
@@ -256,7 +256,7 @@ class CrudGenerator
         }
 
         if (! is_dir($config['_path_api_controller_'])) {
-            mkdir($config['_path_api_controller_'], '0777', true);
+            mkdir($config['_path_api_controller_'], 0777, true);
         }
 
         $routes = file_get_contents($config['template_source'].'/ApiRoutes.txt');
