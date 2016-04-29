@@ -51,13 +51,19 @@ class Api extends Command
             if ($result) {
                 $this->copyPreparedFiles(__DIR__.'/../Api/', base_path());
 
-                $this->info("\n\n You will need to run: composer require tymon/jwt-auth");
+                $this->info("\n\n You will need to run:");
+                $this->comment("\n\n composer require tymon/jwt-auth");
                 $this->info("\n\n Then follow the directions regarding installation on: https://github.com/tymondesigns/jwt-auth/wiki/Installation");
                 $this->info("\n\n Please review the setup details for JWT.");
 
                 $this->info("\n\n You will want to add things like:");
                 $this->line("\n Add this line to (app/Providers/RouteServiceProvider.php):");
                 $this->comment("\n require app_path('Http/api-routes.php');");
+
+                $this->line("\n Add this to the (config/app.php) providers:");
+                $this->comment("\n Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class");
+                $this->line("\n And then run:");
+                $this->comment("\n artisan vendor:publish --provider=\"Tymon\JWTAuth\Providers\JWTAuthServiceProvider\"");
 
                 $this->line("\n Add to the app/Http/Kernal.php under routeMiddleware :");
                 $this->comment("\n 'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class");
