@@ -41,7 +41,7 @@ class Crud extends Command
      *
      * @var string
      */
-    protected $signature = 'laracogs:crud {table} {--api} {--migration} {--bootstrap} {--semantic} {--schema=null}';
+    protected $signature = 'laracogs:crud {table} {--api} {--migration} {--bootstrap} {--semantic} {--schema=}';
 
     /**
      * The console command description.
@@ -281,14 +281,16 @@ class Crud extends Command
                         }
                     }
                 }
+            } else {
+                $this->info("\nYou will want to create a migration in order to get the $table tests to work correctly.\n");
             }
         } catch (Exception $e) {
             throw new Exception("Could not process the migration but your CRUD was generated", 1);
         }
 
-        $this->line('You may wish to add this as your testing database');
-        $this->line("'testing' => [ 'driver' => 'sqlite', 'database' => ':memory:', 'prefix' => '' ],");
-        $this->info('CRUD for '.$table.' is done.');
+        $this->info('You may wish to add this as your testing database');
+        $this->comment("'testing' => [ 'driver' => 'sqlite', 'database' => ':memory:', 'prefix' => '' ],");
+        $this->info('CRUD for '.$table.' is done.'."\n");
     }
 
     /**
