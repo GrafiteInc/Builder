@@ -48,7 +48,7 @@ class CrudGenerator
         $repo = file_get_contents($config['template_source'].'/Repository/Repository.txt');
         $model = file_get_contents($config['template_source'].'/Repository/Model.txt');
 
-        if (! is_null($config['schema'])) {
+        if (! empty($config['schema'])) {
             $model = str_replace('// _camel_case_ table data', $this->prepareTableDefinition($config['schema']), $model);
         }
 
@@ -144,7 +144,7 @@ class CrudGenerator
     {
         $factory = file_get_contents($config['template_source'].'/Factory.txt');
 
-        if (! is_null($config['schema'])) {
+        if (! empty($config['schema'])) {
             $factory = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $factory);
         }
 
@@ -188,7 +188,7 @@ class CrudGenerator
         $repositoryTest = file_get_contents($config['template_source'].'/Tests/RepositoryTest.txt');
         $serviceTest = file_get_contents($config['template_source'].'/Tests/ServiceTest.txt');
 
-        if (! is_null($config['schema'])) {
+        if (! empty($config['schema'])) {
             $integrationTest = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $integrationTest);
             $repositoryTest = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $repositoryTest);
             $serviceTest = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $serviceTest);
