@@ -70,11 +70,11 @@ class Starter extends Command
             $this->comment($this->getAppNamespace()."Repositories\User\User::class");
             $this->comment("\n");
 
-            $this->info("Build something worth sharing!");
-            $this->info("\n");
-            $this->info("Don't forget to run: composer dump");
-            $this->info("\n");
-            $this->info("And then: artisan migration");
+            $this->info("Build something worth sharing!\n");
+            $this->info("Don't forget to run:");
+            $this->comment("composer dump");
+            $this->info("Then:");
+            $this->comment("artisan migration");
         } else {
             $this->info("You cancelled the laracogs starter");
         }

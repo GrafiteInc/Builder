@@ -51,7 +51,8 @@ class Socialite extends Command
             if ($result) {
                 $this->copyPreparedFiles(__DIR__.'/../Socialite', base_path());
 
-                $this->info("\n\n You will need to run: composer require laravel/socialite");
+                $this->info("\n\n You will need to run:");
+                $this->comment("\n\n composer require laravel/socialite");
                 $this->info("\n\n Then follow the directions regarding billing on: https://laravel.com/docs/");
                 $this->info("\n\n Please review the setup details for socialite including your provider details.");
                 $this->info("\n\n You will want to add things like:");

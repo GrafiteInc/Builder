@@ -52,7 +52,9 @@ class Bootstrap extends Command
                 $this->copyPreparedFiles(__DIR__.'/../Bootstrap/', base_path());
 
                 $this->info("\n\nMake sure you set the PagesController@dashboard to use the following view: 'dashboard.main'\n\n");
-                $this->info("Finished bootstrapping your app");
+                $this->info("Run the following:\n");
+                $this->comment("gulp\n");
+                $this->info("Finished bootstrapping your app\n");
             } else {
                 $this->info("You cancelled the laracogs bootstrap");
             }
