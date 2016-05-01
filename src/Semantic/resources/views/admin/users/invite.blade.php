@@ -26,7 +26,7 @@
 
                     <div class="field raw-margin-top-24">
                         @input_maker_label('Role')
-                        @input_maker_create('roles', ['type' => 'relationship', 'model' => 'App\Repositories\Role\Role', 'label' => 'label', 'class' => 'ui fluid dropdown'])
+                        @input_maker_create('roles', ['type' => 'relationship', 'model' => 'App\Repositories\Role\Role', 'label' => 'label', 'value' => 'name', 'class' => 'ui fluid dropdown'])
                     </div>
 
                     <div class="field raw-margin-top-24">
