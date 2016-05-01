@@ -53,7 +53,7 @@ class Socialite extends Command
 
                 $this->info("\n\n You will need to run:");
                 $this->comment("\n\n composer require laravel/socialite");
-                $this->info("\n\n Then follow the directions regarding billing on: https://laravel.com/docs/");
+                $this->info("\n\n Then follow the directions regarding socialite on: https://laravel.com/docs/");
                 $this->info("\n\n Please review the setup details for socialite including your provider details.");
                 $this->info("\n\n You will want to add things like:");
                 $this->line("\n This to the provdiers in the app config: ");
@@ -71,7 +71,7 @@ class Socialite extends Command
                 $this->line("\n This to the aliases in the app config: ");
                 $this->comment("\n 'Socialite' => Laravel\Socialite\Facades\Socialite::class,");
                 $this->line("\n Add this line to (app/Providers/RouteServiceProvider.php):");
-                $this->comment("\n require app_path('Http/social-routes.php');");
+                $this->comment("\n require app_path('Http/socialite-routes.php');");
                 $this->info("Finished setting up a basic socialite structure");
             } else {
                 $this->info("You cancelled the laracogs socialite");
