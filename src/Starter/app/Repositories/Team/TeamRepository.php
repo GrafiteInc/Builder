@@ -85,7 +85,7 @@ class TeamRepository
      */
     public function findByName($name)
     {
-        return $this->model->where('name', $name)->first();
+        return $this->model->where('name', $name)->firstOrFail();
     }
 
     /**

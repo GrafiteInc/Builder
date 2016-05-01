@@ -34,7 +34,7 @@ class Role extends Model
      */
     public static function findByName($name)
     {
-        return Role::where('name', $name)->first();
+        return Role::where('name', $name)->firstOrFail();
     }
 
 }
