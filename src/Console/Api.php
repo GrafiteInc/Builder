@@ -38,10 +38,10 @@ class Api extends Command
         } else {
             $fileSystem = new Filesystem;
 
-            $files = $fileSystem->allFiles(__DIR__.'/../Api');
+            $files = $fileSystem->allFiles(__DIR__.'/../API');
             $this->line("\n");
             foreach ($files as $file) {
-                $this->line(str_replace(__DIR__.'/../Api/', '', $file));
+                $this->line(str_replace(__DIR__.'/../API/', '', $file));
             }
 
             $this->info("\n\nThese files will be published\n");
@@ -49,7 +49,7 @@ class Api extends Command
             $result = $this->confirm("Are you sure you want to overwrite any files of the same name?");
 
             if ($result) {
-                $this->copyPreparedFiles(__DIR__.'/../Api/', base_path());
+                $this->copyPreparedFiles(__DIR__.'/../API/', base_path());
 
                 $this->info("\n\n You will need to run:");
                 $this->comment("\n\n composer require tymon/jwt-auth");
