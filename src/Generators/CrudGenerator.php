@@ -283,7 +283,7 @@ class CrudGenerator
      * @param  string $table
      * @return string
      */
-    private function prepareTableDefinition($table)
+    public function prepareTableDefinition($table)
     {
         $tableDefintion = '';
 
@@ -300,7 +300,7 @@ class CrudGenerator
      * @param  string $table
      * @return string
      */
-    private function prepareTableExample($table)
+    public function prepareTableExample($table)
     {
         $tableExample = '';
 
@@ -322,26 +322,35 @@ class CrudGenerator
      * @param  string  $type
      * @return mixed
      */
-    private function createExampleByType($type)
+    public function createExampleByType($type)
     {
-        $faker = \Faker\Factory::create();
-
         switch ($type) {
-            case 'increments':      return 1;
-            case 'string':          return $faker->word;
-            case 'boolean':         return 1;
-            case 'text':            return $faker->sentence;
-            case 'datetime':        return $faker->dateTime()->format('Y-m-d h:i:s');
-            case 'date':            return $faker->date()->format('Y-m-d');
-            case 'time':            return $faker->time()->format('h:i:s');
-            case 'float':           return 1.1;
-            case 'decimal':         return 1.1;
-            case 'integer':         return 1;
-            case 'bigint':          return 1;
-            case 'smallint':        return 1;
-            case 'tinyint':         return 1;
+            case 'bigIncrements':           return 1;
+            case 'increments':              return 1;
+            case 'string':                  return 'laravel';
+            case 'boolean':                 return 1;
+            case 'binary':                  return 'Its a bird, its a plane, no its Superman!';
+            case 'char':                    return 'a';
+            case 'ipAddress':               return '192.168.1.1';
+            case 'macAddress':              return 'X1:X2:X3:X4:X5:X6';
+            case 'json':                    return json_encode(['json' => 'test']);
+            case 'text':                    return 'I am Batman';
+            case 'longText':                return 'I am Batman';
+            case 'mediumText':              return 'I am Batman';
+            case 'dateTime':                return date('Y-m-d h:i:s');
+            case 'date':                    return date('Y-m-d');
+            case 'time':                    return date('h:i:s');
+            case 'timestamp':               return time();
+            case 'float':                   return 1.1;
+            case 'decimal':                 return 1.1;
+            case 'double':                  return 1.1;
+            case 'integer':                 return 1;
+            case 'bigInteger':              return 1;
+            case 'mediumInteger':           return 1;
+            case 'smallInteger':            return 1;
+            case 'tinyInteger':             return 1;
 
-            default:                return 1;
+            default:                        return 1;
         }
     }
 
