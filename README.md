@@ -109,7 +109,7 @@ Add the following line to the 'phpunit.xml' file
 ```
 
 ##### For Laravel 5.2
-You will also need to set the location of the email for password reminders.
+You will also need to set the location of the email for password reminders. (app/auth.php - at the bottom)
 
 ```php
 'passwords' => [
