@@ -126,6 +126,12 @@ You will also need to set the location of the email for password reminders. (app
 - You may try and start quickly by testing the registration - make sure your app's
 **email** is configured or it will throw an exception.
 
+You can do this in the .env file easily by setting it to 'log' temporarily
+
+```php
+MAIL_DRIVER=log
+```
+
 ### Boostrap
 ----
 Boostrap prepares your application with bootstrap as a view/ css framework
