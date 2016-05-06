@@ -97,8 +97,9 @@ class LaracogsEncrypter implements LaracogsEncrypterInterface
      */
     public function encrypt($value)
     {
-        $encrypted = openssl_encrypt($value, 'AES-256-CBC', $this->encryptionKey, null, substr($this->encryptionKey, 16));
-        return $this->url_encode($encrypted);
+        $iv = substr(md5(random_bytes(16)), 0, 16);
+        $encrypted = openssl_encrypt($value, 'AES-256-CBC', $this->encryptionKey, null, $iv);
+        return $this->url_encode($iv.$encrypted);
     }
 
     /**
@@ -112,7 +113,9 @@ class LaracogsEncrypter implements LaracogsEncrypterInterface
     public function decrypt($value)
     {
         $decoded = $this->url_decode($value);
-        return trim(openssl_decrypt($decoded, 'AES-256-CBC', $this->encryptionKey, null, substr($this->encryptionKey, 16)));
+        $iv = substr($decoded, 0, 16);
+        $encryptedValue = str_replace($iv, '', $decoded);
+        return trim(openssl_decrypt($encryptedValue, 'AES-256-CBC', $this->encryptionKey, null, $iv));
     }
 
     /**
