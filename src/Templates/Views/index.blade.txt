@@ -1,6 +1,8 @@
 <div class="container">
 
-    @include('partials.message')
+    <div class="">
+        {{ Session::get('message') }}
+    </div>
 
     <div class="row">
         <div class="pull-right">

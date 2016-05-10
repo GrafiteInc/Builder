@@ -1,4 +1,6 @@
-@include('partials.message')
+<div class="">
+    {{ Session::get('message') }}
+</div>
 
 <div class="container">
 
