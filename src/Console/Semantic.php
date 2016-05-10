@@ -58,7 +58,10 @@ class Semantic extends Command
                 $this->comment("\nsemantic\n");
 
                 $this->info("\n\nThen run:\n");
-                $this->comment("\ngulp\n");
+                $this->comment("\ncd semantic && gulp build\n");
+
+                $this->info("\n\nThen run:\n");
+                $this->comment("\ncd ../ && gulp\n");
 
                 $this->info("\n\nMake sure you set the PagesController@dashboard to use the following view: 'dashboard.main'\n\n");
                 $this->info("Finished setting up semantic-ui in your app");
