@@ -46,25 +46,64 @@ Time to publish those assets!
 php artisan vendor:publish --provider="Yab\Laracogs\LaracogsProvider"
 ```
 
-You now have Laracogs installed. Looking to try the *Starter Kit* look below.
+##### After these few steps you have the following tools at your fingertips:
 
-### Starter
+## CRUD
+The CRUD commands build a CRUD for a table with unit tests! Use the table-crud for tables that already exist.
+```php
+php artisan laracogs:crud {table} {--migration} {--bootstrap} {--semantic} {--schema}
+php artisan laracogs:table-crud {table} {--migration} {--bootstrap} {--semantic}
+```
+
+## Docs
+The docs can prepare documentation for buisness rules or prepare your app for API doc generation with Sami.
+```php
+php artisan laracogs:docs {action} {name=null} {version=null}
+```
+
+## Facades/ Utilities
+Laracogs provides a handful of easy to use tools outside of the app starter kit, and CRUD builder:
+
+#### Crypto
+```php
+Crypto::uuid();
+Crypto::encrypt('string');
+Crypto::decrypt('enc-string');
+Crypto::shared()->encrypt('string');
+Crypto::shared()->decrypt('enc-string');
+```
+
+#### FormMaker
+```php
+FormMaker::fromTable($table, $columns = null, $class = 'form-control', $view = null, $reformatted = true, $populated = false, $idAndTimestamps = false)
+FormMaker::fromObject($object, $columns = null, $view = null, $class = 'form-control', $populated = true, $reformatted = false, $idAndTimestamps = false)
+FormMaker::fromArray($array, $columns = null, $view = null, $class = 'form-control', $populated = true, $reformatted = false, $idAndTimestamps = false)
+```
+
+#### InputMaker
+```php
+InputMaker::label($name, $attributes = [])
+InputMaker::create($name, $field, $object = null, $class = 'form-control', $reformatted = false, $populated = false)
+```
+
+----
+You may also want to utilize our boilerplate generators, these tools will prepare your apps with starter kits, admins, user settings, notifications, billing integration, API access, Social Media logins, Bootstrap styles and more!
+----
+
+## Starter
 In order to make use of the <u>starter kit</u> you will need to modify some files. Check out the modifications below:
 
 Add the following to your `app/Http/Kernel.php` $routeMiddleware array.
-
 ```php
 'admin' => \App\Http\Middleware\Admin::class,
 ```
 
 Update the `App\User::class` in: 'config/auth.php' and 'database/factory/ModelFactory.php' to this:
-
 ```php
 App\Repositories\User\User::class
 ```
 
 Add the following to 'app/Providers/AuthServiceProvider.php' in the boot method
-
 ```php
 $gate->define('admin', function ($user) {
     return ($user->roles->first()->name === 'admin');
@@ -76,7 +115,6 @@ $gate->define('team-member', function ($user, $team) {
 ```
 
 You will want to create an sqlite memory test database in the `config/database.php`
-
 ```php
 'testing' => [
     'driver'   => 'sqlite',
@@ -116,41 +154,36 @@ MAIL_DRIVER=log
 ##### Last Steps
 
 Once you've added in all these parts you will want to run the starter command!
-
 ```php
 php artisan laracogs:starter
 ```
 
 Then you'll need to migrate to add in the users, user meta, roles and teams tables. The seeding is run to set the initial roles for your application.
-
 ```php
 php artisan migrate --seed
 ```
 
-Now its time for more features!
+Now its time for more boilerplate generators!
 
 ### Boostrap
 ----
-Boostrap prepares your application with bootstrap as a view/ css framework
-
+Boostrap prepares your application with bootstrap as a view/ css framework.
 ```php
 php artisan laracogs:bootstrap
 ```
 
 ### Semantic
 ----
-Semantic prepares your application with semantic-ui as a view/ css framework
-
+Semantic prepares your application with semantic-ui as a view/ css framework.
 ```php
 php artisan laracogs:semantic
 ```
 
-<small>Please note that Billing and Notifications are still set for bootstrap</small>
+<small>Please note that Billing and Notifications are only set for use with bootstrap</small>
 
 ### Notifications
 ----
-Notifications prepares your application with a notification system
-
+Notifications prepares your application with a notification system.
 ```php
 php artisan laracogs:notifications
 ```
@@ -158,7 +191,6 @@ php artisan laracogs:notifications
 ### Socialite
 ----
 Socialite prepares your application with a socialite system, with GitHub as the example:
-
 ```php
 php artisan laracogs:socialite
 ```
@@ -274,43 +306,6 @@ clause('custom', function($user, $subscription, $clause, $query) {
     // do your own logic!
     // model is optional if you dont provide it the query is null - otherwise is a query builder
 }, 'App\Repositories\Team\Team');
-```
-
-## CRUD
-The CRUD command builds a crud for a table with unit tests!
-```php
-php artisan laracogs:crud {table} {--migration} {--bootstrap} {--semantic} {--schema}
-```
-
-## Docs
-The docs can prepare documentation for buisness rules or prepare your app for API doc generation with Sami.
-```php
-php artisan laracogs:crud {action} {name=null} {version=null}
-```
-
-## Facades/ Utilities
-Laracogs provides a handful of easy to use tools outside of the app starter kit, and CRUD builder:
-
-#### Crypto
-```php
-Crypto::uuid();
-Crypto::encrypt('string');
-Crypto::decrypt('enc-string');
-Crypto::shared()->encrypt('string');
-Crypto::shared()->decrypt('enc-string');
-```
-
-#### FormMaker
-```php
-FormMaker::fromTable($table, $columns = null, $class = 'form-control', $view = null, $reformatted = true, $populated = false, $idAndTimestamps = false)
-FormMaker::fromObject($object, $columns = null, $view = null, $class = 'form-control', $populated = true, $reformatted = false, $idAndTimestamps = false)
-FormMaker::fromArray($array, $columns = null, $view = null, $class = 'form-control', $populated = true, $reformatted = false, $idAndTimestamps = false)
-```
-
-#### InputMaker
-```php
-InputMaker::label($name, $attributes = [])
-InputMaker::create($name, $field, $object = null, $class = 'form-control', $reformatted = false, $populated = false)
 ```
 
 ## License
