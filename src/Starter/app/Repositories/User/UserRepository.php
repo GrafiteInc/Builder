@@ -181,7 +181,6 @@ class UserRepository
         $user->teams()->detach();
     }
 
-
     /**
      * Delete someone
      *

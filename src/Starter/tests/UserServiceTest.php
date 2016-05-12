@@ -31,6 +31,7 @@ class UserServiceTest extends TestCase
 
     public function testCreateUserMeta()
     {
+        $role = factory(App\Repositories\Role\Role::class)->create();
         $user = factory({{App\}}Repositories\User\User::class)->create();
         $response = $this->service->create($user, 'password');
 

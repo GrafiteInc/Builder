@@ -6,17 +6,14 @@ use Illuminate\Support\Str;
 use {{App\}}Services\UserService;
 use {{App\}}Repositories\User\User;
 use {{App\}}Repositories\Team\TeamRepository;
-use {{App\}}Repositories\User\UserRepository;
 
 class TeamService
 {
     public function __construct(
         TeamRepository $teamRepository,
-        UserRepository $userRepository,
         UserService $userService
     ) {
         $this->repo = $teamRepository;
-        $this->userRepo = $userRepository;
         $this->userService = $userService;
     }
 
@@ -40,7 +37,7 @@ class TeamService
         try {
             $input['user_id'] = $userId;
             $team = $this->repo->create($input);
-            $this->userRepo->joinTeam($team->id, $userId);
+            $this->userService->joinTeam($team->id, $userId);
             return $team;
         } catch (Exception $e) {
             throw new Exception("Failed to create team", 1);
@@ -67,7 +64,7 @@ class TeamService
         if ($user->isTeamAdmin($id)) {
             $team = $this->repo->find($id);
             foreach ($team->members as $member) {
-                $this->userRepo->leaveTeam($id, $member->id);
+                $this->userService->leaveTeam($id, $member->id);
             }
             return $this->repo->destroy($id);
         }
@@ -79,7 +76,7 @@ class TeamService
     {
         try {
             if ($admin->isTeamAdmin($id)) {
-                $user = $this->userRepo->findByEmail($email);
+                $user = $this->userService->findByEmail($email);
 
                 if (! $user) {
                     $password = Str::random(10);
@@ -97,7 +94,7 @@ class TeamService
                     return false;
                 }
 
-                $this->userRepo->joinTeam($id, $user->id);
+                $this->userService->joinTeam($id, $user->id);
 
                 return true;
             }
@@ -112,10 +109,10 @@ class TeamService
     {
         try {
             if ($admin->isTeamAdmin($id)) {
-                $user = $this->userRepo->find($userId);
+                $user = $this->userService->find($userId);
 
                 if ($admin->isTeamAdmin($id)) {
-                    $this->userRepo->leaveTeam($id, $user->id);
+                    $this->userService->leaveTeam($id, $user->id);
                     return true;
                 }
             }

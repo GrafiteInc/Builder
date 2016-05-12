@@ -152,4 +152,46 @@ class UserService
         return ($userMetaResult && $userResult);
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Roles
+    |--------------------------------------------------------------------------
+    */
+
+    public function assignRole($roleName, $userId)
+    {
+        return $this->userRepo->assignRole($roleName, $userId);
+    }
+
+    public function unassignRole($roleName, $userId)
+    {
+        return $this->userRepo->unassignRole($roleName, $userId);
+    }
+
+    public function unassignAllRoles($userId)
+    {
+        return $this->userRepo->unassignAllRoles($userId);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Teams
+    |--------------------------------------------------------------------------
+    */
+
+    public function joinTeam($teamId, $userId)
+    {
+       return $this->userRepo->joinTeam($teamId, $userId);
+    }
+
+    public function leaveTeam($teamId, $userId)
+    {
+       return $this->userRepo->leaveTeam($teamId, $userId);
+    }
+
+    public function leaveAllTeams($userId)
+    {
+       return $this->userRepo->leaveAllTeams($userId);
+    }
+
 }
