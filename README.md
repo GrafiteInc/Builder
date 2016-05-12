@@ -6,12 +6,15 @@
 
 This is a set of tools to help speed up development of Laravel apps. You can start an app with various parts prewritten (Users, User Meta, Roles, Teams). And it comes with a powerful FormMaker which can generate form content from tables, and objects. It can generate epic CRUD prototypes rapidly with full testing scripts prepared for you, requiring very little editing. It also provides an elegant Cryptography tool which is URL friendly. Finally it brings along some friends with the LaravelCollective as a vendor.
 
+##### Author(s):
+* [Matt Lantz](https://github.com/mlantz) ([@mattylantz](http://twitter.com/mattylantz), matt at yabhq dot com)
+* [Chris Blackwell](https://github.com/chrisblackwell) ([@chrisblackwell](https://twitter.com/chrisblackwell), chris at yabhq dot com)
+
 ## Website
 [http://laracogs.com](http://laracogs.com)
 
-**Author(s):**
-* [Matt Lantz](https://github.com/mlantz) ([@mattylantz](http://twitter.com/mattylantz), matt at yabhq dot com)
-* [Chris Blackwell](https://github.com/chrisblackwell) ([@chrisblackwell](https://twitter.com/chrisblackwell), chris at yabhq dot com)
+## Detailed Documentation
+Please consult the documentation here: [http://laracogs.com/docs](http://laracogs.com/docs)
 
 ## Requirements
 
@@ -19,7 +22,10 @@ This is a set of tools to help speed up development of Laravel apps. You can sta
 2. OpenSSL
 3. Laravel 5.1+
 
-### Composer
+----
+
+### Installation
+
 Start a new Laravel project:
 ```php
 composer create-project laravel/laravel your-project-name
@@ -30,55 +36,33 @@ Then run the following to add Laracogs
 composer require "yab/laracogs"
 ```
 
-### Providers
 Add this to the `config/app.php` in the providers array:
 ```php
 Yab\Laracogs\LaracogsProvider::class
 ```
 
-### Publish
+Time to publish those assets!
 ```php
 php artisan vendor:publish --provider="Yab\Laracogs\LaracogsProvider"
 ```
 
-----
-
-## Documentation
-Please consult the documentation here: [http://laracogs.com/docs](http://laracogs.com/docs)
-
-## Commands
-The console commands provided by Laracogs are as follows:
+You now have Laracogs installed. Looking to try the *Starter Kit* look below.
 
 ### Starter
-----
-Once you've added in all these parts you may want to run the starter for your application!
+In order to make use of the <u>starter kit</u> you will need to modify some files. Check out the modifications below:
 
-```php
-php artisan laracogs:starter
-```
-
-##### Migrate
-You will need to migrate to add in the users, user meta, roles and teams tables. The seeding is run to set the initial roles for your application.
-
-```php
-php artisan migrate --seed
-```
-
-##### Route Middleware
 Add the following to your `app/Http/Kernel.php` $routeMiddleware array.
 
 ```php
 'admin' => \App\Http\Middleware\Admin::class,
 ```
 
-##### User Model
-Update the model in: 'config/auth.php' and 'database/factory/ModelFactory.php' it should look similar to:
+Update the `App\User::class` in: 'config/auth.php' and 'database/factory/ModelFactory.php' to this:
 
 ```php
 App\Repositories\User\User::class
 ```
 
-##### AuthServiceProvider
 Add the following to 'app/Providers/AuthServiceProvider.php' in the boot method
 
 ```php
@@ -91,8 +75,7 @@ $gate->define('team-member', function ($user, $team) {
 });
 ```
 
-##### Testing
-You will want to create an sqlite memory test DB
+You will want to create an sqlite memory test database in the `config/database.php`
 
 ```php
 'testing' => [
@@ -123,14 +106,28 @@ You will also need to set the location of the email for password reminders. (app
 ```
 
 ##### Things to note
-- You may try and start quickly by testing the registration - make sure your app's
-**email** is configured or it will throw an exception.
-
-You can do this in the .env file easily by setting it to 'log' temporarily
+You may try and start quickly by testing the registration but please make sure your app's <u>email</u> is configured or it will throw an exception.
+You can do this in the `.env` file easily by setting it to 'log' temporarily
 
 ```php
 MAIL_DRIVER=log
 ```
+
+##### Last Steps
+
+Once you've added in all these parts you will want to run the starter command!
+
+```php
+php artisan laracogs:starter
+```
+
+Then you'll need to migrate to add in the users, user meta, roles and teams tables. The seeding is run to set the initial roles for your application.
+
+```php
+php artisan migrate --seed
+```
+
+Now its time for more features!
 
 ### Boostrap
 ----
