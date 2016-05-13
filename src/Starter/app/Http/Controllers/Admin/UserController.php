@@ -10,9 +10,9 @@ use {{App\}}Http\Requests\InviteUserRequest;
 
 class UserController extends Controller
 {
-    public function __construct(UserService $accountService)
+    public function __construct(UserService $userService)
     {
-        $this->service = $accountService;
+        $this->service = $userService;
     }
 
     /**
