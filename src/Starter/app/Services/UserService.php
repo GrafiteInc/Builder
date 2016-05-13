@@ -44,6 +44,20 @@ class UserService
         return $this->userRepo->findByEmail($email);
     }
 
+    public function findByRoleID($id)
+    {
+        $usersWithRepo = [];
+        $users = $this->userRepo->all();
+
+        foreach ($users as $user) {
+            if ($user->roles->first()->id == $id) {
+                $usersWithRepo[] = $user;
+            }
+        }
+
+        return $usersWithRepo;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Setters

@@ -23,7 +23,7 @@ class TeamRepository
     }
 
     /**
-     * Returns all paginated $MODEL_NAME_PLURAL$
+     * Returns all paginated teams
      *
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */

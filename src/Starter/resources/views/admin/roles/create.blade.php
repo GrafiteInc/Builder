@@ -6,15 +6,10 @@
     </div>
 @endif
 
-<h1>User: Invite</h1>
+<h1>Role: Create</h1>
 
-<form method="POST" action="/admin/users/invite">
+<form method="POST" action="/admin/roles">
     {!! csrf_field() !!}
-
-    <div class="">
-        @input_maker_label('Email')
-        @input_maker_create('email', ['type' => 'string'])
-    </div>
 
     <div class="">
         @input_maker_label('Name')
@@ -22,8 +17,8 @@
     </div>
 
     <div class="">
-        @input_maker_label('Role')
-        @input_maker_create('roles', ['type' => 'relationship', 'model' => 'App\Repositories\Role\Role', 'label' => 'label', 'value' => 'name'])
+        @input_maker_label('Label')
+        @input_maker_create('label', ['type' => 'string'])
     </div>
 
     <div class="">
@@ -32,4 +27,4 @@
     </div>
 </form>
 
-<a href="/admin/users">User Admin</a>
+<a href="/admin/roles">Role Admin</a>

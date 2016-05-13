@@ -107,6 +107,16 @@ Route::group(['middleware' => 'web'], function() {
             Route::get('users/invite', 'UserController@getInvite');
             Route::post('users/invite', 'UserController@postInvite');
             Route::get('users/{id}/delete', 'UserController@destroy');
+
+            /*
+            |--------------------------------------------------------------------------
+            | Roles
+            |--------------------------------------------------------------------------
+            */
+            Route::resource('roles', 'RoleController', ['except' => ['show', 'destroy']]);
+            Route::post('roles/search', 'RoleController@search');
+            Route::get('roles/search', 'RoleController@index');
+            Route::get('roles/{id}/delete', 'RoleController@destroy');
         });
     });
 

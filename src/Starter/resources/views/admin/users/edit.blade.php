@@ -33,4 +33,4 @@
     </div>
 </form>
 
-<a href="/admin/users">Admin</a>
+<a href="/admin/users">User Admin</a>

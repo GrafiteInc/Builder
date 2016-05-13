@@ -17,6 +17,26 @@ class Role extends Model
     protected $table = 'roles';
 
     /**
+     * Fillable fields
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'label'
+    ];
+
+    /**
+     * Rules
+     *
+     * @var array
+     */
+    public static $rules = [
+        'name' => 'required|unique:roles',
+        'label' => 'required'
+    ];
+
+    /**
      * A Roles users
      *
      * @return Relationship
