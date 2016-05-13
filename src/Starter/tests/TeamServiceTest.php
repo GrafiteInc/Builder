@@ -7,6 +7,12 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class TeamServiceTest extends TestCase
 {
     use DatabaseMigrations;
+    
+    protected $service;
+    protected $userRepo;
+    protected $originalArray;
+    protected $editedArray;
+
 
     public function setUp()
     {
