@@ -7,6 +7,12 @@ class TeamIntegrationTest extends TestCase
 {
     use DatabaseMigrations;
     use WithoutMiddleware;
+    
+    protected $user;
+    protected $role;
+    protected $team;
+    protected $teamEdited;
+    protected $actor;
 
     public function setUp()
     {
