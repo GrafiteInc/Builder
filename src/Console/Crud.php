@@ -62,7 +62,7 @@ class Crud extends Command
      *
      * @var string
      */
-    protected $description = 'Generate a basic CRUD for a table with option for migration and api';
+    protected $description = 'Generate a basic CRUD for a table with options for: migration, api, bootstrap, semantic and even schema';
 
     /**
      * Generate a CRUD stack
