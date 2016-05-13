@@ -22,7 +22,7 @@ class Starter extends Command
      *
      * @var string
      */
-    protected $description = 'Use Laracogs to prebuild the standard parts of your app';
+    protected $description = 'Laracogs will prebuild some common parts of your app';
 
     /**
      * Execute the console command.

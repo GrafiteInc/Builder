@@ -22,7 +22,7 @@ class Api extends Command
      *
      * @var string
      */
-    protected $description = 'Laracogs will add an API to your app';
+    protected $description = 'Laracogs will add JWT API access to your app';
 
     /**
      * Execute the console command.

@@ -22,7 +22,7 @@ class Semantic extends Command
      *
      * @var string
      */
-    protected $description = 'Laracogs will semantic your app';
+    protected $description = 'Laracogs will add semantic-ui to your app';
 
     /**
      * Execute the console command.
