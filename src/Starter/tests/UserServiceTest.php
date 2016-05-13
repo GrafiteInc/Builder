@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class UserServiceTest extends TestCase
 {
     use DatabaseMigrations;
+    
+     protected $service;
 
     public function setUp()
     {
