@@ -7,7 +7,7 @@ class UserServiceTest extends TestCase
 {
     use DatabaseMigrations;
     
-     protected $service;
+    protected $service;
 
     public function setUp()
     {
