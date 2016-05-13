@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.9.17] - 2016-05-13
+### Added
+- New Roles management for admins
+- More unit tests
+### Changed
+- Improved auth on user requests
+- Naming in admin user controller
+- Unit test code style
+
 ## [v1.9.16] - 2016-05-13
 ### Changed
 - Domain driven structure for user service in relation to teams
