@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class UserMetaRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
+    
+     protected $repo;
 
     public function setUp()
     {
