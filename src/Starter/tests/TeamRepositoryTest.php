@@ -6,6 +6,12 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class TeamRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
+    
+    protected $repo;
+    protected $originalArray;
+    protected $editedArray;
+    protected $searchTerm;
+
 
     public function setUp()
     {
