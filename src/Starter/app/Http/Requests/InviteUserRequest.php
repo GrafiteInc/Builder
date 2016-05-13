@@ -14,7 +14,11 @@ class InviteUserRequest extends Request
      */
     public function authorize()
     {
-        return Auth::user();
+        if (Auth::user()->can('admin')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
