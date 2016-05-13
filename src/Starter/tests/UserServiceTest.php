@@ -29,7 +29,7 @@ class UserServiceTest extends TestCase
         $this->assertEquals($user->name, $response->name);
     }
 
-    public function testCreateUserMeta()
+    public function testCreateUser()
     {
         $role = factory(App\Repositories\Role\Role::class)->create();
         $user = factory({{App\}}Repositories\User\User::class)->create();
@@ -39,7 +39,7 @@ class UserServiceTest extends TestCase
         $this->assertEquals($user->name, $response->name);
     }
 
-    public function testUpdateUserMeta()
+    public function testUpdateUser()
     {
         $user = factory({{App\}}Repositories\User\User::class)->create();
 
@@ -57,6 +57,51 @@ class UserServiceTest extends TestCase
         $this->assertTrue($response);
         $this->seeInDatabase('user_meta', ['phone' => '666']);
         $this->seeInDatabase('users', ['name' => 'jim']);
+    }
+
+    public function testAssignRole()
+    {
+        $role = factory({{App\}}Repositories\Role\Role::class)->create();
+        $user = factory({{App\}}Repositories\User\User::class)->create();
+        $this->service->assignRole('member', $user->id);
+        $this->seeInDatabase('role_user', ['role_id' => $role->id, 'user_id' => $user->id]);
+        $this->assertEquals($user->roles->first()->label, 'Member');
+    }
+
+    public function testUnassignRole()
+    {
+        $role = factory({{App\}}Repositories\Role\Role::class)->create();
+        $user = factory({{App\}}Repositories\User\User::class)->create();
+        $this->service->assignRole('member', $user->id);
+        $this->service->unassignRole('member', $user->id);
+        $this->assertEquals(0, count($user->roles));
+    }
+
+    public function testUnassignAllRole()
+    {
+        $role = factory({{App\}}Repositories\Role\Role::class)->create();
+        $user = factory({{App\}}Repositories\User\User::class)->create();
+        $this->service->assignRole('member', $user->id);
+        $this->service->unassignAllRoles($user->id);
+        $this->assertEquals(0, count($user->roles));
+    }
+
+    public function testJoinTeam()
+    {
+        $team = factory({{App\}}Repositories\Team\Team::class)->create();
+        $user = factory({{App\}}Repositories\User\User::class)->create();
+        $this->service->joinTeam($team->id, $user->id);
+        $this->seeInDatabase('team_user', ['team_id' => $team->id, 'user_id' => $user->id]);
+        $this->assertEquals($user->teams->first()->name, $team->name);
+    }
+
+    public function testLeaveTeam()
+    {
+        $team = factory({{App\}}Repositories\Team\Team::class)->create();
+        $user = factory({{App\}}Repositories\User\User::class)->create();
+        $this->service->joinTeam($team->id, $user->id);
+        $this->service->leaveTeam($team->id, $user->id);
+        $this->assertEquals(0, count($user->teams));
     }
 
 }
