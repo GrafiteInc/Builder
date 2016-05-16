@@ -39,7 +39,7 @@
                         <tr>
                             <td>{{ $team->name }}</td>
                             <td>
-                                <form method="post" action="{!! url('teams/'.$role->id) !!}">
+                                <form method="post" action="{!! url('teams/'.$team->id) !!}">
                                     {!! csrf_field() !!}
                                     {!! method_field('DELETE') !!}
                                     <button class="btn btn-danger btn-xs raw-margin-left-16 pull-right" type="submit" onclick="return confirm('Are you sure you want to delete this team?')"><i class="fa fa-trash"></i> Delete</button>
