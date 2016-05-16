@@ -18,7 +18,7 @@ Route::group(['middleware' => 'web'], function() {
             Route::group(['prefix' => 'notifications'], function() {
                 Route::get('/', 'NotificationController@index');
                 Route::get('{uuid}/read', 'NotificationController@read');
-                Route::get('{uuid}/delete', 'NotificationController@delete');
+                Route::delete('{uuid}/delete', 'NotificationController@delete');
                 Route::get('search', 'NotificationController@search');
             });
         });
@@ -29,12 +29,8 @@ Route::group(['middleware' => 'web'], function() {
         |--------------------------------------------------------------------------
         */
         Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function() {
-            Route::resource('notifications', 'Admin\NotificationController');
+            Route::resource('notifications', 'Admin\NotificationController', ['except' => ['show']]);
             Route::post('notifications/search', 'Admin\NotificationController@search');
-            Route::get('notifications/{id}/delete', [
-                'as' => 'admin.notifications.delete',
-                'uses' => 'Admin\NotificationController@destroy',
-            ]);
         });
 
     });

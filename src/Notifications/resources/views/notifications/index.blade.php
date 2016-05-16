@@ -35,8 +35,11 @@
                                 <td>{{ $notification->title }}</td>
                                 <td><span class="fa fa-{{ ($notification->is_read == 1) ? 'check' : 'close' }}"></span></td>
                                 <td class="text-right">
-                                    <a class="btn btn-danger btn-xs" href="{!! url('user/notifications/'.$notification->id.'/delete') !!}" onclick="return confirm('Are you sure you want to delete this notification?')">
-                                        <i class="fa fa-trash"></i> Delete</a>
+                                    <form method="post" action="{!! url('user/notifications/'.$notification->id.'/delete') !!}">
+                                        {!! csrf_field() !!}
+                                        {!! method_field('DELETE') !!}
+                                        <button class="btn btn-danger btn-xs" type="submit" onclick="return confirm('Are you sure you want to delete this notification?')"><i class="fa fa-trash"></i> Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
