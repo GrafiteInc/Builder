@@ -41,7 +41,11 @@
                             <tr>
                                 <td>{{ $team->name }}</td>
                                 <td>
-                                    <a class="ui button red right floated mini" href="{!! route('teams.delete', [$team->id]) !!}" onclick="return confirm('Are you sure you want to delete this team?')"><i class="fa fa-trash"></i> Delete</a>
+                                    <form method="post" action="{!! url('teams/'.$team->id) !!}">
+                                        {!! csrf_field() !!}
+                                        {!! method_field('DELETE') !!}
+                                        <button type="submit" class="ui button red mini right floated" onclick="return confirm('Are you sure you want to delete this team?')"><span class="fa fa-edit"></span> Delete</button>
+                                    </form>
                                     <a class="ui button primary right floated mini raw-margin-right-16" href="{!! route('teams.edit', [$team->id]) !!}"><i class="fa fa-pencil"></i> Edit</a>
                                 </td>
                             </tr>

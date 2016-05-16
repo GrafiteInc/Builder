@@ -42,7 +42,11 @@
                             <tr>
                                 <td>{{ $user->email }}</td>
                                 <td>
-                                    <a class="ui button red mini right floated " href="{{ url('admin/users/'.$user->id.'/delete') }}" onclick="return confirm('Are you sure you want to delete this user?')"><span class="fa fa-edit"></span> Delete</a>
+                                    <form method="post" action="{!! url('admin/users/'.$user->id) !!}">
+                                        {!! csrf_field() !!}
+                                        {!! method_field('DELETE') !!}
+                                        <button type="submit" class="ui button red mini right floated" onclick="return confirm('Are you sure you want to delete this user?')"><span class="fa fa-edit"></span> Delete</button>
+                                    </form>
                                     <a class="ui button primary mini right floated" href="{{ url('admin/users/'.$user->id.'/edit') }}"><span class="fa fa-edit"></span> Edit</a>
                                 </td>
                             </tr>

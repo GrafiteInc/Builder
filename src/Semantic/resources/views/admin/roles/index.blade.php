@@ -42,7 +42,11 @@
                             <td>{{ $role->name }}</td>
                             <td>{{ $role->label }}</td>
                             <td>
-                                <a class="ui button red mini right floated " href="{{ url('admin/roles/'.$role->id.'/delete') }}" onclick="return confirm('Are you sure you want to delete this role?')"><span class="fa fa-edit"></span> Delete</a>
+                                <form method="post" action="{!! url('admin/roles/'.$role->id) !!}">
+                                    {!! csrf_field() !!}
+                                    {!! method_field('DELETE') !!}
+                                    <button type="submit" class="ui button red mini right floated" onclick="return confirm('Are you sure you want to delete this role?')"><span class="fa fa-edit"></span> Delete</button>
+                                </form>
                                 <a class="ui button primary mini right floated" href="{{ url('admin/roles/'.$role->id.'/edit') }}"><span class="fa fa-edit"></span> Edit</a>
                             </td>
                         </tr>
