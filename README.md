@@ -96,7 +96,10 @@ In order to make use of the <u>starter kit</u> you will need to modify some file
 Add the following to your `app/Http/Kernel.php` $routeMiddleware array.
 ```php
 'admin' => \App\Http\Middleware\Admin::class,
+'roles' => \App\Http\Middleware\Roles::class,
 ```
+
+With the roles middleware you can specify which roles are applicable separating them with pipes: `['middlware' => ['roles:admin|moderator|member']]`
 
 Update the `App\User::class` in: 'config/auth.php' and 'database/factory/ModelFactory.php' to this:
 ```php
