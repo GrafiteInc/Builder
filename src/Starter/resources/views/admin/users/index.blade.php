@@ -25,7 +25,11 @@
                         <td>{{ $user->email }}</td>
                         <td>
                             <a href="{{ url('admin/users/'.$user->id.'/edit') }}"><span class="fa fa-edit"> Edit</span></a>
-                            <a href="{{ url('admin/users/'.$user->id.'/delete') }}" onclick="return confirm('Are you sure you want to delete this user?')"><span class="fa fa-edit"> Delete</span></a>
+                            <form method="post" action="{{ url('admin/users/'.$user->id) }}">
+                                {!! csrf_field() !!}
+                                {!! method_field('DELETE') !!}
+                                <button type="submit" onclick="return confirm('Are you sure you want to delete this user?')"><i class="fa fa-trash"></i> Delete</button>
+                            </form>
                         </td>
                     </tr>
                 @endif

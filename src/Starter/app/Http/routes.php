@@ -79,12 +79,8 @@ Route::group(['middleware' => 'web'], function() {
         */
 
         Route::get('team/{name}', 'TeamController@showByName');
-        Route::resource('teams', 'TeamController');
+        Route::resource('teams', 'TeamController', ['except' => ['show']]);
         Route::post('teams/search', 'TeamController@search');
-        Route::get('teams/{id}/delete', [
-            'as' => 'teams.delete',
-            'uses' => 'TeamController@destroy',
-        ]);
         Route::post('teams/{id}/invite', 'TeamController@inviteMember');
         Route::get('teams/{id}/remove/{userId}', 'TeamController@removeMember');
 
@@ -101,22 +97,20 @@ Route::group(['middleware' => 'web'], function() {
             | Users
             |--------------------------------------------------------------------------
             */
-            Route::resource('users', 'UserController', ['except' => ['create', 'show', 'destroy']]);
+            Route::resource('users', 'UserController', ['except' => ['create', 'show']]);
             Route::post('users/search', 'UserController@search');
             Route::get('users/search', 'UserController@index');
             Route::get('users/invite', 'UserController@getInvite');
             Route::post('users/invite', 'UserController@postInvite');
-            Route::get('users/{id}/delete', 'UserController@destroy');
 
             /*
             |--------------------------------------------------------------------------
             | Roles
             |--------------------------------------------------------------------------
             */
-            Route::resource('roles', 'RoleController', ['except' => ['show', 'destroy']]);
+            Route::resource('roles', 'RoleController', ['except' => ['show']]);
             Route::post('roles/search', 'RoleController@search');
             Route::get('roles/search', 'RoleController@index');
-            Route::get('roles/{id}/delete', 'RoleController@destroy');
         });
     });
 

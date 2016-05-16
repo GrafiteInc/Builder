@@ -27,7 +27,11 @@
                     <td>{{ $role->label }}</td>
                     <td>
                         <a href="{{ url('admin/roles/'.$role->id.'/edit') }}"><span class="fa fa-edit"> Edit</span></a>
-                        <a href="{{ url('admin/roles/'.$role->id.'/delete') }}" onclick="return confirm('Are you sure you want to delete this role?')"><span class="fa fa-edit"> Delete</span></a>
+                        <form method="post" action="{{ url('admin/roles/'.$role->id) }}">
+                            {!! csrf_field() !!}
+                            {!! method_field('DELETE') !!}
+                            <button type="submit" onclick="return confirm('Are you sure you want to delete this role?')"><i class="fa fa-trash"></i> Delete</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach

@@ -7,7 +7,7 @@ class TeamIntegrationTest extends TestCase
 {
     use DatabaseMigrations;
     use WithoutMiddleware;
-    
+
     protected $user;
     protected $role;
     protected $team;
@@ -92,7 +92,7 @@ class TeamIntegrationTest extends TestCase
         $admin->roles()->attach($this->role);
         $admin->teams()->attach($team);
 
-        $response = $this->actingAs($admin)->call('GET', '/teams/'.$team->id.'/delete');
+        $response = $this->actingAs($admin)->call('DELETE', '/teams/'.$team->id.'/destroy');
         $this->assertEquals(302, $response->getStatusCode());
         $this->assertRedirectedTo('/teams');
     }

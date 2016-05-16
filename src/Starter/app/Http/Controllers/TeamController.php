@@ -68,19 +68,7 @@ class TeamController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $team = $this->service->find($id);
-        return view('team.show')->with('team', $team);
-    }
-
-    /**
-     * Display the specified resource.
+     * Display the specified team.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
