@@ -30,9 +30,9 @@
                                     <form method="post" action="{!! url('admin/users/'.$user->id) !!}">
                                         {!! csrf_field() !!}
                                         {!! method_field('DELETE') !!}
-                                        <button class="btn btn-danger btn-xs raw-margin-left-16 pull-right" type="submit" onclick="return confirm('Are you sure you want to delete this user?')"><i class="fa fa-trash"></i> Delete</button>
+                                        <button class="btn btn-danger btn-xs pull-right" type="submit" onclick="return confirm('Are you sure you want to delete this user?')"><i class="fa fa-trash"></i> Delete</button>
                                     </form>
-                                    <a class="btn btn-warning btn-xs pull-right" href="{{ url('admin/users/'.$user->id.'/edit') }}"><span class="fa fa-edit"></span> Edit</a>
+                                    <a class="btn btn-warning btn-xs pull-right raw-margin-right-16" href="{{ url('admin/users/'.$user->id.'/edit') }}"><span class="fa fa-edit"></span> Edit</a>
                                 </td>
                             </tr>
                         @endif

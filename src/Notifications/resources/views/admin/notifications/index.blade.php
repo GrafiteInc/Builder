@@ -34,12 +34,12 @@
                                 <td>{{ Notifications::getUser($notification->user_id)->name }}</td>
                                 <td><span class="text-{{ $notification->flag }}">{{ ucfirst($notification->flag) }}</span></td>
                                 <td class="text-right">
-                                    <a class="btn btn-default btn-xs" href="{!! route('admin.notifications.edit', [$notification->id]) !!}"><i class="fa fa-pencil"></i> Edit</a>
                                     <form method="post" action="{!! url('admin/notifications/'.$notification->id) !!}">
                                         {!! csrf_field() !!}
                                         {!! method_field('DELETE') !!}
-                                        <button class="btn btn-danger btn-xs" type="submit" onclick="return confirm('Are you sure you want to delete this notification?')"><i class="fa fa-trash"></i> Delete</button>
+                                        <button class="btn btn-danger btn-xs pull-right" type="submit" onclick="return confirm('Are you sure you want to delete this notification?')"><i class="fa fa-trash"></i> Delete</button>
                                     </form>
+                                    <a class="btn btn-default btn-xs pull-right raw-margin-right-16" href="{!! route('admin.notifications.edit', [$notification->id]) !!}"><i class="fa fa-pencil"></i> Edit</a>
                                 </td>
                             </tr>
                         @endforeach

@@ -35,19 +35,19 @@
                         <th width="200px" class="text-right">Action</th>
                     </thead>
                     <tbody>
-                    @foreach($teams as $team)
-                        <tr>
-                            <td>{{ $team->name }}</td>
-                            <td>
-                                <form method="post" action="{!! url('teams/'.$team->id) !!}">
-                                    {!! csrf_field() !!}
-                                    {!! method_field('DELETE') !!}
-                                    <button class="btn btn-danger btn-xs raw-margin-left-16 pull-right" type="submit" onclick="return confirm('Are you sure you want to delete this team?')"><i class="fa fa-trash"></i> Delete</button>
-                                </form>
-                                <a class="btn btn-warning pull-right btn-xs raw-margin-right-16" href="{!! route('teams.edit', [$team->id]) !!}"><i class="fa fa-pencil"></i> Edit</a>
-                            </td>
-                        </tr>
-                    @endforeach
+                        @foreach($teams as $team)
+                            <tr>
+                                <td>{{ $team->name }}</td>
+                                <td>
+                                    <form method="post" action="{!! url('teams/'.$team->id) !!}">
+                                        {!! csrf_field() !!}
+                                        {!! method_field('DELETE') !!}
+                                        <button class="btn btn-danger btn-xs pull-right" type="submit" onclick="return confirm('Are you sure you want to delete this team?')"><i class="fa fa-trash"></i> Delete</button>
+                                    </form>
+                                    <a class="btn btn-warning pull-right btn-xs raw-margin-right-16" href="{!! route('teams.edit', [$team->id]) !!}"><i class="fa fa-pencil"></i> Edit</a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
 

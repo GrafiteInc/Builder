@@ -38,7 +38,7 @@
                                     <form method="post" action="{!! url('user/notifications/'.$notification->id.'/delete') !!}">
                                         {!! csrf_field() !!}
                                         {!! method_field('DELETE') !!}
-                                        <button class="btn btn-danger btn-xs" type="submit" onclick="return confirm('Are you sure you want to delete this notification?')"><i class="fa fa-trash"></i> Delete</button>
+                                        <button class="btn btn-danger btn-xs pull-right" type="submit" onclick="return confirm('Are you sure you want to delete this notification?')"><i class="fa fa-trash"></i> Delete</button>
                                     </form>
                                 </td>
                             </tr>
