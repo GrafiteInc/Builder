@@ -64,7 +64,7 @@ class _camel_case_Controller extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the _lower_casePlural_.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -76,7 +76,7 @@ class _camel_case_Controller extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the _lower_casePlural_.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -88,7 +88,7 @@ class _camel_case_Controller extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the _lower_casePlural_ in storage.
      *
      * @param  \Illuminate\Http\_camel_case_Request  $request
      * @param  int  $id
@@ -106,7 +106,7 @@ class _camel_case_Controller extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the _lower_casePlural_ from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

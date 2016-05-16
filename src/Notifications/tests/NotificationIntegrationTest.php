@@ -78,7 +78,7 @@ class NotificationIntegrationTest extends TestCase
     {
         $this->actor->call('POST', 'admin/notifications', $this->notification->toArray());
 
-        $response = $this->call('GET', 'admin/notifications/'.$this->notification->id.'/delete');
+        $response = $this->call('DELETE', 'admin/notifications/'.$this->notification->id);
         $this->assertEquals(302, $response->getStatusCode());
         $this->assertRedirectedTo('admin/notifications');
     }
