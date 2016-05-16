@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class UserServiceTest extends TestCase
 {
     use DatabaseMigrations;
-    
+
     protected $service;
 
     public function setUp()
@@ -68,6 +68,15 @@ class UserServiceTest extends TestCase
         $this->service->assignRole('member', $user->id);
         $this->seeInDatabase('role_user', ['role_id' => $role->id, 'user_id' => $user->id]);
         $this->assertEquals($user->roles->first()->label, 'Member');
+    }
+
+    public function testHasRole()
+    {
+        $role = factory({{App\}}Repositories\Role\Role::class)->create();
+        $user = factory({{App\}}Repositories\User\User::class)->create();
+        $this->service->assignRole('member', $user->id);
+        $this->seeInDatabase('role_user', ['role_id' => $role->id, 'user_id' => $user->id]);
+        $this->assertTrue($user->hasRole('member'));
     }
 
     public function testUnassignRole()
