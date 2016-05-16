@@ -74,7 +74,7 @@ class Starter extends Command
             $this->info("Don't forget to run:");
             $this->comment("composer dump");
             $this->info("Then:");
-            $this->comment("artisan migration");
+            $this->comment("artisan migrate");
         } else {
             $this->info("You cancelled the laracogs starter");
         }
