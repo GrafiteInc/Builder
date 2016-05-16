@@ -69,12 +69,14 @@ class User extends Model implements
      */
     public function hasRole($role)
     {
-        $roleIds = [];
-        foreach ($this->teams->toArray() as $team) {
-            array_push($roleIds, $team['id']);
+        $roles = [];
+        foreach ($this->roles->toArray() as $userRole) {
+            array_push($roles, $userRole['name']);
         }
-        return in_array($id, $roleIds);
+        return in_array($role, $roles);
     }
+    
+    
 
     /**
      * Teams
