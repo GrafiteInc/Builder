@@ -1,5 +1,7 @@
 <?php
 
+use App\Services\UserService;
+use App\Repositories\User\User;
 use Illuminate\Database\Seeder;
 
 class UserTableSeeder extends Seeder
@@ -11,6 +13,13 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
+        $service = app(UserService::class);
 
+        $user = User::create([
+            'email' => 'admin@admin.com',
+            'password' => 'admin',
+        ]);
+
+        $service->create($user, 'admin', 'admin', false);
     }
 }
