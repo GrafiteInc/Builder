@@ -39,6 +39,6 @@ class Admin
             return $next($request);
         }
 
-        return response('Unauthorized.', 401);
+        return response()->view('errors.401', [], 401);
     }
 }
