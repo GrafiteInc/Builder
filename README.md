@@ -56,7 +56,7 @@ php artisan laracogs:table-crud {table} {--migration} {--bootstrap} {--semantic}
 ```
 
 ## Docs
-The docs can prepare documentation for buisness rules or prepare your app for API doc generation with Sami.
+The docs can prepare documentation for business rules or prepare your app for API doc generation with Sami.
 ```php
 php artisan laracogs:docs {action} {name=null} {version=null}
 ```
