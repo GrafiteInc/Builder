@@ -75,7 +75,7 @@ class UserController extends Controller
     public function switchToUser($id)
     {
         if ($this->service->switchToUser($id)) {
-            return redirect('dashboard')->with('message', 'You\'ve switched user.');
+            return redirect('dashboard')->with('message', 'You\'ve switched users.');
         }
 
         return redirect('dashboard')->with('message', 'Could not switch users');

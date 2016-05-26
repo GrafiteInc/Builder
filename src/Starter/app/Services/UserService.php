@@ -175,9 +175,14 @@ class UserService
      */
     public function switchToUser($id)
     {
-        $user = $this->userRepo->find($id);
-        Session::put('original_user', Auth::id());
-        return Auth::login($user);
+        try {
+            $user = $this->userRepo->find($id);
+            Session::put('original_user', Auth::id());
+            Auth::login($user);
+            return true;
+        } catch (Exception $e) {
+            throw new Exception("Error logging in as user", 1);
+        }
     }
 
     /**
@@ -188,9 +193,15 @@ class UserService
      */
     public function switchUserBack()
     {
-        $original = Session::pull('original_user');
-        $user = $this->userRepo->find($original);
-        return Auth::login($user);
+
+        try {
+            $original = Session::pull('original_user');
+            $user = $this->userRepo->find($original);
+            Auth::login($user);
+            return true;
+        } catch (Exception $e) {
+            throw new Exception("Error returning to your user", 1);
+        }
     }
 
     /*
