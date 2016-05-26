@@ -68,6 +68,34 @@ class UserController extends Controller
     }
 
     /**
+     * Switch to a different User profile
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function switchToUser($id)
+    {
+        if ($this->service->switchToUser($id)) {
+            return redirect('dashboard')->with('message', 'You\'ve switched user.');
+        }
+
+        return redirect('dashboard')->with('message', 'Could not switch users');
+    }
+
+    /**
+     * Switch back to your original user
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function switchUserBack()
+    {
+        if ($this->service->switchUserBack()) {
+            return back()->with('message', 'You\'ve switched back.');
+        }
+
+        return back()->with('message', 'Could not switch back');
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id

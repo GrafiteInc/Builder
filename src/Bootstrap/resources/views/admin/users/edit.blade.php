@@ -4,6 +4,9 @@
 
     <div class="row">
         <div class="col-md-12">
+            @if (! Session::get('original_user'))
+                <a class="btn btn-default pull-right" href="/admin/users/switch/{{ $user->id }}">Login as this User</a>
+            @endif
             <h1>User Admin: Edit</h1>
         </div>
     </div>

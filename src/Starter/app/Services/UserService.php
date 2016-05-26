@@ -6,6 +6,7 @@ use DB;
 use Auth;
 use Mail;
 use Config;
+use Session;
 use Exception;
 use {{App\}}Repositories\User\UserRepository;
 use {{App\}}Repositories\UserMeta\UserMetaRepository;
@@ -164,6 +165,32 @@ class UserService
         }
 
         return ($userMetaResult && $userResult);
+    }
+
+    /**
+     * Switch user login
+     *
+     * @param  integer $id
+     * @return boolean
+     */
+    public function switchToUser($id)
+    {
+        $user = $this->userRepo->find($id);
+        Session::put('original_user', Auth::id());
+        return Auth::login($user);
+    }
+
+    /**
+     * Switch back
+     *
+     * @param  integer $id
+     * @return boolean
+     */
+    public function switchUserBack()
+    {
+        $original = Session::pull('original_user');
+        $user = $this->userRepo->find($original);
+        return Auth::login($user);
     }
 
     /*

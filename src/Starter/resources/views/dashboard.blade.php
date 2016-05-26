@@ -7,4 +7,8 @@
 <a href="/admin/users">Users</a><br>
 <a href="/admin/roles">Roles</a><br>
 @endif
+
+@if (Session::get('original_user'))
+<a class="btn btn-default pull-right btn-xs" href="/users/switch-back">Return to your Login</a>
+@endif
 <a href="/logout">Logout</a>

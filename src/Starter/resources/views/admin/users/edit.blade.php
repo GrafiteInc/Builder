@@ -33,4 +33,8 @@
     </div>
 </form>
 
+@if (! Session::get('original_user'))
+    <a href="/admin/users/switch/{{ $user->id }}">Login as this User</a>
+@endif
+
 <a href="/admin/users">User Admin</a>
