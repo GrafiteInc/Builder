@@ -225,7 +225,7 @@ You may want to add this line to your navigation:
 <li><a href="{!! url('user/billing/details') !!}"><span class="fa fa-dollar"></span> Billing</a></li>
 ```
 
-This to the app/Providers/ReouteServiceProvider.php:
+Add this to the `app/Providers/RouteServiceProvider.php` in the `mapWebRoutes` method:
 ```php
 require app_path('Http/billing-routes.php');
 ```
@@ -237,7 +237,7 @@ STRIPE_SECRET=public-key
 STRIPE_PUBLIC=secret-key
 ```
 
-This to the app/Providers/RouteServiceProvider.php:
+This to the `app/Providers/AuthServiceProvider.php` in the `boot` method:
 ```php
 $gate->define('access-billing', function ($user) {
     return ($user->meta->subscribed('main') && is_null($user->meta->subscription('main')->endDate));
@@ -298,6 +298,7 @@ This is the basic config for `config/plans.php`. It sets the default subscriptio
 
 ##### Service
 The service provides extra tools for handling restrictions in your application based on the plan the user subscribed to.
+
 ```php
 getClause('box_limit');
 canAccess('area_51');
@@ -309,7 +310,7 @@ creditsUsed('App\Repositories\Team\Team');
 currentBillingCycle()->withinLimit('App\Repositories\Team\Team');
 clause('custom', function($user, $subscription, $clause, $query) {
     // do your own logic!
-    // model is optional if you dont provide it the query is null - otherwise is a query builder
+    // model is optional if you dont provide it the query is null - otherwise it's a query builder
 }, 'App\Repositories\Team\Team');
 ```
 
