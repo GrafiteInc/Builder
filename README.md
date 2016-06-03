@@ -99,7 +99,7 @@ Add the following to your `app/Http/Kernel.php` $routeMiddleware array.
 'roles' => \App\Http\Middleware\Roles::class,
 ```
 
-With the roles middleware you can specify which roles are applicable separating them with pipes: `['middlware' => ['roles:admin|moderator|member']]`
+With the roles middleware you can specify which roles are applicable separating them with pipes: `['middleware' => ['roles:admin|moderator|member']]`
 
 Update the `App\User::class` in: 'config/auth.php' and 'database/factory/ModelFactory.php' to this:
 ```php
@@ -170,9 +170,9 @@ Once you get the starter kit running you can register and login to your app. You
 
 Now its time for more boilerplate generators!
 
-### Boostrap
+### Bootstrap
 ----
-Boostrap prepares your application with bootstrap as a view/ css framework.
+Bootstrap prepares your application with bootstrap as a view/ css framework.
 ```php
 php artisan laracogs:bootstrap
 ```
