@@ -36,6 +36,7 @@ class CrudGeneratorTest extends PHPUnit_Framework_TestCase
             '_camel_case_'               => ucfirst(camel_case('testTable')),
             '_camel_casePlural_'         => str_plural(camel_case('testTable')),
             'template_source'            => __DIR__.'/../src/Templates',
+            'tests_generated'            => 'integration,service,repository',
         ];
     }
 
