@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.9.22] - 2016-06-07
+### Added
+- CRUD can now be service level only in case you do not want a full CRUD for the model
+### Changed
+- Tweaked the socialite requirements
+
 ## [v1.9.21] - 2016-05-28
 ### Removed
 - Removed the web middleware for all routes in the kits due to Laravel 5.2+ conflict
