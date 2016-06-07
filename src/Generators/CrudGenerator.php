@@ -184,27 +184,24 @@ class CrudGenerator
      */
     public function createTests($config)
     {
-        $integrationTest = file_get_contents($config['template_source'].'/Tests/IntegrationTest.txt');
-        $repositoryTest = file_get_contents($config['template_source'].'/Tests/RepositoryTest.txt');
-        $serviceTest = file_get_contents($config['template_source'].'/Tests/ServiceTest.txt');
+        $testMakerResults = [];
+        foreach (explode(',', $config['tests_generated']) as $testType) {
+            $test = file_get_contents($config['template_source'].'/Tests/'.ucfirst($testType).'Test.txt');
 
-        if (! empty($config['schema'])) {
-            $integrationTest = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $integrationTest);
-            $repositoryTest = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $repositoryTest);
-            $serviceTest = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $serviceTest);
+            if (! empty($config['schema'])) {
+                $test = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $test);
+            }
+
+            foreach ($config as $key => $value) {
+                $test = str_replace($key, $value, $test);
+            }
+
+            if (! file_put_contents($config['_path_tests_'].'/'.$config['_camel_case_'].''.ucfirst($testType).'Test.php', $test)) {
+                return false;
+            }
         }
 
-        foreach ($config as $key => $value) {
-            $integrationTest = str_replace($key, $value, $integrationTest);
-            $repositoryTest = str_replace($key, $value, $repositoryTest);
-            $serviceTest = str_replace($key, $value, $serviceTest);
-        }
-
-        $integrationTest = file_put_contents($config['_path_tests_'].'/'.$config['_camel_case_'].'IntegrationTest.php', $integrationTest);
-        $repositoryTest = file_put_contents($config['_path_tests_'].'/'.$config['_camel_case_'].'RepositoryTest.php', $repositoryTest);
-        $serviceTest = file_put_contents($config['_path_tests_'].'/'.$config['_camel_case_'].'ServiceTest.php', $serviceTest);
-
-        return ($integrationTest && $repositoryTest && $serviceTest);
+        return true;
     }
 
     /**

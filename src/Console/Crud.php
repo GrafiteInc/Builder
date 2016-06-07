@@ -55,7 +55,7 @@ class Crud extends Command
      *
      * @var string
      */
-    protected $signature = 'laracogs:crud {table} {--api} {--migration} {--bootstrap} {--semantic} {--schema=}';
+    protected $signature = 'laracogs:crud {table} {--api} {--migration} {--bootstrap} {--semantic} {--schema=} {--serviceOnly}';
 
     /**
      * The console command description.
@@ -129,6 +129,7 @@ class Crud extends Command
             '_camel_case_'               => ucfirst(camel_case($table)),
             '_camel_casePlural_'         => str_plural(camel_case($table)),
             '_ucCamel_casePlural_'       => ucfirst(str_plural(camel_case($table))),
+            'tests_generated'            => 'integration,service,repository',
         ];
 
         $templateDirectory = __DIR__.'/../Templates';
@@ -180,6 +181,7 @@ class Crud extends Command
                 '_camel_case_'               => ucfirst(camel_case($table)),
                 '_camel_casePlural_'         => str_plural(camel_case($table)),
                 '_ucCamel_casePlural_'       => ucfirst(str_plural(camel_case($table))),
+                'tests_generated'            => 'integration,service,repository',
             ];
 
             $templateDirectory = __DIR__.'/../Templates';
@@ -217,9 +219,6 @@ class Crud extends Command
         }
 
         try {
-            $this->line('Building controller...');
-            $crudGenerator->createController($config);
-
             $this->line('Building repository...');
             $crudGenerator->createRepository($config);
 
@@ -229,20 +228,27 @@ class Crud extends Command
             $this->line('Building service...');
             $crudGenerator->createService($config);
 
-            $this->line('Building views...');
-            $crudGenerator->createViews($config);
+            if (! $this->option('serviceOnly')) {
+                $this->line('Building controller...');
+                $crudGenerator->createController($config);
 
-            $this->line('Building routes...');
-            $crudGenerator->createRoutes($config, false);
+                $this->line('Building views...');
+                $crudGenerator->createViews($config);
+
+                $this->line('Building routes...');
+                $crudGenerator->createRoutes($config, false);
+
+                $this->line('Building facade...');
+                $crudGenerator->createFacade($config);
+            } else {
+                $config['tests_generated'] = 'service,repository';
+            }
 
             $this->line('Building tests...');
             $crudGenerator->createTests($config);
 
-            $this->line('Building factory...');
+            $this->line('Adding to factory...');
             $crudGenerator->createFactory($config);
-
-            $this->line('Building facade...');
-            $crudGenerator->createFacade($config);
 
             if ($this->option('api')) {
                 $this->line('Building Api...');
