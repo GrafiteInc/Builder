@@ -72,8 +72,8 @@ class UserRepository
     }
 
    /**
-     * create something
-     * @param  int $id
+     * create a new user
+     * @param  array $info
      * @return User
      */
     public function create($info)
@@ -84,7 +84,7 @@ class UserRepository
     /**
      * Update the user
      *
-     * @param  int $userId User Id
+     * @param  int $userId
      * @param  array $inputs
      * @return boolean
      */
@@ -98,8 +98,8 @@ class UserRepository
     /**
      * Assign a role
      *
-     * @param  int $userId
      * @param  string $roleName
+     * @param  int $userId
      * @return boolean
      */
     public function assignRole($roleName, $userId)
@@ -113,8 +113,8 @@ class UserRepository
     /**
      * Remove a role
      *
-     * @param  int $userId
      * @param  string $role
+     * @param  int $userId
      * @return boolean
      */
     public function unassignRole($roleName, $userId)
@@ -129,7 +129,6 @@ class UserRepository
      * Remove all roles
      *
      * @param  int $userId
-     * @param  string $role
      * @return boolean
      */
     public function unassignAllRoles($userId)
@@ -172,7 +171,6 @@ class UserRepository
      * Leave all teams
      *
      * @param  int $userId
-     * @param  string $role
      * @return boolean
      */
     public function leaveAllTeams($userId)
