@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.9.23] - 2016-06-08
+### Fixed
+- Corrects some docBlock comments
+- Fixes issue with Semantic UI and roles in settings
+
 ## [v1.9.22] - 2016-06-07
 ### Added
 - CRUD can now be service level only in case you do not want a full CRUD for the model
