@@ -24,6 +24,8 @@ class CrudGenerator
      */
     public function createController($config)
     {
+        if (! is_dir($config['_path_controller_'])) mkdir($config['_path_controller_'], 0777, true);
+     
         $request = file_get_contents($config['template_source'].'/Controller.txt');
 
         foreach ($config as $key => $value) {
