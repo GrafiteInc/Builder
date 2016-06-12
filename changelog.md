@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.9.24] - 2016-06-11
+### Changed
+- Added controller directory creating
+### Fixed
+- Issue with namespace model in templates
+
 ## [v1.9.23] - 2016-06-08
 ### Fixed
 - Corrects some docBlock comments
