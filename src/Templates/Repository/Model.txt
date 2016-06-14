@@ -20,4 +20,6 @@ class _camel_case_ extends Model
         // create rules
     ];
 
+    // _camel_case_ relationships
+
 }

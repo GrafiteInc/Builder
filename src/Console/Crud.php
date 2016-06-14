@@ -55,7 +55,14 @@ class Crud extends Command
      *
      * @var string
      */
-    protected $signature = 'laracogs:crud {table} {--api} {--migration} {--bootstrap} {--semantic} {--schema=} {--serviceOnly}';
+    protected $signature = 'laracogs:crud {table}
+        {--api}
+        {--migration}
+        {--bootstrap}
+        {--semantic}
+        {--serviceOnly}
+        {--schema= : Basic schema support ie: id,increments,name:string,parent_id:integer}
+        {--relationships= : Define the relationship ie: hasOne|App\Comment|comment,hasOne|App\Rating|rating or relation|class|column (without the _id)}';
 
     /**
      * The console command description.
@@ -97,6 +104,7 @@ class Crud extends Command
             'template_source'            => '',
             'bootstrap'                  => false,
             'semantic'                   => false,
+            'relationships'              => null,
             'schema'                     => null,
             '_sectionPrefix_'            => '',
             '_sectionTablePrefix_'       => '',
@@ -149,6 +157,7 @@ class Crud extends Command
                 'template_source'            => '',
                 'bootstrap'                  => false,
                 'semantic'                   => false,
+                'relationships'              => null,
                 'schema'                     => null,
                 '_sectionPrefix_'            => strtolower($section).'.',
                 '_sectionTablePrefix_'       => strtolower($section).'_',
@@ -216,6 +225,10 @@ class Crud extends Command
 
         if (! isset($config['template_source'])) {
             $config['template_source'] = __DIR__.'/../Templates';
+        }
+
+        if ($this->option('relationships')) {
+            $config['relationships'] = $this->option('relationships');
         }
 
         try {
@@ -293,6 +306,19 @@ class Crud extends Command
                                     $parsedTable .= "\$table->$columnDefinition[1]('$columnDefinition[0]');\n";
                                 } else {
                                     $parsedTable .= "\t\t\t\$table->$columnDefinition[1]('$columnDefinition[0]');\n";
+                                }
+                            }
+
+                            if ($this->option('relationships')) {
+                                foreach (explode(',', $config['relationships']) as $relationshipExpression) {
+                                    $relationship = explode('|', $relationshipExpression);
+                                    if (in_array($relationship[0], ['hasOne'])) {
+                                        if (! isset($relationship[2])) {
+                                            $relationship[2] = strtolower(end(explode('\\', $relationship[1])));
+                                        }
+
+                                        $parsedTable .= "\t\t\t\$table->integer('$relationship[2]_id');\n";
+                                    }
                                 }
                             }
 
