@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.9.25] - 2016-06-14
+### Added
+- New relationships handling for CRUD
+
 ## [v1.9.24] - 2016-06-11
 ### Changed
 - Added controller directory creating
