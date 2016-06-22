@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.9.26] - 2016-06-22
+### Fixed
+- Merged a pull request that repaired the User seeder
+
 ## [v1.9.25] - 2016-06-14
 ### Added
 - New relationships handling for CRUD
