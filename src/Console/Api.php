@@ -31,12 +31,12 @@ class Api extends Command
      */
     public function handle()
     {
-        if (! file_exists(base_path('resources/views/team/create.blade.php'))) {
+        if (!file_exists(base_path('resources/views/team/create.blade.php'))) {
             $this->line("\n\nPlease perform the starter command:\n");
             $this->info("\n\nphp artisan laracogs:starter\n");
             $this->line("\n\nThen one you're able to run the unit tests successfully re-run this command, to bootstrap your app :)\n");
         } else {
-            $fileSystem = new Filesystem;
+            $fileSystem = new Filesystem();
 
             $files = $fileSystem->allFiles(__DIR__.'/../Packages/API');
             $this->line("\n");
@@ -46,7 +46,7 @@ class Api extends Command
 
             $this->info("\n\nThese files will be published\n");
 
-            $result = $this->confirm("Are you sure you want to overwrite any files of the same name?");
+            $result = $this->confirm('Are you sure you want to overwrite any files of the same name?');
 
             if ($result) {
                 $this->copyPreparedFiles(__DIR__.'/../Packages/API/', base_path());
@@ -81,9 +81,9 @@ class Api extends Command
                 $this->line("\n Also update your jwt config file and set the user to:");
                 $this->comment("\n \App\Repositories\User\User::class ");
 
-                $this->info("Finished setting up your basic JWT API");
+                $this->info('Finished setting up your basic JWT API');
             } else {
-                $this->info("You cancelled the laracogs api");
+                $this->info('You cancelled the laracogs api');
             }
         }
     }

@@ -2,20 +2,21 @@
 
 namespace Yab\Laracogs\Console;
 
-use Config;
 use Artisan;
+use Config;
 use Exception;
+use Illuminate\Console\AppNamespaceDetectorTrait;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Yab\Laracogs\Generators\CrudGenerator;
-use Illuminate\Console\AppNamespaceDetectorTrait;
 
 class Crud extends Command
 {
     use AppNamespaceDetectorTrait;
 
     /**
-     * Column Types
+     * Column Types.
+     *
      * @var array
      */
     protected $columnTypes = [
@@ -72,7 +73,7 @@ class Crud extends Command
     protected $description = 'Generate a basic CRUD for a table with options for: migration, api, bootstrap, semantic and even schema';
 
     /**
-     * Generate a CRUD stack
+     * Generate a CRUD stack.
      *
      * @return mixed
      */
@@ -93,7 +94,7 @@ class Crud extends Command
         if ($this->option('schema')) {
             foreach (explode(',', $this->option('schema')) as $column) {
                 $columnDefinition = explode(':', $column);
-                if (! in_array($columnDefinition[1], $this->columnTypes)) {
+                if (!in_array($columnDefinition[1], $this->columnTypes)) {
                     throw new Exception("$columnDefinition[1] is not in the array of valid column types: ".implode(', ', $this->columnTypes), 1);
                 }
             }
@@ -205,7 +206,7 @@ class Crud extends Command
             $config = $this->setConfig($config, $section, $table);
 
             foreach ($config as $key => $value) {
-                if (in_array($key, ['_path_repository_', '_path_model_', '_path_controller_', '_path_api_controller_', '_path_views_', '_path_request_',])) {
+                if (in_array($key, ['_path_repository_', '_path_model_', '_path_controller_', '_path_api_controller_', '_path_views_', '_path_request_'])) {
                     @mkdir($value, 0777, true);
                 }
             }
@@ -223,7 +224,7 @@ class Crud extends Command
             $config['schema'] = $this->option('schema');
         }
 
-        if (! isset($config['template_source'])) {
+        if (!isset($config['template_source'])) {
             $config['template_source'] = __DIR__.'/../Templates';
         }
 
@@ -241,7 +242,7 @@ class Crud extends Command
             $this->line('Building service...');
             $crudGenerator->createService($config);
 
-            if (! $this->option('serviceOnly')) {
+            if (!$this->option('serviceOnly')) {
                 $this->line('Building controller...');
                 $crudGenerator->createController($config);
 
@@ -269,9 +270,8 @@ class Crud extends Command
                 $this->info("require app_path('Http/api-routes.php'); \n");
                 $crudGenerator->createApi($config);
             }
-
         } catch (Exception $e) {
-            throw new Exception("Unable to generate your CRUD: ".$e->getMessage(), 1);
+            throw new Exception('Unable to generate your CRUD: '.$e->getMessage(), 1);
         }
 
         try {
@@ -280,15 +280,15 @@ class Crud extends Command
                 if ($section) {
                     $migrationName = 'create_'.str_plural(strtolower(implode('_', $splitTable))).'_table';
                     Artisan::call('make:migration', [
-                        'name' => $migrationName,
-                        '--table' => str_plural(strtolower(implode('_', $splitTable))),
+                        'name'     => $migrationName,
+                        '--table'  => str_plural(strtolower(implode('_', $splitTable))),
                         '--create' => true,
                     ]);
                 } else {
                     $migrationName = 'create_'.str_plural(strtolower($table)).'_table';
                     Artisan::call('make:migration', [
-                        'name' => $migrationName,
-                        '--table' => str_plural(strtolower($table)),
+                        'name'     => $migrationName,
+                        '--table'  => str_plural(strtolower($table)),
                         '--create' => true,
                     ]);
                 }
@@ -296,9 +296,9 @@ class Crud extends Command
                 if ($this->option('schema')) {
                     $migrationFiles = $filesystem->allFiles(base_path('database/migrations'));
                     foreach ($migrationFiles as $file) {
-                        if (stristr($file->getBasename(), $migrationName) ) {
+                        if (stristr($file->getBasename(), $migrationName)) {
                             $migrationData = file_get_contents($file->getPathname());
-                            $parsedTable = "";
+                            $parsedTable = '';
 
                             foreach (explode(',', $this->option('schema')) as $key => $column) {
                                 $columnDefinition = explode(':', $column);
@@ -313,7 +313,7 @@ class Crud extends Command
                                 foreach (explode(',', $config['relationships']) as $relationshipExpression) {
                                     $relationship = explode('|', $relationshipExpression);
                                     if (in_array($relationship[0], ['hasOne'])) {
-                                        if (! isset($relationship[2])) {
+                                        if (!isset($relationship[2])) {
                                             $relationship[2] = strtolower(end(explode('\\', $relationship[1])));
                                         }
 
@@ -331,7 +331,7 @@ class Crud extends Command
                 $this->info("\nYou will want to create a migration in order to get the $table tests to work correctly.\n");
             }
         } catch (Exception $e) {
-            throw new Exception("Could not process the migration but your CRUD was generated", 1);
+            throw new Exception('Could not process the migration but your CRUD was generated', 1);
         }
 
         $this->info('You may wish to add this as your testing database');
@@ -340,17 +340,17 @@ class Crud extends Command
     }
 
     /**
-     * Set the config
+     * Set the config.
      *
-     * @param array $config
+     * @param array  $config
      * @param string $section
      * @param string $table
      *
-     * @return  array
+     * @return array
      */
     public function setConfig($config, $section, $table)
     {
-        if (! is_null($section)) {
+        if (!is_null($section)) {
             foreach ($config as $key => $value) {
                 $config[$key] = str_replace('_table_', ucfirst($table), str_replace('_section_', ucfirst($section), str_replace('_sectionLowerCase_', strtolower($section), $value)));
             }

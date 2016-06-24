@@ -31,12 +31,12 @@ class Semantic extends Command
      */
     public function handle()
     {
-        if (! file_exists(base_path('resources/views/team/create.blade.php'))) {
+        if (!file_exists(base_path('resources/views/team/create.blade.php'))) {
             $this->line("\n\nPlease perform the starter command:\n");
             $this->info("\n\nphp artisan laracogs:starter\n");
             $this->line("\n\nThen one you're able to run the unit tests successfully re-run this command, to semantic ui your app :)\n");
         } else {
-            $fileSystem = new Filesystem;
+            $fileSystem = new Filesystem();
 
             $files = $fileSystem->allFiles(__DIR__.'/../Packages/Semantic');
             $this->line("\n");
@@ -46,7 +46,7 @@ class Semantic extends Command
 
             $this->info("\n\nThese files will be published\n");
 
-            $result = $this->confirm("Are you sure you want to overwrite any files of the same name?");
+            $result = $this->confirm('Are you sure you want to overwrite any files of the same name?');
 
             if ($result) {
                 $this->copyPreparedFiles(__DIR__.'/../Packages/Semantic/', base_path());
@@ -64,9 +64,9 @@ class Semantic extends Command
                 $this->comment("\ncd ../ && gulp\n");
 
                 $this->info("\n\nMake sure you set the PagesController@dashboard to use the following view: 'dashboard.main'\n\n");
-                $this->info("Finished setting up semantic-ui in your app");
+                $this->info('Finished setting up semantic-ui in your app');
             } else {
-                $this->info("You cancelled the laracogs semantic");
+                $this->info('You cancelled the laracogs semantic');
             }
         }
     }

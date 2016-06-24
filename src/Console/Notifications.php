@@ -31,12 +31,12 @@ class Notifications extends Command
      */
     public function handle()
     {
-        if (! file_exists(base_path('resources/views/team/create.blade.php'))) {
+        if (!file_exists(base_path('resources/views/team/create.blade.php'))) {
             $this->line("\n\nPlease perform the starter command:\n");
             $this->info("\n\nphp artisan laracogs:starter\n");
             $this->line("\n\nThen one you're able to run the unit tests successfully re-run this command, to bootstrap your app :)\n");
         } else {
-            $fileSystem = new Filesystem;
+            $fileSystem = new Filesystem();
 
             $files = $fileSystem->allFiles(__DIR__.'/../Packages/Notifications');
             $this->line("\n");
@@ -46,7 +46,7 @@ class Notifications extends Command
 
             $this->info("\n\nThese files will be published\n");
 
-            $result = $this->confirm("Are you sure you want to overwrite any files of the same name?");
+            $result = $this->confirm('Are you sure you want to overwrite any files of the same name?');
 
             if ($result) {
                 $this->copyPreparedFiles(__DIR__.'/../Packages/Notifications', base_path());
@@ -77,14 +77,14 @@ class Notifications extends Command
     public function appendTheFactory()
     {
         $factory = file_get_contents(__DIR__.'/../Starter/Factory.txt');
-        $factoryPrepared = "
+        $factoryPrepared = '
 /*
 |--------------------------------------------------------------------------
 | Notification Factory
 |--------------------------------------------------------------------------
 */
 
-\$factory->define(".$this->getAppNamespace()."Repositories\Notification\Notification::class, function (Faker\Generator \$faker) {
+$factory->define('.$this->getAppNamespace()."Repositories\Notification\Notification::class, function (Faker\Generator \$faker) {
     return [
         'id' => 1,
         'user_id' => 1,
@@ -98,6 +98,7 @@ class Notifications extends Command
 ";
 
         $factoryMaster = base_path('database/factories/ModelFactory.php');
+
         return file_put_contents($factoryMaster, $factoryPrepared, FILE_APPEND);
     }
 }

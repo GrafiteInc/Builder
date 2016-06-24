@@ -2,13 +2,11 @@
 
 namespace Yab\Laracogs\Console;
 
-use Config;
 use Artisan;
-use Illuminate\Console\Command;
-use Yab\Laracogs\Utilities\FormMaker;
-use Illuminate\Filesystem\Filesystem;
-use Yab\Laracogs\Generators\CrudGenerator;
 use Illuminate\Console\AppNamespaceDetectorTrait;
+use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
+use Yab\Laracogs\Utilities\FormMaker;
 
 class TableCrud extends Command
 {
@@ -29,33 +27,33 @@ class TableCrud extends Command
     protected $description = 'Generate a basic CRUD from an existing table';
 
     /**
-     * Generate a CRUD stack
+     * Generate a CRUD stack.
      *
      * @return mixed
      */
     public function handle()
     {
-        $filesystem = new Filesystem;
+        $filesystem = new Filesystem();
         $table = $this->argument('table');
         $tableDefintion = $this->tableDefintion($table);
 
         Artisan::call('laracogs:crud', [
-            'table' => $table,
-            '--api' => $this->option('api'),
+            'table'       => $table,
+            '--api'       => $this->option('api'),
             '--migration' => $this->option('migration'),
             '--bootstrap' => $this->option('bootstrap'),
-            '--semantic' => $this->option('semantic'),
-            '--schema' => $tableDefintion,
+            '--semantic'  => $this->option('semantic'),
+            '--schema'    => $tableDefintion,
         ]);
 
         $migrationName = 'create_'.$table.'_table';
         $migrationFiles = $filesystem->allFiles(base_path('database/migrations'));
 
         foreach ($migrationFiles as $file) {
-            if (stristr($file->getBasename(), $migrationName) ) {
+            if (stristr($file->getBasename(), $migrationName)) {
                 $migrationData = file_get_contents($file->getPathname());
                 if (stristr($migrationData, 'updated_at')) {
-                    $migrationData = str_replace("\$table->timestamps();", '', $migrationData);
+                    $migrationData = str_replace('$table->timestamps();', '', $migrationData);
                 }
                 file_put_contents($file->getPathname(), $migrationData);
             }
@@ -68,9 +66,10 @@ class TableCrud extends Command
     }
 
     /**
-     * Table definitions
+     * Table definitions.
      *
-     * @param  string $table
+     * @param string $table
+     *
      * @return string
      */
     private function tableDefintion($table)
