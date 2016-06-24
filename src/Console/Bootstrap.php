@@ -38,10 +38,10 @@ class Bootstrap extends Command
         } else {
             $fileSystem = new Filesystem;
 
-            $files = $fileSystem->allFiles(__DIR__.'/../Bootstrap');
+            $files = $fileSystem->allFiles(__DIR__.'/../Packages/Bootstrap');
             $this->line("\n");
             foreach ($files as $file) {
-                $this->line(str_replace(__DIR__.'/../Bootstrap/', '', $file));
+                $this->line(str_replace(__DIR__.'/../Packages/Bootstrap/', '', $file));
             }
 
             $this->info("\n\nThese files will be published\n");
@@ -49,7 +49,7 @@ class Bootstrap extends Command
             $result = $this->confirm("Are you sure you want to overwrite any files of the same name?");
 
             if ($result) {
-                $this->copyPreparedFiles(__DIR__.'/../Bootstrap/', base_path());
+                $this->copyPreparedFiles(__DIR__.'/../Packages/Bootstrap/', base_path());
 
                 $this->info("\n\nMake sure you set the PagesController@dashboard to use the following view: 'dashboard.main'\n\n");
                 $this->info("Run the following:\n");

@@ -33,34 +33,34 @@ class Starter extends Command
     {
         $fileSystem = new Filesystem;
 
-        $files = $fileSystem->allFiles(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter');
+        $files = $fileSystem->allFiles(__DIR__.'/../Packages/Starter');
 
         $this->info("These files will be published");
 
         foreach ($files as $file) {
-            $this->line(str_replace(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR, '', $file));
+            $this->line(str_replace(__DIR__.'/../Packages/Starter/', '', $file));
         }
 
         $result = $this->confirm("Are you sure you want to overwrite any files of the same name?");
 
         if ($result) {
             $this->line("Copying app/Http...");
-            $this->copyPreparedFiles(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Http', app_path('Http'));
+            $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/app/Http', app_path('Http'));
 
             $this->line("Copying app/Repositories...");
-             $this->copyPreparedFiles(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Repositories', app_path('Repositories'));
+             $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/app/Repositories', app_path('Repositories'));
 
             $this->line("Copying app/Services...");
-             $this->copyPreparedFiles(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Services', app_path('Services'));
+             $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/app/Services', app_path('Services'));
 
             $this->line("Copying database...");
-             $this->copyPreparedFiles(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR.'database', base_path('database'));
+             $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/database', base_path('database'));
 
             $this->line("Copying resources/views...");
-             $this->copyPreparedFiles(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'views', base_path('resources/views'));
+             $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/resources/views', base_path('resources/views'));
 
             $this->line("Copying tests...");
-             $this->copyPreparedFiles(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR.'tests', base_path('tests'));
+             $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/tests', base_path('tests'));
 
             $this->line("Appending database/factory...");
             $this->createFactory();
@@ -83,7 +83,7 @@ class Starter extends Command
 
     public function createFactory()
     {
-        $factory = file_get_contents(__DIR__.'/../Starter/Factory.txt');
+        $factory = file_get_contents(__DIR__.'/../Packages/Starter/Factory.txt');
         $factoryPrepared = str_replace('{{App\}}', $this->getAppNamespace(), $factory);
         $factoryMaster = base_path('database/factories/ModelFactory.php');
         return file_put_contents($factoryMaster, $factoryPrepared, FILE_APPEND);

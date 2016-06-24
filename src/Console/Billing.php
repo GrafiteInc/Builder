@@ -38,10 +38,10 @@ class Billing extends Command
         } else {
             $fileSystem = new Filesystem;
 
-            $files = $fileSystem->allFiles(__DIR__.'/../Billing');
+            $files = $fileSystem->allFiles(__DIR__.'/../Packages/Billing');
             $this->line("\n");
             foreach ($files as $file) {
-                $this->line(str_replace(__DIR__.'/../Billing/', '', $file));
+                $this->line(str_replace(__DIR__.'/../Packages/Billing/', '', $file));
             }
 
             $this->info("\n\nThese files will be published\n");
@@ -49,7 +49,7 @@ class Billing extends Command
             $result = $this->confirm("Are you sure you want to overwrite any files of the same name?");
 
             if ($result) {
-                $this->copyPreparedFiles(__DIR__.'/../Billing/', base_path());
+                $this->copyPreparedFiles(__DIR__.'/../Packages/Billing/', base_path());
 
                 $this->info("\n\n You will need to run: composer require laravel/cashier");
                 $this->info("\n\n Then follow the directions regarding billing on: https://laravel.com/docs/");

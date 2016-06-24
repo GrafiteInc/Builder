@@ -38,10 +38,10 @@ class Notifications extends Command
         } else {
             $fileSystem = new Filesystem;
 
-            $files = $fileSystem->allFiles(__DIR__.'/../Notifications');
+            $files = $fileSystem->allFiles(__DIR__.'/../Packages/Notifications');
             $this->line("\n");
             foreach ($files as $file) {
-                $this->line(str_replace(__DIR__.'/../Notifications/', '', $file));
+                $this->line(str_replace(__DIR__.'/../Packages/Notifications/', '', $file));
             }
 
             $this->info("\n\nThese files will be published\n");
@@ -49,7 +49,7 @@ class Notifications extends Command
             $result = $this->confirm("Are you sure you want to overwrite any files of the same name?");
 
             if ($result) {
-                $this->copyPreparedFiles(__DIR__.'/../Notifications', base_path());
+                $this->copyPreparedFiles(__DIR__.'/../Packages/Notifications', base_path());
                 $this->appendTheFactory();
 
                 $this->info("\n\n You will need to run: composer require laravel/cashier");

@@ -38,10 +38,10 @@ class Socialite extends Command
         } else {
             $fileSystem = new Filesystem;
 
-            $files = $fileSystem->allFiles(__DIR__.'/../Socialite');
+            $files = $fileSystem->allFiles(__DIR__.'/../Packages/Socialite');
             $this->line("\n");
             foreach ($files as $file) {
-                $this->line(str_replace(__DIR__.'/../Socialite/', '', $file));
+                $this->line(str_replace(__DIR__.'/../Packages/Socialite/', '', $file));
             }
 
             $this->info("\n\nThese files will be published\n");
@@ -49,7 +49,7 @@ class Socialite extends Command
             $result = $this->confirm("Are you sure you want to overwrite any files of the same name?");
 
             if ($result) {
-                $this->copyPreparedFiles(__DIR__.'/../Socialite', base_path());
+                $this->copyPreparedFiles(__DIR__.'/../Packages/Socialite', base_path());
 
                 $this->info("\n\n You will need to run:");
                 $this->comment("\n\n composer require laravel/socialite");

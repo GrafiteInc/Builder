@@ -38,10 +38,10 @@ class Semantic extends Command
         } else {
             $fileSystem = new Filesystem;
 
-            $files = $fileSystem->allFiles(__DIR__.'/../Semantic');
+            $files = $fileSystem->allFiles(__DIR__.'/../Packages/Semantic');
             $this->line("\n");
             foreach ($files as $file) {
-                $this->line(str_replace(__DIR__.'/../Semantic/', '', $file));
+                $this->line(str_replace(__DIR__.'/../Packages/Semantic/', '', $file));
             }
 
             $this->info("\n\nThese files will be published\n");
@@ -49,7 +49,7 @@ class Semantic extends Command
             $result = $this->confirm("Are you sure you want to overwrite any files of the same name?");
 
             if ($result) {
-                $this->copyPreparedFiles(__DIR__.'/../Semantic/', base_path());
+                $this->copyPreparedFiles(__DIR__.'/../Packages/Semantic/', base_path());
 
                 $this->info("\n\nYou will need to install semantic-ui:\n");
                 $this->comment("\nnpm install semantic-ui\n");

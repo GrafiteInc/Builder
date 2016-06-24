@@ -52,7 +52,7 @@ class Docs extends Command
         |--------------------------------------------------------------------------
         */
         if ($this->argument('action') === 'create') {
-            $ruleTemplate = file_get_contents(__DIR__.'/../Documentation/RuleTemplate.txt');
+            $ruleTemplate = file_get_contents(__DIR__.'/../Packages/Documentation/RuleTemplate.txt');
 
             $ruleTemplate = str_replace('_source_service_', 'App\Services\\'.ucfirst($name).'Service', $ruleTemplate);
             $ruleTemplate = str_replace('_source_model_', 'App\Repositories\\'.ucfirst($name).'\\'.ucfirst($name), $ruleTemplate);
@@ -65,7 +65,7 @@ class Docs extends Command
 
             $ruleBuild = str_replace('<name>', $name, $ruleTemplate);
             if (! file_exists(base_path('documentation/rules/index.md'))) {
-                file_put_contents(base_path('documentation/rules/index.md'), file_get_contents(__DIR__.'/../Documentation/IndexTemplate.txt'));
+                file_put_contents(base_path('documentation/rules/index.md'), file_get_contents(__DIR__.'/../Packages/Documentation/IndexTemplate.txt'));
             }
             if (file_put_contents(base_path('documentation/rules/01-'.$name.'.md'), $ruleBuild)) {
                 $this->info('Built rule: '.$name);
