@@ -1,9 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Config;
+use Illuminate\Container\Container as Container;
+use Illuminate\Support\Facades\Facade as Facade;
 use Yab\Laracogs\Utilities\InputMaker;
-use \Illuminate\Support\Facades\Config;
-use \Illuminate\Container\Container as Container;
-use \Illuminate\Support\Facades\Facade as Facade;
 
 class InputMakerTest extends PHPUnit_Framework_TestCase
 {
