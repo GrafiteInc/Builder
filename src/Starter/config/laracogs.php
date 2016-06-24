@@ -15,6 +15,7 @@ return [
     'crud' => [
 
         'template_source'            => base_path('resources/laracogs/crud'),
+        'service_only_tests'         => 'Integration/RepositoryIntegrationTest,Integration/ServiceIntegrationTest',
 
         /*
         |--------------------------------------------------------------------------

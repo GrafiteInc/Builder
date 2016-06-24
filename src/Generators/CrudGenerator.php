@@ -192,13 +192,32 @@ class CrudGenerator
     /**
      * Create the tests
      * @param  array $config
+     * @param  bool $serviceOnly
      * @return bool
      */
-    public function createTests($config)
+    public function createTests($config, $serviceOnly)
     {
         $testMakerResults = [];
-        foreach (explode(',', $config['tests_generated']) as $testType) {
-            $test = file_get_contents($config['template_source'].'/Tests/'.ucfirst($testType).'Test.txt');
+        $fileSystem = new Filesystem();
+        $testTemplates = $fileSystem->allFiles($config['template_source'].'/Tests');
+
+        if ($serviceOnly) {
+            $this->serviceOnlyTestsPresent($config);
+        }
+
+        foreach ($testTemplates as $testTemplate) {
+            if ($serviceOnly) {
+                $serviceOnlyTests = explode(',', $config['service_only_tests']);
+                $testTemplateFile = $testTemplate->getRelativePath().$testTemplate->getBasename('.' . $testTemplate->getExtension());
+
+                if (!in_array($testTemplateFile, $serviceOnlyTests)) {
+                    continue;
+                }
+            }
+
+            $test = file_get_contents($testTemplate->getRealPath());
+            $testName = $config['_camel_case_'] . $testTemplate->getBasename('.' . $testTemplate->getExtension());
+            $testDirectory = $config['_path_tests_'].'/'.strtolower($testTemplate->getRelativePath());
 
             if (! empty($config['schema'])) {
                 $test = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $test);
@@ -208,7 +227,11 @@ class CrudGenerator
                 $test = str_replace($key, $value, $test);
             }
 
-            if (! file_put_contents($config['_path_tests_'].'/'.$config['_camel_case_'].''.ucfirst($testType).'Test.php', $test)) {
+            if (!is_dir($testDirectory)) {
+                mkdir($testDirectory);
+            }
+
+            if (! file_put_contents($testDirectory.'/'.$testName.'.php', $test)) {
                 return false;
             }
         }
@@ -389,6 +412,23 @@ class CrudGenerator
             case 'tinyInteger':             return 1;
 
             default:                        return 1;
+        }
+    }
+
+    /**
+     * Verify that all service only test templates exist.
+     *
+     * @param  $config
+     * @throws Exception
+     */
+    private function serviceOnlyTestsPresent($config)
+    {
+        $serviceOnlyTests = explode(',', $config['service_only_tests']);
+
+        foreach ($serviceOnlyTests as $serviceOnlyTest) {
+            if (!file_exists($config['template_source'].'/Tests/'.$serviceOnlyTest.'.txt')) {
+                throw new \Exception("Service only template (".$serviceOnlyTest.") not found.");
+            }
         }
     }
 
