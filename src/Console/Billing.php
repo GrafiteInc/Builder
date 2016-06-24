@@ -31,12 +31,12 @@ class Billing extends Command
      */
     public function handle()
     {
-        if (! file_exists(base_path('resources/views/team/create.blade.php'))) {
+        if (!file_exists(base_path('resources/views/team/create.blade.php'))) {
             $this->line("\n\nPlease perform the starter command:\n");
             $this->info("\n\nphp artisan laracogs:starter\n");
             $this->line("\n\nThen one you're able to run the unit tests successfully re-run this command, to bootstrap your app :)\n");
         } else {
-            $fileSystem = new Filesystem;
+            $fileSystem = new Filesystem();
 
             $files = $fileSystem->allFiles(__DIR__.'/../Packages/Billing');
             $this->line("\n");
@@ -46,7 +46,7 @@ class Billing extends Command
 
             $this->info("\n\nThese files will be published\n");
 
-            $result = $this->confirm("Are you sure you want to overwrite any files of the same name?");
+            $result = $this->confirm('Are you sure you want to overwrite any files of the same name?');
 
             if ($result) {
                 $this->copyPreparedFiles(__DIR__.'/../Packages/Billing/', base_path());
@@ -75,9 +75,9 @@ class Billing extends Command
                 $this->comment("\n });");
                 $this->info("\n\n Please make sure you run the migration for cashier structure.");
                 $this->comment("\n\n ** You will need to configure your app to handle cancelling subscriptions when deleting users. **");
-                $this->info("Finished setting up billing");
+                $this->info('Finished setting up billing');
             } else {
-                $this->info("You cancelled the laracogs billing");
+                $this->info('You cancelled the laracogs billing');
             }
         }
     }

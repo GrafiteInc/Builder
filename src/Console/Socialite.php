@@ -31,12 +31,12 @@ class Socialite extends Command
      */
     public function handle()
     {
-        if (! file_exists(base_path('resources/views/admin/users/invite.blade.php'))) {
+        if (!file_exists(base_path('resources/views/admin/users/invite.blade.php'))) {
             $this->line("\n\nPlease perform the starter command:\n");
             $this->info("\n\nphp artisan laracogs:starter\n");
             $this->line("\n\nThen one you're able to run the unit tests successfully re-run this command, to bootstrap your app :)\n");
         } else {
-            $fileSystem = new Filesystem;
+            $fileSystem = new Filesystem();
 
             $files = $fileSystem->allFiles(__DIR__.'/../Packages/Socialite');
             $this->line("\n");
@@ -46,7 +46,7 @@ class Socialite extends Command
 
             $this->info("\n\nThese files will be published\n");
 
-            $result = $this->confirm("Are you sure you want to overwrite any files of the same name?");
+            $result = $this->confirm('Are you sure you want to overwrite any files of the same name?');
 
             if ($result) {
                 $this->copyPreparedFiles(__DIR__.'/../Packages/Socialite', base_path());
@@ -72,9 +72,9 @@ class Socialite extends Command
                 $this->comment("\n 'Socialite' => Laravel\Socialite\Facades\Socialite::class,");
                 $this->line("\n Add this line to (app/Providers/RouteServiceProvider.php):");
                 $this->comment("\n require app_path('Http/socialite-routes.php');");
-                $this->info("Finished setting up a basic socialite structure");
+                $this->info('Finished setting up a basic socialite structure');
             } else {
-                $this->info("You cancelled the laracogs socialite");
+                $this->info('You cancelled the laracogs socialite');
             }
         }
     }
