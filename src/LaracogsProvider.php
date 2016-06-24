@@ -2,12 +2,12 @@
 
 namespace Yab\Laracogs;
 
-use Yab\Laracogs\Utilities\Crypto;
-use Yab\Laracogs\Utilities\FormMaker;
 use Illuminate\Support\Facades\Blade;
-use Yab\Laracogs\Utilities\InputMaker;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use Yab\Laracogs\Utilities\Crypto;
+use Yab\Laracogs\Utilities\FormMaker;
+use Yab\Laracogs\Utilities\InputMaker;
 
 class LaracogsProvider extends ServiceProvider
 {
@@ -20,7 +20,7 @@ class LaracogsProvider extends ServiceProvider
         @mkdir(base_path('resources/laracogs/crud'));
         $this->publishes([
             __DIR__.'/Templates' => base_path('resources/laracogs/crud'),
-            __DIR__.'/Starter/config/laracogs.php' => base_path('config/laracogs.php'),
+            __DIR__.'/Packages/Starter/config/laracogs.php' => base_path('config/laracogs.php'),
         ]);
     }
 
@@ -76,11 +76,11 @@ class LaracogsProvider extends ServiceProvider
         */
 
         // Form Maker
-        Blade::directive('form_maker_table', function($expression) {
+        Blade::directive('form_maker_table', function ($expression) {
             return "<?php echo FormMaker::fromTable$expression; ?>";
         });
 
-        Blade::directive('form_maker_array', function($expression) {
+        Blade::directive('form_maker_array', function ($expression) {
             return "<?php echo FormMaker::fromArray$expression; ?>";
         });
 
@@ -88,25 +88,25 @@ class LaracogsProvider extends ServiceProvider
             return "<?php echo FormMaker::fromObject$expression; ?>";
         });
 
-        Blade::directive('form_maker_columns', function($expression) {
+        Blade::directive('form_maker_columns', function ($expression) {
             return "<?php echo FormMaker::getTableColumns$expression; ?>";
         });
 
         // Label Maker
-        Blade::directive('input_maker_label', function($expression) {
+        Blade::directive('input_maker_label', function ($expression) {
             return "<?php echo InputMaker::label$expression; ?>";
         });
 
-        Blade::directive('input_maker_create', function($expression) {
+        Blade::directive('input_maker_create', function ($expression) {
             return "<?php echo InputMaker::create$expression; ?>";
         });
 
         // Crypto
-        Blade::directive('crypto_encrypt', function($expression) {
+        Blade::directive('crypto_encrypt', function ($expression) {
             return "<?php echo Crypto::encrypt$expression; ?>";
         });
 
-        Blade::directive('crypto_decrypt', function($expression) {
+        Blade::directive('crypto_decrypt', function ($expression) {
             return "<?php echo Crypto::encrypt$expression; ?>";
         });
 
