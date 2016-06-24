@@ -62,6 +62,7 @@ class Crud extends Command
         {--bootstrap}
         {--semantic}
         {--serviceOnly}
+        {--withFacade : Creates a facade that can be bound in your app to access the CRUD service}
         {--schema= : Basic schema support ie: id,increments,name:string,parent_id:integer}
         {--relationships= : Define the relationship ie: hasOne|App\Comment|comment,hasOne|App\Rating|rating or relation|class|column (without the _id)}';
 
@@ -252,8 +253,10 @@ class Crud extends Command
                 $this->line('Building routes...');
                 $crudGenerator->createRoutes($config, false);
 
-                $this->line('Building facade...');
-                $crudGenerator->createFacade($config);
+                if ($this->option('withFacade')) {
+                    $this->line('Building facade...');
+                    $crudGenerator->createFacade($config);
+                }
             } else {
                 $config['tests_generated'] = 'service,repository';
             }
