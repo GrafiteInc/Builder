@@ -58,7 +58,7 @@ class InputMaker
             $config['class']     = $class.' '.$field['class'];
         }
 
-        $config['inputTypes'] = Config::get('form-maker', include(__DIR__.'/../Starter/config/form-maker.php'));
+        $config['inputTypes'] = Config::get('form-maker', include(__DIR__.'/../Packages/Starter/config/form-maker.php'));
 
         $config['inputs']           = [];
         if (Session::isStarted()) {
