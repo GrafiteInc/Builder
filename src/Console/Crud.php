@@ -206,9 +206,18 @@ class Crud extends Command
 
             $config = $this->setConfig($config, $section, $table);
 
+            $pathsToMake = [
+                '_path_repository_',
+                '_path_model_',
+                '_path_controller_',
+                '_path_api_controller_',
+                '_path_views_',
+                '_path_request_'
+            ];
+
             foreach ($config as $key => $value) {
-                if (in_array($key, ['_path_repository_', '_path_model_', '_path_controller_', '_path_api_controller_', '_path_views_', '_path_request_'])) {
-                    @mkdir($value, 0777, true);
+                if (in_array($key, $pathsToMake) && ! file_exists($value)) {
+                    mkdir($value, 0777, true);
                 }
             }
         }
