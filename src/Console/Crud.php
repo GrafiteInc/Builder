@@ -137,7 +137,7 @@ class Crud extends Command
             '_camel_case_'               => ucfirst(camel_case($table)),
             '_camel_casePlural_'         => str_plural(camel_case($table)),
             '_ucCamel_casePlural_'       => ucfirst(str_plural(camel_case($table))),
-            'service_only_tests'         => 'Integration/RepositoryIntegrationTest,Integration/ServiceIntegrationTest'g
+            'service_only_tests'         => 'Integration/RepositoryIntegrationTest,Integration/ServiceIntegrationTest'
         ];
 
         $templateDirectory = __DIR__.'/../Templates';
