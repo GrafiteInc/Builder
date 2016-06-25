@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\View;
  */
 class FormMaker
 {
+    protected $inputMaker;
+
     protected $columnTypes = [
         'integer',
         'string',
@@ -47,7 +49,7 @@ class FormMaker
      * @param string $view             View to use - for custom form layouts
      * @param bool   $reformatted      Corrects the table column names to clean words if no columns array provided
      * @param bool   $populated        Populates the inputs with the column names as values
-     * @param bool   $$idAndTimestamps Allows id and Timestamp columns
+     * @param bool   $idAndTimestamps Allows id and Timestamp columns
      *
      * @return string
      */
@@ -93,8 +95,8 @@ class FormMaker
      * Build the form from an array.
      *
      * @param array  $array
+     * @param array  $columns
      * @param string $view            A template to use for the rows
-     * @param object $object          An object to base the form off
      * @param string $class           Default input class
      * @param bool   $populated       Is content populated
      * @param bool   $reformatted     Are column names reformatted
@@ -122,7 +124,7 @@ class FormMaker
                 if (is_numeric($column)) {
                     $column = $field;
                 }
-                if (in_array($column, $tableColumns)) {
+                if (in_array($column, $columns)) {
                     $input = $this->inputMaker->create($column, $field, $array, $class, $reformatted, $populated);
                     $formBuild .= $this->formBuilder($view, $errors, $field, $column, $input);
                 }
@@ -209,7 +211,7 @@ class FormMaker
      * Constructs HTML forms.
      *
      * @param string $view   View template
-     * @param array  $errors Array of errors
+     * @param array|object   $errors
      * @param array  $field  Array of field values
      * @param string $column Column name
      * @param string $input  Input string

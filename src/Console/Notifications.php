@@ -76,7 +76,6 @@ class Notifications extends Command
 
     public function appendTheFactory()
     {
-        $factory = file_get_contents(__DIR__.'/../Starter/Factory.txt');
         $factoryPrepared = '
 /*
 |--------------------------------------------------------------------------
