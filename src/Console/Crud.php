@@ -81,33 +81,14 @@ class Crud extends Command
     public function handle()
     {
         $section = false;
-        $crudGenerator = new CrudGenerator();
-        $filesystem = new Filesystem();
+        $splitTable = [];
 
         $table = ucfirst(str_singular($this->argument('table')));
 
-        if (stristr($table, '_')) {
-            $splitTable = explode('_', $table);
-            $table = $splitTable[1];
-            $section = $splitTable[0];
-        }
+        $this->validateSchema();
 
-        if ($this->option('schema')) {
-            foreach (explode(',', $this->option('schema')) as $column) {
-                $columnDefinition = explode(':', $column);
-                if (!in_array($columnDefinition[1], $this->columnTypes)) {
-                    throw new Exception("$columnDefinition[1] is not in the array of valid column types: ".implode(', ', $this->columnTypes), 1);
-                }
-            }
-        }
-
-        $config = [];
         $config = [
             'template_source'            => '',
-            'bootstrap'                  => false,
-            'semantic'                   => false,
-            'relationships'              => null,
-            'schema'                     => null,
             '_sectionPrefix_'            => '',
             '_sectionTablePrefix_'       => '',
             '_sectionRoutePrefix_'       => '',
@@ -142,6 +123,11 @@ class Crud extends Command
             'tests_generated'            => 'integration,service,repository',
         ];
 
+        $config['bootstrap'] = $this->option('bootstrap', true);
+        $config['semantic'] = $this->option('semantic', true);
+        $config['schema'] = $this->option('schema', null);
+        $config['relationships'] = $this->option('relationships', null);
+
         $templateDirectory = __DIR__.'/../Templates';
 
         if (is_dir(base_path('resources/laracogs/crud'))) {
@@ -150,97 +136,35 @@ class Crud extends Command
 
         $config['template_source'] = Config::get('laracogs.crud.template_source', $templateDirectory);
 
-        $config = array_merge($config, Config::get('laracogs.crud.single', []));
-        $config = $this->setConfig($config, $section, $table);
-
-        if ($section) {
-            $config = [];
-            $config = [
-                'template_source'            => '',
-                'bootstrap'                  => false,
-                'semantic'                   => false,
-                'relationships'              => null,
-                'schema'                     => null,
-                '_sectionPrefix_'            => strtolower($section).'.',
-                '_sectionTablePrefix_'       => strtolower($section).'_',
-                '_sectionRoutePrefix_'       => strtolower($section).'/',
-                '_sectionNamespace_'         => ucfirst($section).'\\',
-                '_path_facade_'              => app_path('Facades'),
-                '_path_service_'             => app_path('Services'),
-                '_path_repository_'          => app_path('Repositories/'.ucfirst($section).'/'.ucfirst($table)),
-                '_path_model_'               => app_path('Repositories/'.ucfirst($section).'/'.ucfirst($table)),
-                '_path_controller_'          => app_path('Http/Controllers/'.ucfirst($section).'/'),
-                '_path_api_controller_'      => app_path('Http/Controllers/Api/'.ucfirst($section).'/'),
-                '_path_views_'               => base_path('resources/views/'.strtolower($section)),
-                '_path_tests_'               => base_path('tests'),
-                '_path_request_'             => app_path('Http/Requests/'.ucfirst($section)),
-                '_path_routes_'              => app_path('Http/routes.php'),
-                '_path_api_routes_'          => app_path('Http/api-routes.php'),
-                'routes_prefix'              => "\n\nRoute::group(['namespace' => '".ucfirst($section)."', 'prefix' => '".strtolower($section)."', 'middleware' => ['web']], function () { \n",
-                'routes_suffix'              => "\n});",
-                '_app_namespace_'            => $this->getAppNamespace(),
-                '_namespace_services_'       => $this->getAppNamespace().'Services\\'.ucfirst($section),
-                '_namespace_facade_'         => $this->getAppNamespace().'Facades',
-                '_namespace_repository_'     => $this->getAppNamespace().'Repositories\\'.ucfirst($section).'\\'.ucfirst($table),
-                '_namespace_model_'          => $this->getAppNamespace().'Repositories\\'.ucfirst($section).'\\'.ucfirst($table),
-                '_namespace_controller_'     => $this->getAppNamespace().'Http\Controllers\\'.ucfirst($section),
-                '_namespace_api_controller_' => $this->getAppNamespace().'Http\Controllers\Api\\'.ucfirst($section),
-                '_namespace_request_'        => $this->getAppNamespace().'Http\Requests\\'.ucfirst($section),
-                '_table_name_'               => str_plural(strtolower(implode('_', $splitTable))),
-                '_lower_case_'               => strtolower($table),
-                '_lower_casePlural_'         => str_plural(strtolower($table)),
-                '_camel_case_'               => ucfirst(camel_case($table)),
-                '_camel_casePlural_'         => str_plural(camel_case($table)),
-                '_ucCamel_casePlural_'       => ucfirst(str_plural(camel_case($table))),
-                'tests_generated'            => 'integration,service,repository',
-            ];
-
-            $templateDirectory = __DIR__.'/../Templates';
-
-            if (is_dir(base_path('resources/laracogs/crud'))) {
-                $templateDirectory = base_path('resources/laracogs/crud');
-            }
-
-            $config['template_source'] = Config::get('laracogs.crud.template_source', $templateDirectory);
-            $config = array_merge($config, Config::get('laracogs.crud.sectioned', []));
-
+        if (stristr($table, '_')) {
+            $splitTable = explode('_', $table);
+            $table = $splitTable[1];
+            $section = $splitTable[0];
+            $config = $this->configASectionedCRUD($config, $section, $table, $splitTable);
+        } else {
+            $config = array_merge($config, Config::get('laracogs.crud.single', []));
             $config = $this->setConfig($config, $section, $table);
-
-            $pathsToMake = [
-                '_path_repository_',
-                '_path_model_',
-                '_path_controller_',
-                '_path_api_controller_',
-                '_path_views_',
-                '_path_request_'
-            ];
-
-            foreach ($config as $key => $value) {
-                if (in_array($key, $pathsToMake) && ! file_exists($value)) {
-                    mkdir($value, 0777, true);
-                }
-            }
         }
 
-        if ($this->option('bootstrap')) {
-            $config['bootstrap'] = true;
-        }
+        $this->createCRUD($config, $section, $table, $splitTable);
 
-        if ($this->option('semantic')) {
-            $config['semantic'] = true;
-        }
+        $this->info('You may wish to add this as your testing database');
+        $this->comment("'testing' => [ 'driver' => 'sqlite', 'database' => ':memory:', 'prefix' => '' ],");
+        $this->info('CRUD for '.$table.' is done.'."\n");
+    }
 
-        if ($this->option('schema')) {
-            $config['schema'] = $this->option('schema');
-        }
-
-        if (!isset($config['template_source'])) {
-            $config['template_source'] = __DIR__.'/../Templates';
-        }
-
-        if ($this->option('relationships')) {
-            $config['relationships'] = $this->option('relationships');
-        }
+    /**
+     * Create a CRUD
+     *
+     * @param  array $config
+     * @param  string $section
+     * @param  string $table
+     * @param  array $splitTable
+     * @return void
+     */
+    public function createCRUD($config, $section, $table, $splitTable)
+    {
+        $crudGenerator = new CrudGenerator();
 
         try {
             $this->line('Building repository...');
@@ -286,69 +210,170 @@ class Crud extends Command
             throw new Exception('Unable to generate your CRUD: '.$e->getMessage(), 1);
         }
 
-        try {
-            if ($this->option('migration')) {
-                $this->line('Building migration...');
-                if ($section) {
-                    $migrationName = 'create_'.str_plural(strtolower(implode('_', $splitTable))).'_table';
-                    Artisan::call('make:migration', [
-                        'name'     => $migrationName,
-                        '--table'  => str_plural(strtolower(implode('_', $splitTable))),
-                        '--create' => true,
-                    ]);
-                } else {
-                    $migrationName = 'create_'.str_plural(strtolower($table)).'_table';
-                    Artisan::call('make:migration', [
-                        'name'     => $migrationName,
-                        '--table'  => str_plural(strtolower($table)),
-                        '--create' => true,
-                    ]);
-                }
-
-                if ($this->option('schema')) {
-                    $migrationFiles = $filesystem->allFiles(base_path('database/migrations'));
-                    foreach ($migrationFiles as $file) {
-                        if (stristr($file->getBasename(), $migrationName)) {
-                            $migrationData = file_get_contents($file->getPathname());
-                            $parsedTable = '';
-
-                            foreach (explode(',', $this->option('schema')) as $key => $column) {
-                                $columnDefinition = explode(':', $column);
-                                if ($key === 0) {
-                                    $parsedTable .= "\$table->$columnDefinition[1]('$columnDefinition[0]');\n";
-                                } else {
-                                    $parsedTable .= "\t\t\t\$table->$columnDefinition[1]('$columnDefinition[0]');\n";
-                                }
-                            }
-
-                            if ($this->option('relationships')) {
-                                foreach (explode(',', $config['relationships']) as $relationshipExpression) {
-                                    $relationship = explode('|', $relationshipExpression);
-                                    if (in_array($relationship[0], ['hasOne'])) {
-                                        if (!isset($relationship[2])) {
-                                            $relationship[2] = strtolower(end(explode('\\', $relationship[1])));
-                                        }
-
-                                        $parsedTable .= "\t\t\t\$table->integer('$relationship[2]_id');\n";
-                                    }
-                                }
-                            }
-
-                            $migrationData = str_replace("\$table->increments('id');", $parsedTable, $migrationData);
-                            file_put_contents($file->getPathname(), $migrationData);
-                        }
-                    }
-                }
-            } else {
-                $this->info("\nYou will want to create a migration in order to get the $table tests to work correctly.\n");
+        if ($this->option('migration')) {
+            $this->createMigration($config, $section, $table, $splitTable);
+            if ($this->option('schema')) {
+                $this->prepareSchema($config, $section, $table, $splitTable);
             }
-        } catch (Exception $e) {
-            throw new Exception('Could not process the migration but your CRUD was generated', 1);
+        } else {
+            $this->info("\nYou will want to create a migration in order to get the $table tests to work correctly.\n");
+        }
+    }
+
+    /**
+     * Set the config of the CRUD
+     *
+     * @param  array $config
+     * @param  string $section
+     * @param  string $table
+     * @param  array $splitTable
+     * @return array
+     */
+    public function configASectionedCRUD($config, $section, $table, $splitTable)
+    {
+        $sectionalConfig = [
+            '_sectionPrefix_'            => strtolower($section).'.',
+            '_sectionTablePrefix_'       => strtolower($section).'_',
+            '_sectionRoutePrefix_'       => strtolower($section).'/',
+            '_sectionNamespace_'         => ucfirst($section).'\\',
+            '_path_facade_'              => app_path('Facades'),
+            '_path_service_'             => app_path('Services'),
+            '_path_repository_'          => app_path('Repositories/'.ucfirst($section).'/'.ucfirst($table)),
+            '_path_model_'               => app_path('Repositories/'.ucfirst($section).'/'.ucfirst($table)),
+            '_path_controller_'          => app_path('Http/Controllers/'.ucfirst($section).'/'),
+            '_path_api_controller_'      => app_path('Http/Controllers/Api/'.ucfirst($section).'/'),
+            '_path_views_'               => base_path('resources/views/'.strtolower($section)),
+            '_path_tests_'               => base_path('tests'),
+            '_path_request_'             => app_path('Http/Requests/'.ucfirst($section)),
+            '_path_routes_'              => app_path('Http/routes.php'),
+            '_path_api_routes_'          => app_path('Http/api-routes.php'),
+            'routes_prefix'              => "\n\nRoute::group(['namespace' => '".ucfirst($section)."', 'prefix' => '".strtolower($section)."', 'middleware' => ['web']], function () { \n",
+            'routes_suffix'              => "\n});",
+            '_app_namespace_'            => $this->getAppNamespace(),
+            '_namespace_services_'       => $this->getAppNamespace().'Services\\'.ucfirst($section),
+            '_namespace_facade_'         => $this->getAppNamespace().'Facades',
+            '_namespace_repository_'     => $this->getAppNamespace().'Repositories\\'.ucfirst($section).'\\'.ucfirst($table),
+            '_namespace_model_'          => $this->getAppNamespace().'Repositories\\'.ucfirst($section).'\\'.ucfirst($table),
+            '_namespace_controller_'     => $this->getAppNamespace().'Http\Controllers\\'.ucfirst($section),
+            '_namespace_api_controller_' => $this->getAppNamespace().'Http\Controllers\Api\\'.ucfirst($section),
+            '_namespace_request_'        => $this->getAppNamespace().'Http\Requests\\'.ucfirst($section),
+            '_lower_case_'               => strtolower($splitTable[1]),
+            '_lower_casePlural_'         => str_plural(strtolower($splitTable[1])),
+            '_camel_case_'               => ucfirst(camel_case($splitTable[1])),
+            '_camel_casePlural_'         => str_plural(camel_case($splitTable[1])),
+            '_ucCamel_casePlural_'       => ucfirst(str_plural(camel_case($splitTable[1]))),
+            '_table_name_'               => str_plural(strtolower(implode('_', $splitTable))),
+        ];
+
+        $config = array_merge($config, $sectionalConfig);
+        $config = array_merge($config, Config::get('laracogs.crud.sectioned', []));
+        $config = $this->setConfig($config, $section, $table);
+
+        $pathsToMake = [
+            '_path_repository_',
+            '_path_model_',
+            '_path_controller_',
+            '_path_api_controller_',
+            '_path_views_',
+            '_path_request_'
+        ];
+
+        foreach ($config as $key => $value) {
+            if (in_array($key, $pathsToMake) && ! file_exists($value)) {
+                mkdir($value, 0777, true);
+            }
         }
 
-        $this->info('You may wish to add this as your testing database');
-        $this->comment("'testing' => [ 'driver' => 'sqlite', 'database' => ':memory:', 'prefix' => '' ],");
-        $this->info('CRUD for '.$table.' is done.'."\n");
+        return $config;
+    }
+
+    /**
+     * Create the migrations
+     *
+     * @param  array $config
+     * @param  string $section
+     * @param  string $table
+     * @param  array $splitTable
+     * @return void
+     */
+    public function createMigration($config, $section, $table, $splitTable)
+    {
+        $this->line('Building migration...');
+        try {
+            if ($section) {
+                $migrationName = 'create_'.str_plural(strtolower(implode('_', $splitTable))).'_table';
+                $tableName = str_plural(strtolower(implode('_', $splitTable)));
+            } else {
+                $migrationName = 'create_'.str_plural(strtolower($table)).'_table';
+                $tableName = str_plural(strtolower($table));
+            }
+
+            Artisan::call('make:migration', [
+                'name'     => $migrationName,
+                '--table'  => $tableName,
+                '--create' => true,
+            ]);
+        } catch (Exception $e) {
+            throw new Exception('Could not process the migration', 1);
+        }
+    }
+
+    /**
+     * Prepare the Schema
+     *
+     * @param  array $config
+     * @param  string $section
+     * @param  string $table
+     * @param  array $splitTable
+     * @return void
+     */
+    public function prepareSchema($config, $section, $table, $splitTable)
+    {
+        $filesystem = new Filesystem();
+
+        $migrationFiles = $filesystem->allFiles(base_path('database/migrations'));
+
+        if ($section) {
+            $migrationName = 'create_'.str_plural(strtolower(implode('_', $splitTable))).'_table';
+        } else {
+            $migrationName = 'create_'.str_plural(strtolower($table)).'_table';
+        }
+
+        foreach ($migrationFiles as $file) {
+            if (stristr($file->getBasename(), $migrationName)) {
+                $migrationData = file_get_contents($file->getPathname());
+                $parsedTable = '';
+
+                foreach (explode(',', $this->option('schema')) as $key => $column) {
+                    $columnDefinition = explode(':', $column);
+                    if ($key === 0) {
+                        $parsedTable .= "\$table->$columnDefinition[1]('$columnDefinition[0]');\n";
+                    } else {
+                        $parsedTable .= "\t\t\t\$table->$columnDefinition[1]('$columnDefinition[0]');\n";
+                    }
+                }
+
+                $migrationData = str_replace("\$table->increments('id');", $parsedTable, $migrationData);
+                file_put_contents($file->getPathname(), $migrationData);
+            }
+        }
+    }
+
+    /**
+     * Validate the Schema
+     *
+     * @return void
+     */
+    public function validateSchema()
+    {
+        if ($this->option('schema')) {
+            foreach (explode(',', $this->option('schema')) as $column) {
+                $columnDefinition = explode(':', $column);
+                if (!in_array($columnDefinition[1], $this->columnTypes)) {
+                    throw new Exception($columnDefinition[1].' is not in the array of valid column types: '.implode(', ', $this->columnTypes), 1);
+                }
+            }
+        }
     }
 
     /**
