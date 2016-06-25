@@ -66,7 +66,7 @@ class _camel_case_ServiceTest extends TestCase
         $response = $this->service->update($item->id, $this->editedArray);
 
         $this->assertEquals(1, $response->id);
-        $this->seeInDatabase('_lower_casePlural_', $this->editedArray);
+        $this->seeInDatabase('_table_name_', $this->editedArray);
     }
 
     public function testDestroy()

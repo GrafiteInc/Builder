@@ -24,51 +24,51 @@ class _camel_case_IntegrationTest extends TestCase
 
     public function testIndex()
     {
-        $response = $this->actor->call('GET', '/_lower_casePlural_');
+        $response = $this->actor->call('GET', '_sectionRoutePrefix__lower_casePlural_');
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertViewHas('_lower_casePlural_');
     }
 
     public function testCreate()
     {
-        $response = $this->actor->call('GET', '/_lower_casePlural_/create');
+        $response = $this->actor->call('GET', '_sectionRoutePrefix__lower_casePlural_/create');
         $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testStore()
     {
-        $response = $this->actor->call('POST', '_lower_casePlural_', $this->_lower_case_->toArray());
+        $response = $this->actor->call('POST', '_sectionRoutePrefix__lower_casePlural_', $this->_lower_case_->toArray());
 
         $this->assertEquals(302, $response->getStatusCode());
-        $this->assertRedirectedTo('_lower_casePlural_/'.$this->_lower_case_->id.'/edit');
+        $this->assertRedirectedTo('_sectionRoutePrefix__lower_casePlural_/'.$this->_lower_case_->id.'/edit');
     }
 
     public function testEdit()
     {
-        $this->actor->call('POST', '_lower_casePlural_', $this->_lower_case_->toArray());
+        $this->actor->call('POST', '_sectionRoutePrefix__lower_casePlural_', $this->_lower_case_->toArray());
 
-        $response = $this->actor->call('GET', '/_lower_casePlural_/'.$this->_lower_case_->id.'/edit');
+        $response = $this->actor->call('GET', '/_sectionRoutePrefix__lower_casePlural_/'.$this->_lower_case_->id.'/edit');
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertViewHas('_lower_case_');
     }
 
     public function testUpdate()
     {
-        $this->actor->call('POST', '_lower_casePlural_', $this->_lower_case_->toArray());
-        $response = $this->actor->call('PATCH', '/_lower_casePlural_/1', $this->_lower_case_Edited->toArray());
+        $this->actor->call('POST', '_sectionRoutePrefix__lower_casePlural_', $this->_lower_case_->toArray());
+        $response = $this->actor->call('PATCH', '_sectionRoutePrefix__lower_casePlural_/1', $this->_lower_case_Edited->toArray());
 
         $this->assertEquals(302, $response->getStatusCode());
-        $this->seeInDatabase('_lower_casePlural_', $this->_lower_case_Edited->toArray());
+        $this->seeInDatabase('_table_name_', $this->_lower_case_Edited->toArray());
         $this->assertRedirectedTo('/');
     }
 
     public function testDelete()
     {
-        $this->actor->call('POST', '_lower_casePlural_', $this->_lower_case_->toArray());
+        $this->actor->call('POST', '_sectionRoutePrefix__lower_casePlural_', $this->_lower_case_->toArray());
 
-        $response = $this->call('DELETE', '/_lower_casePlural_/'.$this->_lower_case_->id);
+        $response = $this->call('DELETE', '_sectionRoutePrefix__lower_casePlural_/'.$this->_lower_case_->id);
         $this->assertEquals(302, $response->getStatusCode());
-        $this->assertRedirectedTo('/_lower_casePlural_');
+        $this->assertRedirectedTo('_sectionRoutePrefix__lower_casePlural_');
     }
 
 }
