@@ -91,7 +91,7 @@ class InputMaker
      * Create a label for an input.
      *
      * @param string $name
-     * @param array  $config
+     * @param array  $attributes
      *
      * @return string
      */
@@ -237,7 +237,7 @@ class InputMaker
                 if (isset($config['inputTypes'][$config['fieldType']])) {
                     $config['type'] = $config['inputTypes'][$config['fieldType']];
                 }
-                $inputString = $this->makeHTMLInputString($config, $population);
+                $inputString = $this->makeHTMLInputString($config);
                 break;
         }
 
@@ -282,7 +282,7 @@ class InputMaker
      * Make a select input.
      *
      * @param array  $config
-     * @param string $population
+     * @param string $selected
      * @param string $custom
      *
      * @return string
