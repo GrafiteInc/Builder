@@ -477,8 +477,8 @@ class CrudGenerator
     /**
      * Verify that all service only test templates exist.
      *
-     * @param  array $config
-     * 
+     * @param array $config
+     *
      * @throws \Exception
      */
     private function serviceOnlyTestsPresent($config)
