@@ -38,12 +38,12 @@ class InputMaker
     /**
      * Create the input HTML.
      *
-     * @param string $name        Column/ Field name
-     * @param array  $field       Array of config info for item
-     * @param object $object      Object or Table Object
-     * @param string $class       CSS class
-     * @param bool   $reformatted Clean the labels and placeholder values
-     * @param bool   $populated   Set the value of the input to the object's value
+     * @param string        $name        Column/ Field name
+     * @param array         $field       Array of config info for item
+     * @param object|array  $object      Object or Table Object
+     * @param string        $class       CSS class
+     * @param bool          $reformatted Clean the labels and placeholder values
+     * @param bool          $populated   Set the value of the input to the object's value
      *
      * @return string
      */
