@@ -76,10 +76,11 @@ class CrudGenerator
     }
 
     /**
-     * Configure the model
+     * Configure the model.
      *
-     * @param  array $config
-     * @param  string $model
+     * @param array  $config
+     * @param string $model
+     *
      * @return string
      */
     public function configTheModel($config, $model)

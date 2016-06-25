@@ -2,8 +2,6 @@
 
 namespace Yab\Laracogs\Generators;
 
-use Illuminate\Filesystem\Filesystem;
-
 /**
  * Generate the CRUD.
  */
