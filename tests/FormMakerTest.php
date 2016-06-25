@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Container\Container as Container;
+use Illuminate\Support\Facades\Facade as Facade;
 use Yab\Laracogs\Utilities\FormMaker;
-use \Illuminate\Container\Container as Container;
-use \Illuminate\Support\Facades\Facade as Facade;
 
 class FormMakerTest extends PHPUnit_Framework_TestCase
 {
@@ -12,7 +12,7 @@ class FormMakerTest extends PHPUnit_Framework_TestCase
         $this->app = new Container();
         $this->app->singleton('app', 'Illuminate\Container\Container');
 
-        $config = Mockery::mock('config')->shouldReceive('get')->withAnyArgs()->andReturn(include(__DIR__.'/../src/Starter/config/form-maker.php'))->getMock();
+        $config = Mockery::mock('config')->shouldReceive('get')->withAnyArgs()->andReturn(include(__DIR__.'/../src/Packages/Starter/config/form-maker.php'))->getMock();
         $request = Mockery::mock('request')->shouldReceive('old')->withAnyArgs()->andReturn([])->getMock();
         $session = Mockery::mock('session');
         $session->shouldReceive('isStarted')->withAnyArgs()->andReturn(true);

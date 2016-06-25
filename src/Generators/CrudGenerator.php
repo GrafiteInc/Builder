@@ -2,11 +2,10 @@
 
 namespace Yab\Laracogs\Generators;
 
-use Exception;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * Generate the CRUD
+ * Generate the CRUD.
  */
 class CrudGenerator
 {
@@ -14,17 +13,21 @@ class CrudGenerator
 
     public function __construct()
     {
-        $this->filesystem = new Filesystem;
+        $this->filesystem = new Filesystem();
     }
 
     /**
-     * Create the controller
-     * @param  array $config
+     * Create the controller.
+     *
+     * @param array $config
+     *
      * @return bool
      */
     public function createController($config)
     {
-        if (! is_dir($config['_path_controller_'])) mkdir($config['_path_controller_'], 0777, true);
+        if (!is_dir($config['_path_controller_'])) {
+            mkdir($config['_path_controller_'], 0777, true);
+        }
 
         $request = file_get_contents($config['template_source'].'/Controller.txt');
 
@@ -38,23 +41,29 @@ class CrudGenerator
     }
 
     /**
-     * Create the repository
-     * @param  array $config
+     * Create the repository.
+     *
+     * @param array $config
+     *
      * @return bool
      */
     public function createRepository($config)
     {
-        if (! is_dir($config['_path_repository_'])) mkdir($config['_path_repository_'], 0777, true);
-        if (! is_dir($config['_path_model_'])) mkdir($config['_path_model_'], 0777, true);
+        if (!is_dir($config['_path_repository_'])) {
+            mkdir($config['_path_repository_'], 0777, true);
+        }
+        if (!is_dir($config['_path_model_'])) {
+            mkdir($config['_path_model_'], 0777, true);
+        }
 
         $repo = file_get_contents($config['template_source'].'/Repository/Repository.txt');
         $model = file_get_contents($config['template_source'].'/Repository/Model.txt');
 
-        if (! empty($config['schema'])) {
+        if (!empty($config['schema'])) {
             $model = str_replace('// _camel_case_ table data', $this->prepareTableDefinition($config['schema']), $model);
         }
 
-        if (! empty($config['relationships'])) {
+        if (!empty($config['relationships'])) {
             $relationships = [];
 
             foreach (explode(',', $config['relationships']) as $relationshipExpression) {
@@ -72,17 +81,21 @@ class CrudGenerator
         $repository = file_put_contents($config['_path_repository_'].'/'.$config['_camel_case_'].'Repository.php', $repo);
         $model = file_put_contents($config['_path_model_'].'/'.$config['_camel_case_'].'.php', $model);
 
-        return ($repository && $model);
+        return $repository && $model;
     }
 
     /**
-     * Create the request
-     * @param  array $config
+     * Create the request.
+     *
+     * @param array $config
+     *
      * @return bool
      */
     public function createRequest($config)
     {
-        if (! is_dir($config['_path_request_'])) mkdir($config['_path_request_'], 0777, true);
+        if (!is_dir($config['_path_request_'])) {
+            mkdir($config['_path_request_'], 0777, true);
+        }
 
         $request = file_get_contents($config['template_source'].'/Request.txt');
 
@@ -96,13 +109,17 @@ class CrudGenerator
     }
 
     /**
-     * Create the service
-     * @param  array $config
+     * Create the service.
+     *
+     * @param array $config
+     *
      * @return bool
      */
     public function createService($config)
     {
-        if (! is_dir($config['_path_service_'])) mkdir($config['_path_service_'], 0777, true);
+        if (!is_dir($config['_path_service_'])) {
+            mkdir($config['_path_service_'], 0777, true);
+        }
 
         $request = file_get_contents($config['template_source'].'/Service.txt');
 
@@ -116,8 +133,10 @@ class CrudGenerator
     }
 
     /**
-     * Create the routes
-     * @param  array $config
+     * Create the routes.
+     *
+     * @param array $config
+     *
      * @return bool
      */
     public function createRoutes($config, $appendRoutes = true)
@@ -128,7 +147,7 @@ class CrudGenerator
             $routesMaster = $config['_path_routes_'];
         }
 
-        if (! empty($config['routes_prefix'])) {
+        if (!empty($config['routes_prefix'])) {
             file_put_contents($routesMaster, $config['routes_prefix'], FILE_APPEND);
         }
 
@@ -140,7 +159,7 @@ class CrudGenerator
 
         file_put_contents($routesMaster, $routes, FILE_APPEND);
 
-        if (! empty($config['routes_prefix'])) {
+        if (!empty($config['routes_prefix'])) {
             file_put_contents($routesMaster, $config['routes_suffix'], FILE_APPEND);
         }
 
@@ -148,17 +167,17 @@ class CrudGenerator
     }
 
     /**
-     * Append to the factory
-     * @param  array $config
+     * Append to the factory.
+     *
+     * @param array $config
+     *
      * @return bool
      */
     public function createFactory($config)
     {
         $factory = file_get_contents($config['template_source'].'/Factory.txt');
 
-        if (! empty($config['schema'])) {
-            $factory = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $factory);
-        }
+        $factory = $this->tableSchema($config, $factory);
 
         $factoryMaster = base_path('database/factories/ModelFactory.php');
 
@@ -170,13 +189,17 @@ class CrudGenerator
     }
 
     /**
-     * Create the facade
-     * @param  array $config
+     * Create the facade.
+     *
+     * @param array $config
+     *
      * @return bool
      */
     public function createFacade($config)
     {
-        if (! is_dir($config['_path_facade_'])) mkdir($config['_path_facade_']);
+        if (!is_dir($config['_path_facade_'])) {
+            mkdir($config['_path_facade_']);
+        }
 
         $facade = file_get_contents($config['template_source'].'/Facade.txt');
 
@@ -192,12 +215,11 @@ class CrudGenerator
     /**
      * Create the tests
      * @param  array $config
-     * @param  bool $serviceOnly
+     * @param  bool  $serviceOnly
      * @return bool
      */
     public function createTests($config, $serviceOnly)
     {
-        $testMakerResults = [];
         $fileSystem = new Filesystem();
         $testTemplates = $fileSystem->allFiles($config['template_source'].'/Tests');
 
@@ -219,9 +241,7 @@ class CrudGenerator
             $testName = $config['_camel_case_'] . $testTemplate->getBasename('.' . $testTemplate->getExtension());
             $testDirectory = $config['_path_tests_'].'/'.strtolower($testTemplate->getRelativePath());
 
-            if (! empty($config['schema'])) {
-                $test = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $test);
-            }
+            $test = $this->tableSchema($config, $test);
 
             foreach ($config as $key => $value) {
                 $test = str_replace($key, $value, $test);
@@ -231,7 +251,7 @@ class CrudGenerator
                 mkdir($testDirectory);
             }
 
-            if (! file_put_contents($testDirectory.'/'.$testName.'.php', $test)) {
+            if (!file_put_contents($testDirectory.'/'.$testName.'.php', $test)) {
                 return false;
             }
         }
@@ -240,13 +260,17 @@ class CrudGenerator
     }
 
     /**
-     * Create the views
-     * @param  array $config
+     * Create the views.
+     *
+     * @param array $config
+     *
      * @return bool
      */
     public function createViews($config)
     {
-        if (! is_dir($config['_path_views_'].'/'.$config['_lower_casePlural_'])) mkdir($config['_path_views_'].'/'.$config['_lower_casePlural_']);
+        if (!is_dir($config['_path_views_'].'/'.$config['_lower_casePlural_'])) {
+            mkdir($config['_path_views_'].'/'.$config['_lower_casePlural_']);
+        }
 
         $viewTemplates = 'Views';
 
@@ -258,21 +282,25 @@ class CrudGenerator
             $viewTemplates = 'SemanticViews';
         }
 
+        $createdView = false;
+
         foreach (glob($config['template_source'].'/'.$viewTemplates.'/*') as $file) {
-            $createdView = file_get_contents($file);
+            $viewContents = file_get_contents($file);
             $basename = str_replace('txt', 'php', basename($file));
             foreach ($config as $key => $value) {
-                $createdView = str_replace($key, $value, $createdView);
+                $viewContents = str_replace($key, $value, $viewContents);
             }
-            $createdView = file_put_contents($config['_path_views_'].'/'.$config['_lower_casePlural_'].'/'.$basename, $createdView);
+            $createdView = file_put_contents($config['_path_views_'].'/'.$config['_lower_casePlural_'].'/'.$basename, $viewContents);
         }
 
-        return ($createdView);
+        return $createdView;
     }
 
     /**
-     * Create the Api
-     * @param  array $config
+     * Create the Api.
+     *
+     * @param array $config
+     *
      * @return bool
      */
     public function createApi($config, $appendRoutes = true)
@@ -283,11 +311,11 @@ class CrudGenerator
             $routesMaster = $config['_path_api_routes_'];
         }
 
-        if (! file_exists($routesMaster)) {
+        if (!file_exists($routesMaster)) {
             file_put_contents($routesMaster, "<?php\n\n");
         }
 
-        if (! is_dir($config['_path_api_controller_'])) {
+        if (!is_dir($config['_path_api_controller_'])) {
             mkdir($config['_path_api_controller_'], 0777, true);
         }
 
@@ -311,8 +339,10 @@ class CrudGenerator
     }
 
     /**
-     * Prepare a string of the table
-     * @param  string $table
+     * Prepare a string of the table.
+     *
+     * @param string $table
+     *
      * @return string
      */
     public function prepareTableDefinition($table)
@@ -328,8 +358,10 @@ class CrudGenerator
     }
 
     /**
-     * Prepare a table array example
-     * @param  string $table
+     * Prepare a table array example.
+     *
+     * @param string $table
+     *
      * @return string
      */
     public function prepareTableExample($table)
@@ -339,20 +371,21 @@ class CrudGenerator
         foreach (explode(',', $table) as $key => $column) {
             $columnDefinition = explode(':', $column);
             $example = $this->createExampleByType($columnDefinition[1]);
-              if ($key === 0) {
-                    $tableExample .= "'$columnDefinition[0]' => '$example',\n";
-                } else {
-                    $tableExample .= "\t\t'$columnDefinition[0]' => '$example',\n";
-                }
+            if ($key === 0) {
+                $tableExample .= "'$columnDefinition[0]' => '$example',\n";
+            } else {
+                $tableExample .= "\t\t'$columnDefinition[0]' => '$example',\n";
+            }
         }
 
         return $tableExample;
     }
 
     /**
-     * Prepare a models relationships
+     * Prepare a models relationships.
      *
-     * @param  array $relationships
+     * @param array $relationships
+     *
      * @return string
      */
     public function prepareModelRelationships($relationships)
@@ -360,8 +393,9 @@ class CrudGenerator
         $relationshipMethods = '';
 
         foreach ($relationships as $relation) {
-            if (! isset($relation[2])) {
-                $relation[2] = strtolower(end(explode('\\', $relation[1])));
+            if (!isset($relation[2])) {
+                $relationEnd = explode('\\', $relation[1]);
+                $relation[2] = strtolower(end($relationEnd));
             }
 
             $method = str_singular($relation[2]);
@@ -370,7 +404,7 @@ class CrudGenerator
                 $method = str_plural($relation[2]);
             }
 
-            $relationshipMethods .= "\n\tpublic function ".$method."() {";
+            $relationshipMethods .= "\n\tpublic function ".$method.'() {';
             $relationshipMethods .= "\n\t\treturn \$this->$relation[0]($relation[1]::class);";
             $relationshipMethods .= "\n\t}";
         }
@@ -379,47 +413,70 @@ class CrudGenerator
     }
 
     /**
-     * Create an example by type for table definitions
-     * @param  string  $type
+     * Build a table schema.
+     *
+     * @param array  $config
+     * @param string $string
+     *
+     * @return string
+     */
+    public function tableSchema($config, $string)
+    {
+        if (!empty($config['schema'])) {
+            $string = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $string);
+        }
+
+        return $string;
+    }
+
+    /**
+     * Create an example by type for table definitions.
+     *
+     * @param string $type
+     *
      * @return mixed
      */
     public function createExampleByType($type)
     {
-        switch ($type) {
-            case 'bigIncrements':           return 1;
-            case 'increments':              return 1;
-            case 'string':                  return 'laravel';
-            case 'boolean':                 return 1;
-            case 'binary':                  return 'Its a bird, its a plane, no its Superman!';
-            case 'char':                    return 'a';
-            case 'ipAddress':               return '192.168.1.1';
-            case 'macAddress':              return 'X1:X2:X3:X4:X5:X6';
-            case 'json':                    return json_encode(['json' => 'test']);
-            case 'text':                    return 'I am Batman';
-            case 'longText':                return 'I am Batman';
-            case 'mediumText':              return 'I am Batman';
-            case 'dateTime':                return date('Y-m-d h:i:s');
-            case 'date':                    return date('Y-m-d');
-            case 'time':                    return date('h:i:s');
-            case 'timestamp':               return time();
-            case 'float':                   return 1.1;
-            case 'decimal':                 return 1.1;
-            case 'double':                  return 1.1;
-            case 'integer':                 return 1;
-            case 'bigInteger':              return 1;
-            case 'mediumInteger':           return 1;
-            case 'smallInteger':            return 1;
-            case 'tinyInteger':             return 1;
+        $typeArray = [
+            'bigIncrements' => 1,
+            'increments'    => 1,
+            'string'        => 'laravel',
+            'boolean'       => 1,
+            'binary'        => 'Its a bird, its a plane, no its Superman!',
+            'char'          => 'a',
+            'ipAddress'     => '192.168.1.1',
+            'macAddress'    => 'X1:X2:X3:X4:X5:X6',
+            'json'          => json_encode(['json' => 'test']),
+            'text'          => 'I am Batman',
+            'longText'      => 'I am Batman',
+            'mediumText'    => 'I am Batman',
+            'dateTime'      => date('Y-m-d h:i:s'),
+            'date'          => date('Y-m-d'),
+            'time'          => date('h:i:s'),
+            'timestamp'     => time(),
+            'float'         => 1.1,
+            'decimal'       => 1.1,
+            'double'        => 1.1,
+            'integer'       => 1,
+            'bigInteger'    => 1,
+            'mediumInteger' => 1,
+            'smallInteger'  => 1,
+            'tinyInteger'   => 1,
+        ];
 
-            default:                        return 1;
+        if (isset($typeArray[$type])) {
+            return $typeArray[$type];
         }
+
+        return 1;
     }
 
     /**
      * Verify that all service only test templates exist.
      *
      * @param  $config
-     * @throws Exception
+     * @throws \Exception
      */
     private function serviceOnlyTestsPresent($config)
     {
