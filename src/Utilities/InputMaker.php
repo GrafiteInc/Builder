@@ -340,7 +340,8 @@ class InputMaker
      * Make a relationship input.
      *
      * @param array  $config
-     * @param string $selected
+     * @param string $label
+     * @param string $value
      * @param string $custom
      *
      * @return string

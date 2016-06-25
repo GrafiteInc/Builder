@@ -373,7 +373,8 @@ class CrudGenerator
 
         foreach ($relationships as $relation) {
             if (!isset($relation[2])) {
-                $relation[2] = strtolower(end(explode('\\', $relation[1])));
+                $relationEnd = explode('\\', $relation[1]);
+                $relation[2] = strtolower(end($relationEnd));
             }
 
             $method = str_singular($relation[2]);
