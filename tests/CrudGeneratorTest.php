@@ -37,7 +37,7 @@ class CrudGeneratorTest extends PHPUnit_Framework_TestCase
             '_camel_case_'               => ucfirst(camel_case('testTable')),
             '_camel_casePlural_'         => str_plural(camel_case('testTable')),
             'template_source'            => __DIR__.'/../src/Templates',
-            'tests_generated'            => 'integration,service,repository',
+            'tests_generated'            => 'acceptance,service,repository',
         ];
     }
 
@@ -99,9 +99,9 @@ class CrudGeneratorTest extends PHPUnit_Framework_TestCase
     {
         $this->crud = vfsStream::setup("tests");
         $this->generator->createTests($this->config);
-        $this->assertTrue($this->crud->hasChild('tests/TestTableIntegrationTest.php'));
-        $contents = $this->crud->getChild('tests/TestTableIntegrationTest.php');
-        $this->assertTrue(strpos($contents->getContent(), 'class TestTableIntegrationTest') !== false);
+        $this->assertTrue($this->crud->hasChild('tests/TestTableAcceptanceTest.php'));
+        $contents = $this->crud->getChild('tests/TestTableAcceptanceTest.php');
+        $this->assertTrue(strpos($contents->getContent(), 'class TestTableAcceptanceTest') !== false);
         $this->assertTrue($this->crud->hasChild('tests/TestTableRepositoryTest.php'));
         $contents = $this->crud->getChild('tests/TestTableRepositoryTest.php');
         $this->assertTrue(strpos($contents->getContent(), 'class TestTableRepositoryTest') !== false);
