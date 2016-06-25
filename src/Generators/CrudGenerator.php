@@ -213,9 +213,10 @@ class CrudGenerator
     }
 
     /**
-     * Create the tests
+     * Create the tests.
      * @param  array $config
      * @param  bool  $serviceOnly
+     *
      * @return bool
      */
     public function createTests($config, $serviceOnly)
@@ -230,7 +231,7 @@ class CrudGenerator
         foreach ($testTemplates as $testTemplate) {
             if ($serviceOnly) {
                 $serviceOnlyTests = explode(',', $config['service_only_tests']);
-                $testTemplateFile = $testTemplate->getRelativePath() . '/' . $testTemplate->getBasename('.' . $testTemplate->getExtension());
+                $testTemplateFile = $testTemplate->getRelativePath().'/'.$testTemplate->getBasename('.'.$testTemplate->getExtension());
 
                 if (!in_array($testTemplateFile, $serviceOnlyTests)) {
                     continue;
@@ -238,7 +239,7 @@ class CrudGenerator
             }
 
             $test = file_get_contents($testTemplate->getRealPath());
-            $testName = $config['_camel_case_'] . $testTemplate->getBasename('.' . $testTemplate->getExtension());
+            $testName = $config['_camel_case_'].$testTemplate->getBasename('.'.$testTemplate->getExtension());
             $testDirectory = $config['_path_tests_'].'/'.strtolower($testTemplate->getRelativePath());
 
             $test = $this->tableSchema($config, $test);
@@ -484,7 +485,7 @@ class CrudGenerator
 
         foreach ($serviceOnlyTests as $serviceOnlyTest) {
             if (!file_exists($config['template_source'].'/Tests/'.$serviceOnlyTest.'.txt')) {
-                throw new \Exception("Service only template (".$serviceOnlyTest.") not found.");
+                throw new \Exception('Service only template ('.$serviceOnlyTest.') not found.');
             }
         }
     }
