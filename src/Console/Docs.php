@@ -45,103 +45,125 @@ class Docs extends Command
 
         $name = str_replace(' ', '-', ucwords($this->argument('name')));
 
-        /*
-        |--------------------------------------------------------------------------
-        | Create a doc
-        |--------------------------------------------------------------------------
-        */
         if ($this->argument('action') === 'create') {
-            $ruleTemplate = file_get_contents(__DIR__.'/../Packages/Documentation/RuleTemplate.txt');
-
-            $ruleTemplate = str_replace('_source_service_', 'App\Services\\'.ucfirst($name).'Service', $ruleTemplate);
-            $ruleTemplate = str_replace('_source_model_', 'App\Repositories\\'.ucfirst($name).'\\'.ucfirst($name), $ruleTemplate);
-            $ruleTemplate = str_replace('_source_repository_', 'App\Repositories\\'.ucfirst($name).'\\'.ucfirst($name).'Repository', $ruleTemplate);
-
-            $related = $this->option('related');
-            $ruleTemplate = str_replace('_related_service_', 'App\Services\\'.ucfirst($related).'Service', $ruleTemplate);
-            $ruleTemplate = str_replace('_related_model_', 'App\Repositories\\'.ucfirst($related).'\\'.ucfirst($related), $ruleTemplate);
-            $ruleTemplate = str_replace('_related_repository_', 'App\Repositories\\'.ucfirst($related).'\\'.ucfirst($related).'Repository', $ruleTemplate);
-
-            $ruleBuild = str_replace('<name>', $name, $ruleTemplate);
-            if (!file_exists(base_path('documentation/rules/index.md'))) {
-                file_put_contents(base_path('documentation/rules/index.md'), file_get_contents(__DIR__.'/../Packages/Documentation/IndexTemplate.txt'));
-            }
-            if (file_put_contents(base_path('documentation/rules/01-'.$name.'.md'), $ruleBuild)) {
-                $this->info('Built rule: '.$name);
-            } else {
-                $this->line('Could not build rule: '.$name);
-            }
+            $this->createDocs($name);
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | Build the docs
-        |--------------------------------------------------------------------------
-        */
         if ($this->argument('action') === 'build') {
-            if (!is_dir(base_path('documentation/build'))) {
-                mkdir(base_path('documentation/build'));
-                mkdir(base_path('documentation/build/rules'));
-                mkdir(base_path('documentation/build/api'));
-            }
-
-            $this->copyTemplate();
-
-            $section = base_path('documentation/rules');
-
-            $this->line('Building section...');
-            $files = glob($section.'/*');
-
-            foreach ($files as $file) {
-                if (is_dir($file)) {
-                    if (!file_exists(base_path('documentation/build/rules/'.basename($file)))) {
-                        mkdir(base_path('documentation/build/rules/'.basename($file)));
-                    }
-                    $sectionIndexTemplate = file_get_contents(__DIR__.'/../Documentation/SiteTemplate/section_index.html');
-                    $sectionLinksContent = $this->getSectionLinks($file);
-
-                    $this->buildSection($file);
-
-                    $sectionIndex = str_replace('_section_title_', basename($section), $sectionIndexTemplate);
-                    $sectionIndex = str_replace('_section_links_', $sectionLinksContent, $sectionIndex);
-                    $sectionIndex = str_replace('_path_to_api_', '../../api/index.html', $sectionIndex);
-                    $sectionIndex = str_replace('_path_to_build_', '../', $sectionIndex);
-
-                    file_put_contents(base_path('documentation/build/'.basename($section).'/'.basename($file).'/index.html'), $sectionIndex);
-                } else {
-                    $sectionLinksContent = $this->getSectionLinks($section);
-
-                    if (basename($file) === 'index.md') {
-                        $realIndex = file_get_contents(__DIR__.'/../Documentation/SiteTemplate/index.html');
-                        $realIndex = str_replace('_section_links_', $sectionLinksContent, $realIndex);
-                        $realIndex = str_replace('_path_to_api_', '../api', $realIndex);
-                        $realIndex = str_replace('_path_to_build_', '.', $realIndex);
-                        file_put_contents(base_path('documentation/build/rules/index.html'), $realIndex);
-                    } else {
-                        $parsed = $this->parser(file_get_contents($file), null, $sectionLinksContent);
-                        file_put_contents(base_path('documentation/build/rules/'.str_replace('.md', '.html', basename($file))), $parsed);
-                    }
-                }
-            }
-
-            $this->info('Building is complete');
+            $this->buildDocs($name);
         }
 
         if ($this->argument('action') === 'sami') {
-            if (!file_exists(base_path('documentation/api/config.php'))) {
-                $this->generateApiDocs();
-                $this->line('Your Sami config can be found: '.base_path('documentation/api/config.php'));
-            } else {
-                $this->line('You already have a Sami config which can be found: '.base_path('documentation/api/config.php'));
-            }
-            $this->line("\n");
-            $this->line('You need to install sami to generate your docs: composer global install sami/sami');
-            $this->line("\n");
-            $this->line('Then generate your docs please run: ');
-            $this->line("\n");
-            $this->line('sami.php update '.base_path('documentation/api/config.php'));
-            $this->line("\n");
+            $this->samiDocs();
         }
+    }
+
+    /**
+     * Create the docs
+     *
+     * @param  string $name
+     * @return void
+     */
+    public function createDocs($name)
+    {
+        $ruleTemplate = file_get_contents(__DIR__.'/../Packages/Documentation/RuleTemplate.txt');
+
+        $ruleTemplate = str_replace('_source_service_', 'App\Services\\'.ucfirst($name).'Service', $ruleTemplate);
+        $ruleTemplate = str_replace('_source_model_', 'App\Repositories\\'.ucfirst($name).'\\'.ucfirst($name), $ruleTemplate);
+        $ruleTemplate = str_replace('_source_repository_', 'App\Repositories\\'.ucfirst($name).'\\'.ucfirst($name).'Repository', $ruleTemplate);
+
+        $related = $this->option('related');
+        $ruleTemplate = str_replace('_related_service_', 'App\Services\\'.ucfirst($related).'Service', $ruleTemplate);
+        $ruleTemplate = str_replace('_related_model_', 'App\Repositories\\'.ucfirst($related).'\\'.ucfirst($related), $ruleTemplate);
+        $ruleTemplate = str_replace('_related_repository_', 'App\Repositories\\'.ucfirst($related).'\\'.ucfirst($related).'Repository', $ruleTemplate);
+
+        $ruleBuild = str_replace('<name>', $name, $ruleTemplate);
+        if (!file_exists(base_path('documentation/rules/index.md'))) {
+            file_put_contents(base_path('documentation/rules/index.md'), file_get_contents(__DIR__.'/../Packages/Documentation/IndexTemplate.txt'));
+        }
+        if (file_put_contents(base_path('documentation/rules/01-'.$name.'.md'), $ruleBuild)) {
+            $this->info('Built rule: '.$name);
+        } else {
+            $this->line('Could not build rule: '.$name);
+        }
+    }
+
+    /**
+     * Build the docs
+     *
+     * @param  string $name
+     * @return void
+     */
+    public function buildDocs($name)
+    {
+        if (!is_dir(base_path('documentation/build'))) {
+            mkdir(base_path('documentation/build'));
+            mkdir(base_path('documentation/build/rules'));
+            mkdir(base_path('documentation/build/api'));
+        }
+
+        $this->copyTemplate();
+
+        $section = base_path('documentation/rules');
+
+        $this->line('Building section...');
+        $files = glob($section.'/*');
+
+        foreach ($files as $file) {
+            if (is_dir($file)) {
+                if (!file_exists(base_path('documentation/build/rules/'.basename($file)))) {
+                    mkdir(base_path('documentation/build/rules/'.basename($file)));
+                }
+                $sectionIndexTemplate = file_get_contents(__DIR__.'/../Documentation/SiteTemplate/section_index.html');
+                $sectionLinksContent = $this->getSectionLinks($file);
+
+                $this->buildSection($file);
+
+                $sectionIndex = str_replace('_section_title_', basename($section), $sectionIndexTemplate);
+                $sectionIndex = str_replace('_section_links_', $sectionLinksContent, $sectionIndex);
+                $sectionIndex = str_replace('_path_to_api_', '../../api/index.html', $sectionIndex);
+                $sectionIndex = str_replace('_path_to_build_', '../', $sectionIndex);
+
+                file_put_contents(base_path('documentation/build/'.basename($section).'/'.basename($file).'/index.html'), $sectionIndex);
+            } else {
+                $sectionLinksContent = $this->getSectionLinks($section);
+
+                if (basename($file) === 'index.md') {
+                    $realIndex = file_get_contents(__DIR__.'/../Documentation/SiteTemplate/index.html');
+                    $realIndex = str_replace('_section_links_', $sectionLinksContent, $realIndex);
+                    $realIndex = str_replace('_path_to_api_', '../api', $realIndex);
+                    $realIndex = str_replace('_path_to_build_', '.', $realIndex);
+                    file_put_contents(base_path('documentation/build/rules/index.html'), $realIndex);
+                } else {
+                    $parsed = $this->parser(file_get_contents($file), null, $sectionLinksContent);
+                    file_put_contents(base_path('documentation/build/rules/'.str_replace('.md', '.html', basename($file))), $parsed);
+                }
+            }
+        }
+
+        $this->info('Building is complete');
+    }
+
+    /**
+     * Create a SAMI config
+     *
+     * @return void
+     */
+    public function samiDocs()
+    {
+        if (!file_exists(base_path('documentation/api/config.php'))) {
+            $this->generateApiDocs();
+            $this->line('Your Sami config can be found: '.base_path('documentation/api/config.php'));
+        } else {
+            $this->line('You already have a Sami config which can be found: '.base_path('documentation/api/config.php'));
+        }
+        $this->line("\n");
+        $this->line('You need to install sami to generate your docs: composer global install sami/sami');
+        $this->line("\n");
+        $this->line('Then generate your docs please run: ');
+        $this->line("\n");
+        $this->line('sami.php update '.base_path('documentation/api/config.php'));
+        $this->line("\n");
     }
 
     /**

@@ -130,4 +130,29 @@ class HtmlGenerator
 
         return $this->makeSelected($config, $selected, $custom);
     }
+
+    /**
+     * Generate a standard HTML input string.
+     *
+     * @param array $config Config array
+     *
+     * @return string
+     */
+    public function makeHTMLInputString($config)
+    {
+        $custom = (isset($config['field']['custom'])) ? $config['field']['custom'] : '';
+        $multiple = (isset($config['field']['multiple'])) ? 'multiple' : '';
+        $multipleArray = (isset($config['field']['multiple'])) ? '[]' : '';
+        $floatingNumber = ($config['fieldType'] === 'float' || $config['fieldType'] === 'decimal') ? 'step="any"' : '';
+
+        if (is_array($config['objectValue']) && $config['type'] === 'file') {
+            $population = '';
+        } else {
+            $population = ($config['populated'] && $config['name'] !== $config['objectValue']) ? 'value="'.$config['objectValue'].'"' : '';
+        }
+
+        $inputString = '<input '.$custom.' id="'.ucfirst($config['name']).'" class="'.$config['class'].'" type="'.$config['type'].'" name="'.$config['name'].$multipleArray.'" '.$floatingNumber.' '.$multiple.' '.$population.' placeholder="'.$config['placeholder'].'">';
+
+        return $inputString;
+    }
 }

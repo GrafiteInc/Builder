@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
+use Yab\Laracogs\Utilities\InputMaker;
+use Yab\Laracogs\Utilities\InputUtilities;
 
 /**
  * FormMaker helper to make table and object form mapping easy.
@@ -14,6 +16,8 @@ use Illuminate\Support\Facades\View;
 class FormMaker
 {
     protected $inputMaker;
+
+    protected $inputUtilities;
 
     protected $columnTypes = [
         'integer',
@@ -38,6 +42,7 @@ class FormMaker
     public function __construct()
     {
         $this->inputMaker = new InputMaker();
+        $this->inputUtilities = new InputUtilities();
     }
 
     /**
@@ -231,13 +236,13 @@ class FormMaker
         if (is_null($view)) {
             if (isset($field['type']) && (stristr($field['type'], 'radio') || stristr($field['type'], 'checkbox'))) {
                 $formBuild .= '<div class="'.$errorHighlight.'">';
-                $formBuild .= '<div class="'.$field['type'].'"><label>'.$input.$this->inputMaker->cleanString($this->columnLabel($field, $column)).'</label>'.$this->errorMessage($errorMessage).'</div>';
+                $formBuild .= '<div class="'.$field['type'].'"><label>'.$input.$this->inputUtilities->cleanString($this->columnLabel($field, $column)).'</label>'.$this->errorMessage($errorMessage).'</div>';
             } elseif (isset($field['type']) && (stristr($field['type'], 'hidden'))) {
                 $formBuild .= '<div class="form-group '.$errorHighlight.'">';
                 $formBuild .= $input;
             } else {
                 $formBuild .= '<div class="form-group '.$errorHighlight.'">';
-                $formBuild .= '<label class="control-label" for="'.ucfirst($column).'">'.$this->inputMaker->cleanString($this->columnLabel($field, $column)).'</label>'.$input.$this->errorMessage($errorMessage);
+                $formBuild .= '<label class="control-label" for="'.ucfirst($column).'">'.$this->inputUtilities->cleanString($this->columnLabel($field, $column)).'</label>'.$input.$this->errorMessage($errorMessage);
             }
 
             $formBuild .= '</div>';

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 use Yab\Laracogs\Generators\HtmlGenerator;
+use Yab\Laracogs\Utilities\InputUtilities;
 
 /**
  * $this->elper to make an HTML input.
@@ -14,26 +15,13 @@ class InputMaker
 {
     protected $htmlGenerator;
 
-    protected $columnTypes = [
-        'integer',
-        'string',
-        'datetime',
-        'date',
-        'float',
-        'binary',
-        'blob',
-        'boolean',
-        'datetimetz',
-        'time',
-        'array',
-        'json_array',
-        'object',
-        'decimal',
-        'bigint',
-        'smallint',
-        'one-one',
-        'one-many',
-    ];
+    protected $inputUtilities;
+
+    public function __construct()
+    {
+        $this->htmlGenerator = new HtmlGenerator();
+        $this->inputUtilities = new InputUtilities();
+    }
 
     /**
      * Create the input HTML.
@@ -69,13 +57,25 @@ class InputMaker
 
         $config['object'] = $object;
         $config['objectValue'] = (isset($object->$name) && !method_exists($object, $name)) ? $object->$name : $name;
-        $config['placeholder'] = $this->placeholder($field, $name);
+        $config['placeholder'] = $this->inputUtilities->placeholder($field, $name);
 
         $config = $this->setConfigs($config, $reformatted, $name, $field);
 
-        $inputString = '';
+        return $this->inputStringPreparer($config);
+    }
 
-        if ($this->before($config) > '' || $this->after($config) > '') {
+    /**
+     * Input string preparer
+     *
+     * @param  array $config
+     * @return string
+     */
+    public function inputStringPreparer($config)
+    {
+        $inputString = '';
+        $beforeAfterCondition = ($this->before($config) > '' || $this->after($config) > '');
+
+        if ($beforeAfterCondition) {
             $inputString .= '<div class="input-group">';
         }
 
@@ -83,7 +83,7 @@ class InputMaker
         $inputString .= $this->inputStringGenerator($config);
         $inputString .= $this->after($config);
 
-        if ($this->before($config) > '' || $this->after($config) > '') {
+        if ($beforeAfterCondition) {
             $inputString .= '</div>';
         }
 
@@ -162,7 +162,7 @@ class InputMaker
         }
 
         if ($reformatted) {
-            $config['placeholder'] = $this->cleanString($this->placeholder($field, $name));
+            $config['placeholder'] = $this->inputUtilities->cleanString($this->placeholder($field, $name));
         }
 
         if (!isset($field['type'])) {
@@ -187,8 +187,6 @@ class InputMaker
      */
     private function inputStringGenerator($config)
     {
-        $this->htmlGenerator = new HtmlGenerator();
-
         $textInputs = ['text', 'textarea'];
         $selectInputs = ['select'];
         $hiddenInputs = ['hidden'];
@@ -207,10 +205,10 @@ class InputMaker
             $config['objectValue'] = $final;
         }
 
-        $population = $this->getPopulation($config);
-        $checkType = $this->checkType($config, $checkboxInputs);
-        $selected = $this->isSelected($config, $checkType);
-        $custom = $this->getField($config, 'custom');
+        $population = $this->inputUtilities->getPopulation($config);
+        $checkType = $this->inputUtilities->checkType($config, $checkboxInputs);
+        $selected = $this->inputUtilities->isSelected($config, $checkType);
+        $custom = $this->inputUtilities->getField($config, 'custom');
 
         switch ($config['fieldType']) {
             case in_array($config['fieldType'], $hiddenInputs):
@@ -242,137 +240,10 @@ class InputMaker
                 if (isset($config['inputTypes'][$config['fieldType']])) {
                     $config['type'] = $config['inputTypes'][$config['fieldType']];
                 }
-                $inputString = $this->makeHTMLInputString($config);
+                $inputString = $this->htmlGenerator->makeHTMLInputString($config);
                 break;
         }
 
         return $inputString;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Utilities
-    |--------------------------------------------------------------------------
-    */
-
-    /**
-     * Get the content of the input.
-     *
-     * @param array $config
-     *
-     * @return string
-     */
-    private function getPopulation($config)
-    {
-        return ($config['populated']) ? $config['objectValue'] : '';
-    }
-
-    /**
-     * Has been selected.
-     *
-     * @param array  $config
-     * @param string $checkType Type of checkmark
-     *
-     * @return bool
-     */
-    private function isSelected($config, $checkType)
-    {
-        $selected = (isset($config['inputs'][$config['name']])
-            || isset($config['field']['selected'])
-            || $config['objectValue'] === 'on'
-            || $config['objectValue'] == 1) ? $checkType : '';
-
-        return $selected;
-    }
-
-    /**
-     * Check type of checkbox/ radio.
-     *
-     * @param array $config
-     * @param array $checkboxInputs
-     *
-     * @return string
-     */
-    private function checkType($config, $checkboxInputs)
-    {
-        $checkType = (in_array($config['fieldType'], $checkboxInputs)) ? 'checked' : 'selected';
-
-        return $checkType;
-    }
-
-    /**
-     * Get attributes.
-     *
-     * @param array $config
-     *
-     * @return string
-     */
-    private function getField($config, $field, $default = '')
-    {
-        $data = (isset($config['field'][$field])) ? $config['field'][$field] : $default;
-
-        return $data;
-    }
-
-    /**
-     * Generate a standard HTML input string.
-     *
-     * @param array $config Config array
-     *
-     * @return string
-     */
-    private function makeHTMLInputString($config)
-    {
-        $custom = (isset($config['field']['custom'])) ? $config['field']['custom'] : '';
-        $multiple = (isset($config['field']['multiple'])) ? 'multiple' : '';
-        $multipleArray = (isset($config['field']['multiple'])) ? '[]' : '';
-        $floatingNumber = ($config['fieldType'] === 'float' || $config['fieldType'] === 'decimal') ? 'step="any"' : '';
-
-        if (is_array($config['objectValue']) && $config['type'] === 'file') {
-            $population = '';
-        } else {
-            $population = ($config['populated'] && $config['name'] !== $config['objectValue']) ? 'value="'.$config['objectValue'].'"' : '';
-        }
-
-        $inputString = '<input '.$custom.' id="'.ucfirst($config['name']).'" class="'.$config['class'].'" type="'.$config['type'].'" name="'.$config['name'].$multipleArray.'" '.$floatingNumber.' '.$multiple.' '.$population.' placeholder="'.$config['placeholder'].'">';
-
-        return $inputString;
-    }
-
-    /**
-     * Create the placeholder.
-     *
-     * @param array  $field  Field from Column Array
-     * @param string $column Column name
-     *
-     * @return string
-     */
-    private function placeholder($field, $column)
-    {
-        if (!is_array($field) && !in_array($field, $this->columnTypes)) {
-            return ucfirst($field);
-        }
-
-        if (strpos($column, '[') > 0) {
-            preg_match_all("/\[([^\]]*)\]/", $column, $matches);
-            $column = $matches[1][0];
-        }
-
-        $alt_name = (isset($field['alt_name'])) ? $field['alt_name'] : ucfirst($column);
-        $placeholder = (isset($field['placeholder'])) ? $field['placeholder'] : $alt_name;
-
-        return $placeholder;
-    }
-
-    /**
-     * Clean the string for the column name swap.
-     *
-     * @param string $string Original column name
-     *
-     * @return string
-     */
-    public function cleanString($string)
-    {
-        return ucwords(str_replace('_', ' ', $string));
     }
 }
