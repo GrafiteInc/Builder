@@ -49,16 +49,41 @@ class CrudGenerator
      */
     public function createRepository($config)
     {
-        if (!is_dir($config['_path_repository_'])) {
-            mkdir($config['_path_repository_'], 0777, true);
-        }
-        if (!is_dir($config['_path_model_'])) {
-            mkdir($config['_path_model_'], 0777, true);
+        $repoParts = [
+            '_path_repository_',
+            '_path_model_',
+        ];
+
+        foreach ($repoParts as $repoPart) {
+            if (!is_dir($config[$repoPart])) {
+                mkdir($config[$repoPart], 0777, true);
+            }
         }
 
         $repo = file_get_contents($config['template_source'].'/Repository/Repository.txt');
         $model = file_get_contents($config['template_source'].'/Repository/Model.txt');
+        $model = $this->configTheModel($config, $model);
 
+        foreach ($config as $key => $value) {
+            $repo = str_replace($key, $value, $repo);
+            $model = str_replace($key, $value, $model);
+        }
+
+        $repository = file_put_contents($config['_path_repository_'].'/'.$config['_camel_case_'].'Repository.php', $repo);
+        $model = file_put_contents($config['_path_model_'].'/'.$config['_camel_case_'].'.php', $model);
+
+        return $repository && $model;
+    }
+
+    /**
+     * Configure the model
+     *
+     * @param  array $config
+     * @param  string $model
+     * @return string
+     */
+    public function configTheModel($config, $model)
+    {
         if (!empty($config['schema'])) {
             $model = str_replace('// _camel_case_ table data', $this->prepareTableDefinition($config['schema']), $model);
         }
@@ -72,16 +97,6 @@ class CrudGenerator
 
             $model = str_replace('// _camel_case_ relationships', $this->prepareModelRelationships($relationships), $model);
         }
-
-        foreach ($config as $key => $value) {
-            $repo = str_replace($key, $value, $repo);
-            $model = str_replace($key, $value, $model);
-        }
-
-        $repository = file_put_contents($config['_path_repository_'].'/'.$config['_camel_case_'].'Repository.php', $repo);
-        $model = file_put_contents($config['_path_model_'].'/'.$config['_camel_case_'].'.php', $model);
-
-        return $repository && $model;
     }
 
     /**

@@ -5,12 +5,15 @@ namespace Yab\Laracogs\Utilities;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
+use Yab\Laracogs\Generators\HtmlGenerator;
 
 /**
  * $this->elper to make an HTML input.
  */
 class InputMaker
 {
+    protected $htmlGenerator;
+
     protected $columnTypes = [
         'integer',
         'string',
@@ -184,6 +187,8 @@ class InputMaker
      */
     private function inputStringGenerator($config)
     {
+        $this->htmlGenerator = new HtmlGenerator();
+
         $textInputs = ['text', 'textarea'];
         $selectInputs = ['select'];
         $hiddenInputs = ['hidden'];
@@ -209,27 +214,27 @@ class InputMaker
 
         switch ($config['fieldType']) {
             case in_array($config['fieldType'], $hiddenInputs):
-                $inputString = $this->makeHidden($config, $population, $custom);
+                $inputString = $this->htmlGenerator->makeHidden($config, $population, $custom);
                 break;
 
             case in_array($config['fieldType'], $textInputs):
-                $inputString = $this->makeText($config, $population, $custom);
+                $inputString = $this->htmlGenerator->makeText($config, $population, $custom);
                 break;
 
             case in_array($config['fieldType'], $selectInputs):
-                $inputString = $this->makeSelected($config, $selected, $custom);
+                $inputString = $this->htmlGenerator->makeSelected($config, $selected, $custom);
                 break;
 
             case in_array($config['fieldType'], $checkboxInputs):
-                $inputString = $this->makeCheckbox($config, $selected, $custom);
+                $inputString = $this->htmlGenerator->makeCheckbox($config, $selected, $custom);
                 break;
 
             case in_array($config['fieldType'], $radioInputs):
-                $inputString = $this->makeRadio($config, $selected, $custom);
+                $inputString = $this->htmlGenerator->makeRadio($config, $selected, $custom);
                 break;
 
             case in_array($config['fieldType'], $relationshipInputs):
-                $inputString = $this->makeRelationship($config, $this->getField($config, 'label', 'name'), $this->getField($config, 'value', 'id'), $custom);
+                $inputString = $this->htmlGenerator->makeRelationship($config, $this->getField($config, 'label', 'name'), $this->getField($config, 'value', 'id'), $custom);
                 break;
 
             default:
@@ -242,128 +247,6 @@ class InputMaker
         }
 
         return $inputString;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Standard HTML Inputs
-    |--------------------------------------------------------------------------
-    */
-
-    /**
-     * Make a hidden input.
-     *
-     * @param array  $config
-     * @param string $population
-     * @param string $custom
-     *
-     * @return string
-     */
-    private function makeHidden($config, $population, $custom)
-    {
-        return '<input '.$custom.' id="'.ucfirst($config['name']).'" name="'.$config['name'].'" type="hidden" value="'.$population.'">';
-    }
-
-    /**
-     * Make text input.
-     *
-     * @param array  $config
-     * @param string $population
-     * @param string $custom
-     *
-     * @return string
-     */
-    private function makeText($config, $population, $custom)
-    {
-        return '<textarea '.$custom.' id="'.ucfirst($config['name']).'" class="'.$config['class'].'" name="'.$config['name'].'" placeholder="'.$config['placeholder'].'">'.$population.'</textarea>';
-    }
-
-    /**
-     * Make a select input.
-     *
-     * @param array  $config
-     * @param string $selected
-     * @param string $custom
-     *
-     * @return string
-     */
-    private function makeSelected($config, $selected, $custom)
-    {
-        $options = '';
-        foreach ($config['field']['options'] as $key => $value) {
-            if ($selected == '') {
-                $selectedValue = ((string) $config['objectValue'] === (string) $value) ? 'selected' : '';
-            } else {
-                $selectedValue = ((string) $selected === (string) $value) ? 'selected' : '';
-            }
-            $options .= '<option value="'.$value.'" '.$selectedValue.'>'.$key.'</option>';
-        }
-
-        return '<select '.$custom.' id="'.ucfirst($config['name']).'" class="'.$config['class'].'" name="'.$config['name'].'">'.$options.'</select>';
-    }
-
-    /**
-     * Make a checkbox.
-     *
-     * @param array  $config
-     * @param string $selected
-     * @param string $custom
-     *
-     * @return string
-     */
-    private function makeCheckbox($config, $selected, $custom)
-    {
-        return '<input '.$custom.' id="'.ucfirst($config['name']).'" '.$selected.' type="checkbox" name="'.$config['name'].'">';
-    }
-
-    /**
-     * Make a radio input.
-     *
-     * @param array  $config
-     * @param string $selected
-     * @param string $custom
-     *
-     * @return string
-     */
-    private function makeRadio($config, $selected, $custom)
-    {
-        return '<input '.$custom.' id="'.ucfirst($config['name']).'" '.$selected.' type="radio" name="'.$config['name'].'">';
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Relationship based
-    |--------------------------------------------------------------------------
-    */
-
-    /**
-     * Make a relationship input.
-     *
-     * @param array  $config
-     * @param string $label
-     * @param string $value
-     * @param string $custom
-     *
-     * @return string
-     */
-    private function makeRelationship($config, $label = 'name', $value = 'id', $custom = '')
-    {
-        $object = $config['object'];
-        $relationship = $config['name'];
-
-        $class = app()->make($config['field']['model']);
-        $items = $class->all();
-
-        foreach ($items as $item) {
-            $config['field']['options'][$item->$label] = $item->$value;
-        }
-
-        $selected = '';
-        if (is_object($object) && $object->$relationship()->first()) {
-            $selected = $object->$relationship()->first()->$value;
-        }
-
-        return $this->makeSelected($config, $selected, $custom);
     }
 
     /*

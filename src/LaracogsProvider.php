@@ -50,15 +50,15 @@ class LaracogsProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
 
-        $this->app->singleton('FormMaker', function ($app) {
+        $this->app->singleton('FormMaker', function () {
             return new FormMaker();
         });
 
-        $this->app->singleton('InputMaker', function ($app) {
+        $this->app->singleton('InputMaker', function () {
             return new InputMaker();
         });
 
-        $this->app->singleton('Crypto', function ($app) {
+        $this->app->singleton('Crypto', function () {
             return new Crypto();
         });
 
