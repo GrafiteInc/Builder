@@ -491,5 +491,4 @@ class CrudGenerator
             }
         }
     }
-
 }
