@@ -43,12 +43,12 @@ class FormMaker
     /**
      * Generate a form from a table.
      *
-     * @param string $table            Table name
-     * @param array  $columns          Array of columns and details regarding them see config/forms.php for examples
-     * @param string $class            Class names to be given to the inputs
-     * @param string $view             View to use - for custom form layouts
-     * @param bool   $reformatted      Corrects the table column names to clean words if no columns array provided
-     * @param bool   $populated        Populates the inputs with the column names as values
+     * @param string $table           Table name
+     * @param array  $columns         Array of columns and details regarding them see config/forms.php for examples
+     * @param string $class           Class names to be given to the inputs
+     * @param string $view            View to use - for custom form layouts
+     * @param bool   $reformatted     Corrects the table column names to clean words if no columns array provided
+     * @param bool   $populated       Populates the inputs with the column names as values
      * @param bool   $idAndTimestamps Allows id and Timestamp columns
      *
      * @return string
@@ -210,11 +210,11 @@ class FormMaker
     /**
      * Constructs HTML forms.
      *
-     * @param string $view   View template
-     * @param array|object   $errors
-     * @param array  $field  Array of field values
-     * @param string $column Column name
-     * @param string $input  Input string
+     * @param string       $view   View template
+     * @param array|object $errors
+     * @param array        $field  Array of field values
+     * @param string       $column Column name
+     * @param string       $input  Input string
      *
      * @return string
      */
