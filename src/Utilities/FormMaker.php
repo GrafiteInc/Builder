@@ -174,8 +174,6 @@ class FormMaker
             unset($attributes['updated_at']);
         }
 
-        $tableColumns = array_keys($attributes);
-
         $errors = null;
         if (Session::isStarted()) {
             $errors = Session::get('errors');

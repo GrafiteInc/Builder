@@ -91,11 +91,12 @@ class Docs extends Command
 
             $this->line('Building section...');
             $files = glob($section.'/*');
-            $sectionLinksTemplate = file_get_contents(__DIR__.'/../Documentation/SiteTemplate/section.html');
 
             foreach ($files as $file) {
                 if (is_dir($file)) {
-                    @mkdir(base_path('documentation/build/rules/'.basename($file)));
+                    if (!file_exists(base_path('documentation/build/rules/'.basename($file)))) {
+                        mkdir(base_path('documentation/build/rules/'.basename($file)));
+                    }
                     $sectionIndexTemplate = file_get_contents(__DIR__.'/../Documentation/SiteTemplate/section_index.html');
                     $sectionLinksContent = $this->getSectionLinks($file);
 
@@ -179,6 +180,7 @@ class Docs extends Command
         $sectionLinks = '';
         $sectionLinksTemplate = file_get_contents(__DIR__.'/../Documentation/SiteTemplate/section.html');
         $linksTemplate = file_get_contents(__DIR__.'/../Documentation/SiteTemplate/section_link.html');
+        $sectionLinksContent = '';
 
         foreach ($files as $file) {
             if (basename($section) === 'rules') {
@@ -242,7 +244,9 @@ class Docs extends Command
     public function recurseCopy($src, $dst)
     {
         $dir = opendir($src);
-        @mkdir($dst);
+        if (!file_exists($dst)) {
+            mkdir($dst);
+        }
         while (false !== ($file = readdir($dir))) {
             if (($file != '.') && ($file != '..')) {
                 if (is_dir($src.'/'.$file)) {

@@ -18,7 +18,10 @@ class LaracogsProvider extends ServiceProvider
      */
     public function boot()
     {
-        @mkdir(base_path('resources/laracogs/crud'));
+        if (!file_exists(base_path('resources/laracogs/crud'))) {
+            mkdir(base_path('resources/laracogs/crud'));
+        }
+
         $this->publishes([
             __DIR__.'/Templates'                            => base_path('resources/laracogs/crud'),
             __DIR__.'/Packages/Starter/config/laracogs.php' => base_path('config/laracogs.php'),

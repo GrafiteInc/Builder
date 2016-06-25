@@ -221,7 +221,6 @@ class CrudGenerator
      */
     public function createTests($config)
     {
-        $testMakerResults = [];
         foreach (explode(',', $config['tests_generated']) as $testType) {
             $test = file_get_contents($config['template_source'].'/Tests/'.ucfirst($testType).'Test.txt');
 
@@ -262,13 +261,15 @@ class CrudGenerator
             $viewTemplates = 'SemanticViews';
         }
 
+        $createdView = false;
+
         foreach (glob($config['template_source'].'/'.$viewTemplates.'/*') as $file) {
-            $createdView = file_get_contents($file);
+            $viewContents = file_get_contents($file);
             $basename = str_replace('txt', 'php', basename($file));
             foreach ($config as $key => $value) {
-                $createdView = str_replace($key, $value, $createdView);
+                $viewContents = str_replace($key, $value, $viewContents);
             }
-            $createdView = file_put_contents($config['_path_views_'].'/'.$config['_lower_casePlural_'].'/'.$basename, $createdView);
+            $createdView = file_put_contents($config['_path_views_'].'/'.$config['_lower_casePlural_'].'/'.$basename, $viewContents);
         }
 
         return $createdView;
