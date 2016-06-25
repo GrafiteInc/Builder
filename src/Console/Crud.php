@@ -154,12 +154,13 @@ class Crud extends Command
     }
 
     /**
-     * Create a CRUD
+     * Create a CRUD.
      *
-     * @param  array $config
-     * @param  string $section
-     * @param  string $table
-     * @param  array $splitTable
+     * @param array  $config
+     * @param string $section
+     * @param string $table
+     * @param array  $splitTable
+     *
      * @return void
      */
     public function createCRUD($config, $section, $table, $splitTable)
@@ -221,12 +222,13 @@ class Crud extends Command
     }
 
     /**
-     * Set the config of the CRUD
+     * Set the config of the CRUD.
      *
-     * @param  array $config
-     * @param  string $section
-     * @param  string $table
-     * @param  array $splitTable
+     * @param array  $config
+     * @param string $section
+     * @param string $table
+     * @param array  $splitTable
+     *
      * @return array
      */
     public function configASectionedCRUD($config, $section, $table, $splitTable)
@@ -275,11 +277,11 @@ class Crud extends Command
             '_path_controller_',
             '_path_api_controller_',
             '_path_views_',
-            '_path_request_'
+            '_path_request_',
         ];
 
         foreach ($config as $key => $value) {
-            if (in_array($key, $pathsToMake) && ! file_exists($value)) {
+            if (in_array($key, $pathsToMake) && !file_exists($value)) {
                 mkdir($value, 0777, true);
             }
         }
@@ -288,12 +290,13 @@ class Crud extends Command
     }
 
     /**
-     * Create the migrations
+     * Create the migrations.
      *
-     * @param  array $config
-     * @param  string $section
-     * @param  string $table
-     * @param  array $splitTable
+     * @param array  $config
+     * @param string $section
+     * @param string $table
+     * @param array  $splitTable
+     *
      * @return void
      */
     public function createMigration($config, $section, $table, $splitTable)
@@ -319,12 +322,13 @@ class Crud extends Command
     }
 
     /**
-     * Prepare the Schema
+     * Prepare the Schema.
      *
-     * @param  array $config
-     * @param  string $section
-     * @param  string $table
-     * @param  array $splitTable
+     * @param array  $config
+     * @param string $section
+     * @param string $table
+     * @param array  $splitTable
+     *
      * @return void
      */
     public function prepareSchema($config, $section, $table, $splitTable)
@@ -360,7 +364,7 @@ class Crud extends Command
     }
 
     /**
-     * Validate the Schema
+     * Validate the Schema.
      *
      * @return void
      */
