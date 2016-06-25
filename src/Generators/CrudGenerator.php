@@ -208,7 +208,7 @@ class CrudGenerator
         foreach ($testTemplates as $testTemplate) {
             if ($serviceOnly) {
                 $serviceOnlyTests = explode(',', $config['service_only_tests']);
-                $testTemplateFile = $testTemplate->getRelativePath().$testTemplate->getBasename('.' . $testTemplate->getExtension());
+                $testTemplateFile = $testTemplate->getRelativePath() . '/' . $testTemplate->getBasename('.' . $testTemplate->getExtension());
 
                 if (!in_array($testTemplateFile, $serviceOnlyTests)) {
                     continue;
