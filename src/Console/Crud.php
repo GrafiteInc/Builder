@@ -120,7 +120,7 @@ class Crud extends Command
             '_camel_case_'               => ucfirst(camel_case($table)),
             '_camel_casePlural_'         => str_plural(camel_case($table)),
             '_ucCamel_casePlural_'       => ucfirst(str_plural(camel_case($table))),
-            'tests_generated'            => 'integration,service,repository',
+            'tests_generated'            => 'acceptance,service,repository',
         ];
 
         $config['bootstrap'] = $this->option('bootstrap', true);

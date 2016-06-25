@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class _camel_case_IntegrationTest extends TestCase
+class _camel_case_AcceptanceTest extends TestCase
 {
     use DatabaseMigrations;
     use WithoutMiddleware;
