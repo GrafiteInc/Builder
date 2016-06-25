@@ -162,7 +162,7 @@ class InputMaker
         }
 
         if ($reformatted) {
-            $config['placeholder'] = $this->inputUtilities->cleanString($this->placeholder($field, $name));
+            $config['placeholder'] = $this->inputUtilities->cleanString($this->inputUtilities->placeholder($field, $name));
         }
 
         if (!isset($field['type'])) {
@@ -232,7 +232,12 @@ class InputMaker
                 break;
 
             case in_array($config['fieldType'], $relationshipInputs):
-                $inputString = $this->htmlGenerator->makeRelationship($config, $this->getField($config, 'label', 'name'), $this->getField($config, 'value', 'id'), $custom);
+                $inputString = $this->htmlGenerator->makeRelationship(
+                    $config,
+                    $this->inputUtilities->getField($config, 'label', 'name'),
+                    $this->inputUtilities->getField($config, 'value', 'id'),
+                    $custom
+                );
                 break;
 
             default:
