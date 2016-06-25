@@ -97,6 +97,8 @@ class CrudGenerator
 
             $model = str_replace('// _camel_case_ relationships', $this->prepareModelRelationships($relationships), $model);
         }
+
+        return $model;
     }
 
     /**
