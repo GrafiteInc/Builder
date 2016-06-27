@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
-use Yab\Laracogs\Utilities\InputMaker;
-use Yab\Laracogs\Utilities\InputUtilities;
 
 /**
  * FormMaker helper to make table and object form mapping easy.
@@ -101,11 +99,11 @@ class FormMaker
      *
      * @param array  $array
      * @param array  $columns
-     * @param string $view            A template to use for the rows
-     * @param string $class           Default input class
-     * @param bool   $populated       Is content populated
-     * @param bool   $reformatted     Are column names reformatted
-     * @param bool   $timestamps      Are the timestamps available?
+     * @param string $view        A template to use for the rows
+     * @param string $class       Default input class
+     * @param bool   $populated   Is content populated
+     * @param bool   $reformatted Are column names reformatted
+     * @param bool   $timestamps  Are the timestamps available?
      *
      * @return string
      */
@@ -144,13 +142,13 @@ class FormMaker
     /**
      * Build the form from the an object.
      *
-     * @param object $object          An object to base the form off
-     * @param array  $columns         Columns desired and specified
-     * @param string $view            A template to use for the rows
-     * @param string $class           Default input class
-     * @param bool   $populated       Is content populated
-     * @param bool   $reformatted     Are column names reformatted
-     * @param bool   $timestamps      Are the timestamps available?
+     * @param object $object      An object to base the form off
+     * @param array  $columns     Columns desired and specified
+     * @param string $view        A template to use for the rows
+     * @param string $class       Default input class
+     * @param bool   $populated   Is content populated
+     * @param bool   $reformatted Are column names reformatted
+     * @param bool   $timestamps  Are the timestamps available?
      *
      * @return string
      */
@@ -190,9 +188,10 @@ class FormMaker
     /**
      * Cleanup the ID and TimeStamp columns.
      *
-     * @param  array $collection
-     * @param  boolean $timestamps
-     * @param  boolean $id
+     * @param array $collection
+     * @param bool  $timestamps
+     * @param bool  $id
+     *
      * @return array
      */
     public function cleanupIdAndTimeStamps($collection, $timestamps, $id)

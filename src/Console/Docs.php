@@ -59,9 +59,10 @@ class Docs extends Command
     }
 
     /**
-     * Create the docs
+     * Create the docs.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return void
      */
     public function createDocs($name)
@@ -89,9 +90,10 @@ class Docs extends Command
     }
 
     /**
-     * Build the docs
+     * Build the docs.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return void
      */
     public function buildDocs($name)
@@ -145,7 +147,7 @@ class Docs extends Command
     }
 
     /**
-     * Create a SAMI config
+     * Create a SAMI config.
      *
      * @return void
      */
