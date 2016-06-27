@@ -248,13 +248,14 @@ class InputMaker
         $standardMethods = [
             'makeHidden',
             'makeText',
-            'makeSelected',
             'makeCheckbox',
             'makeRadio',
         ];
 
         if (in_array($method, $standardMethods)) {
             $inputString = $this->htmlGenerator->$method($config, $population, $custom);
+        } elseif ($method === 'makeSelected') {
+            $inputString = $this->htmlGenerator->$method($config, $selected, $custom);
         } elseif ($method === 'makeRelationship') {
             $inputString = $this->htmlGenerator->makeRelationship(
                 $config,
@@ -281,38 +282,27 @@ class InputMaker
      */
     public function getGeneratorMethod($type)
     {
-        $method = '';
-
         switch ($type) {
             case in_array($type, $this->inputGroups['hidden']):
-                $method = 'makeHidden';
-                break;
+                return 'makeHidden';
 
             case in_array($type, $this->inputGroups['text']):
-                $method = 'makeText';
-                break;
+                return 'makeText';
 
             case in_array($type, $this->inputGroups['select']):
-                $method = 'makeSelected';
-                break;
+                return 'makeSelected';
 
             case in_array($type, $this->inputGroups['checkbox']):
-                $method = 'makeCheckbox';
-                break;
+                return 'makeCheckbox';
 
             case in_array($type, $this->inputGroups['radio']):
-                $method = 'makeRadio';
-                break;
+                return 'makeRadio';
 
             case in_array($type, $this->inputGroups['relationship']):
-                $method = 'makeRelationship';
-                break;
+                return 'makeRelationship';
 
             default:
-                $method = 'makeHTMLInputString';
-                break;
+                return 'makeHTMLInputString';
         }
-
-        return $method;
     }
 }
