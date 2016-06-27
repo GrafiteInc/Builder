@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 use Yab\Laracogs\Generators\HtmlGenerator;
-use Yab\Laracogs\Utilities\InputUtilities;
 
 /**
  * $this->elper to make an HTML input.
@@ -20,24 +19,24 @@ class InputMaker
     protected $inputGroups = [
         'text' => [
             'text',
-            'textarea'
+            'textarea',
         ],
         'select' => [
-            'select'
+            'select',
         ],
         'hidden' => [
-            'hidden'
+            'hidden',
         ],
         'checkbox' => [
             'checkbox',
-            'checkbox-inline'
+            'checkbox-inline',
         ],
         'radio' => [
             'radio',
-            'radio-inline'
+            'radio-inline',
         ],
         'relationship' => [
-            'relationship'
+            'relationship',
         ],
     ];
 
@@ -62,13 +61,13 @@ class InputMaker
     public function create($name, $config, $object = null, $class = 'form-control', $reformatted = false, $populated = true)
     {
         $inputConfig = [
-            'populated' => $populated,
-            'name' => $name,
-            'class' => $this->prepareTheClass($class, $config),
-            'config' => $config,
-            'inputTypes' => Config::get('form-maker', include(__DIR__.'/../Packages/Starter/config/form-maker.php')),
-            'inputs' => $this->getInput(),
-            'object' => $object,
+            'populated'   => $populated,
+            'name'        => $name,
+            'class'       => $this->prepareTheClass($class, $config),
+            'config'      => $config,
+            'inputTypes'  => Config::get('form-maker', include(__DIR__.'/../Packages/Starter/config/form-maker.php')),
+            'inputs'      => $this->getInput(),
+            'object'      => $object,
             'objectValue' => (isset($object->$name) && !method_exists($object, $name)) ? $object->$name : $name,
             'placeholder' => $this->inputUtilities->placeholder($config, $name),
         ];
@@ -79,9 +78,10 @@ class InputMaker
     }
 
     /**
-     * Input string preparer
+     * Input string preparer.
      *
-     * @param  array $config
+     * @param array $config
+     *
      * @return string
      */
     public function inputStringPreparer($config)
@@ -154,7 +154,8 @@ class InputMaker
     /**
      * Prepare the input class.
      *
-     * @param  string $class
+     * @param string $class
+     *
      * @return string
      */
     public function prepareTheClass($class, $config)
@@ -276,7 +277,8 @@ class InputMaker
     /**
      * Get the generator method.
      *
-     * @param  string $type
+     * @param string $type
+     *
      * @return string
      */
     public function getGeneratorMethod($type)
