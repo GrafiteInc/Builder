@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.9.27] - 2016-06-27
+### Changed
+- Lots of refactoring for easier maintenance
+- General quality improvements
+
 ## [v1.9.26] - 2016-06-22
 ### Fixed
 - Merged a pull request that repaired the User seeder
