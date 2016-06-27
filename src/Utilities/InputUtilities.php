@@ -3,9 +3,6 @@
 namespace Yab\Laracogs\Utilities;
 
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Session;
-use Yab\Laracogs\Generators\HtmlGenerator;
 
 /**
  * $this->elper to make an HTML input.
