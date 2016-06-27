@@ -53,7 +53,7 @@ class HtmlGenerator
     public function makeSelected($config, $selected, $custom)
     {
         $options = '';
-        foreach ($config['field']['options'] as $key => $value) {
+        foreach ($config['config']['options'] as $key => $value) {
             if ($selected == '') {
                 $selectedValue = ((string) $config['objectValue'] === (string) $value) ? 'selected' : '';
             } else {
@@ -114,11 +114,11 @@ class HtmlGenerator
         $object = $config['object'];
         $relationship = $config['name'];
 
-        $class = app()->make($config['field']['model']);
+        $class = app()->make($config['config']['model']);
         $items = $class->all();
 
         foreach ($items as $item) {
-            $config['field']['options'][$item->$label] = $item->$value;
+            $config['config']['options'][$item->$label] = $item->$value;
         }
 
         $selected = '';
@@ -138,10 +138,10 @@ class HtmlGenerator
      */
     public function makeHTMLInputString($config)
     {
-        $custom = (isset($config['field']['custom'])) ? $config['field']['custom'] : '';
-        $multiple = (isset($config['field']['multiple'])) ? 'multiple' : '';
-        $multipleArray = (isset($config['field']['multiple'])) ? '[]' : '';
-        $floatingNumber = ($config['fieldType'] === 'float' || $config['fieldType'] === 'decimal') ? 'step="any"' : '';
+        $custom = (isset($config['config']['custom'])) ? $config['config']['custom'] : '';
+        $multiple = (isset($config['config']['multiple'])) ? 'multiple' : '';
+        $multipleArray = (isset($config['config']['multiple'])) ? '[]' : '';
+        $floatingNumber = ($config['inputType'] === 'float' || $config['inputType'] === 'decimal') ? 'step="any"' : '';
 
         if (is_array($config['objectValue']) && $config['type'] === 'file') {
             $population = '';

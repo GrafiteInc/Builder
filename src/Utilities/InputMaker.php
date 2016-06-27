@@ -17,6 +17,30 @@ class InputMaker
 
     protected $inputUtilities;
 
+    protected $inputGroups = [
+        'text' => [
+            'text',
+            'textarea'
+        ],
+        'select' => [
+            'select'
+        ],
+        'hidden' => [
+            'hidden'
+        ],
+        'checkbox' => [
+            'checkbox',
+            'checkbox-inline'
+        ],
+        'radio' => [
+            'radio',
+            'radio-inline'
+        ],
+        'relationship' => [
+            'relationship'
+        ],
+    ];
+
     public function __construct()
     {
         $this->htmlGenerator = new HtmlGenerator();
@@ -26,8 +50,8 @@ class InputMaker
     /**
      * Create the input HTML.
      *
-     * @param string       $name        Column/ Field name
-     * @param array        $field       Array of config info for item
+     * @param string       $name        Column/ Input name
+     * @param array        $config      Array of config info for the input
      * @param object|array $object      Object or Table Object
      * @param string       $class       CSS class
      * @param bool         $reformatted Clean the labels and placeholder values
@@ -35,33 +59,23 @@ class InputMaker
      *
      * @return string
      */
-    public function create($name, $field, $object = null, $class = 'form-control', $reformatted = false, $populated = true)
+    public function create($name, $config, $object = null, $class = 'form-control', $reformatted = false, $populated = true)
     {
-        $config = [];
+        $inputConfig = [
+            'populated' => $populated,
+            'name' => $name,
+            'class' => $this->prepareTheClass($class, $config),
+            'config' => $config,
+            'inputTypes' => Config::get('form-maker', include(__DIR__.'/../Packages/Starter/config/form-maker.php')),
+            'inputs' => $this->getInput(),
+            'object' => $object,
+            'objectValue' => (isset($object->$name) && !method_exists($object, $name)) ? $object->$name : $name,
+            'placeholder' => $this->inputUtilities->placeholder($config, $name),
+        ];
 
-        $config['populated'] = $populated;
-        $config['name'] = $name;
-        $config['class'] = $class;
-        $config['field'] = $field;
+        $inputConfig = $this->refineConfigs($inputConfig, $reformatted, $name, $config);
 
-        if (isset($field['class'])) {
-            $config['class'] = $class.' '.$field['class'];
-        }
-
-        $config['inputTypes'] = Config::get('form-maker', include(__DIR__.'/../Packages/Starter/config/form-maker.php'));
-
-        $config['inputs'] = [];
-        if (Session::isStarted()) {
-            $config['inputs'] = Request::old();
-        }
-
-        $config['object'] = $object;
-        $config['objectValue'] = (isset($object->$name) && !method_exists($object, $name)) ? $object->$name : $name;
-        $config['placeholder'] = $this->inputUtilities->placeholder($field, $name);
-
-        $config = $this->setConfigs($config, $reformatted, $name, $field);
-
-        return $this->inputStringPreparer($config);
+        return $this->inputStringPreparer($inputConfig);
     }
 
     /**
@@ -109,12 +123,6 @@ class InputMaker
         return '<label '.$attributeString.'>'.$name.'</label>';
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Private Methods
-    |--------------------------------------------------------------------------
-    */
-
     /**
      * Before input.
      *
@@ -124,7 +132,7 @@ class InputMaker
      */
     private function before($config)
     {
-        $before = (isset($config['field']['before'])) ? $config['field']['before'] : '';
+        $before = (isset($config['config']['before'])) ? $config['config']['before'] : '';
 
         return $before;
     }
@@ -138,9 +146,42 @@ class InputMaker
      */
     private function after($config)
     {
-        $after = (isset($config['field']['after'])) ? $config['field']['after'] : '';
+        $after = (isset($config['config']['after'])) ? $config['config']['after'] : '';
 
         return $after;
+    }
+
+    /**
+     * Prepare the input class.
+     *
+     * @param  string $class
+     * @return string
+     */
+    public function prepareTheClass($class, $config)
+    {
+        $finalizedClass = $class;
+
+        if (isset($config['class'])) {
+            $finalizedClass .= ' '.$config['class'];
+        }
+
+        return $finalizedClass;
+    }
+
+    /**
+     * Get inputs.
+     *
+     * @return array
+     */
+    public function getInput()
+    {
+        $input = [];
+
+        if (Session::isStarted()) {
+            $input = Request::old();
+        }
+
+        return $input;
     }
 
     /**
@@ -149,33 +190,33 @@ class InputMaker
      * @param array  $config
      * @param bool   $reformatted
      * @param string $name
-     * @param array  $field
+     * @param array  $config
      *
      * @return array
      */
-    private function setConfigs($config, $reformatted, $name, $field)
+    private function refineConfigs($inputConfig, $reformatted, $name, $config)
     {
         // If validation inputs are available lets prepopulate the fields!
-        if (!empty($config['inputs']) && isset($config['inputs'][$name])) {
-            $config['populated'] = true;
-            $config['objectValue'] = $config['inputs'][$name];
+        if (!empty($inputConfig['inputs']) && isset($inputConfig['inputs'][$name])) {
+            $inputConfig['populated'] = true;
+            $inputConfig['objectValue'] = $inputConfig['inputs'][$name];
         }
 
         if ($reformatted) {
-            $config['placeholder'] = $this->inputUtilities->cleanString($this->inputUtilities->placeholder($field, $name));
+            $inputConfig['placeholder'] = $this->inputUtilities->cleanString($this->inputUtilities->placeholder($config, $name));
         }
 
-        if (!isset($field['type'])) {
-            if (is_array($field)) {
-                $config['fieldType'] = 'string';
+        if (!isset($config['type'])) {
+            if (is_array($config)) {
+                $inputConfig['inputType'] = 'string';
             } else {
-                $config['fieldType'] = $field;
+                $inputConfig['inputType'] = $config;
             }
         } else {
-            $config['fieldType'] = $field['type'];
+            $inputConfig['inputType'] = $config['type'];
         }
 
-        return $config;
+        return $inputConfig;
     }
 
     /**
@@ -187,13 +228,6 @@ class InputMaker
      */
     private function inputStringGenerator($config)
     {
-        $textInputs = ['text', 'textarea'];
-        $selectInputs = ['select'];
-        $hiddenInputs = ['hidden'];
-        $checkboxInputs = ['checkbox', 'checkbox-inline'];
-        $radioInputs = ['radio', 'radio-inline'];
-        $relationshipInputs = ['relationship'];
-
         // Super Magic!
         if (strpos($config['objectValue'], '[') > 0 && $config['object']) {
             $final = $config['object'];
@@ -206,49 +240,79 @@ class InputMaker
         }
 
         $population = $this->inputUtilities->getPopulation($config);
-        $checkType = $this->inputUtilities->checkType($config, $checkboxInputs);
+        $checkType = $this->inputUtilities->checkType($config, $this->inputGroups['checkbox']);
         $selected = $this->inputUtilities->isSelected($config, $checkType);
         $custom = $this->inputUtilities->getField($config, 'custom');
+        $method = $this->getGeneratorMethod($config['inputType']);
 
-        switch ($config['fieldType']) {
-            case in_array($config['fieldType'], $hiddenInputs):
-                $inputString = $this->htmlGenerator->makeHidden($config, $population, $custom);
-                break;
+        $standardMethods = [
+            'makeHidden',
+            'makeText',
+            'makeSelected',
+            'makeCheckbox',
+            'makeRadio',
+        ];
 
-            case in_array($config['fieldType'], $textInputs):
-                $inputString = $this->htmlGenerator->makeText($config, $population, $custom);
-                break;
-
-            case in_array($config['fieldType'], $selectInputs):
-                $inputString = $this->htmlGenerator->makeSelected($config, $selected, $custom);
-                break;
-
-            case in_array($config['fieldType'], $checkboxInputs):
-                $inputString = $this->htmlGenerator->makeCheckbox($config, $selected, $custom);
-                break;
-
-            case in_array($config['fieldType'], $radioInputs):
-                $inputString = $this->htmlGenerator->makeRadio($config, $selected, $custom);
-                break;
-
-            case in_array($config['fieldType'], $relationshipInputs):
-                $inputString = $this->htmlGenerator->makeRelationship(
-                    $config,
-                    $this->inputUtilities->getField($config, 'label', 'name'),
-                    $this->inputUtilities->getField($config, 'value', 'id'),
-                    $custom
-                );
-                break;
-
-            default:
-                $config['type'] = $config['inputTypes']['string'];
-                if (isset($config['inputTypes'][$config['fieldType']])) {
-                    $config['type'] = $config['inputTypes'][$config['fieldType']];
-                }
-                $inputString = $this->htmlGenerator->makeHTMLInputString($config);
-                break;
+        if (in_array($method, $standardMethods)) {
+            $inputString = $this->htmlGenerator->$method($config, $population, $custom);
+        } elseif ($method === 'makeRelationship') {
+            $inputString = $this->htmlGenerator->makeRelationship(
+                $config,
+                $this->inputUtilities->getField($config, 'label', 'name'),
+                $this->inputUtilities->getField($config, 'value', 'id'),
+                $custom
+            );
+        } else {
+            $config['type'] = $config['inputTypes']['string'];
+            if (isset($config['inputTypes'][$config['inputType']])) {
+                $config['type'] = $config['inputTypes'][$config['inputType']];
+            }
+            $inputString = $this->htmlGenerator->makeHTMLInputString($config);
         }
 
         return $inputString;
+    }
+
+    /**
+     * Get the generator method.
+     *
+     * @param  string $type
+     * @return string
+     */
+    public function getGeneratorMethod($type)
+    {
+        $method = '';
+
+        switch ($type) {
+            case in_array($type, $this->inputGroups['hidden']):
+                $method = 'makeHidden';
+                break;
+
+            case in_array($type, $this->inputGroups['text']):
+                $method = 'makeText';
+                break;
+
+            case in_array($type, $this->inputGroups['select']):
+                $method = 'makeSelected';
+                break;
+
+            case in_array($type, $this->inputGroups['checkbox']):
+                $method = 'makeCheckbox';
+                break;
+
+            case in_array($type, $this->inputGroups['radio']):
+                $method = 'makeRadio';
+                break;
+
+            case in_array($type, $this->inputGroups['relationship']):
+                $method = 'makeRelationship';
+                break;
+
+            default:
+                $method = 'makeHTMLInputString';
+                break;
+        }
+
+        return $method;
     }
 }

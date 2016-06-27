@@ -56,7 +56,7 @@ class InputUtilities
     public function isSelected($config, $checkType)
     {
         $selected = (isset($config['inputs'][$config['name']])
-            || isset($config['field']['selected'])
+            || isset($config['config']['selected'])
             || $config['objectValue'] === 'on'
             || $config['objectValue'] == 1) ? $checkType : '';
 
@@ -73,7 +73,7 @@ class InputUtilities
      */
     public function checkType($config, $checkboxInputs)
     {
-        $checkType = (in_array($config['fieldType'], $checkboxInputs)) ? 'checked' : 'selected';
+        $checkType = (in_array($config['inputType'], $checkboxInputs)) ? 'checked' : 'selected';
 
         return $checkType;
     }
@@ -87,7 +87,7 @@ class InputUtilities
      */
     public function getField($config, $field, $default = '')
     {
-        $data = (isset($config['field'][$field])) ? $config['field'][$field] : $default;
+        $data = (isset($config['config'][$field])) ? $config['config'][$field] : $default;
 
         return $data;
     }

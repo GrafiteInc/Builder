@@ -40,6 +40,19 @@ class FormMakerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($test, '<div class="form-group "><label class="control-label" for="Name">Name</label><input  id="Name" class="form-control" type="text" name="name"    placeholder="Name"></div><div class="form-group "><label class="control-label" for="Age">Number</label><input  id="Age" class="form-control" type="number" name="age"    placeholder="Number"></div>');
     }
 
+    public function testFromArrayWithColumns()
+    {
+        $testArray = [
+            'name' => 'string',
+            'age' => 'number',
+        ];
+
+        $test = $this->formMaker->fromArray($testArray, ['name']);
+
+        $this->assertTrue(is_string($test));
+        $this->assertEquals($test, '<div class="form-group "><label class="control-label" for="Name">Name</label><input  id="Name" class="form-control" type="text" name="name"    placeholder="Name"></div>');
+    }
+
     public function testFromObject()
     {
         (object) $testObject = [

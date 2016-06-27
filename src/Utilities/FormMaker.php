@@ -58,39 +58,39 @@ class FormMaker
      *
      * @return string
      */
-    public function fromTable($table, $columns = null, $class = 'form-control', $view = null, $reformatted = true, $populated = false, $idAndTimestamps = false)
-    {
+    public function fromTable(
+        $table,
+        $columns = null,
+        $class = 'form-control',
+        $view = null,
+        $reformatted = true,
+        $populated = false,
+        $idAndTimestamps = false
+    ) {
         $formBuild = '';
         $tableColumns = Schema::getColumnListing($table);
-
-        $tableTypeColumns = [];
 
         if (is_null($columns)) {
             foreach ($tableColumns as $column) {
                 $type = DB::connection()->getDoctrineColumn($table, $column)->getType()->getName();
-                $tableTypeColumns[$column] = $type;
+                $columns[$column] = $type;
             }
-        } else {
-            $tableTypeColumns = $columns;
         }
 
         if (!$idAndTimestamps) {
-            unset($tableTypeColumns['id']);
-            unset($tableTypeColumns['created_at']);
-            unset($tableTypeColumns['updated_at']);
+            unset($columns['id']);
+            unset($columns['created_at']);
+            unset($columns['updated_at']);
         }
 
-        foreach ($tableTypeColumns as $column => $field) {
+        foreach ($columns as $column => $columnConfig) {
             if (is_numeric($column)) {
-                $column = $field;
+                $column = $columnConfig;
             }
 
-            $errors = null;
-            if (Session::isStarted()) {
-                $errors = Session::get('errors');
-            }
-            $input = $this->inputMaker->create($column, $field, $column, $class, $reformatted, $populated);
-            $formBuild .= $this->formBuilder($view, $errors, $field, $column, $input);
+            $errors = $this->getFormErrors();
+            $input = $this->inputMaker->create($column, $columnConfig, $column, $class, $reformatted, $populated);
+            $formBuild .= $this->formBuilder($view, $errors, $columnConfig, $column, $input);
         }
 
         return $formBuild;
@@ -105,46 +105,37 @@ class FormMaker
      * @param string $class           Default input class
      * @param bool   $populated       Is content populated
      * @param bool   $reformatted     Are column names reformatted
-     * @param bool   $idAndTimestamps Are the timestamps and id available?
+     * @param bool   $timestamps      Are the timestamps available?
      *
      * @return string
      */
-    public function fromArray($array, $columns = null, $view = null, $class = 'form-control', $populated = true, $reformatted = false, $idAndTimestamps = false)
-    {
+    public function fromArray(
+        $array,
+        $columns = null,
+        $view = null,
+        $class = 'form-control',
+        $populated = true,
+        $reformatted = false,
+        $timestamps = false
+    ) {
         $formBuild = '';
-        $attributes = $array;
+        $array = $this->cleanupIdAndTimeStamps($array, $timestamps, false);
+        $errors = $this->getFormErrors();
 
-        if (!$idAndTimestamps) {
-            unset($attributes['created_at']);
-            unset($attributes['updated_at']);
+        if (is_null($columns)) {
+            $columns = $array;
         }
 
-        $errors = null;
-        if (Session::isStarted()) {
-            $errors = Session::get('errors');
-        }
+        foreach ($columns as $column => $columnConfig) {
+            if (is_numeric($column)) {
+                $column = $columnConfig;
+            }
+            if ($column === 'id') {
+                $columnConfig = ['type' => 'hidden'];
+            }
 
-        if (!is_null($columns)) {
-            foreach ($columns as $column => $field) {
-                if (is_numeric($column)) {
-                    $column = $field;
-                }
-                if (in_array($column, $columns)) {
-                    $input = $this->inputMaker->create($column, $field, $array, $class, $reformatted, $populated);
-                    $formBuild .= $this->formBuilder($view, $errors, $field, $column, $input);
-                }
-            }
-        } else {
-            foreach ($attributes as $column => $field) {
-                if (is_numeric($column)) {
-                    $column = $field;
-                }
-                if ($column === 'id') {
-                    $field = ['type' => 'hidden'];
-                }
-                $input = $this->inputMaker->create($column, $field, $array, $class, $reformatted, $populated);
-                $formBuild .= $this->formBuilder($view, $errors, $field, $column, $input);
-            }
+            $input = $this->inputMaker->create($column, $columnConfig, $array, $class, $reformatted, $populated);
+            $formBuild .= $this->formBuilder($view, $errors, $columnConfig, $column, $input);
         }
 
         return $formBuild;
@@ -153,61 +144,85 @@ class FormMaker
     /**
      * Build the form from the an object.
      *
+     * @param object $object          An object to base the form off
      * @param array  $columns         Columns desired and specified
      * @param string $view            A template to use for the rows
-     * @param object $object          An object to base the form off
      * @param string $class           Default input class
      * @param bool   $populated       Is content populated
      * @param bool   $reformatted     Are column names reformatted
-     * @param bool   $idAndTimestamps Are the timestamps and id available?
+     * @param bool   $timestamps      Are the timestamps available?
      *
      * @return string
      */
-    public function fromObject($object, $columns = null, $view = null, $class = 'form-control', $populated = true, $reformatted = false, $idAndTimestamps = false)
-    {
+    public function fromObject(
+        $object,
+        $columns = null,
+        $view = null,
+        $class = 'form-control',
+        $populated = true,
+        $reformatted = false,
+        $timestamps = false
+    ) {
+        $originalColumns = $columns;
         $formBuild = '';
 
-        if (isset($object->attributes)) {
-            $attributes = $object['attributes'];
-        } else {
-            $attributes = $columns;
+        if (is_null($columns)) {
+            $columns = array_keys($object['attributes']);
         }
 
+        $columns = $this->cleanupIdAndTimeStamps($columns, $timestamps, false);
+        $errors = $this->getFormErrors();
 
-        if (!$idAndTimestamps) {
-            unset($attributes['created_at']);
-            unset($attributes['updated_at']);
+        foreach ($columns as $column => $columnConfig) {
+            if (is_numeric($column)) {
+                $column = $columnConfig;
+            }
+            if ($column === 'id') {
+                $columnConfig = ['type' => 'hidden'];
+            }
+            $input = $this->inputMaker->create($column, $columnConfig, $object, $class, $reformatted, $populated);
+            $formBuild .= $this->formBuilder($view, $errors, $columnConfig, $column, $input);
         }
 
+        return $formBuild;
+    }
+
+    /**
+     * Cleanup the ID and TimeStamp columns.
+     *
+     * @param  array $collection
+     * @param  boolean $timestamps
+     * @param  boolean $id
+     * @return array
+     */
+    public function cleanupIdAndTimeStamps($collection, $timestamps, $id)
+    {
+        if (!$timestamps) {
+            unset($collection['created_at']);
+            unset($collection['updated_at']);
+        }
+
+        if (!$id) {
+            unset($collection['id']);
+        }
+
+        return $collection;
+    }
+
+    /**
+     * Get form errors.
+     *
+     * @return mixed
+     */
+    public function getFormErrors()
+    {
         $errors = null;
+
         if (Session::isStarted()) {
             $errors = Session::get('errors');
         }
 
-        if (!is_null($columns)) {
-            foreach ($columns as $column => $field) {
-                if (is_numeric($column)) {
-                    $column = $field;
-                }
-                $input = $this->inputMaker->create($column, $field, $object, $class, $reformatted, $populated);
-                $formBuild .= $this->formBuilder($view, $errors, $field, $column, $input);
-            }
-        } else {
-            foreach ($attributes as $column => $field) {
-                if (is_numeric($column)) {
-                    $column = $field;
-                }
-                if ($column === 'id') {
-                    $field = ['type' => 'hidden'];
-                } else {
-                    $field = $column;
-                }
-                $input = $this->inputMaker->create($column, $field, $object, $class, $reformatted, $populated);
-                $formBuild .= $this->formBuilder($view, $errors, $field, $column, $input);
-            }
-        }
-
-        return $formBuild;
+        return $errors;
     }
 
     /**
