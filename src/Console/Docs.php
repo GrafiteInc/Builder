@@ -38,9 +38,9 @@ class Docs extends Command
         }
 
         if (!is_dir(base_path('documentation'))) {
-            mkdir(base_path('documentation'));
-            mkdir(base_path('documentation/rules'));
-            mkdir(base_path('documentation/api'));
+            mkdir(base_path('documentation'), 0777, true);
+            mkdir(base_path('documentation/rules'), 0777, true);
+            mkdir(base_path('documentation/api'), 0777, true);
         }
 
         $name = str_replace(' ', '-', ucwords($this->argument('name')));
@@ -99,9 +99,9 @@ class Docs extends Command
     public function buildDocs($name)
     {
         if (!is_dir(base_path('documentation/build'))) {
-            mkdir(base_path('documentation/build'));
-            mkdir(base_path('documentation/build/rules'));
-            mkdir(base_path('documentation/build/api'));
+            mkdir(base_path('documentation/build'), 0777, true);
+            mkdir(base_path('documentation/build/rules'), 0777, true);
+            mkdir(base_path('documentation/build/api'), 0777, true);
         }
 
         $this->copyTemplate();
