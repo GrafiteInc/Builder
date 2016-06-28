@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.9.28] - 2016-06-28
+### Fixed
+- Issues with recursive directories
+
 ## [v1.9.27] - 2016-06-27
 ### Changed
 - Lots of refactoring for easier maintenance
