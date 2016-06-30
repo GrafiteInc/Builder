@@ -120,7 +120,7 @@ class InputMaker
             $attributeString .= $key.'="'.$value.'"';
         }
 
-        return '<label for=".$name.'" '.$attributeString.'>'.$name.'</label>';
+        return '<label for="'.$name.'" '.$attributeString.'>'.$name.'</label>';
     }
 
     /**
