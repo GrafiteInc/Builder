@@ -474,7 +474,7 @@ class CrudGenerator
      */
     private function serviceOnlyTest($filename)
     {
-        $allowedTypes = ["Repository", "Service"];
+        $allowedTypes = ['Repository', 'Service'];
 
         foreach ($allowedTypes as $allowedType) {
             if (strpos($filename, $allowedType) !== false) {
