@@ -222,8 +222,7 @@ class CrudGenerator
      */
     public function createTests($config, $serviceOnly)
     {
-        $fileSystem = new Filesystem();
-        $testTemplates = $fileSystem->allFiles($config['template_source'].'/Tests');
+        $testTemplates = $this->filesystem->allFiles($config['template_source'].'/Tests');
 
         foreach ($testTemplates as $testTemplate) {
             if ($serviceOnly && !$this->serviceOnlyTest($testTemplate->getBasename())) {
