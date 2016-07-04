@@ -225,18 +225,9 @@ class CrudGenerator
         $fileSystem = new Filesystem();
         $testTemplates = $fileSystem->allFiles($config['template_source'].'/Tests');
 
-        if ($serviceOnly) {
-            $this->serviceOnlyTestsPresent($config);
-        }
-
         foreach ($testTemplates as $testTemplate) {
-            if ($serviceOnly) {
-                $serviceOnlyTests = explode(',', $config['service_only_tests']);
-                $testTemplateFile = $testTemplate->getRelativePath().'/'.$testTemplate->getBasename('.'.$testTemplate->getExtension());
-
-                if (!in_array($testTemplateFile, $serviceOnlyTests)) {
-                    continue;
-                }
+            if ($serviceOnly && !$this->serviceOnlyTest($testTemplate->getBasename())) {
+                continue;
             }
 
             $test = file_get_contents($testTemplate->getRealPath());
@@ -475,20 +466,22 @@ class CrudGenerator
     }
 
     /**
-     * Verify that all service only test templates exist.
+     * Determine if given template filename is a service only template.
      *
-     * @param array $config
+     * @param string $filename
      *
-     * @throws \Exception
+     * @return bool
      */
-    private function serviceOnlyTestsPresent($config)
+    private function serviceOnlyTest($filename)
     {
-        $serviceOnlyTests = explode(',', $config['service_only_tests']);
+        $allowedTypes = ["Repository", "Service"];
 
-        foreach ($serviceOnlyTests as $serviceOnlyTest) {
-            if (!file_exists($config['template_source'].'/Tests/'.$serviceOnlyTest.'.txt')) {
-                throw new \Exception('Service only template ('.$serviceOnlyTest.') not found.');
+        foreach ($allowedTypes as $allowedType) {
+            if (strpos($filename, $allowedType) !== false) {
+                return true;
             }
         }
+
+        return false;
     }
 }
