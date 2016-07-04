@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.9.29] - 2016-07-04
+### Fixed
+- Repairs issue with checkboxes in form maker
+- Adds for attribute for label making
+
 ## [v1.9.28] - 2016-06-28
 ### Fixed
 - Issues with recursive directories
