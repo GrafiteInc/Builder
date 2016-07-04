@@ -249,13 +249,17 @@ class InputMaker
         $standardMethods = [
             'makeHidden',
             'makeText',
+        ];
+
+        $selectedMethods = [
+            'makeSelected',
             'makeCheckbox',
             'makeRadio',
         ];
 
         if (in_array($method, $standardMethods)) {
             $inputString = $this->htmlGenerator->$method($config, $population, $custom);
-        } elseif ($method === 'makeSelected') {
+        } elseif (in_array($method, $selectedMethods)) {
             $inputString = $this->htmlGenerator->$method($config, $selected, $custom);
         } elseif ($method === 'makeRelationship') {
             $inputString = $this->htmlGenerator->makeRelationship(
