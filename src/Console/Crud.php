@@ -57,11 +57,10 @@ class Crud extends Command
      * @var string
      */
     protected $signature = 'laracogs:crud {table}
-        {--api}
-        {--migration}
-        {--bootstrap}
-        {--semantic}
-        {--serviceOnly}
+        {--api : Creates an API Controller and Routes}
+        {--migration : Generates a migration file}
+        {--ui= : Select one of bootstrap|semantic for the UI}
+        {--serviceOnly : Does not generate a Controller or Routes}
         {--withFacade : Creates a facade that can be bound in your app to access the CRUD service}
         {--schema= : Basic schema support ie: id,increments,name:string,parent_id:integer}
         {--relationships= : Define the relationship ie: hasOne|App\Comment|comment,hasOne|App\Rating|rating or relation|class|column (without the _id)}';
@@ -71,7 +70,7 @@ class Crud extends Command
      *
      * @var string
      */
-    protected $description = 'Generate a basic CRUD for a table with options for: migration, api, bootstrap, semantic and even schema';
+    protected $description = 'Generate a basic CRUD for a table with options for: Migration, API, UI, Schema and even Relationships';
 
     /**
      * Generate a CRUD stack.
@@ -88,6 +87,8 @@ class Crud extends Command
         $this->validateSchema();
 
         $config = [
+            'bootstrap'                  => false,
+            'semantic'                   => false,
             'template_source'            => '',
             '_sectionPrefix_'            => '',
             '_sectionTablePrefix_'       => '',
@@ -123,8 +124,16 @@ class Crud extends Command
             'tests_generated'            => 'acceptance,service,repository',
         ];
 
-        $config['bootstrap'] = $this->option('bootstrap', true);
-        $config['semantic'] = $this->option('semantic', true);
+        $ui = $this->option('ui');
+
+        if (! is_null($ui)) {
+            if (in_array($ui, ['bootstrap', 'semantic'])) {
+                $config[$ui] = true;
+            } else {
+                throw new Exception("The UI you selected is not suppported. It must be: bootstrap or semantic.", 1);
+            }
+        }
+
         $config['schema'] = $this->option('schema', null);
         $config['relationships'] = $this->option('relationships', null);
 
@@ -148,9 +157,9 @@ class Crud extends Command
 
         $this->createCRUD($config, $section, $table, $splitTable);
 
-        $this->info('You may wish to add this as your testing database');
+        $this->info("\nYou may wish to add this as your testing database:\n");
         $this->comment("'testing' => [ 'driver' => 'sqlite', 'database' => ':memory:', 'prefix' => '' ],");
-        $this->info('CRUD for '.$table.' is done.'."\n");
+        $this->info("\n".'You now have a working CRUD for '.$table."\n");
     }
 
     /**

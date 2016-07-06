@@ -53,6 +53,7 @@ class Bootstrap extends Command
 
                 $this->info("\n\nMake sure you set the PagesController@dashboard to use the following view: 'dashboard.main'\n\n");
                 $this->info("Run the following:\n");
+                $this->comment("npm install\n");
                 $this->comment("gulp\n");
                 $this->info("Finished bootstrapping your app\n");
             } else {
