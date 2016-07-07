@@ -125,11 +125,11 @@ class Crud extends Command
 
         $ui = $this->option('ui');
 
-        if (! is_null($ui)) {
+        if (!is_null($ui)) {
             if (in_array($ui, ['bootstrap', 'semantic'])) {
                 $config[$ui] = true;
             } else {
-                throw new Exception("The UI you selected is not suppported. It must be: bootstrap or semantic.", 1);
+                throw new Exception('The UI you selected is not suppported. It must be: bootstrap or semantic.', 1);
             }
         }
 

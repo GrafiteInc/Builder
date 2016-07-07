@@ -156,9 +156,10 @@ class HtmlGenerator
     /**
      * Is the config a multiple?
      *
-     * @param  array $config
-     * @param  string $response
-     * @return boolean
+     * @param array  $config
+     * @param string $response
+     *
+     * @return bool
      */
     public function isMultiple($config, $response)
     {
@@ -172,7 +173,8 @@ class HtmlGenerator
     /**
      * Get the population.
      *
-     * @param  array $config
+     * @param array $config
+     *
      * @return string
      */
     public function getPopulation($config)
@@ -187,7 +189,8 @@ class HtmlGenerator
     /**
      * Get the custom details.
      *
-     * @param  array $config
+     * @param array $config
+     *
      * @return string
      */
     public function getCustom($config)
@@ -202,7 +205,8 @@ class HtmlGenerator
     /**
      * Get the floating number.
      *
-     * @param  array $config
+     * @param array $config
+     *
      * @return string
      */
     public function getFloatingNumber($config)
