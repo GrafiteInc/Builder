@@ -270,6 +270,7 @@ class InputMaker
      * prepare the type.
      *
      * @param array $config
+     *
      * @return array
      */
     public function prepareType($config)
@@ -279,6 +280,7 @@ class InputMaker
         if (isset($config['inputTypes'][$config['inputType']])) {
             $config['type'] = $config['inputTypes'][$config['inputType']];
         }
+
         return $config;
     }
 
@@ -286,6 +288,7 @@ class InputMaker
      * prepare the object Value.
      *
      * @param array $config
+     *
      * @return array
      */
     public function prepareObjectValue($config)

@@ -491,7 +491,7 @@ class CrudGenerator
     {
         $allowedTypes = [
             'Repository',
-            'Service'
+            'Service',
         ];
 
         foreach ($allowedTypes as $allowedType) {
@@ -506,8 +506,9 @@ class CrudGenerator
     /**
      * Filter the tests.
      *
-     * @param  array $templates
-     * @param  boolean $serviceOnly
+     * @param array $templates
+     * @param bool  $serviceOnly
+     *
      * @return array
      */
     public function filterTestTemplates($templates, $serviceOnly)
