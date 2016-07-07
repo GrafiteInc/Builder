@@ -27,7 +27,7 @@
                             <td>{{ $team->name }}</td>
                             <td>
                                 <a href="{!! route('teams.edit', [$team->id]) !!}"><i class="fa fa-pencil"></i> Edit</a>
-                                <form method="post" action="{!! url('teams/'$team->id]) !!}">
+                                <form method="post" action="{!! url('teams/'.$team->id) !!}">
                                     {!! csrf_field() !!}
                                     {!! method_field('DELETE') !!}
                                     <button type="submit" onclick="return confirm('Are you sure you want to delete this team?')"><i class="fa fa-trash"></i> Delete</button>
