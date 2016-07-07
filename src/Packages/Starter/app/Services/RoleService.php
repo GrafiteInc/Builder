@@ -85,8 +85,8 @@ class RoleService
      */
     public function destroy($id)
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
                 $result = false;
                 $userCount = count($this->userService->findByRoleID($id));
                 if ($userCount == 0) {
@@ -94,6 +94,7 @@ class RoleService
                 }
             DB::commit();
         } catch (Exception $e) {
+            DB::rollBack();
             throw new Exception("We were unable to delete this role", 1);
         }
 

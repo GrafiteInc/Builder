@@ -76,8 +76,8 @@ class UserService
      */
     public function create($user, $password, $role = 'member', $sendEmail = true)
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
                 // create the user meta
                 $this->userMetaRepo->findByUserId($user->id);
                 // Set the user's role
@@ -94,6 +94,8 @@ class UserService
 
             return $user;
         } catch (Exception $e) {
+
+            DB::rollBack();
             throw new Exception("We were unable to generate your profile, please try again later.", 1);
         }
     }
@@ -110,9 +112,9 @@ class UserService
         if (isset($inputs['meta']) && ! isset($inputs['meta']['terms_and_cond'])) {
             throw new Exception("You must agree to the terms and conditions.", 1);
         }
-
+        
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
                 $userMetaResult = (isset($inputs['meta'])) ? $this->userMetaRepo->update($userId, $inputs['meta']) : true;
                 $userResult = $this->userRepo->update($userId, $inputs);
                 if (isset($inputs['roles'])) {
@@ -121,6 +123,8 @@ class UserService
                 }
             DB::commit();
         } catch (Exception $e) {
+
+            DB::rollBack();
             throw new Exception("We were unable to update your profile", 1);
         }
 
