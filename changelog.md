@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.9.30] - 2016-07-07
+### Changed
+- Various improvements
+- Code quality refactoring
+### Fixed
+- Default view fixes
+- Better db transactions
+
 ## [v1.9.29] - 2016-07-04
 ### Fixed
 - Repairs issue with checkboxes in form maker
