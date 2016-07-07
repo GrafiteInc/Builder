@@ -2,6 +2,7 @@
 
 namespace {{App\}}Services;
 
+use DB;
 use Illuminate\Support\Str;
 use {{App\}}Services\UserService;
 use {{App\}}Repositories\User\User;
@@ -35,13 +36,17 @@ class TeamService
     public function create($userId, $input)
     {
         try {
-            $input['user_id'] = $userId;
-            $team = $this->repo->create($input);
-            $this->userService->joinTeam($team->id, $userId);
-            return $team;
+            $team = DB::transaction(function () use ($userId, $input) {
+                $input['user_id'] = $userId;
+                $team = $this->repo->create($input);
+                $this->userService->joinTeam($team->id, $userId);
+                return $team;
+            });
         } catch (Exception $e) {
             throw new Exception("Failed to create team", 1);
         }
+
+        return $team;
     }
 
     public function find($id)

@@ -77,7 +77,7 @@ class UserService
     public function create($user, $password, $role = 'member', $sendEmail = true)
     {
         try {
-            DB::beginTransaction();
+            DB::transaction(function () use ($user, $password, $role, $sendEmail) {
                 // create the user meta
                 $this->userMetaRepo->findByUserId($user->id);
                 // Set the user's role
@@ -85,12 +85,16 @@ class UserService
 
                 if ($sendEmail) {
                     // Email the user about their profile
-                    Mail::send('emails.new-user', ['user' => $user, 'password' => $password], function ($m) use ($user) {
-                        $m->from('info@app.com', 'App');
-                        $m->to($user->email, $user->name)->subject('You have a new profile!');
-                    });
+                    Mail::send(
+                        'emails.new-user',
+                        ['user' => $user, 'password' => $password],
+                        function ($m) use ($user) {
+                            $m->from('info@app.com', 'App');
+                            $m->to($user->email, $user->name)->subject('You have a new profile!');
+                        }
+                    );
                 }
-            DB::commit();
+            });
 
             return $user;
         } catch (Exception $e) {
@@ -112,19 +116,18 @@ class UserService
         }
 
         try {
-            DB::beginTransaction();
+            return DB::transaction(function () use ($userId, $inputs) {
                 $userMetaResult = (isset($inputs['meta'])) ? $this->userMetaRepo->update($userId, $inputs['meta']) : true;
                 $userResult = $this->userRepo->update($userId, $inputs);
                 if (isset($inputs['roles'])) {
                     $this->userRepo->unassignAllRoles($userId);
                     $this->userRepo->assignRole($inputs['roles'], $userId);
                 }
-            DB::commit();
+                return ($userMetaResult && $userResult);
+            });
         } catch (Exception $e) {
             throw new Exception("We were unable to update your profile", 1);
         }
-
-        return ($userMetaResult && $userResult);
     }
 
     /**
@@ -136,13 +139,15 @@ class UserService
     {
         $password = substr(md5(rand(1111, 9999)), 0, 10);
 
-        $user = $this->userRepo->create([
-            'email' => $info['email'],
-            'name' => $info['name'],
-            'password' => bcrypt($password)
-        ]);
+        return DB::transaction(function () use ($password, $info) {
+            $user = $this->userRepo->create([
+                'email' => $info['email'],
+                'name' => $info['name'],
+                'password' => bcrypt($password)
+            ]);
 
-        return $this->create($user, $password, $info['roles'], true);
+            return $this->create($user, $password, $info['roles'], true);
+        });
     }
 
     /**
@@ -154,17 +159,18 @@ class UserService
     public function destroy($id)
     {
         try {
-            DB::beginTransaction();
+            return DB::transaction(function () use ($id) {
                 $this->userRepo->unassignAllRoles($id);
                 $this->userRepo->leaveAllTeams($id);
+
                 $userMetaResult = $this->userMetaRepo->destroy($id);
                 $userResult = $this->userRepo->destroy($id);
-            DB::commit();
+
+                return ($userMetaResult && $userResult);
+            });
         } catch (Exception $e) {
             throw new Exception("We were unable to delete this profile", 1);
         }
-
-        return ($userMetaResult && $userResult);
     }
 
     /**
@@ -193,7 +199,6 @@ class UserService
      */
     public function switchUserBack()
     {
-
         try {
             $original = Session::pull('original_user');
             $user = $this->userRepo->find($original);
@@ -233,17 +238,17 @@ class UserService
 
     public function joinTeam($teamId, $userId)
     {
-       return $this->userRepo->joinTeam($teamId, $userId);
+        return $this->userRepo->joinTeam($teamId, $userId);
     }
 
     public function leaveTeam($teamId, $userId)
     {
-       return $this->userRepo->leaveTeam($teamId, $userId);
+        return $this->userRepo->leaveTeam($teamId, $userId);
     }
 
     public function leaveAllTeams($userId)
     {
-       return $this->userRepo->leaveAllTeams($userId);
+        return $this->userRepo->leaveAllTeams($userId);
     }
 
 }

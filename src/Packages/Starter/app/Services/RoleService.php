@@ -86,18 +86,20 @@ class RoleService
     public function destroy($id)
     {
         try {
-            DB::beginTransaction();
+            $result = DB::transaction(function () use ($id) {
                 $result = false;
                 $userCount = count($this->userService->findByRoleID($id));
+
                 if ($userCount == 0) {
                     $result = $this->repo->destroy($id);
                 }
-            DB::commit();
+
+                return $result;
+            });
         } catch (Exception $e) {
             throw new Exception("We were unable to delete this role", 1);
         }
 
         return $result;
     }
-
 }
