@@ -121,7 +121,6 @@ class Crud extends Command
             '_camel_case_'               => ucfirst(camel_case($table)),
             '_camel_casePlural_'         => str_plural(camel_case($table)),
             '_ucCamel_casePlural_'       => ucfirst(str_plural(camel_case($table))),
-            'tests_generated'            => 'acceptance,service,repository',
         ];
 
         $ui = $this->option('ui');
@@ -200,12 +199,10 @@ class Crud extends Command
                     $this->line('Building facade...');
                     $crudGenerator->createFacade($config);
                 }
-            } else {
-                $config['tests_generated'] = 'service,repository';
             }
 
             $this->line('Building tests...');
-            $crudGenerator->createTests($config);
+            $crudGenerator->createTests($config, $this->option('serviceOnly'));
 
             $this->line('Adding to factory...');
             $crudGenerator->createFactory($config);

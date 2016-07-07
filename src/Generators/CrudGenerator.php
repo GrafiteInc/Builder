@@ -234,13 +234,22 @@ class CrudGenerator
      * Create the tests.
      *
      * @param array $config
+     * @param bool  $serviceOnly
      *
      * @return bool
      */
-    public function createTests($config)
+    public function createTests($config, $serviceOnly)
     {
-        foreach (explode(',', $config['tests_generated']) as $testType) {
-            $test = file_get_contents($config['template_source'].'/Tests/'.ucfirst($testType).'Test.txt');
+        $testTemplates = $this->filesystem->allFiles($config['template_source'].'/Tests');
+
+        foreach ($testTemplates as $testTemplate) {
+            if ($serviceOnly && !$this->serviceOnlyTest($testTemplate->getBasename())) {
+                continue;
+            }
+
+            $test = file_get_contents($testTemplate->getRealPath());
+            $testName = $config['_camel_case_'].$testTemplate->getBasename('.'.$testTemplate->getExtension());
+            $testDirectory = $config['_path_tests_'].'/'.strtolower($testTemplate->getRelativePath());
 
             $test = $this->tableSchema($config, $test);
 
@@ -248,7 +257,11 @@ class CrudGenerator
                 $test = str_replace($key, $value, $test);
             }
 
-            if (!file_put_contents($config['_path_tests_'].'/'.$config['_camel_case_'].''.ucfirst($testType).'Test.php', $test)) {
+            if (!is_dir($testDirectory)) {
+                mkdir($testDirectory);
+            }
+
+            if (!file_put_contents($testDirectory.'/'.$testName.'.php', $test)) {
                 return false;
             }
         }
@@ -467,5 +480,25 @@ class CrudGenerator
         }
 
         return 1;
+    }
+
+    /**
+     * Determine if given template filename is a service only template.
+     *
+     * @param string $filename
+     *
+     * @return bool
+     */
+    private function serviceOnlyTest($filename)
+    {
+        $allowedTypes = ['Repository', 'Service'];
+
+        foreach ($allowedTypes as $allowedType) {
+            if (strpos($filename, $allowedType) !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
