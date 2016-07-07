@@ -242,23 +242,21 @@ class CrudGenerator
     {
         $testTemplates = $this->filesystem->allFiles($config['template_source'].'/Tests');
 
-        foreach ($testTemplates as $testTemplate) {
-            if ($serviceOnly && !$this->serviceOnlyTest($testTemplate->getBasename())) {
-                continue;
-            }
+        $filteredTestTemplates = $this->filterTestTemplates($testTemplates, $serviceOnly);
 
+        foreach ($filteredTestTemplates as $testTemplate) {
             $test = file_get_contents($testTemplate->getRealPath());
             $testName = $config['_camel_case_'].$testTemplate->getBasename('.'.$testTemplate->getExtension());
             $testDirectory = $config['_path_tests_'].'/'.strtolower($testTemplate->getRelativePath());
+
+            if (!is_dir($testDirectory)) {
+                mkdir($testDirectory, 0777, true);
+            }
 
             $test = $this->tableSchema($config, $test);
 
             foreach ($config as $key => $value) {
                 $test = str_replace($key, $value, $test);
-            }
-
-            if (!is_dir($testDirectory)) {
-                mkdir($testDirectory);
             }
 
             if (!file_put_contents($testDirectory.'/'.$testName.'.php', $test)) {
@@ -489,9 +487,12 @@ class CrudGenerator
      *
      * @return bool
      */
-    private function serviceOnlyTest($filename)
+    private function isServiceTest($filename)
     {
-        $allowedTypes = ['Repository', 'Service'];
+        $allowedTypes = [
+            'Repository',
+            'Service'
+        ];
 
         foreach ($allowedTypes as $allowedType) {
             if (strpos($filename, $allowedType) !== false) {
@@ -500,5 +501,29 @@ class CrudGenerator
         }
 
         return false;
+    }
+
+    /**
+     * Filter the tests.
+     *
+     * @param  array $templates
+     * @param  boolean $serviceOnly
+     * @return array
+     */
+    public function filterTestTemplates($templates, $serviceOnly)
+    {
+        $filteredTemplates = [];
+
+        foreach ($templates as $template) {
+            if ($serviceOnly) {
+                if ($this->isServiceTest($template)) {
+                    $filteredTemplates[] = $template;
+                }
+            } else {
+                $filteredTemplates[] = $template;
+            }
+        }
+
+        return $filteredTemplates;
     }
 }

@@ -19,7 +19,7 @@ Please consult the documentation here: [http://laracogs.com/docs](http://laracog
 
 ## Requirements
 
-1. PHP 5.5.9+
+1. PHP 5.6+
 2. OpenSSL
 3. Laravel 5.1+
 
