@@ -229,17 +229,7 @@ class InputMaker
      */
     private function inputStringGenerator($config)
     {
-        // Super Magic!
-        if (strpos($config['objectValue'], '[') > 0 && $config['object']) {
-            $final = $config['object'];
-            $nameProperties = explode('[', $config['objectValue']);
-            foreach ($nameProperties as $property) {
-                $realProperty = str_replace(']', '', $property);
-                $final = $final->$realProperty;
-            }
-            $config['objectValue'] = $final;
-        }
-
+        $config = $this->prepareObjectValue($config);
         $population = $this->inputUtilities->getPopulation($config);
         $checkType = $this->inputUtilities->checkType($config, $this->inputGroups['checkbox']);
         $selected = $this->inputUtilities->isSelected($config, $checkType);
@@ -269,14 +259,48 @@ class InputMaker
                 $custom
             );
         } else {
-            $config['type'] = $config['inputTypes']['string'];
-            if (isset($config['inputTypes'][$config['inputType']])) {
-                $config['type'] = $config['inputTypes'][$config['inputType']];
-            }
+            $config = $this->prepareType($config);
             $inputString = $this->htmlGenerator->makeHTMLInputString($config);
         }
 
         return $inputString;
+    }
+
+    /**
+     * prepare the type.
+     *
+     * @param array $config
+     * @return array
+     */
+    public function prepareType($config)
+    {
+        $config['type'] = $config['inputTypes']['string'];
+
+        if (isset($config['inputTypes'][$config['inputType']])) {
+            $config['type'] = $config['inputTypes'][$config['inputType']];
+        }
+        return $config;
+    }
+
+    /**
+     * prepare the object Value.
+     *
+     * @param array $config
+     * @return array
+     */
+    public function prepareObjectValue($config)
+    {
+        if (strpos($config['objectValue'], '[') > 0 && $config['object']) {
+            $final = $config['object'];
+            $nameProperties = explode('[', $config['objectValue']);
+            foreach ($nameProperties as $property) {
+                $realProperty = str_replace(']', '', $property);
+                $final = $final->$realProperty;
+            }
+            $config['objectValue'] = $final;
+        }
+
+        return $config;
     }
 
     /**

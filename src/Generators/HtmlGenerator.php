@@ -138,19 +138,79 @@ class HtmlGenerator
      */
     public function makeHTMLInputString($config)
     {
-        $custom = (isset($config['config']['custom'])) ? $config['config']['custom'] : '';
-        $multiple = (isset($config['config']['multiple'])) ? 'multiple' : '';
-        $multipleArray = (isset($config['config']['multiple'])) ? '[]' : '';
-        $floatingNumber = ($config['inputType'] === 'float' || $config['inputType'] === 'decimal') ? 'step="any"' : '';
+        $custom = $this->getCustom($config);
+        $multiple = $this->isMultiple($config, 'multiple');
+        $multipleArray = $this->isMultiple($config, '[]');
+        $floatingNumber = $this->getFloatingNumber($config);
+        $population = $this->getPopulation($config);
 
         if (is_array($config['objectValue']) && $config['type'] === 'file') {
             $population = '';
-        } else {
-            $population = ($config['populated'] && $config['name'] !== $config['objectValue']) ? 'value="'.$config['objectValue'].'"' : '';
         }
 
         $inputString = '<input '.$custom.' id="'.ucfirst($config['name']).'" class="'.$config['class'].'" type="'.$config['type'].'" name="'.$config['name'].$multipleArray.'" '.$floatingNumber.' '.$multiple.' '.$population.' placeholder="'.$config['placeholder'].'">';
 
         return $inputString;
+    }
+
+    /**
+     * Is the config a multiple?
+     *
+     * @param  array $config
+     * @param  string $response
+     * @return boolean
+     */
+    public function isMultiple($config, $response)
+    {
+        if (isset($config['config']['multiple'])) {
+            return $response;
+        }
+
+        return '';
+    }
+
+    /**
+     * Get the population.
+     *
+     * @param  array $config
+     * @return string
+     */
+    public function getPopulation($config)
+    {
+        if ($config['populated'] && $config['name'] !== $config['objectValue']) {
+            return 'value="'.$config['objectValue'].'"';
+        }
+
+        return '';
+    }
+
+    /**
+     * Get the custom details.
+     *
+     * @param  array $config
+     * @return string
+     */
+    public function getCustom($config)
+    {
+        if (isset($config['config']['custom'])) {
+            return $config['config']['custom'];
+        }
+
+        return '';
+    }
+
+    /**
+     * Get the floating number.
+     *
+     * @param  array $config
+     * @return string
+     */
+    public function getFloatingNumber($config)
+    {
+        if ($config['inputType'] === 'float' || $config['inputType'] === 'decimal') {
+            return 'step="any"';
+        }
+
+        return '';
     }
 }
