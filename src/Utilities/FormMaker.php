@@ -236,37 +236,61 @@ class FormMaker
      */
     private function formBuilder($view, $errors, $field, $column, $input)
     {
-        $formBuild = '';
+        $formGroupClass = Config::get('laracogs.form-group-class', 'form-group');
+        $formErrorClass = Config::get('laracogs.form-error-class', 'has-error');
+
+        $errorHighlight = '';
+        $errorMessage = false;
 
         if (!empty($errors) && $errors->has($column)) {
-            $errorHighlight = ' has-error';
+            $errorHighlight = ' '.$formErrorClass;
             $errorMessage = $errors->get($column);
-        } else {
-            $errorHighlight = '';
-            $errorMessage = false;
         }
 
         if (is_null($view)) {
-            if (isset($field['type']) && (stristr($field['type'], 'radio') || stristr($field['type'], 'checkbox'))) {
-                $formBuild .= '<div class="'.$errorHighlight.'">';
-                $formBuild .= '<div class="'.$field['type'].'"><label>'.$input.$this->inputUtilities->cleanString($this->columnLabel($field, $column)).'</label>'.$this->errorMessage($errorMessage).'</div>';
-            } elseif (isset($field['type']) && (stristr($field['type'], 'hidden'))) {
-                $formBuild .= '<div class="form-group '.$errorHighlight.'">';
-                $formBuild .= $input;
-            } else {
-                $formBuild .= '<div class="form-group '.$errorHighlight.'">';
-                $formBuild .= '<label class="control-label" for="'.ucfirst($column).'">'.$this->inputUtilities->cleanString($this->columnLabel($field, $column)).'</label>'.$input.$this->errorMessage($errorMessage);
-            }
-
+            $formBuild = '<div class="'.$formGroupClass.' '.$errorHighlight.'">';
+            $formBuild .= $this->formContentBuild($errors, $field, $column, $input, $errorMessage);
             $formBuild .= '</div>';
         } else {
-            $formBuild .= View::make($view, [
+            $formBuild = View::make($view, [
                 'labelFor'       => ucfirst($column),
                 'label'          => $this->columnLabel($field, $column),
                 'input'          => $input,
                 'errorMessage'   => $this->errorMessage($errorMessage),
                 'errorHighlight' => $errorHighlight,
             ]);
+        }
+
+        return $formBuild;
+    }
+
+    /**
+     * Form Content Builder.
+     *
+     * @param array|object $errors
+     * @param array        $field  Array of field values
+     * @param string       $column Column name
+     * @param string       $input  Input string
+     * @param string       $errorMessage
+     * @return string
+     */
+    public function formContentBuild($errors, $field, $column, $input, $errorMessage)
+    {
+        $formLabelClass = Config::get('laracogs.form-label-class', 'control-label');
+
+        $formBuild = '<label class="'.$formLabelClass.'" for="'.ucfirst($column).'">';
+        $formBuild .= $this->inputUtilities->cleanString($this->columnLabel($field, $column));
+        $formBuild .= '</label>'.$input.$this->errorMessage($errorMessage);
+
+        if (isset($field['type'])) {
+            if (in_array($field['type'], ['radio', 'checkbox'])) {
+                $formBuild = '<div class="'.$field['type'].'">';
+                $formBuild .= '<label for="'.ucfirst($column).'" class="'.$formLabelClass.'">'.$input;
+                $formBuild .= $this->inputUtilities->cleanString($this->columnLabel($field, $column));
+                $formBuild .= '</label>'.$this->errorMessage($errorMessage).'</div>';
+            } elseif (stristr($field['type'], 'hidden')) {
+                $formBuild = $input;
+            }
         }
 
         return $formBuild;

@@ -12,8 +12,28 @@ class FormMakerTest extends PHPUnit_Framework_TestCase
         $this->app = new Container();
         $this->app->singleton('app', 'Illuminate\Container\Container');
 
-        $config = Mockery::mock('config')->shouldReceive('get')->withAnyArgs()->andReturn(include(__DIR__.'/../src/Packages/Starter/config/form-maker.php'))->getMock();
-        $request = Mockery::mock('request')->shouldReceive('old')->withAnyArgs()->andReturn([])->getMock();
+        $config = Mockery::mock('config');
+        $config->shouldReceive('get')
+            ->with('laracogs.form-group-class', 'form-group')
+            ->andReturn('form-group');
+        $config->shouldReceive('get')
+            ->with('laracogs.form-label-class', 'control-label')
+            ->andReturn('control-label');
+        $config->shouldReceive('get')
+            ->with('laracogs.form-error-class', 'has-error')
+            ->andReturn('has-error');
+
+        $config->shouldReceive('get')
+            ->with('form-maker', include(__DIR__.'/../src/Packages/Starter/config/form-maker.php'))
+            ->andReturn(include(__DIR__.'/../src/Packages/Starter/config/form-maker.php'))
+            ->getMock();
+
+        $request = Mockery::mock('request')
+            ->shouldReceive('old')
+            ->withAnyArgs()
+            ->andReturn([])
+            ->getMock();
+
         $session = Mockery::mock('session');
         $session->shouldReceive('isStarted')->withAnyArgs()->andReturn(true);
         $session->shouldReceive('get')->withAnyArgs()->andReturn(collect([]));

@@ -12,6 +12,10 @@
 
 return [
 
+    'form-group-class' => 'form-group',
+    'form-label-class' => 'control-label',
+    'form-error-class' => 'has-error',
+
     'crud' => [
 
         'template_source'            => base_path('resources/laracogs/crud'),
