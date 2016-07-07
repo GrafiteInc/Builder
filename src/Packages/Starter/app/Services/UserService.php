@@ -76,17 +76,25 @@ class UserService
      */
     public function create($user, $password, $role = 'member', $sendEmail = true)
     {
-        // create the user meta
-        $this->userMetaRepo->findByUserId($user->id);
-        // Set the user's role
-        $this->userRepo->assignRole($role, $user->id);
+        try {
+            DB::beginTransaction();
+                // create the user meta
+                $this->userMetaRepo->findByUserId($user->id);
+                // Set the user's role
+                $this->userRepo->assignRole($role, $user->id);
 
-        if ($sendEmail) {
-            // Email the user about their profile
-            Mail::send('emails.new-user', ['user' => $user, 'password' => $password], function ($m) use ($user) {
-                $m->from('info@app.com', 'App');
-                $m->to($user->email, $user->name)->subject('You have a new profile!');
-            });
+                if ($sendEmail) {
+                    // Email the user about their profile
+                    Mail::send('emails.new-user', ['user' => $user, 'password' => $password], function ($m) use ($user) {
+                        $m->from('info@app.com', 'App');
+                        $m->to($user->email, $user->name)->subject('You have a new profile!');
+                    });
+                }
+            DB::commit();
+
+            return $user;
+        } catch (Exception $e) {
+            throw new Exception("We were unable to generate your profile, please try again later.", 1);
         }
     }
 
@@ -102,17 +110,16 @@ class UserService
         if (isset($inputs['meta']) && ! isset($inputs['meta']['terms_and_cond'])) {
             throw new Exception("You must agree to the terms and conditions.", 1);
         }
-        
-        try {
-            DB::transaction(function () use ($this, $inputs, $password, $userId) {
 
+        try {
+            DB::beginTransaction();
                 $userMetaResult = (isset($inputs['meta'])) ? $this->userMetaRepo->update($userId, $inputs['meta']) : true;
                 $userResult = $this->userRepo->update($userId, $inputs);
                 if (isset($inputs['roles'])) {
                     $this->userRepo->unassignAllRoles($userId);
                     $this->userRepo->assignRole($inputs['roles'], $userId);
                 }
-            });
+            DB::commit();
         } catch (Exception $e) {
             throw new Exception("We were unable to update your profile", 1);
         }
@@ -129,21 +136,13 @@ class UserService
     {
         $password = substr(md5(rand(1111, 9999)), 0, 10);
 
-        try {
-            DB::transaction(function () use ($this, $info, $password) {
-                $user = $this->userRepo->create([
-                    'email' => $info['email'],
-                    'name' => $info['name'],
-                    'password' => bcrypt($password)
-                ]);
+        $user = $this->userRepo->create([
+            'email' => $info['email'],
+            'name' => $info['name'],
+            'password' => bcrypt($password)
+        ]);
 
-                $this->create($user, $password, $info['roles'], true);
-            });
-        } catch (Exception $e) {
-            throw new Exception("We were unable to generate your profile, please try again later.", 1);
-        }
-
-        return $user;
+        return $this->create($user, $password, $info['roles'], true);
     }
 
     /**
@@ -155,12 +154,12 @@ class UserService
     public function destroy($id)
     {
         try {
-            DB::transaction(function () use ($this, $id) {
+            DB::beginTransaction();
                 $this->userRepo->unassignAllRoles($id);
                 $this->userRepo->leaveAllTeams($id);
                 $userMetaResult = $this->userMetaRepo->destroy($id);
                 $userResult = $this->userRepo->destroy($id);
-            });
+            DB::commit();
         } catch (Exception $e) {
             throw new Exception("We were unable to delete this profile", 1);
         }
