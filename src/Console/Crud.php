@@ -58,10 +58,10 @@ class Crud extends Command
      */
     protected $signature = 'laracogs:crud {table}
         {--api : Creates an API Controller and Routes}
-        {--migration : Generates a migration file}
         {--ui= : Select one of bootstrap|semantic for the UI}
         {--serviceOnly : Does not generate a Controller or Routes}
         {--withFacade : Creates a facade that can be bound in your app to access the CRUD service}
+        {--migration : Generates a migration file}
         {--schema= : Basic schema support ie: id,increments,name:string,parent_id:integer}
         {--relationships= : Define the relationship ie: hasOne|App\Comment|comment,hasOne|App\Rating|rating or relation|class|column (without the _id)}';
 
@@ -131,6 +131,12 @@ class Crud extends Command
             } else {
                 throw new Exception('The UI you selected is not suppported. It must be: bootstrap or semantic.', 1);
             }
+        }
+
+        if ((!is_null($this->option('schema')) && !$this->option('migration')) ||
+            (!is_null($this->option('relationships')) && !$this->option('migration'))
+        ) {
+            throw new Exception('In order to use Schema or Relationships you need to use Migrations', 1);
         }
 
         $config['schema'] = $this->option('schema', null);
@@ -208,7 +214,7 @@ class Crud extends Command
             $crudGenerator->createFactory($config);
 
             if ($this->option('api')) {
-                $this->line('Building Api...');
+                $this->line('Building API...');
                 $this->comment("\nAdd the following to your app/Providers/RouteServiceProvider.php: \n");
                 $this->info("require app_path('Http/api-routes.php'); \n");
                 $crudGenerator->createApi($config);
@@ -379,7 +385,7 @@ class Crud extends Command
         if ($this->option('schema')) {
             foreach (explode(',', $this->option('schema')) as $column) {
                 $columnDefinition = explode(':', $column);
-                if (!in_array($columnDefinition[1], $this->columnTypes)) {
+                if (!in_array(camel_case($columnDefinition[1]), $this->columnTypes)) {
                     throw new Exception($columnDefinition[1].' is not in the array of valid column types: '.implode(', ', $this->columnTypes), 1);
                 }
             }
