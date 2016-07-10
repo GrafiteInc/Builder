@@ -3,6 +3,7 @@
 namespace Yab\Laracogs\Console;
 
 use Artisan;
+use Exception;
 use Illuminate\Console\AppNamespaceDetectorTrait;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
@@ -17,7 +18,12 @@ class TableCrud extends Command
      *
      * @var string
      */
-    protected $signature = 'laracogs:table-crud {table} {--api} {--migration} {--bootstrap} {--semantic}';
+    protected $signature = 'laracogs:table-crud {table}
+        {--api : Creates an API Controller and Routes}
+        {--ui= : Select one of bootstrap|semantic for the UI}
+        {--serviceOnly : Does not generate a Controller or Routes}
+        {--withFacade : Creates a facade that can be bound in your app to access the CRUD service}
+    ';
 
     /**
      * The console command description.
@@ -37,12 +43,17 @@ class TableCrud extends Command
         $table = $this->argument('table');
         $tableDefintion = $this->tableDefintion($table);
 
+        if (empty($tableDefintion)) {
+            throw new Exception("There is no table definition for $table. Are you sure you spelled it correctly? Table names are case sensitive.", 1);
+        }
+
         Artisan::call('laracogs:crud', [
             'table'       => $table,
             '--api'       => $this->option('api'),
-            '--migration' => $this->option('migration'),
-            '--bootstrap' => $this->option('bootstrap'),
-            '--semantic'  => $this->option('semantic'),
+            '--ui'        => $this->option('ui'),
+            '--serviceOnly' => $this->option('serviceOnly'),
+            '--withFacade' => $this->option('withFacade'),
+            '--migration' => true,
             '--schema'    => $tableDefintion,
         ]);
 
@@ -83,11 +94,33 @@ class TableCrud extends Command
                 $column['type'] = 'increments';
             }
 
-            $columnStringArray[] = $key.':'.$column['type'];
+            $columnStringArray[] = $key.':'.$this->columnNameCheck($column['type']);
         }
 
         $columnString = implode(',', $columnStringArray);
 
         return $columnString;
+    }
+
+    /**
+     * Corrects a column type for Schema building.
+     *
+     * @param  string $column
+     * @return string
+     */
+    private function columnNameCheck($column)
+    {
+        $columnsToAdjust = [
+            'datetime' => 'dateTime',
+            'smallint' => 'smallInteger',
+            'bigint' => 'bigInteger',
+            'datetimetz' => 'timestamp',
+        ];
+
+        if (isset($columnsToAdjust[$column])) {
+            return $columnsToAdjust[$column];
+        }
+
+        return $column;
     }
 }
