@@ -51,7 +51,8 @@ class Bootstrap extends Command
             if ($result) {
                 $this->copyPreparedFiles(__DIR__.'/../Packages/Bootstrap/', base_path());
 
-                $this->info("\n\nMake sure you set the PagesController@dashboard to use the following view: 'dashboard.main'\n\n");
+                $this->line("\nMake sure you set the PagesController@dashboard to use the following view:\n");
+                $this->comment("'dashboard.main'\n");
                 $this->info("Run the following:\n");
                 $this->comment("npm install\n");
                 $this->comment("gulp\n");

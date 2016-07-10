@@ -51,20 +51,21 @@ class Semantic extends Command
             if ($result) {
                 $this->copyPreparedFiles(__DIR__.'/../Packages/Semantic/', base_path());
 
-                $this->info("\n\nYou will need to install semantic-ui:\n");
-                $this->comment("\nnpm install semantic-ui\n");
+                $this->info("\nYou will need to install semantic-ui:");
+                $this->comment("npm install semantic-ui");
 
-                $this->info("\n\nSet the directory to:\n");
-                $this->comment("\nsemantic\n");
+                $this->info("\nWhen prompted set the directory to:");
+                $this->comment("semantic");
 
-                $this->info("\n\nThen run:\n");
-                $this->comment("\ncd semantic && gulp build\n");
+                $this->info("\nThen run:");
+                $this->comment("cd semantic && gulp build");
 
-                $this->info("\n\nThen run:\n");
-                $this->comment("\ncd ../ && gulp\n");
+                $this->info("\nThen run:");
+                $this->comment("cd ../ && gulp");
 
-                $this->info("\n\nMake sure you set the PagesController@dashboard to use the following view: 'dashboard.main'\n\n");
-                $this->info('Finished setting up semantic-ui in your app');
+                $this->info("\nMake sure you set the PagesController@dashboard to use the following view:");
+                $this->comment("'dashboard.main'");
+                $this->info("\nFinished setting up semantic-ui in your app\n\n");
             } else {
                 $this->info('You cancelled the laracogs semantic');
             }
