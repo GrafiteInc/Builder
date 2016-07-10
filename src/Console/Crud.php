@@ -9,6 +9,8 @@ use Illuminate\Console\AppNamespaceDetectorTrait;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Yab\Laracogs\Generators\CrudGenerator;
+use Yab\Laracogs\Generators\DatabaseGenerator;
+use Yab\Laracogs\Services\CrudValidator;
 
 class Crud extends Command
 {
@@ -19,7 +21,7 @@ class Crud extends Command
      *
      * @var array
      */
-    protected $columnTypes = [
+    public $columnTypes = [
         'bigIncrements',
         'increments',
         'bigInteger',
@@ -79,12 +81,14 @@ class Crud extends Command
      */
     public function handle()
     {
+        $validator = new CrudValidator();
         $section = false;
         $splitTable = [];
 
         $table = ucfirst(str_singular($this->argument('table')));
 
-        $this->validateSchema();
+        $validator->validateSchema($this);
+        $validator->validateOptions($this);
 
         $config = [
             'bootstrap'                  => false,
@@ -123,20 +127,8 @@ class Crud extends Command
             '_ucCamel_casePlural_'       => ucfirst(str_plural(camel_case($table))),
         ];
 
-        $ui = $this->option('ui');
-
-        if (!is_null($ui)) {
-            if (in_array($ui, ['bootstrap', 'semantic'])) {
-                $config[$ui] = true;
-            } else {
-                throw new Exception('The UI you selected is not suppported. It must be: bootstrap or semantic.', 1);
-            }
-        }
-
-        if ((!is_null($this->option('schema')) && !$this->option('migration')) ||
-            (!is_null($this->option('relationships')) && !$this->option('migration'))
-        ) {
-            throw new Exception('In order to use Schema or Relationships you need to use Migrations', 1);
+        if ($this->option('ui')) {
+            $config[$this->option('ui')] = true;
         }
 
         $config['schema'] = $this->option('schema', null);
@@ -180,6 +172,7 @@ class Crud extends Command
     public function createCRUD($config, $section, $table, $splitTable)
     {
         $crudGenerator = new CrudGenerator();
+        $dbGenerator = new DatabaseGenerator();
 
         try {
             $this->line('Building repository...');
@@ -224,9 +217,11 @@ class Crud extends Command
         }
 
         if ($this->option('migration')) {
-            $this->createMigration($config, $section, $table, $splitTable);
+            $this->line('Building migration...');
+            $dbGenerator->createMigration($config, $section, $table, $splitTable);
             if ($this->option('schema')) {
-                $this->prepareSchema($config, $section, $table, $splitTable);
+                $this->line('Building schema...');
+                $dbGenerator->prepareSchema($config, $section, $table, $splitTable, $this->option('schema'));
             }
         } else {
             $this->info("\nYou will want to create a migration in order to get the $table tests to work correctly.\n");
@@ -299,97 +294,6 @@ class Crud extends Command
         }
 
         return $config;
-    }
-
-    /**
-     * Create the migrations.
-     *
-     * @param array  $config
-     * @param string $section
-     * @param string $table
-     * @param array  $splitTable
-     *
-     * @return void
-     */
-    public function createMigration($config, $section, $table, $splitTable)
-    {
-        $this->line('Building migration...');
-        try {
-            if ($section) {
-                $migrationName = 'create_'.str_plural(strtolower(implode('_', $splitTable))).'_table';
-                $tableName = str_plural(strtolower(implode('_', $splitTable)));
-            } else {
-                $migrationName = 'create_'.str_plural(strtolower($table)).'_table';
-                $tableName = str_plural(strtolower($table));
-            }
-
-            Artisan::call('make:migration', [
-                'name'     => $migrationName,
-                '--table'  => $tableName,
-                '--create' => true,
-            ]);
-        } catch (Exception $e) {
-            throw new Exception('Could not process the migration', 1);
-        }
-    }
-
-    /**
-     * Prepare the Schema.
-     *
-     * @param array  $config
-     * @param string $section
-     * @param string $table
-     * @param array  $splitTable
-     *
-     * @return void
-     */
-    public function prepareSchema($config, $section, $table, $splitTable)
-    {
-        $filesystem = new Filesystem();
-
-        $migrationFiles = $filesystem->allFiles(base_path('database/migrations'));
-
-        if ($section) {
-            $migrationName = 'create_'.str_plural(strtolower(implode('_', $splitTable))).'_table';
-        } else {
-            $migrationName = 'create_'.str_plural(strtolower($table)).'_table';
-        }
-
-        foreach ($migrationFiles as $file) {
-            if (stristr($file->getBasename(), $migrationName)) {
-                $migrationData = file_get_contents($file->getPathname());
-                $parsedTable = '';
-
-                foreach (explode(',', $this->option('schema')) as $key => $column) {
-                    $columnDefinition = explode(':', $column);
-                    if ($key === 0) {
-                        $parsedTable .= "\$table->$columnDefinition[1]('$columnDefinition[0]');\n";
-                    } else {
-                        $parsedTable .= "\t\t\t\$table->$columnDefinition[1]('$columnDefinition[0]');\n";
-                    }
-                }
-
-                $migrationData = str_replace("\$table->increments('id');", $parsedTable, $migrationData);
-                file_put_contents($file->getPathname(), $migrationData);
-            }
-        }
-    }
-
-    /**
-     * Validate the Schema.
-     *
-     * @return void
-     */
-    public function validateSchema()
-    {
-        if ($this->option('schema')) {
-            foreach (explode(',', $this->option('schema')) as $column) {
-                $columnDefinition = explode(':', $column);
-                if (!in_array(camel_case($columnDefinition[1]), $this->columnTypes)) {
-                    throw new Exception($columnDefinition[1].' is not in the array of valid column types: '.implode(', ', $this->columnTypes), 1);
-                }
-            }
-        }
     }
 
     /**
