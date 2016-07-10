@@ -23,7 +23,7 @@
                     <table class="table table-striped">
                         <thead>
                             <th>Name</th>
-                            <th width="200px">Action</th>
+                            <th class="text-right" width="200px">Action</th>
                         </thead>
                         <tbody>
                             @foreach($_lower_casePlural_ as $_lower_case_)
