@@ -2,8 +2,8 @@
 
 namespace Yab\Laracogs\Generators;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Console\AppNamespaceDetectorTrait;
+use Illuminate\Filesystem\Filesystem;
 
 trait FileMakerTrait
 {
@@ -11,7 +11,7 @@ trait FileMakerTrait
 
     public function copyPreparedFiles($directory, $destination)
     {
-        $fileSystem = new Filesystem;
+        $fileSystem = new Filesystem();
 
         $files = $fileSystem->allFiles($directory);
 
@@ -27,5 +27,4 @@ trait FileMakerTrait
 
         return $fileDeployed;
     }
-
 }

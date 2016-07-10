@@ -13,6 +13,7 @@ class CrudApiGeneratorTest extends PHPUnit_Framework_TestCase
         $this->config = [
             'bootstrap'                  => false,
             'semantic'                   => false,
+            'relationships'              => null,
             'schema'                     => null,
             '_path_facade_'              => vfsStream::url('Facades'),
             '_path_service_'             => vfsStream::url('Services'),

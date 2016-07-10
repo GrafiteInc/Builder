@@ -2,7 +2,10 @@
 
 **Laracogs** - A handful of tools for Laravel
 
-[![Codeship](https://img.shields.io/codeship/013b03f0-a7c6-0133-63e0-5a0bf9327500.svg)](https://github.com/YABhq/Laracogs)
+[![Codeship](https://img.shields.io/codeship/013b03f0-a7c6-0133-63e0-5a0bf9327500.svg)](https://packagist.org/packages/yab/laracogs)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/YABhq/Laracogs/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/YABhq/Laracogs/?branch=develop)
+[![Packagist](https://img.shields.io/packagist/dt/yab/laracogs.svg?maxAge=2592000)](https://packagist.org/packages/yab/laracogs)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://packagist.org/packages/yab/laracogs)
 
 This is a set of tools to help speed up development of Laravel apps. You can start an app with various parts prewritten (Users, User Meta, Roles, Teams). And it comes with a powerful FormMaker which can generate form content from tables, and objects. It can generate epic CRUD prototypes rapidly with full testing scripts prepared for you, requiring very little editing. It also provides an elegant Cryptography tool which is URL friendly. Finally it brings along some friends with the LaravelCollective as a vendor.
 
@@ -18,7 +21,7 @@ Please consult the documentation here: [http://laracogs.com/docs](http://laracog
 
 ## Requirements
 
-1. PHP 5.5.9+
+1. PHP 5.6+
 2. OpenSSL
 3. Laravel 5.1+
 
@@ -51,8 +54,8 @@ php artisan vendor:publish --provider="Yab\Laracogs\LaracogsProvider"
 ## CRUD
 The CRUD commands build a CRUD for a table with unit tests! Use the table-crud for tables that already exist.
 ```php
-php artisan laracogs:crud {table} {--migration} {--bootstrap} {--semantic} {--schema}
-php artisan laracogs:table-crud {table} {--migration} {--bootstrap} {--semantic}
+php artisan laracogs:crud {name or snake_names} {--api} {--ui=bootstrap|semantic} {--serviceOnly} {--withFacade} {--migration} {--schema=} {--relationships=}
+php artisan laracogs:table-crud {name or snake_names} {--api} {--ui=bootstrap|semantic} {--serviceOnly} {--withFacade}
 ```
 
 ## Docs
@@ -99,7 +102,7 @@ Add the following to your `app/Http/Kernel.php` $routeMiddleware array.
 'roles' => \App\Http\Middleware\Roles::class,
 ```
 
-With the roles middleware you can specify which roles are applicable separating them with pipes: `['middlware' => ['roles:admin|moderator|member']]`
+With the roles middleware you can specify which roles are applicable separating them with pipes: `['middleware' => ['roles:admin|moderator|member']]`
 
 Update the `App\User::class` in: 'config/auth.php' and 'database/factory/ModelFactory.php' to this:
 ```php
@@ -155,7 +158,6 @@ MAIL_DRIVER=log
 ```
 
 ##### Last Steps
-
 Once you've added in all these parts you will want to run the starter command!
 ```php
 php artisan laracogs:starter
@@ -163,16 +165,16 @@ php artisan laracogs:starter
 
 Then you'll need to migrate to add in the users, user meta, roles and teams tables. The seeding is run to set the initial roles for your application.
 ```php
+composer dump
 php artisan migrate --seed
 ```
 
 Once you get the starter kit running you can register and login to your app. You can then you can visit the settings section of the app and set your role to admin to take full control of the app.
-
 Now its time for more boilerplate generators!
 
-### Boostrap
+### Bootstrap
 ----
-Boostrap prepares your application with bootstrap as a view/ css framework.
+Bootstrap prepares your application with bootstrap as a view/ css framework.
 ```php
 php artisan laracogs:bootstrap
 ```
