@@ -3,15 +3,6 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
-## [v1.9.31] - 2016-07-10
-### Changed
-- Minor improvements to calling CRUD generators
-- Improved exception handling for commands
-- Template improvements
-### Fixed
-- Docs on CRUD
-- Minor schema builder fixes
-
 ## [v1.9.30] - 2016-07-07
 ### Changed
 - Various improvements
