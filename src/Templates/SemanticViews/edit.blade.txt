@@ -6,7 +6,7 @@
         <div class="row">
             <div class="ui four column grid">
                 <div class="column">
-                    <h1>_ucCamel_casePlural_: Create</h1>
+                    <h1>_ucCamel_casePlural_: Edit</h1>
                 </div>
                 <div class="column right floated">
                     <div class="ui two column grid">

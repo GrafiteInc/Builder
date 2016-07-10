@@ -57,7 +57,7 @@ class _camel_case_Controller extends Controller
         $result = $this->service->create($request->except('_token'));
 
         if ($result) {
-            return redirect('_sectionRoutePrefix__lower_casePlural_/'.$result->id.'/edit')->with('message', 'Successfully created');
+            return redirect(route('_sectionRoutePrefix__lower_casePlural_.edit', ['id' => $result->id]))->with('message', 'Successfully created');
         }
 
         return redirect('_sectionRoutePrefix__lower_casePlural_')->with('message', 'Failed to create');
