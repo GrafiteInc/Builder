@@ -238,7 +238,7 @@ class CrudGenerator
      *
      * @return bool
      */
-    public function createTests($config, $serviceOnly)
+    public function createTests($config, $serviceOnly = false)
     {
         $testTemplates = $this->filesystem->allFiles($config['template_source'].'/Tests');
 
@@ -431,7 +431,7 @@ class CrudGenerator
     public function tableSchema($config, $string)
     {
         if (!empty($config['schema'])) {
-            $string = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $string);
+            $string = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), camel_case($string));
         }
 
         return $string;
