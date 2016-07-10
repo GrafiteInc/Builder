@@ -54,8 +54,8 @@ php artisan vendor:publish --provider="Yab\Laracogs\LaracogsProvider"
 ## CRUD
 The CRUD commands build a CRUD for a table with unit tests! Use the table-crud for tables that already exist.
 ```php
-php artisan laracogs:crud {table} {--migration} {--bootstrap} {--semantic} {--schema}
-php artisan laracogs:table-crud {table} {--migration} {--bootstrap} {--semantic}
+php artisan laracogs:crud {name or snake_names} {--api} {--ui=bootstrap|semantic} {--serviceOnly} {--withFacade} {--migration} {--schema=} {--relationships=}
+php artisan laracogs:table-crud {name or snake_names} {--api} {--ui=bootstrap|semantic} {--serviceOnly} {--withFacade}
 ```
 
 ## Docs
@@ -158,7 +158,6 @@ MAIL_DRIVER=log
 ```
 
 ##### Last Steps
-
 Once you've added in all these parts you will want to run the starter command!
 ```php
 php artisan laracogs:starter
@@ -166,11 +165,11 @@ php artisan laracogs:starter
 
 Then you'll need to migrate to add in the users, user meta, roles and teams tables. The seeding is run to set the initial roles for your application.
 ```php
+composer dump
 php artisan migrate --seed
 ```
 
 Once you get the starter kit running you can register and login to your app. You can then you can visit the settings section of the app and set your role to admin to take full control of the app.
-
 Now its time for more boilerplate generators!
 
 ### Bootstrap
