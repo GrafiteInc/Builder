@@ -2,8 +2,8 @@
 
 namespace Yab\Laracogs\Generators;
 
-use Artisan;
 use Exception;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -45,7 +45,7 @@ class DatabaseGenerator
                 '--create' => true,
             ]);
         } catch (Exception $e) {
-            throw new Exception('Could not process the migration', 1);
+            throw new Exception('Could not create the migration', 1);
         }
     }
 

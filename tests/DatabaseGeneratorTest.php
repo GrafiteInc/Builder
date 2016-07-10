@@ -1,15 +1,19 @@
 <?php
 
 use org\bovigo\vfs\vfsStream;
-use Yab\Laracogs\Generators\CrudGenerator;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Container\Container as Container;
+use Illuminate\Support\Facades\Facade as Facade;
+use Yab\Laracogs\Generators\DatabaseGenerator;
 
-class CrudApiGeneratorTest extends PHPUnit_Framework_TestCase
+class DatabaseGeneratorTest extends AppTest
 {
     protected $encrypter;
 
-    public function setUp()
+   public function setUp()
     {
-        $this->generator = new CrudGenerator();
+        parent::setUp();
+        $this->generator = new DatabaseGenerator();
         $this->config = [
             'bootstrap'                  => false,
             'semantic'                   => false,
@@ -43,13 +47,38 @@ class CrudApiGeneratorTest extends PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testApiGenerator()
+    public function testCreateMigrationFail()
     {
-        $this->crud = vfsStream::setup("Http/Controllers/Api");
-        $this->generator->createApi($this->config, false);
-        $this->assertTrue($this->crud->hasChild('Http/Controllers/Api/TestTableController.php'));
-        $contents = $this->crud->getChild('Http/Controllers/Api/TestTableController.php');
-        $this->assertTrue(strpos($contents->getContent(), 'class TestTableController extends Controller') !== false);
+        $this->setExpectedException('Exception');
+        $this->generator->createMigration($this->config, 'alskfdjbajlksbdfl', 'TestTable', 'lkdblkabflabsd');
     }
 
+    public function testCreateMigrationSuccess()
+    {
+        $this->generator->createMigration($this->config, '', 'TestTable', []);
+
+        $this->assertEquals(count(glob(base_path('database/migrations').'/*')), 1);
+
+        foreach (glob(base_path('database/migrations').'/*') as $migration) {
+            unlink($migration);
+        }
+
+        $this->assertEquals(count(glob(base_path('database/migrations').'/*')), 0);
+    }
+
+    public function testPrepareSchema()
+    {
+        $this->generator->createMigration($this->config, '', 'TestTable', []);
+        $migrations = glob(base_path('database/migrations').'/*');
+        $this->assertEquals(count($migrations), 1);
+
+        $this->generator->prepareSchema($this->config, '', 'TestTable', [], 'id:increments,name:string');
+
+        $this->assertTrue(strpos(file_get_contents($migrations[0]), 'testtables') > 0);
+        $this->assertTrue(strpos(file_get_contents($migrations[0]), "table->increments('id')") > 0);
+
+        foreach (glob(base_path('database/migrations').'/*') as $migration) {
+            unlink($migration);
+        }
+    }
 }

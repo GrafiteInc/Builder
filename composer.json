@@ -17,10 +17,13 @@
         "illuminate/support": "5.*",
         "doctrine/dbal": "^2.5",
         "laravelcollective/html": "^5.2|^5.1",
+        "alfredo-ramos/parsedown-extra-laravel": "~0.3"
+    },
+    "require-dev": {
         "illuminate/container": "^5.2|^5.1",
-        "alfredo-ramos/parsedown-extra-laravel": "~0.3",
         "mockery/mockery": "^0.9.4",
-        "mikey179/vfsStream": "^1.6"
+        "mikey179/vfsStream": "^1.6",
+        "orchestra/testbench": "^3.2"
     },
     "autoload": {
         "psr-4": {
