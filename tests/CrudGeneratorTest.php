@@ -14,6 +14,11 @@ class CrudGeneratorTest extends PHPUnit_Framework_TestCase
         $this->config = [
             'bootstrap'                  => false,
             'semantic'                   => false,
+            'template_source'            => '',
+            '_sectionPrefix_'            => '',
+            '_sectionTablePrefix_'       => '',
+            '_sectionRoutePrefix_'       => '',
+            '_sectionNamespace_'         => '',
             'relationships'              => null,
             'schema'                     => null,
             '_path_facade_'              => vfsStream::url('Facades'),
