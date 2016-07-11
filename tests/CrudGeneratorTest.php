@@ -5,7 +5,8 @@ use Yab\Laracogs\Generators\CrudGenerator;
 
 class CrudGeneratorTest extends PHPUnit_Framework_TestCase
 {
-    protected $encrypter;
+    protected $generator;
+    protected $config;
 
     public function setUp()
     {
@@ -139,31 +140,4 @@ class CrudGeneratorTest extends PHPUnit_Framework_TestCase
         $contents = $this->crud->getChild('tests/integration/TestTableServiceIntegrationTest.php');
         $this->assertTrue(strpos($contents->getContent(), 'class TestTableServiceIntegrationTest') !== false);
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Other method tests
-    |--------------------------------------------------------------------------
-    */
-
-    public function testPrepareTableDefinition()
-    {
-        $table = "id:increments,name:string,details:text";
-        $result = $this->generator->prepareTableDefinition($table);
-
-        $this->assertTrue((bool) strstr($result, 'id'));
-        $this->assertTrue((bool) strstr($result, 'name'));
-        $this->assertTrue((bool) strstr($result, 'details'));
-    }
-
-    public function testPrepareTableExample()
-    {
-        $table = "id:increments,name:string,details:text,created_on:dateTime";
-        $result = $this->generator->prepareTableExample($table);
-
-        $this->assertTrue((bool) strstr($result, 'laravel'));
-        $this->assertTrue((bool) strstr($result, 'I am Batman'));
-        $this->assertTrue((bool) strstr($result, '1'));
-    }
-
 }

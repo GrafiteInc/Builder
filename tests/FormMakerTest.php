@@ -7,6 +7,9 @@ use Yab\Laracogs\Utilities\FormMaker;
 
 class FormMakerTest extends PHPUnit_Framework_TestCase
 {
+    protected $app;
+    protected $formMaker;
+
     public function setUp()
     {
         $this->app = new Container();
@@ -22,7 +25,6 @@ class FormMakerTest extends PHPUnit_Framework_TestCase
         $config->shouldReceive('get')
             ->with('laracogs.form-error-class', 'has-error')
             ->andReturn('has-error');
-
         $config->shouldReceive('get')
             ->with('form-maker', include(__DIR__.'/../src/Packages/Starter/config/form-maker.php'))
             ->andReturn(include(__DIR__.'/../src/Packages/Starter/config/form-maker.php'))

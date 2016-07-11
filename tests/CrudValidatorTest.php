@@ -3,27 +3,18 @@
 use org\bovigo\vfs\vfsStream;
 use Yab\Laracogs\Services\CrudValidator;
 
-class CrudValidatorTest extends PHPUnit_Framework_TestCase
+class CrudValidatorTest extends AppTest
 {
+    protected $command;
+    protected $validator;
+    protected $config;
+
     public function setUp()
     {
-        $this->mockCommand = Mockery::mock('Yab\Laracogs\Console\Crud')
-            ->shouldReceive('option')
-            ->with('ui')
-            ->andReturn('bootstrap')
-            ->shouldReceive('option')
-            ->with('relationships')
-            ->andReturn('hasOne|App\Parent|parent_id')
-            ->shouldReceive('option')
-            ->with('schema')
-            ->andReturn('id:increments,name:string,parent_id:integer')
-            ->shouldReceive('option')
-            ->with('migration')
-            ->andReturn(true)
-            ->getMock();
+        parent::setUp();
 
+        $this->command = Mockery::mock('Yab\Laracogs\Console\Crud');
         $this->validator = new CrudValidator();
-
         $this->config = [
             'bootstrap'                  => false,
             'semantic'                   => false,
@@ -57,128 +48,103 @@ class CrudValidatorTest extends PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testApiGenerator()
+    public function testInvalidSchemaValidateOptions()
     {
+        $this->command->shouldReceive('option')
+            ->with('ui')
+            ->andReturn('bootstrap')
+            ->shouldReceive('option')
+            ->with('schema')
+            ->andReturn('id:increments,name:string,parent_id:something')
+            ->shouldReceive('option')
+            ->with('migration')
+            ->andReturn(true)
+            ->getMock();
 
-        // $this->crud = vfsStream::setup("Http/Controllers/Api");
-        $this->validator->validateOptions($this->mockCommand);
-        // $this->assertTrue($this->crud->hasChild('Http/Controllers/Api/TestTableController.php'));
-        // $contents = $this->crud->getChild('Http/Controllers/Api/TestTableController.php');
-        // $this->assertTrue(strpos($contents->getContent(), 'class TestTableController extends Controller') !== false);
+        $this->setExpectedException('Exception');
+        $this->validator->validateSchema($this->command);
     }
 
-    // public function testControllerGenerator()
-    // {
-    //     $this->crud = vfsStream::setup("Http/Controllers");
-    //     $this->generator->createController($this->config);
-    //     $this->assertTrue($this->crud->hasChild('Http/Controllers/TestTableController.php'));
-    //     $contents = $this->crud->getChild('Http/Controllers/TestTableController.php');
-    //     $this->assertTrue(strpos($contents->getContent(), 'class TestTableController extends Controller') !== false);
-    // }
+    public function testValidateOptions()
+    {
+        $this->command->shouldReceive('option')
+            ->with('ui')
+            ->andReturn('bootstrap');
+        $this->command->shouldReceive('option')
+            ->with('schema')
+            ->andReturn('id:increments,name:string,parent_id:integer');
+        $this->command->shouldReceive('option')
+            ->with('migration')
+            ->andReturn(true);
 
-    // public function testRepositoryGenerator()
-    // {
-    //     $this->crud = vfsStream::setup("Repositories/TestTable");
-    //     $this->generator->createRepository($this->config);
-    //     $this->assertTrue($this->crud->hasChild('Repositories/TestTable/TestTableRepository.php'));
-    //     $contents = $this->crud->getChild('Repositories/TestTable/TestTableRepository.php');
-    //     $this->assertTrue(strpos($contents->getContent(), 'class TestTableRepository') !== false);
-    // }
+        $test = $this->validator->validateSchema($this->command);
+        $this->assertTrue($test);
+    }
 
-    // public function testRequestGenerator()
-    // {
-    //     $this->crud = vfsStream::setup("Http/Requests");
-    //     $this->generator->createRequest($this->config);
-    //     $this->assertTrue($this->crud->hasChild('Http/Requests/TestTableRequest.php'));
-    //     $contents = $this->crud->getChild('Http/Requests/TestTableRequest.php');
-    //     $this->assertTrue(strpos($contents->getContent(), 'class TestTableRequest') !== false);
-    // }
+    public function testInvalidUIValidateOptions()
+    {
+        $this->command->shouldReceive('option')
+            ->with('ui')
+            ->andReturn('purecss');
 
-    // public function testServiceGenerator()
-    // {
-    //     $this->crud = vfsStream::setup("Services");
-    //     $this->generator->createService($this->config);
-    //     $this->assertTrue($this->crud->hasChild('Services/TestTableService.php'));
-    //     $contents = $this->crud->getChild('Services/TestTableService.php');
-    //     $this->assertTrue(strpos($contents->getContent(), 'class TestTableService') !== false);
-    // }
+        $this->setExpectedException('Exception');
+        $this->validator->validateSchema($this->command);
+    }
 
-    // public function testRoutesGenerator()
-    // {
-    //     $this->crud = vfsStream::setup("Http");
-    //     file_put_contents(vfsStream::url('Http/routes.php'), 'test');
-    //     $this->generator->createRoutes($this->config, false);
-    //     $contents = $this->crud->getChild('Http/routes.php');
-    //     $this->assertTrue(strpos($contents->getContent(), 'TestTableController') !== false);
-    // }
+    public function testValidateSchema()
+    {
+        $this->command->shouldReceive('option')
+            ->with('ui')
+            ->andReturn('bootstrap');
+        $this->command->shouldReceive('option')
+            ->with('relationships')
+            ->andReturn('hasOne|App\Parent|parent_id');
+        $this->command->shouldReceive('option')
+            ->with('schema')
+            ->andReturn('id:increments,name:string,parent_id:integer');
+        $this->command->shouldReceive('option')
+            ->with('migration')
+            ->andReturn(true);
 
-    // public function testViewsGenerator()
-    // {
-    //     $this->crud = vfsStream::setup("resources/views");
-    //     $this->generator->createViews($this->config);
-    //     $this->assertTrue($this->crud->hasChild('resources/views/testtables/index.blade.php'));
-    //     $contents = $this->crud->getChild('resources/views/testtables/index.blade.php');
-    //     $this->assertTrue(strpos($contents->getContent(), '$testtable') !== false);
-    // }
+        $test = $this->validator->validateOptions($this->command);
+        $this->assertTrue($test);
+    }
 
-    // public function testTestGenerator()
-    // {
-    //     $this->crud = vfsStream::setup("tests");
-    //     $this->assertTrue($this->generator->createTests($this->config, false));
+    public function testInvalidSchemaValidateSchema()
+    {
+        $this->command->shouldReceive('option')
+            ->with('ui')
+            ->andReturn('bootstrap');
+        $this->command->shouldReceive('option')
+            ->with('relationships')
+            ->andReturn('hasOne|App\Parent|parent_id');
+        $this->command->shouldReceive('option')
+            ->with('schema')
+            ->andReturn(null);
+        $this->command->shouldReceive('option')
+            ->with('migration')
+            ->andReturn(false);
 
-    //     $this->assertTrue($this->crud->hasChild('tests/acceptance/TestTableAcceptanceTest.php'));
-    //     $contents = $this->crud->getChild('tests/acceptance/TestTableAcceptanceTest.php');
-    //     $this->assertTrue(strpos($contents->getContent(), 'class TestTableAcceptanceTest') !== false);
+        $this->setExpectedException('Exception');
+        $this->validator->validateOptions($this->command);
+    }
 
-    //     $this->assertTrue($this->crud->hasChild('tests/integration/TestTableRepositoryIntegrationTest.php'));
-    //     $contents = $this->crud->getChild('tests/integration/TestTableRepositoryIntegrationTest.php');
-    //     $this->assertTrue(strpos($contents->getContent(), 'class TestTableRepositoryIntegrationTest') !== false);
+    public function testInvalidMigrationValidateSchema()
+    {
+        $this->command->shouldReceive('option')
+            ->with('ui')
+            ->andReturn('bootstrap');
+        $this->command->shouldReceive('option')
+            ->with('schema')
+            ->andReturn('id:increments,name:string,parent_id:integer');
+        $this->command->shouldReceive('option')
+            ->with('relationships')
+            ->andReturn(null);
+        $this->command->shouldReceive('option')
+            ->with('migration')
+            ->andReturn(false);
 
-    //     $this->assertTrue($this->crud->hasChild('tests/integration/TestTableServiceIntegrationTest.php'));
-    //     $contents = $this->crud->getChild('tests/integration/TestTableServiceIntegrationTest.php');
-    //     $this->assertTrue(strpos($contents->getContent(), 'class TestTableServiceIntegrationTest') !== false);
-    // }
-
-    // public function testTestGeneratorServiceOnly()
-    // {
-    //     $this->crud = vfsStream::setup("tests");
-    //     $this->assertTrue($this->generator->createTests($this->config, true));
-
-    //     $this->assertFalse($this->crud->hasChild('tests/acceptance/TestTableAcceptanceTest.php'));
-
-    //     $this->assertTrue($this->crud->hasChild('tests/integration/TestTableRepositoryIntegrationTest.php'));
-    //     $contents = $this->crud->getChild('tests/integration/TestTableRepositoryIntegrationTest.php');
-    //     $this->assertTrue(strpos($contents->getContent(), 'class TestTableRepositoryIntegrationTest') !== false);
-
-    //     $this->assertTrue($this->crud->hasChild('tests/integration/TestTableServiceIntegrationTest.php'));
-    //     $contents = $this->crud->getChild('tests/integration/TestTableServiceIntegrationTest.php');
-    //     $this->assertTrue(strpos($contents->getContent(), 'class TestTableServiceIntegrationTest') !== false);
-    // }
-
-    // /*
-    // |--------------------------------------------------------------------------
-    // | Other method tests
-    // |--------------------------------------------------------------------------
-    // */
-
-    // public function testPrepareTableDefinition()
-    // {
-    //     $table = "id:increments,name:string,details:text";
-    //     $result = $this->generator->prepareTableDefinition($table);
-
-    //     $this->assertTrue((bool) strstr($result, 'id'));
-    //     $this->assertTrue((bool) strstr($result, 'name'));
-    //     $this->assertTrue((bool) strstr($result, 'details'));
-    // }
-
-    // public function testPrepareTableExample()
-    // {
-    //     $table = "id:increments,name:string,details:text,created_on:dateTime";
-    //     $result = $this->generator->prepareTableExample($table);
-
-    //     $this->assertTrue((bool) strstr($result, 'laravel'));
-    //     $this->assertTrue((bool) strstr($result, 'I am Batman'));
-    //     $this->assertTrue((bool) strstr($result, '1'));
-    // }
-
+        $this->setExpectedException('Exception');
+        $this->validator->validateOptions($this->command);
+    }
 }

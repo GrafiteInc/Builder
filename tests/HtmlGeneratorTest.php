@@ -7,8 +7,8 @@ use Yab\Laracogs\Generators\HtmlGenerator;
 
 class HtmlGeneratorTest extends PHPUnit_Framework_TestCase
 {
-    // use TestCase;
-    protected $inputMaker;
+    protected $app;
+    protected $html;
 
     public function setUp()
     {

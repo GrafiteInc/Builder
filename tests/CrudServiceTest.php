@@ -1,21 +1,16 @@
 <?php
 
 use org\bovigo\vfs\vfsStream;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Container\Container as Container;
-use Illuminate\Support\Facades\Facade as Facade;
-use Yab\Laracogs\Generators\DatabaseGenerator;
+use Yab\Laracogs\Services\CrudService;
 
-class DatabaseGeneratorTest extends AppTest
+class CrudServiceTest extends PHPUnit_Framework_TestCase
 {
-    protected $generator;
+    protected $service;
     protected $config;
 
-   public function setUp()
+    public function setUp()
     {
-        parent::setUp();
-
-        $this->generator = new DatabaseGenerator();
+        $this->service = new CrudService();
         $this->config = [
             'bootstrap'                  => false,
             'semantic'                   => false,
@@ -49,38 +44,24 @@ class DatabaseGeneratorTest extends AppTest
         ];
     }
 
-    public function testCreateMigrationFail()
+    public function testPrepareTableDefinition()
     {
-        $this->setExpectedException('Exception');
-        $this->generator->createMigration($this->config, 'alskfdjbajlksbdfl', 'TestTable', 'lkdblkabflabsd');
+        $table = "id:increments,name:string,details:text";
+        $result = $this->service->prepareTableDefinition($table);
+
+        $this->assertTrue((bool) strstr($result, 'id'));
+        $this->assertTrue((bool) strstr($result, 'name'));
+        $this->assertTrue((bool) strstr($result, 'details'));
     }
 
-    public function testCreateMigrationSuccess()
+    public function testPrepareTableExample()
     {
-        $this->generator->createMigration($this->config, '', 'TestTable', []);
+        $table = "id:increments,name:string,details:text,created_on:dateTime";
+        $result = $this->service->prepareTableExample($table);
 
-        $this->assertEquals(count(glob(base_path('database/migrations').'/*')), 1);
-
-        foreach (glob(base_path('database/migrations').'/*') as $migration) {
-            unlink($migration);
-        }
-
-        $this->assertEquals(count(glob(base_path('database/migrations').'/*')), 0);
+        $this->assertTrue((bool) strstr($result, 'laravel'));
+        $this->assertTrue((bool) strstr($result, 'I am Batman'));
+        $this->assertTrue((bool) strstr($result, '1'));
     }
 
-    public function testCreateSchema()
-    {
-        $this->generator->createMigration($this->config, '', 'TestTable', []);
-        $migrations = glob(base_path('database/migrations').'/*');
-        $this->assertEquals(count($migrations), 1);
-
-        $this->generator->createSchema($this->config, '', 'TestTable', [], 'id:increments,name:string');
-
-        $this->assertTrue(strpos(file_get_contents($migrations[0]), 'testtables') > 0);
-        $this->assertTrue(strpos(file_get_contents($migrations[0]), "table->increments('id')") > 0);
-
-        foreach (glob(base_path('database/migrations').'/*') as $migration) {
-            unlink($migration);
-        }
-    }
 }

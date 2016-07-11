@@ -7,7 +7,7 @@ use Yab\Laracogs\Utilities\InputMaker;
 
 class InputMakerTest extends PHPUnit_Framework_TestCase
 {
-    // use TestCase;
+    protected $app;
     protected $inputMaker;
 
     public function setUp()

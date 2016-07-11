@@ -3,13 +3,8 @@
 
 class AppTest extends Orchestra\Testbench\TestCase
 {
-    /**
-     * Define environment setup.
-     *
-     * @param \Illuminate\Foundation\Application $app
-     *
-     * @return void
-     */
+    protected $app;
+
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('database.default', 'testbench');
@@ -21,13 +16,6 @@ class AppTest extends Orchestra\Testbench\TestCase
         $app->make('Illuminate\Contracts\Http\Kernel');
     }
 
-    /**
-     * getPackageProviders.
-     *
-     * @param App $app
-     *
-     * @return array
-     */
     protected function getPackageProviders($app)
     {
         return [
@@ -46,9 +34,6 @@ class AppTest extends Orchestra\Testbench\TestCase
         ];
     }
 
-    /**
-     * Setup the test environment.
-     */
     public function setUp()
     {
         parent::setUp();
