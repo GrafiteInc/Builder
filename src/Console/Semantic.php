@@ -52,16 +52,16 @@ class Semantic extends Command
                 $this->copyPreparedFiles(__DIR__.'/../Packages/Semantic/', base_path());
 
                 $this->info("\nYou will need to install semantic-ui:");
-                $this->comment("npm install semantic-ui");
+                $this->comment('npm install semantic-ui');
 
                 $this->info("\nWhen prompted set the directory to:");
-                $this->comment("semantic");
+                $this->comment('semantic');
 
                 $this->info("\nThen run:");
-                $this->comment("cd semantic && gulp build");
+                $this->comment('cd semantic && gulp build');
 
                 $this->info("\nThen run:");
-                $this->comment("cd ../ && gulp");
+                $this->comment('cd ../ && gulp');
 
                 $this->info("\nMake sure you set the PagesController@dashboard to use the following view:");
                 $this->comment("'dashboard.main'");

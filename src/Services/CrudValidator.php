@@ -5,14 +5,15 @@ namespace Yab\Laracogs\Services;
 use Exception;
 
 /**
-* CRUD Validator.
-*/
+ * CRUD Validator.
+ */
 class CrudValidator
 {
     /**
      * Validate the Schema.
      *
-     * @param  \Yab\Laracogs\Console\Crud $command
+     * @param \Yab\Laracogs\Console\Crud $command
+     *
      * @return bool|Exception
      */
     public function validateSchema($command)
@@ -21,7 +22,7 @@ class CrudValidator
             foreach (explode(',', $command->option('schema')) as $column) {
                 $columnDefinition = explode(':', $column);
                 if (!isset($columnDefinition[1])) {
-                    throw new Exception("All schema columns require a column type.", 1);
+                    throw new Exception('All schema columns require a column type.', 1);
                 }
                 if (!in_array(camel_case($columnDefinition[1]), $command->columnTypes)) {
                     throw new Exception($columnDefinition[1].' is not in the array of valid column types: '.implode(', ', $command->columnTypes), 1);
@@ -33,14 +34,15 @@ class CrudValidator
     }
 
     /**
-     * Validate the options
+     * Validate the options.
      *
-     * @param  \Yab\Laracogs\Console\Crud $command
+     * @param \Yab\Laracogs\Console\Crud $command
+     *
      * @return bool|Exception
      */
     public function validateOptions($command)
     {
-        if ($command->option('ui') && ! in_array($command->option('ui'), ['bootstrap', 'semantic'])) {
+        if ($command->option('ui') && !in_array($command->option('ui'), ['bootstrap', 'semantic'])) {
             throw new Exception('The UI you selected is not suppported. It must be: bootstrap or semantic.', 1);
         }
 

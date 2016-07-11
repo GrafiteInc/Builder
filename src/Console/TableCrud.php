@@ -48,13 +48,13 @@ class TableCrud extends Command
         }
 
         Artisan::call('laracogs:crud', [
-            'table'       => $table,
-            '--api'       => $this->option('api'),
-            '--ui'        => $this->option('ui'),
+            'table'         => $table,
+            '--api'         => $this->option('api'),
+            '--ui'          => $this->option('ui'),
             '--serviceOnly' => $this->option('serviceOnly'),
-            '--withFacade' => $this->option('withFacade'),
-            '--migration' => true,
-            '--schema'    => $tableDefintion,
+            '--withFacade'  => $this->option('withFacade'),
+            '--migration'   => true,
+            '--schema'      => $tableDefintion,
         ]);
 
         $migrationName = 'create_'.$table.'_table';
@@ -105,15 +105,16 @@ class TableCrud extends Command
     /**
      * Corrects a column type for Schema building.
      *
-     * @param  string $column
+     * @param string $column
+     *
      * @return string
      */
     private function columnNameCheck($column)
     {
         $columnsToAdjust = [
-            'datetime' => 'dateTime',
-            'smallint' => 'smallInteger',
-            'bigint' => 'bigInteger',
+            'datetime'   => 'dateTime',
+            'smallint'   => 'smallInteger',
+            'bigint'     => 'bigInteger',
             'datetimetz' => 'timestamp',
         ];
 
