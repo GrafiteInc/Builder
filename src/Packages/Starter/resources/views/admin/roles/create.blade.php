@@ -21,6 +21,18 @@
         @input_maker_create('label', ['type' => 'string'])
     </div>
 
+    <div>
+        <h3>Permissions</h3>
+        @foreach(Config::get('permissions') as $permission => $name)
+            <div>
+                <label for="{{ $name }}">
+                    <input type="checkbox" name="permissions[{{ $permission }}]" id="{{ $name }}">
+                    {{ $name }}
+                </label>
+            </div>
+        @endforeach
+    </div>
+
     <div class="">
         <a href="{{ URL::previous() }}">Cancel</a>
         <button type="submit">Save</button>

@@ -58,6 +58,7 @@ class RoleService
     public function create($input)
     {
         try {
+            $input['permissions'] = implode(',', array_keys($input['permissions']));
             $role = $this->repo->create($input);
             return $role;
         } catch (Exception $e) {
@@ -74,6 +75,7 @@ class RoleService
      */
     public function update($id, $input)
     {
+        $input['permissions'] = implode(',', array_keys($input['permissions']));
         return $this->repo->update($id, $input);
     }
 

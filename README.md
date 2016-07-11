@@ -99,6 +99,7 @@ In order to make use of the <u>starter kit</u> you will need to modify some file
 Add the following to your `app/Http/Kernel.php` $routeMiddleware array.
 ```php
 'admin' => \App\Http\Middleware\Admin::class,
+'permission' => \App\Http\Middleware\Permission::class,
 'roles' => \App\Http\Middleware\Roles::class,
 ```
 

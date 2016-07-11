@@ -23,6 +23,18 @@
                 </div>
 
                 <div class="col-md-12 raw-margin-top-24">
+                    <h3>Permissions</h3>
+                    @foreach(Config::get('permissions') as $permission => $name)
+                        <div class="checkbox">
+                            <label for="{{ $name }}">
+                                <input type="checkbox" name="permissions[{{ $permission }}]" id="{{ $name }}">
+                                {{ $name }}
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="col-md-12 raw-margin-top-24">
                     <a class="btn btn-default pull-left" href="{{ URL::previous() }}">Cancel</a>
                     <button class="btn btn-primary pull-right" type="submit">Create</button>
                 </div>

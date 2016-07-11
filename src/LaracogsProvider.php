@@ -23,8 +23,9 @@ class LaracogsProvider extends ServiceProvider
         }
 
         $this->publishes([
-            __DIR__.'/Templates'                            => base_path('resources/laracogs/crud'),
-            __DIR__.'/Packages/Starter/config/laracogs.php' => base_path('config/laracogs.php'),
+            __DIR__.'/Templates'                               => base_path('resources/laracogs/crud'),
+            __DIR__.'/Packages/Starter/config/laracogs.php'    => base_path('config/laracogs.php'),
+            __DIR__.'/Packages/Starter/config/permissions.php' => base_path('config/permissions.php'),
         ]);
     }
 

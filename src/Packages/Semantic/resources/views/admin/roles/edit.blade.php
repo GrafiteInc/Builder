@@ -26,6 +26,22 @@
                     </div>
 
                     <div class="field raw-margin-top-24">
+                        <h3>Permissions</h3>
+                        @foreach(Config::get('permissions') as $permission => $name)
+                            <div>
+                                <label for="{{ $name }}">
+                                    @if (stristr($role->permissions, $permission))
+                                        <input type="checkbox" name="permissions[{{ $permission }}]" id="{{ $name }}" checked>
+                                    @else
+                                        <input type="checkbox" name="permissions[{{ $permission }}]" id="{{ $name }}">
+                                    @endif
+                                    {{ $name }}
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="field raw-margin-top-24">
                         <a class="ui button violet left" href="{{ URL::previous() }}">Cancel</a>
                         <button class="ui button primary right floated" type="submit">Save</button>
                     </div>
