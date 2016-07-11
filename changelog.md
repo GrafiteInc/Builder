@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.9.32] - 2016-07-11
+### Changed
+- Code quality improvements
+
 ## [v1.9.31] - 2016-07-10
 
 ### Changed
