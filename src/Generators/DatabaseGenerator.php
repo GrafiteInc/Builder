@@ -50,7 +50,7 @@ class DatabaseGenerator
     }
 
     /**
-     * Prepare the Schema.
+     * Create the Schema.
      *
      * @param array  $config
      * @param string $section
@@ -59,7 +59,7 @@ class DatabaseGenerator
      *
      * @return void
      */
-    public function prepareSchema($config, $section, $table, $splitTable, $schema)
+    public function createSchema($config, $section, $table, $splitTable, $schema)
     {
         $migrationFiles = $this->filesystem->allFiles(base_path('database/migrations'));
 

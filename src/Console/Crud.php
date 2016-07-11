@@ -221,7 +221,7 @@ class Crud extends Command
             $dbGenerator->createMigration($config, $section, $table, $splitTable);
             if ($this->option('schema')) {
                 $this->line('Building schema...');
-                $dbGenerator->prepareSchema($config, $section, $table, $splitTable, $this->option('schema'));
+                $dbGenerator->createSchema($config, $section, $table, $splitTable, $this->option('schema'));
             }
         } else {
             $this->info("\nYou will want to create a migration in order to get the $table tests to work correctly.\n");
