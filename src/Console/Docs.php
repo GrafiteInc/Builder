@@ -50,7 +50,7 @@ class Docs extends Command
         }
 
         if ($this->argument('action') === 'build') {
-            $this->buildDocs($name);
+            $this->buildDocs();
         }
 
         if ($this->argument('action') === 'sami') {

@@ -4,7 +4,7 @@ namespace Yab\Laracogs\Services;
 
 class CrudService
 {
-        /**
+    /**
      * Prepare a string of the table.
      *
      * @param string $table
