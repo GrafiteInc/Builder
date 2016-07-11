@@ -92,11 +92,9 @@ class Docs extends Command
     /**
      * Build the docs.
      *
-     * @param string $name
-     *
      * @return void
      */
-    public function buildDocs($name)
+    public function buildDocs()
     {
         if (!is_dir(base_path('documentation/build'))) {
             mkdir(base_path('documentation/build'), 0777, true);

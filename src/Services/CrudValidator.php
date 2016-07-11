@@ -12,7 +12,7 @@ class CrudValidator
     /**
      * Validate the Schema.
      *
-     * @param  Command $command
+     * @param  Yab\Laracogs\Console\Crud $command
      * @return bool|Exception
      */
     public function validateSchema($command)
@@ -35,7 +35,7 @@ class CrudValidator
     /**
      * Validate the options
      *
-     * @param  Command $command
+     * @param  Yab\Laracogs\Console\Crud $command
      * @return bool|Exception
      */
     public function validateOptions($command)

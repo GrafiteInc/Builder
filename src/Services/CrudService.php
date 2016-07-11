@@ -166,7 +166,7 @@ class CrudService
      * Filter the tests.
      *
      * @param array $templates
-     * @param bool  $serviceOnly
+     * @param string|array  $serviceOnly
      *
      * @return array
      */
@@ -175,7 +175,7 @@ class CrudService
         $filteredTemplates = [];
 
         foreach ($templates as $template) {
-            if ($serviceOnly) {
+            if (!empty($serviceOnly)) {
                 if ($this->isServiceTest($template)) {
                     $filteredTemplates[] = $template;
                 }

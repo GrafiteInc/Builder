@@ -11,6 +11,7 @@ use Yab\Laracogs\Services\CrudService;
 class CrudGenerator
 {
     protected $filesystem;
+    protected $service;
 
     public function __construct()
     {
@@ -236,11 +237,11 @@ class CrudGenerator
      * Create the tests.
      *
      * @param array $config
-     * @param bool  $serviceOnly
+     * @param string|array  $serviceOnly
      *
      * @return bool
      */
-    public function createTests($config, $serviceOnly = false)
+    public function createTests($config, $serviceOnly = '')
     {
         $testTemplates = $this->filesystem->allFiles($config['template_source'].'/Tests');
 

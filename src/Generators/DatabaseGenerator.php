@@ -21,17 +21,16 @@ class DatabaseGenerator
     /**
      * Create the migrations.
      *
-     * @param array  $config
      * @param string $section
      * @param string $table
      * @param array  $splitTable
      *
      * @return void
      */
-    public function createMigration($config, $section, $table, $splitTable)
+    public function createMigration($section, $table, $splitTable)
     {
         try {
-            if ($section) {
+            if (!empty($section)) {
                 $migrationName = 'create_'.str_plural(strtolower(implode('_', $splitTable))).'_table';
                 $tableName = str_plural(strtolower(implode('_', $splitTable)));
             } else {
@@ -52,18 +51,17 @@ class DatabaseGenerator
     /**
      * Create the Schema.
      *
-     * @param array  $config
      * @param string $section
      * @param string $table
      * @param array  $splitTable
      *
      * @return void
      */
-    public function createSchema($config, $section, $table, $splitTable, $schema)
+    public function createSchema($section, $table, $splitTable, $schema)
     {
         $migrationFiles = $this->filesystem->allFiles(base_path('database/migrations'));
 
-        if ($section) {
+        if (!empty($section)) {
             $migrationName = 'create_'.str_plural(strtolower(implode('_', $splitTable))).'_table';
         } else {
             $migrationName = 'create_'.str_plural(strtolower($table)).'_table';

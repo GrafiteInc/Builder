@@ -249,7 +249,7 @@ class FormMaker
 
         if (is_null($view)) {
             $formBuild = '<div class="'.$formGroupClass.' '.$errorHighlight.'">';
-            $formBuild .= $this->formContentBuild($errors, $field, $column, $input, $errorMessage);
+            $formBuild .= $this->formContentBuild($field, $column, $input, $errorMessage);
             $formBuild .= '</div>';
         } else {
             $formBuild = View::make($view, [
@@ -267,7 +267,6 @@ class FormMaker
     /**
      * Form Content Builder.
      *
-     * @param array|object $errors
      * @param array        $field        Array of field values
      * @param string       $column       Column name
      * @param string       $input        Input string
@@ -275,7 +274,7 @@ class FormMaker
      *
      * @return string
      */
-    public function formContentBuild($errors, $field, $column, $input, $errorMessage)
+    public function formContentBuild($field, $column, $input, $errorMessage)
     {
         $formLabelClass = Config::get('laracogs.form-label-class', 'control-label');
 

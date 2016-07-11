@@ -40,7 +40,7 @@ class TableCrud extends Command
     public function handle()
     {
         $filesystem = new Filesystem();
-        $table = $this->argument('table');
+        $table = (string) $this->argument('table');
         $tableDefintion = $this->tableDefintion($table);
 
         if (empty($tableDefintion)) {

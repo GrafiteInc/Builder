@@ -82,7 +82,7 @@ class Crud extends Command
     public function handle()
     {
         $validator = new CrudValidator();
-        $section = false;
+        $section = '';
         $splitTable = [];
 
         $table = ucfirst(str_singular($this->argument('table')));
@@ -131,8 +131,8 @@ class Crud extends Command
             $config[$this->option('ui')] = true;
         }
 
-        $config['schema'] = $this->option('schema', null);
-        $config['relationships'] = $this->option('relationships', null);
+        $config['schema'] = $this->option('schema');
+        $config['relationships'] = $this->option('relationships');
 
         $templateDirectory = __DIR__.'/../Templates';
 
@@ -218,10 +218,10 @@ class Crud extends Command
 
         if ($this->option('migration')) {
             $this->line('Building migration...');
-            $dbGenerator->createMigration($config, $section, $table, $splitTable);
+            $dbGenerator->createMigration($section, $table, $splitTable);
             if ($this->option('schema')) {
                 $this->line('Building schema...');
-                $dbGenerator->createSchema($config, $section, $table, $splitTable, $this->option('schema'));
+                $dbGenerator->createSchema($section, $table, $splitTable, $this->option('schema'));
             }
         } else {
             $this->info("\nYou will want to create a migration in order to get the $table tests to work correctly.\n");
@@ -307,7 +307,7 @@ class Crud extends Command
      */
     public function setConfig($config, $section, $table)
     {
-        if (!is_null($section)) {
+        if (!empty($section)) {
             foreach ($config as $key => $value) {
                 $config[$key] = str_replace('_table_', ucfirst($table), str_replace('_section_', ucfirst($section), str_replace('_sectionLowerCase_', strtolower($section), $value)));
             }
