@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.9.33] - 2016-07-11
+
+### Added
+- Starter kit now comes with permissions for roles
+
 ## [v1.9.32] - 2016-07-11
 ### Changed
 - Code quality improvements
