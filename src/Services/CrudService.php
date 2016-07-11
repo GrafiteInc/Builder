@@ -165,8 +165,8 @@ class CrudService
     /**
      * Filter the tests.
      *
-     * @param array $templates
-     * @param string|array  $serviceOnly
+     * @param array        $templates
+     * @param string|array $serviceOnly
      *
      * @return array
      */

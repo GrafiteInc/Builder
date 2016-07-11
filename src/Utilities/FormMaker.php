@@ -267,10 +267,10 @@ class FormMaker
     /**
      * Form Content Builder.
      *
-     * @param array        $field        Array of field values
-     * @param string       $column       Column name
-     * @param string       $input        Input string
-     * @param string       $errorMessage
+     * @param array  $field        Array of field values
+     * @param string $column       Column name
+     * @param string $input        Input string
+     * @param string $errorMessage
      *
      * @return string
      */

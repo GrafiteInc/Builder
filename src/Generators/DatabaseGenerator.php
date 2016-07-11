@@ -3,8 +3,8 @@
 namespace Yab\Laracogs\Generators;
 
 use Exception;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Artisan;
 
 /**
  * Generate the CRUD database components.

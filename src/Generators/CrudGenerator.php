@@ -236,8 +236,8 @@ class CrudGenerator
     /**
      * Create the tests.
      *
-     * @param array $config
-     * @param string|array  $serviceOnly
+     * @param array        $config
+     * @param string|array $serviceOnly
      *
      * @return bool
      */

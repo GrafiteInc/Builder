@@ -86,7 +86,7 @@ class Starter extends Command
         $factoryPrepared = str_replace('{{App\}}', $this->getAppNamespace(), $factory);
         $factoryMaster = base_path('database/factories/ModelFactory.php');
         file_put_contents($factoryMaster, str_replace($factoryPrepared, '', file_get_contents($factoryMaster)));
-        
+
         return file_put_contents($factoryMaster, $factoryPrepared, FILE_APPEND);
     }
 }

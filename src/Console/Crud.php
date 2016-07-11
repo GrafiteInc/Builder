@@ -2,12 +2,10 @@
 
 namespace Yab\Laracogs\Console;
 
-use Artisan;
 use Config;
 use Exception;
 use Illuminate\Console\AppNamespaceDetectorTrait;
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
 use Yab\Laracogs\Generators\CrudGenerator;
 use Yab\Laracogs\Generators\DatabaseGenerator;
 use Yab\Laracogs\Services\CrudValidator;
