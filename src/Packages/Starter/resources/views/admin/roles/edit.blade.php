@@ -24,7 +24,7 @@
 
     <div>
         <h3>Permissions</h3>
-        @foreach(Config::get('permissions') as $permission => $name)
+        @foreach(Config::get('permissions', []) as $permission => $name)
             <div>
                 <label for="{{ $name }}">
                     @if (stristr($role->permissions, $permission))

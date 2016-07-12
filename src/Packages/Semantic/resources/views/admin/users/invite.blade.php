@@ -3,14 +3,14 @@
 @section('content')
 
 <div class="ui fluid container">
-    <div class="ui three column centered grid">
+    <div class="ui three column grid">
         <div class="row">
-            <div class="column">
+            <div class="column centered">
                 <h1>User Admin: Invite</h1>
             </div>
         </div>
         <div class="row">
-            <div class="column">
+            <div class="column centered">
                 <form class="ui form" method="POST" action="/admin/users/invite">
                     {!! csrf_field() !!}
 

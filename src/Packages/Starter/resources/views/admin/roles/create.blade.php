@@ -23,7 +23,7 @@
 
     <div>
         <h3>Permissions</h3>
-        @foreach(Config::get('permissions') as $permission => $name)
+        @foreach(Config::get('permissions', []) as $permission => $name)
             <div>
                 <label for="{{ $name }}">
                     <input type="checkbox" name="permissions[{{ $permission }}]" id="{{ $name }}">

@@ -3,8 +3,8 @@
 @section('content')
 
 <div class="ui fluid container">
-    <div class="ui three column centered grid">
-        <div class="column">
+    <div class="ui three column grid">
+        <div class="column centered">
             <h1>Team Creator</h1>
 
             {!! Form::open(['route' => 'teams.store', 'class' => 'ui form']) !!}

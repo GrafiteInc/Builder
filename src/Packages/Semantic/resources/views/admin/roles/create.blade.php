@@ -3,14 +3,14 @@
 @section('content')
 
 <div class="ui fluid container">
-    <div class="ui three column centered grid">
+    <div class="ui three column grid">
         <div class="row">
-            <div class="column">
+            <div class="column centered">
                 <h1>Role Admin: Create</h1>
             </div>
         </div>
         <div class="row">
-            <div class="column">
+            <div class="column centered">
                 <form class="ui form" method="POST" action="/admin/roles">
                     {!! csrf_field() !!}
 
@@ -26,12 +26,12 @@
 
                     <div class="field raw-margin-top-24">
                         <h3>Permissions</h3>
-                        @foreach(Config::get('permissions') as $permission => $name)
-                            <div>
-                                <label for="{{ $name }}">
+                        @foreach(Config::get('permissions', []) as $permission => $name)
+                            <div class="field">
+                                <div class="ui checkbox">
                                     <input type="checkbox" name="permissions[{{ $permission }}]" id="{{ $name }}">
-                                    {{ $name }}
-                                </label>
+                                    <label for="{{ $name }}">{{ $name }}</label>
+                                </div>
                             </div>
                         @endforeach
                     </div>

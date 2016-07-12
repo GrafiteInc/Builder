@@ -40,6 +40,9 @@
         </div>
 
         <div class="footer">
+            @if (Session::get('original_user'))
+                <a class="mini ui button violet right floated" href="/users/switch-back">Return to your Login</a>
+            @endif
             <p>&copy; {!! date('Y'); !!} <a href="">You</a></p>
         </div>
 

@@ -3,10 +3,10 @@
 @section('app-content')
 
 <div class="ui fluid container">
-    <div class="ui three column centered grid">
-        <div class="column">
+    <div class="ui three column grid">
+        <div class="column centered">
 
-            <h1 class="text-center">Forgot Password</h1>
+            <h1>Forgot Password</h1>
 
             <form class="ui form" method="POST" action="/password/email">
                 {!! csrf_field() !!}

@@ -3,10 +3,10 @@
 @section('content')
 
 <div class="ui fluid container">
-    <div class="ui centered grid">
+    <div class="ui grid">
         <div class="column">
 
-            <h1>Settings</h1>
+            <h1 class="centered">Settings</h1>
 
             <form class="ui form" method="POST" action="/user/settings">
                 {!! csrf_field() !!}

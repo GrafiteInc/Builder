@@ -3,9 +3,9 @@
 @section('app-content')
 
 <div class="ui fluid container">
-    <div class="ui three column centered grid">
-        <div class="column">
-            <h1 class="text-center">Login</h1>
+    <div class="ui three column grid">
+        <div class="column centered">
+            <h1>Login</h1>
             <form class="ui form" method="POST" action="/login">
                 {!! csrf_field() !!}
 

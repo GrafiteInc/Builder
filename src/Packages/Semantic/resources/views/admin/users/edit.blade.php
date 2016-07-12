@@ -5,6 +5,9 @@
 <div class="ui fluid container">
     <div class="row">
         <div class="column">
+            @if (! Session::get('original_user'))
+                <a class="ui button secondary right floated" href="/admin/users/switch/{{ $user->id }}">Login as this User</a>
+            @endif
             <h1>User Admin: Edit</h1>
         </div>
     </div>
