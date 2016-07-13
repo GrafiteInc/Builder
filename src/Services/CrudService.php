@@ -178,14 +178,26 @@ class CrudService
         $filteredTemplates = [];
 
         foreach ($templates as $template) {
+            // If not service only
             if (!empty($serviceOnly)) {
                 if ($this->isServiceTest($template)) {
                     $filteredTemplates[] = $template;
                 }
-            } elseif (($apiOnly || $withApi) && stristr($template->getBasename(), 'Api')) {
-                $filteredTemplates[] = $template;
+            }
+
+            // if its an api
+            if (stristr($template->getBasename(), 'Api')) {
+                if ($apiOnly || $withApi) {
+                    $filteredTemplates[] = $template;
+                }
             } else {
-                $filteredTemplates[] = $template;
+                if (stristr($template->getBasename(), 'AcceptanceTest')) {
+                    if (!$apiOnly) {
+                        $filteredTemplates[] = $template;
+                    }
+                } else {
+                    $filteredTemplates[] = $template;
+                }
             }
         }
 

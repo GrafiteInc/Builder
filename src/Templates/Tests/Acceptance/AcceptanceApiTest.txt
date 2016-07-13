@@ -28,31 +28,18 @@ class _camel_case_AcceptanceApiTest extends TestCase
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    public function testCreate()
-    {
-        $response = $this->actor->call('GET', 'api/v1/_sectionRoutePrefix__lower_casePlural_/create');
-        $this->assertEquals(200, $response->getStatusCode());
-    }
-
     public function testStore()
     {
         $response = $this->actor->call('POST', 'api/v1/_sectionRoutePrefix__lower_casePlural_', $this->_lower_case_->toArray());
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertViewHas('created_at');
-    }
-
-    public function testEdit()
-    {
-        $this->actor->call('POST', 'api/v1/_sectionRoutePrefix__lower_casePlural_', $this->_lower_case_->toArray());
-        $response = $this->actor->call('GET', '/api/v1/_sectionRoutePrefix__lower_casePlural_/'.$this->_lower_case_->id.'/edit');
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->seeJson(['id' => 1]);
     }
 
     public function testUpdate()
     {
         $this->actor->call('POST', 'api/v1/_sectionRoutePrefix__lower_casePlural_', $this->_lower_case_->toArray());
         $response = $this->actor->call('PATCH', 'api/v1/_sectionRoutePrefix__lower_casePlural_/1', $this->_lower_case_Edited->toArray());
-        $this->assertEquals(302, $response->getStatusCode());
+        $this->assertEquals(200, $response->getStatusCode());
         $this->seeInDatabase('_table_name_', $this->_lower_case_Edited->toArray());
     }
 
@@ -61,7 +48,7 @@ class _camel_case_AcceptanceApiTest extends TestCase
         $this->actor->call('POST', 'api/v1/_sectionRoutePrefix__lower_casePlural_', $this->_lower_case_->toArray());
         $response = $this->call('DELETE', 'api/v1/_sectionRoutePrefix__lower_casePlural_/'.$this->_lower_case_->id);
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertViewHas('success');
+        $this->seeJson(['success' => '_lower_case_ was deleted']);
     }
 
 }
