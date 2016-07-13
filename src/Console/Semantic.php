@@ -54,7 +54,9 @@ class Semantic extends Command
                 $this->info("\nYou will need to install semantic-ui:");
                 $this->comment('npm install semantic-ui');
 
-                $this->info("\nWhen prompted set the directory to:");
+                $this->info("\nWhen prompted, select automatic detection.");
+                $this->info("\nWhen prompted, select your project location, default should be fine.");
+                $this->info("\nWhen prompted, set the directory to:");
                 $this->comment('semantic');
 
                 $this->info("\nThen run:");
