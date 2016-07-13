@@ -90,8 +90,9 @@ class CrudService
     public function getTableSchema($config, $string)
     {
         if (!empty($config['schema'])) {
-            $string = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), camel_case($string));
+            $string = str_replace('// _camel_case_ table data', $this->prepareTableExample($config['schema']), $string);
         }
+
 
         return $string;
     }
