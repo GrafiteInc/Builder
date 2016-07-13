@@ -20,12 +20,14 @@ class RoleServiceTest extends TestCase
         $this->originalArray = [
             'id' => 1,
             'name' => 'coders',
-            'label' => 'Coders'
+            'label' => 'Coders',
+            'permissions' => ''
         ];
         $this->editedArray = [
             'id' => 1,
             'name' => 'hackers',
-            'label' => 'Hackers'
+            'label' => 'Hackers',
+            'permissions' => ''
         ];
         $this->searchTerm = 'who';
     }
