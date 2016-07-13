@@ -58,6 +58,7 @@ class Crud extends Command
      */
     protected $signature = 'laracogs:crud {table}
         {--api : Creates an API Controller and Routes}
+        {--apiOnly : Creates only the API Controller and Routes}
         {--ui= : Select one of bootstrap|semantic for the UI}
         {--serviceOnly : Does not generate a Controller or Routes}
         {--withFacade : Creates a facade that can be bound in your app to access the CRUD service}
@@ -182,7 +183,7 @@ class Crud extends Command
             $this->line('Building service...');
             $crudGenerator->createService($config);
 
-            if (!$this->option('serviceOnly')) {
+            if (!$this->option('serviceOnly') && !$this->option('apiOnly')) {
                 $this->line('Building controller...');
                 $crudGenerator->createController($config);
 
@@ -204,7 +205,7 @@ class Crud extends Command
             $this->line('Adding to factory...');
             $crudGenerator->createFactory($config);
 
-            if ($this->option('api')) {
+            if ($this->option('api') || $this->option('apiOnly')) {
                 $this->line('Building API...');
                 $this->comment("\nAdd the following to your app/Providers/RouteServiceProvider.php: \n");
                 $this->info("require app_path('Http/api-routes.php'); \n");
