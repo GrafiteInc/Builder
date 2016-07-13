@@ -200,7 +200,12 @@ class Crud extends Command
             }
 
             $this->line('Building tests...');
-            $crudGenerator->createTests($config, $this->option('serviceOnly'));
+            $crudGenerator->createTests(
+                $config,
+                $this->option('serviceOnly'),
+                $this->option('apiOnly'),
+                $this->option('api')
+            );
 
             $this->line('Adding to factory...');
             $crudGenerator->createFactory($config);

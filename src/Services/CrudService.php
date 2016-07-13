@@ -168,10 +168,12 @@ class CrudService
      *
      * @param array        $templates
      * @param string|array $serviceOnly
+     * @param string|array $apiOnly
+     * @param string|array $withApi
      *
      * @return array
      */
-    public function filterTestTemplates($templates, $serviceOnly)
+    public function filterTestTemplates($templates, $serviceOnly, $apiOnly, $withApi)
     {
         $filteredTemplates = [];
 
@@ -180,6 +182,8 @@ class CrudService
                 if ($this->isServiceTest($template)) {
                     $filteredTemplates[] = $template;
                 }
+            } elseif (($apiOnly || $withApi) && stristr($template->getBasename(), 'Api')) {
+                $filteredTemplates[] = $template;
             } else {
                 $filteredTemplates[] = $template;
             }

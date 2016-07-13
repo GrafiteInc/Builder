@@ -238,14 +238,16 @@ class CrudGenerator
      *
      * @param array        $config
      * @param string|array $serviceOnly
+     * @param string|array $apiOnly
+     * @param string|array $withApi
      *
      * @return bool
      */
-    public function createTests($config, $serviceOnly = '')
+    public function createTests($config, $serviceOnly = '', $apiOnly = false, $withApi = false)
     {
         $testTemplates = $this->filesystem->allFiles($config['template_source'].'/Tests');
 
-        $filteredTestTemplates = $this->service->filterTestTemplates($testTemplates, $serviceOnly);
+        $filteredTestTemplates = $this->service->filterTestTemplates($testTemplates, $serviceOnly, $apiOnly, $withApi);
 
         foreach ($filteredTestTemplates as $testTemplate) {
             $test = file_get_contents($testTemplate->getRealPath());
