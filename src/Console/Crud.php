@@ -195,7 +195,7 @@ class Crud extends Command
             $this->generateDB($dbGenerator, $config, $bar, $section, $table, $splitTable);
             $bar->finish();
 
-            $this->crudReport();
+            $this->crudReport($table);
         } catch (Exception $e) {
             throw new Exception('Unable to generate your CRUD: '.$e->getMessage(), 1);
         }
@@ -280,9 +280,10 @@ class Crud extends Command
     /**
      * Generate a CRUD report
      *
+     * @param  string $table
      * @return void
      */
-    public function crudReport()
+    public function crudReport($table)
     {
         $this->line("\n");
         $this->line('Built repository...');
@@ -300,7 +301,7 @@ class Crud extends Command
         }
 
         $this->line('Built tests...');
-        $this->line('Adding to database/factories/ModelFactory...');
+        $this->line('Added '.$table.' to database/factories/ModelFactory...');
 
         if ($this->option('api') || $this->option('apiOnly')) {
             $this->line('Built api...');
