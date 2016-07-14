@@ -377,7 +377,8 @@ class Crud extends Command
     /**
      * Generate a CRUD report.
      *
-     * @param  string $table
+     * @param string $table
+     *
      * @return void
      */
     private function crudReport($table)
