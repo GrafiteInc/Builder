@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="pull-right">
-                    {!! Form::open(['url' => '_sectionPrefix__lower_casePlural_/search']) !!}
+                    {!! Form::open(['route' => '_sectionPrefix__lower_casePlural_.search']) !!}
                     <input class="form-control form-inline pull-right" name="search" placeholder="Search">
                     {!! Form::close() !!}
                 </div>
