@@ -51,6 +51,7 @@ class UserRepository
     public function search($input, $paginate)
     {
         $query = $this->model->orderBy('created_at', 'desc');
+        $query->where('id', 'LIKE', '%'.$input.'%');
 
         $columns = Schema::getColumnListing('users');
 

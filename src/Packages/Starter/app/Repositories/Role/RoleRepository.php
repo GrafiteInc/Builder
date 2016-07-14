@@ -41,6 +41,7 @@ class RoleRepository
     public function search($input, $paginate)
     {
         $query = $this->model->orderBy('name', 'desc');
+        $query->where('id', 'LIKE', '%'.$input.'%');
 
         $columns = Schema::getColumnListing('roles');
 

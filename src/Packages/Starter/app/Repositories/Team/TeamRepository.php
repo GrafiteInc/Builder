@@ -42,6 +42,7 @@ class TeamRepository
     public function search($input, $id, $paginate)
     {
         $query = $this->model->orderBy('created_at', 'desc');
+        $query->where('id', 'LIKE', '%'.$input.'%');
 
         $columns = Schema::getColumnListing('teams');
 

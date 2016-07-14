@@ -62,6 +62,7 @@ class NotificationRepository
     public function search($input, $paginate, $id = null)
     {
         $query = $this->model->orderBy('created_at', 'desc');
+        $query->where('id', 'LIKE', '%'.$input.'%');
 
         $columns = Schema::getColumnListing('notifications');
 
