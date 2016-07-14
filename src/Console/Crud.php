@@ -297,9 +297,10 @@ class Crud extends Command
     /**
      * Generate core elements.
      *
-     * @param  \Yab\Laracogs\Generators\CrudGenerator $crudGenerator
-     * @param  array $config
-     * @param  \Symfony\Component\Console\Helper\ProgressBar $bar
+     * @param \Yab\Laracogs\Generators\CrudGenerator        $crudGenerator
+     * @param array                                         $config
+     * @param \Symfony\Component\Console\Helper\ProgressBar $bar
+     *
      * @return void
      */
     private function generateCore($crudGenerator, $config, $bar)
@@ -313,9 +314,10 @@ class Crud extends Command
     /**
      * Generate app based elements.
      *
-     * @param  \Yab\Laracogs\Generators\CrudGenerator $crudGenerator
-     * @param  array $config
-     * @param  \Symfony\Component\Console\Helper\ProgressBar $bar
+     * @param \Yab\Laracogs\Generators\CrudGenerator        $crudGenerator
+     * @param array                                         $config
+     * @param \Symfony\Component\Console\Helper\ProgressBar $bar
+     *
      * @return void
      */
     private function generateAppBased($crudGenerator, $config, $bar)
@@ -335,11 +337,13 @@ class Crud extends Command
     /**
      * Generate db elements.
      *
-     * @param  \Yab\Laracogs\Generators\DatabaseGenerator $dbGenerator
-     * @param  \Symfony\Component\Console\Helper\ProgressBar $bar
-     * @param  string $section
-     * @param  string $table
-     * @param  array $splitTable
+     * @param \Yab\Laracogs\Generators\DatabaseGenerator    $dbGenerator
+     * @param array                                         $config
+     * @param \Symfony\Component\Console\Helper\ProgressBar $bar
+     * @param string                                        $section
+     * @param string                                        $table
+     * @param string                                        $splitTable
+     *
      * @return void
      */
     private function generateDB($dbGenerator, $bar, $section, $table, $splitTable)
@@ -356,9 +360,10 @@ class Crud extends Command
     /**
      * Generate api elements.
      *
-     * @param  \Yab\Laracogs\Generators\CrudGenerator $crudGenerator
-     * @param  array $config
-     * @param  \Symfony\Component\Console\Helper\ProgressBar $bar
+     * @param \Yab\Laracogs\Generators\CrudGenerator        $crudGenerator
+     * @param array                                         $config
+     * @param \Symfony\Component\Console\Helper\ProgressBar $bar
+     *
      * @return void
      */
     private function generateAPI($crudGenerator, $config, $bar)
@@ -370,7 +375,7 @@ class Crud extends Command
     }
 
     /**
-     * Generate a CRUD report
+     * Generate a CRUD report.
      *
      * @param  string $table
      * @return void
