@@ -327,7 +327,7 @@ class Crud extends Command
         if (!$this->option('serviceOnly') && !$this->option('apiOnly')) {
             $crudGenerator->createController($config);
             $crudGenerator->createViews($config);
-            $crudGenerator->createRoutes($config, false);
+            $crudGenerator->createRoutes($config);
 
             if ($this->option('withFacade')) {
                 $crudGenerator->createFacade($config);

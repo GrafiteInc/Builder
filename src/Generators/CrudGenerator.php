@@ -160,13 +160,9 @@ class CrudGenerator
      *
      * @return bool
      */
-    public function createRoutes($config, $appendRoutes = true)
+    public function createRoutes($config)
     {
-        if ($appendRoutes) {
-            $routesMaster = app_path('Http/routes.php');
-        } else {
-            $routesMaster = $config['_path_routes_'];
-        }
+        $routesMaster = $config['_path_routes_'];
 
         if (!empty($config['routes_prefix'])) {
             file_put_contents($routesMaster, $config['routes_prefix'], FILE_APPEND);
@@ -316,13 +312,9 @@ class CrudGenerator
      *
      * @return bool
      */
-    public function createApi($config, $appendRoutes = true)
+    public function createApi($config)
     {
-        if ($appendRoutes) {
-            $routesMaster = app_path('Http/api-routes.php');
-        } else {
-            $routesMaster = $config['_path_api_routes_'];
-        }
+        $routesMaster = $config['_path_api_routes_'];
 
         if (!file_exists($routesMaster)) {
             file_put_contents($routesMaster, "<?php\n\n");
