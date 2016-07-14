@@ -108,6 +108,7 @@ class Crud extends Command
             '_path_request_'             => app_path('Http/Requests/'),
             '_path_routes_'              => app_path('Http/routes.php'),
             '_path_api_routes_'          => app_path('Http/api-routes.php'),
+            '_path_migrations_'          => base_path('database/migrations'),
             'routes_prefix'              => '',
             'routes_suffix'              => '',
             '_app_namespace_'            => $this->getAppNamespace(),
@@ -193,7 +194,7 @@ class Crud extends Command
             $this->generateAPI($crudGenerator, $config, $bar);
             $bar->advance();
 
-            $this->generateDB($dbGenerator, $bar, $section, $table, $splitTable);
+            $this->generateDB($dbGenerator, $config, $bar, $section, $table, $splitTable);
             $bar->finish();
 
             $this->crudReport($table);
@@ -230,6 +231,7 @@ class Crud extends Command
             '_path_request_'             => app_path('Http/Requests/'.ucfirst($section)),
             '_path_routes_'              => app_path('Http/routes.php'),
             '_path_api_routes_'          => app_path('Http/api-routes.php'),
+            '_path_migrations_'          => base_path('database/migrations'),
             'routes_prefix'              => "\n\nRoute::group(['namespace' => '".ucfirst($section)."', 'prefix' => '".strtolower($section)."', 'middleware' => ['web']], function () { \n",
             'routes_suffix'              => "\n});",
             '_app_namespace_'            => $this->getAppNamespace(),
@@ -345,12 +347,12 @@ class Crud extends Command
      *
      * @return void
      */
-    private function generateDB($dbGenerator, $bar, $section, $table, $splitTable)
+    private function generateDB($dbGenerator, $config, $bar, $section, $table, $splitTable)
     {
         if ($this->option('migration')) {
-            $dbGenerator->createMigration($section, $table, $splitTable);
+            $dbGenerator->createMigration($config, $section, $table, $splitTable);
             if ($this->option('schema')) {
-                $dbGenerator->createSchema($section, $table, $splitTable, $this->option('schema'));
+                $dbGenerator->createSchema($config, $section, $table, $splitTable, $this->option('schema'));
             }
         }
         $bar->advance();
