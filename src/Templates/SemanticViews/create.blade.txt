@@ -9,7 +9,7 @@
                     <h1>_ucCamel_casePlural_: Create</h1>
                 </div>
                 <div class="column right floated">
-                    {!! Form::open(['url' => '_sectionPrefix__lower_casePlural_/search', 'class' => 'ui form']) !!}
+                    {!! Form::open(['route' => '_sectionPrefix__lower_casePlural_.search', 'class' => 'ui form']) !!}
                         <div class="field">
                             <input class="fluid" name="search" placeholder="Search">
                         </div>
