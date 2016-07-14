@@ -170,62 +170,148 @@ class Crud extends Command
      */
     public function createCRUD($config, $section, $table, $splitTable)
     {
+        $bar = $this->output->createProgressBar(7);
         $crudGenerator = new CrudGenerator();
         $dbGenerator = new DatabaseGenerator();
 
         try {
-            $this->line('Building repository...');
-            $crudGenerator->createRepository($config);
+            $this->generateCore($crudGenerator, $config, $bar);
+            $this->generateAppBased($crudGenerator, $config, $bar);
 
-            $this->line('Building request...');
-            $crudGenerator->createRequest($config);
-
-            $this->line('Building service...');
-            $crudGenerator->createService($config);
-
-            if (!$this->option('serviceOnly') && !$this->option('apiOnly')) {
-                $this->line('Building controller...');
-                $crudGenerator->createController($config);
-
-                $this->line('Building views...');
-                $crudGenerator->createViews($config);
-
-                $this->line('Building routes...');
-                $crudGenerator->createRoutes($config, false);
-
-                if ($this->option('withFacade')) {
-                    $this->line('Building facade...');
-                    $crudGenerator->createFacade($config);
-                }
-            }
-
-            $this->line('Building tests...');
             $crudGenerator->createTests(
                 $config,
                 $this->option('serviceOnly'),
                 $this->option('apiOnly'),
                 $this->option('api')
             );
+            $bar->advance();
 
-            $this->line('Adding to factory...');
             $crudGenerator->createFactory($config);
+            $bar->advance();
 
-            if ($this->option('api') || $this->option('apiOnly')) {
-                $this->line('Building API...');
-                $this->comment("\nAdd the following to your app/Providers/RouteServiceProvider.php: \n");
-                $this->info("require app_path('Http/api-routes.php'); \n");
-                $crudGenerator->createApi($config);
-            }
+            $this->generateAPI($crudGenerator, $config, $bar);
+            $bar->advance();
+
+            $this->generateDB($dbGenerator, $config, $bar, $section, $table, $splitTable);
+            $bar->finish();
+
+            $this->crudReport();
         } catch (Exception $e) {
             throw new Exception('Unable to generate your CRUD: '.$e->getMessage(), 1);
         }
+    }
 
+    /**
+     * Generate core elements.
+     *
+     * @param  Yab\Laracogs\Generators\CrudGenerator $crudGenerator
+     * @param  array $config
+     * @param  Symfony\Component\Console\Helper\ProgressBar $bar
+     * @return void
+     */
+    public function generateCore($crudGenerator, $config, $bar)
+    {
+        $crudGenerator->createRepository($config);
+        $crudGenerator->createRequest($config);
+        $crudGenerator->createService($config);
+        $bar->advance();
+    }
+
+    /**
+     * Generate app based elements.
+     *
+     * @param  Yab\Laracogs\Generators\CrudGenerator $crudGenerator
+     * @param  array $config
+     * @param  Symfony\Component\Console\Helper\ProgressBar $bar
+     * @return void
+     */
+    public function generateAppBased($crudGenerator, $config, $bar)
+    {
+        if (!$this->option('serviceOnly') && !$this->option('apiOnly')) {
+            $crudGenerator->createController($config);
+            $crudGenerator->createViews($config);
+            $crudGenerator->createRoutes($config, false);
+
+            if ($this->option('withFacade')) {
+                $crudGenerator->createFacade($config);
+            }
+        }
+        $bar->advance();
+    }
+
+    /**
+     * Generate db elements.
+     *
+     * @param  Yab\Laracogs\Generators\DatabaseGenerator $dbGenerator
+     * @param  array $config
+     * @param  Symfony\Component\Console\Helper\ProgressBar $bar
+     * @param  string $section
+     * @param  string $table
+     * @param  string $splitTable
+     * @return void
+     */
+    public function generateDB($dbGenerator, $config, $bar, $section, $table, $splitTable)
+    {
         if ($this->option('migration')) {
-            $this->line('Building migration...');
             $dbGenerator->createMigration($section, $table, $splitTable);
             if ($this->option('schema')) {
-                $this->line('Building schema...');
                 $dbGenerator->createSchema($section, $table, $splitTable, $this->option('schema'));
+            }
+        }
+        $bar->advance();
+    }
+
+    /**
+     * Generate api elements.
+     *
+     * @param  Yab\Laracogs\Generators\CrudGenerator $crudGenerator
+     * @param  array $config
+     * @param  Symfony\Component\Console\Helper\ProgressBar $bar
+     * @return void
+     */
+    public function generateAPI($crudGenerator, $config, $bar)
+    {
+        if ($this->option('api') || $this->option('apiOnly')) {
+            $crudGenerator->createApi($config);
+        }
+        $bar->advance();
+    }
+
+    /**
+     * Generate a CRUD report
+     *
+     * @return void
+     */
+    public function crudReport()
+    {
+        $this->line("\n");
+        $this->line('Built repository...');
+        $this->line('Built request...');
+        $this->line('Built service...');
+
+        if (!$this->option('serviceOnly') && !$this->option('apiOnly')) {
+            $this->line('Built controller...');
+            $this->line('Built views...');
+            $this->line('Built routes...');
+        }
+
+        if ($this->option('withFacade')) {
+            $this->line('Built facade...');
+        }
+
+        $this->line('Built tests...');
+        $this->line('Adding to database/factories/ModelFactory...');
+
+        if ($this->option('api') || $this->option('apiOnly')) {
+            $this->line('Built api...');
+            $this->comment("\nAdd the following to your app/Providers/RouteServiceProvider.php: \n");
+            $this->info("require app_path('Http/api-routes.php'); \n");
+        }
+
+        if ($this->option('migration')) {
+            $this->line('Built migration...');
+            if ($this->option('schema')) {
+                $this->line('Built schema...');
             }
         } else {
             $this->info("\nYou will want to create a migration in order to get the $table tests to work correctly.\n");
