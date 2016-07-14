@@ -27,7 +27,7 @@ class DatabaseGenerator
      *
      * @return void
      */
-    public function createMigration($section, $table, $splitTable)
+    public function createMigration($config, $section, $table, $splitTable)
     {
         try {
             if (!empty($section)) {
@@ -42,6 +42,7 @@ class DatabaseGenerator
                 'name'     => $migrationName,
                 '--table'  => $tableName,
                 '--create' => true,
+                '--path'   => $this->getMigrationsPath($config, true),
             ]);
         } catch (Exception $e) {
             throw new Exception('Could not create the migration', 1);
@@ -57,9 +58,9 @@ class DatabaseGenerator
      *
      * @return void
      */
-    public function createSchema($section, $table, $splitTable, $schema)
+    public function createSchema($config, $section, $table, $splitTable, $schema)
     {
-        $migrationFiles = $this->filesystem->allFiles(base_path('database/migrations'));
+        $migrationFiles = $this->filesystem->allFiles($this->getMigrationsPath($config));
 
         if (!empty($section)) {
             $migrationName = 'create_'.str_plural(strtolower(implode('_', $splitTable))).'_table';
@@ -85,5 +86,18 @@ class DatabaseGenerator
                 file_put_contents($file->getPathname(), $migrationData);
             }
         }
+    }
+
+    private function getMigrationsPath($config, $relative = false)
+    {
+        if (!is_dir($config['_path_migrations_'])) {
+            mkdir($config['_path_migrations_'], 0777, true);
+        }
+
+        if ($relative) {
+            return str_replace(base_path(), '', $config['_path_migrations_']);
+        }
+
+        return $config['_path_migrations_'];
     }
 }
