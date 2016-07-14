@@ -338,11 +338,10 @@ class Crud extends Command
      * Generate db elements.
      *
      * @param \Yab\Laracogs\Generators\DatabaseGenerator    $dbGenerator
-     * @param array                                         $config
      * @param \Symfony\Component\Console\Helper\ProgressBar $bar
      * @param string                                        $section
      * @param string                                        $table
-     * @param string                                        $splitTable
+     * @param array                                         $splitTable
      *
      * @return void
      */
