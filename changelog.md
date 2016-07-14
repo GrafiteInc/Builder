@@ -3,6 +3,19 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.9.35] - 2016-07-14
+
+### Added
+- New progress bar for CRUD
+- New apiOnly crud option
+
+### Changed
+- Refactoring for code quality
+- Merged PRs
+
+### Fixed
+- Issue with test generation on cruds without schema
+
 ## [v1.9.34] - 2016-07-12
 
 ### Fixed
