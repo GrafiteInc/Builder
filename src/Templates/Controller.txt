@@ -60,7 +60,7 @@ class _camel_case_Controller extends Controller
             return redirect(route('_sectionRoutePrefix__lower_casePlural_.edit', ['id' => $result->id]))->with('message', 'Successfully created');
         }
 
-        return redirect('_sectionRoutePrefix__lower_casePlural_')->with('message', 'Failed to create');
+        return redirect(route('_sectionRoutePrefix__lower_casePlural_.index'))->with('message', 'Failed to create');
     }
 
     /**
@@ -116,9 +116,9 @@ class _camel_case_Controller extends Controller
         $result = $this->service->destroy($id);
 
         if ($result) {
-            return redirect('_sectionRoutePrefix__lower_casePlural_')->with('message', 'Successfully deleted');
+            return redirect(route('_sectionRoutePrefix__lower_casePlural_.index'))->with('message', 'Successfully deleted');
         }
 
-        return redirect('_sectionRoutePrefix__lower_casePlural_')->with('message', 'Failed to delete');
+        return redirect(route('_sectionRoutePrefix__lower_casePlural_.index'))->with('message', 'Failed to delete');
     }
 }

@@ -101,6 +101,10 @@ class CrudGeneratorTest extends PHPUnit_Framework_TestCase
         $this->generator->createRoutes($this->config, false);
         $contents = $this->crud->getChild('Http/routes.php');
         $this->assertTrue(strpos($contents->getContent(), 'TestTableController') !== false);
+
+        // Ensure Search Route specification exists and Controller and Action remain
+        $this->assertContains('\'as\' => \'testtables.search\'', $contents->getContent());
+        $this->assertContains('\'uses\' => \'TestTableController@search\'', $contents->getContent());
     }
 
     public function testViewsGenerator()
