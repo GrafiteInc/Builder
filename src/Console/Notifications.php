@@ -60,7 +60,7 @@ class Notifications extends Command
                 $this->comment("\n <li><a href='{!! url('user/notifications') !!}'><span class='fa fa-envelope-o'></span> Notifications</a></li>");
                 $this->comment("\n <li><a href='{!! url('admin/notifications') !!}'><span class='fa fa-envelope-o'></span> Notifications</a></li>");
                 $this->line("\n Add this line to (app/Providers/RouteServiceProvider.php):");
-                $this->comment("\n require app_path('Http/notification-routes.php');");
+                $this->comment("\n require base_path('routes/notification.php');");
                 $this->line("\n Add this to (app/Providers/AppServiceProvider.php) in the register() method:");
                 $this->comment("\n \$loader = \Illuminate\Foundation\AliasLoader::getInstance();");
                 $this->comment("\n \$loader->alias('Notifications', \App\Facades\Notifications::class);");

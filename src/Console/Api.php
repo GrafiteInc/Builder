@@ -58,7 +58,7 @@ class Api extends Command
 
                 $this->info("\n\n You will want to add things like:");
                 $this->line("\n Add this line to (app/Providers/RouteServiceProvider.php) in the mapWebRoutes() method:");
-                $this->comment("\n require app_path('Http/api-routes.php');");
+                $this->comment("\n require base_path('routes/api.php');");
 
                 $this->line("\n Add this to the (config/app.php) providers:");
                 $this->comment("\n Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class");

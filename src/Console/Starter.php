@@ -44,6 +44,9 @@ class Starter extends Command
         $result = $this->confirm('Are you sure you want to overwrite any files of the same name?');
 
         if ($result) {
+            $this->line('Copying routes...');
+            $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/routes', base_path('routes'));
+
             $this->line('Copying app/Http...');
             $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/app/Http', app_path('Http'));
 

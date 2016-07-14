@@ -47,7 +47,7 @@ Route::post('register', 'Auth\AuthController@postRegister');
 | Authenticated Routes
 |--------------------------------------------------------------------------
 */
-Route::group(['middleware' => 'auth'], function(){
+Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/users/switch-back', 'Admin\UserController@switchUserBack');
 
@@ -57,7 +57,7 @@ Route::group(['middleware' => 'auth'], function(){
     |--------------------------------------------------------------------------
     */
 
-    Route::group(['prefix' => 'user', 'namespace' => 'User'], function(){
+    Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
         Route::get('settings', 'SettingsController@settings');
         Route::post('settings', 'SettingsController@update');
         Route::get('password', 'PasswordController@password');
@@ -90,7 +90,7 @@ Route::group(['middleware' => 'auth'], function(){
     |--------------------------------------------------------------------------
     */
 
-    Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admin'], function(){
+    Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
 
         /*
         |--------------------------------------------------------------------------
