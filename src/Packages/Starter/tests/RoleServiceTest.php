@@ -21,7 +21,13 @@ class RoleServiceTest extends TestCase
             'id' => 1,
             'name' => 'coders',
             'label' => 'Coders',
-            'permissions' => ''
+            'permissions' => ['super' => 'on']
+        ];
+        $this->modifiedArray = [
+            'id' => 1,
+            'name' => 'hackers',
+            'label' => 'Hackers',
+            'permissions' => []
         ];
         $this->editedArray = [
             'id' => 1,
@@ -64,7 +70,7 @@ class RoleServiceTest extends TestCase
     public function testUpdate()
     {
         $role = $this->service->create($this->originalArray);
-        $response = $this->service->update($role->id, $this->editedArray);
+        $response = $this->service->update($role->id, $this->modifiedArray);
 
         $this->assertEquals($role->id, $response->id);
         $this->seeInDatabase('roles', $this->editedArray);
