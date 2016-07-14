@@ -89,8 +89,11 @@ InputMaker::label($name, $attributes = [])
 InputMaker::create($name, $field, $object = null, $class = 'form-control', $reformatted = false, $populated = false)
 ```
 
+# Kits
 ----
 You may also want to utilize our boilerplate generators, these tools will prepare your apps with starter kits, admins, user settings, notifications, billing integration, API access, Social Media logins, Bootstrap styles and more!
+<br>
+Kits are only compatible with the latest version of Laravel!
 ----
 
 ## Starter
