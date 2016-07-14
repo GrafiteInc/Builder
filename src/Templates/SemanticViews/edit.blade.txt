@@ -11,7 +11,7 @@
                 <div class="column right floated">
                     <div class="ui two column grid">
                         <div class="column">
-                            {!! Form::open(['url' => '_sectionPrefix__lower_casePlural_/search', 'class' => 'ui form']) !!}
+                            {!! Form::open(['route' => '_sectionPrefix__lower_casePlural_.search', 'class' => 'ui form']) !!}
                             <div class="field">
                                 <input class="fluid" name="search" placeholder="Search">
                             </div>
