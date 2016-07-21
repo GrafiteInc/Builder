@@ -3,11 +3,7 @@
 namespace Yab\Laracogs;
 
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Yab\Laracogs\Utilities\Crypto;
-use Yab\Laracogs\Utilities\FormMaker;
-use Yab\Laracogs\Utilities\InputMaker;
 
 class LaracogsProvider extends ServiceProvider
 {
@@ -18,13 +14,7 @@ class LaracogsProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (!is_dir(base_path('resources/laracogs/crud'))) {
-            mkdir(base_path('resources/laracogs/crud'), 0777, true);
-        }
-
         $this->publishes([
-            __DIR__.'/Templates'                               => base_path('resources/laracogs/crud'),
-            __DIR__.'/Packages/Starter/config/laracogs.php'    => base_path('config/laracogs.php'),
             __DIR__.'/Packages/Starter/config/permissions.php' => base_path('config/permissions.php'),
         ]);
     }
@@ -42,78 +32,17 @@ class LaracogsProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
 
-        $this->app->register(\Collective\Html\HtmlServiceProvider::class);
-        $this->app->register(\AlfredoRamos\ParsedownExtra\ParsedownExtraServiceProvider::class);
+        $this->app->register(\Yab\FormMaker\FormMakerProvider::class);
+        $this->app->register(\Yab\Crypto\CryptoProvider::class);
+        $this->app->register(\Yab\CrudMaker\CrudMakerProvider::class);
 
         /*
         |--------------------------------------------------------------------------
-        | Register the Utilities
+        | Register the Services
         |--------------------------------------------------------------------------
         */
-
-        $this->app->singleton('FormMaker', function () {
-            return new FormMaker();
-        });
-
-        $this->app->singleton('InputMaker', function () {
-            return new InputMaker();
-        });
-
-        $this->app->singleton('Crypto', function () {
-            return new Crypto();
-        });
 
         $loader = AliasLoader::getInstance();
-
-        $loader->alias('FormMaker', \Yab\Laracogs\Facades\FormMaker::class);
-        $loader->alias('InputMaker', \Yab\Laracogs\Facades\InputMaker::class);
-        $loader->alias('Crypto', \Yab\Laracogs\Utilities\Crypto::class);
-        $loader->alias('Markdown', \AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra::class);
-
-        // Thrid party
-        $loader->alias('Form', \Collective\Html\FormFacade::class);
-        $loader->alias('HTML', \Collective\Html\HtmlFacade::class);
-
-        /*
-        |--------------------------------------------------------------------------
-        | Blade Directives
-        |--------------------------------------------------------------------------
-        */
-
-        // Form Maker
-        Blade::directive('form_maker_table', function ($expression) {
-            return "<?php echo FormMaker::fromTable$expression; ?>";
-        });
-
-        Blade::directive('form_maker_array', function ($expression) {
-            return "<?php echo FormMaker::fromArray$expression; ?>";
-        });
-
-        Blade::directive('form_maker_object', function ($expression) {
-            return "<?php echo FormMaker::fromObject$expression; ?>";
-        });
-
-        Blade::directive('form_maker_columns', function ($expression) {
-            return "<?php echo FormMaker::getTableColumns$expression; ?>";
-        });
-
-        // Label Maker
-        Blade::directive('input_maker_label', function ($expression) {
-            return "<?php echo InputMaker::label$expression; ?>";
-        });
-
-        Blade::directive('input_maker_create', function ($expression) {
-            return "<?php echo InputMaker::create$expression; ?>";
-        });
-
-        // Crypto
-        Blade::directive('crypto_encrypt', function ($expression) {
-            return "<?php echo Crypto::encrypt$expression; ?>";
-        });
-
-        Blade::directive('crypto_decrypt', function ($expression) {
-            return "<?php echo Crypto::encrypt$expression; ?>";
-        });
 
         /*
         |--------------------------------------------------------------------------
@@ -129,8 +58,6 @@ class LaracogsProvider extends ServiceProvider
             \Yab\Laracogs\Console\Bootstrap::class,
             \Yab\Laracogs\Console\Semantic::class,
             \Yab\Laracogs\Console\Docs::class,
-            \Yab\Laracogs\Console\Crud::class,
-            \Yab\Laracogs\Console\TableCrud::class,
             \Yab\Laracogs\Console\Starter::class,
         ]);
     }

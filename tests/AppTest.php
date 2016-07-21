@@ -1,6 +1,5 @@
 <?php
 
-
 class AppTest extends Orchestra\Testbench\TestCase
 {
     protected $app;
@@ -23,17 +22,6 @@ class AppTest extends Orchestra\Testbench\TestCase
         ];
     }
 
-    protected function getPackageAliases($app)
-    {
-        return [
-            'Form'       => \Collective\Html\FormFacade::class,
-            'HTML'       => \Collective\Html\HtmlFacade::class,
-            'FormMaker'  => \Yab\Laracogs\Facades\FormMaker::class,
-            'InputMaker' => \Yab\Laracogs\Facades\InputMaker::class,
-            'Crypto'     => \Yab\Laracogs\Utilities\Crypto::class,
-        ];
-    }
-
     public function setUp()
     {
         parent::setUp();
@@ -42,29 +30,21 @@ class AppTest extends Orchestra\Testbench\TestCase
             '--database' => 'testbench',
             '--realpath' => realpath(__DIR__.'/../src/Migrations'),
         ]);
-        $this->artisan('vendor:publish', [
-            '--provider' => 'Yab\Quarx\QuarxProvider',
-            '--force'    => true,
-        ]);
         $this->withoutMiddleware();
         $this->withoutEvents();
     }
 
-    public function testFormMaker()
+    public function testApiCommand()
     {
-        $formMaker = $this->app['FormMaker'];
-        $this->assertTrue(is_object($formMaker));
-    }
+        $kernel = $this->app['Illuminate\Contracts\Console\Kernel'];
+        $status = $kernel->handle(
+            $input = new \Symfony\Component\Console\Input\ArrayInput([
+                'command' => 'laracogs:api',
+                '--no-interaction' => true
+            ]),
+            $output = new \Symfony\Component\Console\Output\BufferedOutput
+        );
 
-    public function testInputMaker()
-    {
-        $inputMaker = $this->app['InputMaker'];
-        $this->assertTrue(is_object($inputMaker));
-    }
-
-    public function testCrypto()
-    {
-        $crypto = $this->app['Crypto'];
-        $this->assertTrue(is_object($crypto));
+        $this->assertTrue(strpos($output->fetch(), 'php artisan laracogs:starter') > 0);
     }
 }
