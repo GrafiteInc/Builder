@@ -1,13 +1,15 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
-| Application Routes
+| Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
+| This file is where you may define all of the routes that are handled
+| by your application. Just tell Laravel the URIs it should respond
+| to using a given Closure or controller and enjoy the fresh air.
 |
 */
 
@@ -24,30 +26,30 @@ Route::get('/', 'PagesController@home');
 | Login/ Logout/ Password
 |--------------------------------------------------------------------------
 */
-Route::get('login', 'Auth\AuthController@getLogin');
-Route::post('login', 'Auth\AuthController@postLogin');
-Route::get('logout', 'Auth\AuthController@getLogout');
+Route::get('login', 'Auth\LoginController@showLoginForm');
+Route::post('login', 'Auth\LoginController@login');
+Route::get('logout', 'Auth\LoginController@logout');
 
-Route::get('password/email', 'Auth\PasswordController@getEmail');
-Route::post('password/email', 'Auth\PasswordController@postEmail');
-
-Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
-Route::post('password/reset', 'Auth\PasswordController@postReset');
+// Password Reset Routes...
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 /*
 |--------------------------------------------------------------------------
 | Registration
 |--------------------------------------------------------------------------
 */
-Route::get('register', 'Auth\AuthController@getRegister');
-Route::post('register', 'Auth\AuthController@postRegister');
+Route::get('register', 'Auth\RegisterController@showRegistrationForm');
+Route::post('register', 'Auth\RegisterController@register');
 
 /*
 |--------------------------------------------------------------------------
 | Authenticated Routes
 |--------------------------------------------------------------------------
 */
-Route::group(['middleware' => 'auth'], function(){
+Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/users/switch-back', 'Admin\UserController@switchUserBack');
 
@@ -57,7 +59,7 @@ Route::group(['middleware' => 'auth'], function(){
     |--------------------------------------------------------------------------
     */
 
-    Route::group(['prefix' => 'user', 'namespace' => 'User'], function(){
+    Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
         Route::get('settings', 'SettingsController@settings');
         Route::post('settings', 'SettingsController@update');
         Route::get('password', 'PasswordController@password');
@@ -90,7 +92,7 @@ Route::group(['middleware' => 'auth'], function(){
     |--------------------------------------------------------------------------
     */
 
-    Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admin'], function(){
+    Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
 
         /*
         |--------------------------------------------------------------------------

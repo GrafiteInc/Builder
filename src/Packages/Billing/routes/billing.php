@@ -6,13 +6,13 @@
 |--------------------------------------------------------------------------
 */
 
-Route::group(['middleware' => 'auth'], function(){
-    Route::group(['prefix' => 'user', 'namespace' => 'User'], function(){
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
 
-        Route::group(['prefix' => 'billing'], function() {
+        Route::group(['prefix' => 'billing'], function () {
             Route::get('details', 'BillingController@getSubscribe');
             Route::post('subscribe', 'BillingController@postSubscribe');
-            Route::group(['gateway' => 'access-billing'], function() {
+            Route::group(['gateway' => 'access-billing'], function () {
                 Route::get('change-card', 'BillingController@getChangeCard');
                 Route::post('change-card', 'BillingController@postChangeCard');
                 Route::get('cancellation', 'BillingController@cancelSubscription');

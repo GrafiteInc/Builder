@@ -71,7 +71,7 @@ class Socialite extends Command
                 $this->line("\n This to the aliases in the app config: ");
                 $this->comment("\n 'Socialite' => Laravel\Socialite\Facades\Socialite::class,");
                 $this->line("\n Add this line to (app/Providers/RouteServiceProvider.php):");
-                $this->comment("\n require app_path('Http/socialite-routes.php');");
+                $this->comment("\n require base_path('routes/socialite.php');");
                 $this->info('Finished setting up a basic socialite structure');
             } else {
                 $this->info('You cancelled the laracogs socialite');
