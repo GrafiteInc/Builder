@@ -4,7 +4,7 @@ namespace Yab\Laracogs\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Yab\Laracogs\Generators\FileMakerTrait;
+use Yab\Laracogs\Traits\FileMakerTrait;
 
 class Billing extends Command
 {

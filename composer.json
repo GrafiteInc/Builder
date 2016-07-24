@@ -16,8 +16,9 @@
         "php": ">=5.5.9",
         "illuminate/support": "5.*",
         "doctrine/dbal": "^2.5",
-        "laravelcollective/html": "^5.2|^5.1",
-        "alfredo-ramos/parsedown-extra-laravel": "~0.3"
+        "yab/formmaker": "^1.0",
+        "yab/crypto": "^1.0",
+        "yab/crudmaker": "^1.0"
     },
     "require-dev": {
         "illuminate/container": "^5.2|^5.1",
@@ -28,11 +29,11 @@
     "autoload": {
         "psr-4": {
             "Yab\\Laracogs\\": "src/"
-        },
-        "files": [
-          "src/Helpers/form_maker.php",
-          "src/Helpers/input_maker.php",
-          "src/Helpers/crypto.php"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/TestCase.php"
         ]
     },
     "minimum-stability": "stable"

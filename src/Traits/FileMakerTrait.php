@@ -1,6 +1,6 @@
 <?php
 
-namespace Yab\Laracogs\Generators;
+namespace Yab\Laracogs\Traits;
 
 use Illuminate\Console\AppNamespaceDetectorTrait;
 use Illuminate\Filesystem\Filesystem;
