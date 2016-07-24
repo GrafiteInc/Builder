@@ -1,11 +1,10 @@
 <?php
 
-class BillingTest extends AppTest
+class BillingTest extends TestCase
 {
     public function testBillingCommandWithoutStarter()
     {
-        $kernel = $this->app['Illuminate\Contracts\Console\Kernel'];
-        $status = $kernel->handle(
+        $status = $this->app['Illuminate\Contracts\Console\Kernel']->handle(
             $input = new \Symfony\Component\Console\Input\ArrayInput([
                 'command' => 'laracogs:billing',
                 '--no-interaction' => true
@@ -13,6 +12,6 @@ class BillingTest extends AppTest
             $output = new \Symfony\Component\Console\Output\BufferedOutput
         );
 
-        $this->assertTrue(strpos($output->fetch(), 'php artisan laracogs:starter') > 0);
+        $this->assertContains('php artisan laracogs:starter', $output->fetch());
     }
 }

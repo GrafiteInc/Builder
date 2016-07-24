@@ -31,5 +31,10 @@
             "Yab\\Laracogs\\": "src/"
         }
     },
+    "autoload-dev": {
+        "classmap": [
+            "tests/TestCase.php"
+        ]
+    },
     "minimum-stability": "stable"
 }

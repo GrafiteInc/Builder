@@ -1,6 +1,6 @@
 <?php
 
-class AppTest extends Orchestra\Testbench\TestCase
+class TestCase extends Orchestra\Testbench\TestCase
 {
     protected $app;
 
@@ -32,19 +32,5 @@ class AppTest extends Orchestra\Testbench\TestCase
         ]);
         $this->withoutMiddleware();
         $this->withoutEvents();
-    }
-
-    public function testApiCommand()
-    {
-        $kernel = $this->app['Illuminate\Contracts\Console\Kernel'];
-        $status = $kernel->handle(
-            $input = new \Symfony\Component\Console\Input\ArrayInput([
-                'command' => 'laracogs:api',
-                '--no-interaction' => true
-            ]),
-            $output = new \Symfony\Component\Console\Output\BufferedOutput
-        );
-
-        $this->assertTrue(strpos($output->fetch(), 'php artisan laracogs:starter') > 0);
     }
 }

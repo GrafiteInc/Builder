@@ -1,11 +1,10 @@
 <?php
 
-class StarterTest extends AppTest
+class StarterTest extends TestCase
 {
     public function testStarterCommandWithoutStarter()
     {
-        $kernel = $this->app['Illuminate\Contracts\Console\Kernel'];
-        $status = $kernel->handle(
+        $status = $this->app['Illuminate\Contracts\Console\Kernel']->handle(
             $input = new \Symfony\Component\Console\Input\ArrayInput([
                 'command' => 'laracogs:starter',
                 '--no-interaction' => true
