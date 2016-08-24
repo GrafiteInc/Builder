@@ -60,8 +60,8 @@ php artisan vendor:publish --provider="Yab\Laracogs\LaracogsProvider"
 ## CRUD
 The CRUD commands build a CRUD for a table with unit tests! Use the table-crud for tables that already exist.
 ```php
-php artisan laracogs:crud {name or snake_names} {--api} {--ui=bootstrap|semantic} {--serviceOnly} {--withFacade} {--migration} {--schema=} {--relationships=}
-php artisan laracogs:table-crud {name or snake_names} {--api} {--ui=bootstrap|semantic} {--serviceOnly} {--withFacade}
+php artisan crudmaker:new {name or snake_names} {--api} {--ui=bootstrap|semantic} {--serviceOnly} {--withFacade} {--migration} {--schema=} {--relationships=}
+php artisan crudmaker:table {name or snake_names} {--api} {--ui=bootstrap|semantic} {--serviceOnly} {--withFacade}
 ```
 
 ## Docs
