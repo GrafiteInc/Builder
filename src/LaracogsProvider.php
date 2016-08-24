@@ -2,7 +2,6 @@
 
 namespace Yab\Laracogs;
 
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class LaracogsProvider extends ServiceProvider
@@ -14,9 +13,7 @@ class LaracogsProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([
-            __DIR__.'/Packages/Starter/config/permissions.php' => base_path('config/permissions.php'),
-        ]);
+        // do nothing
     }
 
     /**
@@ -35,14 +32,6 @@ class LaracogsProvider extends ServiceProvider
         $this->app->register(\Yab\FormMaker\FormMakerProvider::class);
         $this->app->register(\Yab\Crypto\CryptoProvider::class);
         $this->app->register(\Yab\CrudMaker\CrudMakerProvider::class);
-
-        /*
-        |--------------------------------------------------------------------------
-        | Register the Services
-        |--------------------------------------------------------------------------
-        */
-
-        $loader = AliasLoader::getInstance();
 
         /*
         |--------------------------------------------------------------------------
