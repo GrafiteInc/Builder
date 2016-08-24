@@ -3,6 +3,16 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.9.37] - 2016-07-24
+
+### Changed
+- Moved several components to separate services
+
+## [v1.9.36] - 2016-07-21
+
+### Fixed
+- Issue with improper routes in templates
+
 ## [v1.9.35] - 2016-07-14
 
 ### Added

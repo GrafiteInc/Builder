@@ -47,6 +47,9 @@ class Starter extends Command
             $this->line('Copying routes...');
             $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/routes', base_path('routes'));
 
+            $this->line('Copying config...');
+            $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/config', base_path('config'));
+
             $this->line('Copying app/Http...');
             $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/app/Http', app_path('Http'));
 
