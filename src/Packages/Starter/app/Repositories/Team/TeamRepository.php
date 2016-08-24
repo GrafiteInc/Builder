@@ -35,19 +35,19 @@ class TeamRepository
     /**
      * Search Team
      *
-     * @param string $input
+     * @param string $payload
      *
      * @return Team
      */
-    public function search($input, $id, $paginate)
+    public function search($payload, $id, $paginate)
     {
         $query = $this->model->orderBy('created_at', 'desc');
-        $query->where('id', 'LIKE', '%'.$input.'%');
+        $query->where('id', 'LIKE', '%'.$payload.'%');
 
         $columns = Schema::getColumnListing('teams');
 
         foreach ($columns as $attribute) {
-            $query->orWhere($attribute, 'LIKE', '%'.$input.'%')->where('user_id', $id);
+            $query->orWhere($attribute, 'LIKE', '%'.$payload.'%')->where('user_id', $id);
         };
 
         return $query->paginate($paginate);
@@ -56,13 +56,13 @@ class TeamRepository
     /**
      * Stores Team into database
      *
-     * @param array $input
+     * @param array $payload
      *
      * @return Team
      */
-    public function create($input)
+    public function create($payload)
     {
-        return $this->model->create($input);
+        return $this->model->create($payload);
     }
 
     /**
@@ -105,14 +105,14 @@ class TeamRepository
      * Updates Team in the database
      *
      * @param int $id
-     * @param array $inputs
+     * @param array $payload
      *
      * @return Team
      */
-    public function update($id, $inputs)
+    public function update($id, $payload)
     {
         $team = $this->model->find($id);
-        $team->fill($inputs);
+        $team->fill($payload);
         $team->save();
 
         return $team;

@@ -3,9 +3,9 @@
 namespace {{App\}}Http\Requests;
 
 use Auth;
-use {{App\}}Http\Requests\Request;
+use Illuminate\Foundation\Http\FormRequest;
 
-class InviteUserRequest extends Request
+class InviteUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

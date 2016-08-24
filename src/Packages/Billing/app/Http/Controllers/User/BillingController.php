@@ -8,6 +8,7 @@ use Activity;
 use Carbon\Carbon;
 use {{App\}}Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Http\FormRequest;
 use {{App\}}Http\Controllers\Controller;
 
 class BillingController extends Controller
@@ -39,7 +40,7 @@ class BillingController extends Controller
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function postSubscribe(Request $request)
+    public function postSubscribe(FormRequest $request)
     {
         try {
             $inputs = $request->all();
@@ -73,7 +74,7 @@ class BillingController extends Controller
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function postChangeCard(Request $request)
+    public function postChangeCard(FormRequest $request)
     {
         try {
             $inputs = $request->all();
@@ -107,7 +108,7 @@ class BillingController extends Controller
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function postCoupon(Request $request)
+    public function postCoupon(FormRequest $request)
     {
         try {
             $inputs = $request->all();

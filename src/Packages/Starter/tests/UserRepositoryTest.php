@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class UserRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
-    
+
     protected $repo;
 
     public function setUp()
@@ -20,7 +20,7 @@ class UserRepositoryTest extends TestCase
     {
         $user = factory({{App\}}Repositories\User\User::class)->create();
         $response = $this->repo->update($user->id, ['name' => 'sammy davis jr']);
-        $this->assertTrue($response);
+        $this->assertTrue((bool) $response);
         $this->seeInDatabase('users', ['name' => 'sammy davis jr']);
     }
 

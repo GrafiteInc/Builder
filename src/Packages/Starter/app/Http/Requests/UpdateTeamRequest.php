@@ -4,10 +4,10 @@ namespace {{App\}}Http\Requests;
 
 use Auth;
 use Route;
-use {{App\}}Http\Requests\Request;
+use Illuminate\Foundation\Http\FormRequest;
 use {{App\}}Repositories\Team\Team;
 
-class UpdateTeamRequest extends Request
+class UpdateTeamRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

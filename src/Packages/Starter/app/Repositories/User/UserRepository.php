@@ -44,19 +44,19 @@ class UserRepository
     /**
      * Search User
      *
-     * @param string $input
+     * @param string $payload
      *
      * @return User
      */
-    public function search($input, $paginate)
+    public function search($payload, $paginate)
     {
         $query = $this->model->orderBy('created_at', 'desc');
-        $query->where('id', 'LIKE', '%'.$input.'%');
+        $query->where('id', 'LIKE', '%'.$payload.'%');
 
         $columns = Schema::getColumnListing('users');
 
         foreach ($columns as $attribute) {
-            $query->orWhere($attribute, 'LIKE', '%'.$input.'%');
+            $query->orWhere($attribute, 'LIKE', '%'.$payload.'%');
         };
 
         return $query->paginate($paginate);
@@ -86,14 +86,16 @@ class UserRepository
      * Update the user
      *
      * @param  int $userId
-     * @param  array $inputs
+     * @param  array $payload
      * @return boolean
      */
-    public function update($userId, $inputs)
+    public function update($userId, $payload)
     {
         $user = $this->model->findOrFail($userId);
-        $user->fill($inputs);
-        return $user->save();
+        $user->fill($payload);
+        $user->save();
+
+        return $user;
     }
 
     /**

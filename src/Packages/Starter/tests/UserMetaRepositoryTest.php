@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class UserMetaRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
-    
+
      protected $repo;
 
     public function setUp()
@@ -22,7 +22,7 @@ class UserMetaRepositoryTest extends TestCase
         $account = factory({{App\}}Repositories\UserMeta\UserMeta::class)->create([ 'user_id' => $user->id ]);
 
         $response = $this->repo->update($user->id, ['phone' => '666']);
-        $this->assertTrue($response);
+        $this->assertTrue((bool) $response);
         $this->seeInDatabase('user_meta', ['phone' => '666']);
     }
 

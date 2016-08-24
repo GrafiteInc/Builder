@@ -19,11 +19,17 @@ This is a set of tools to help speed up development of Laravel apps. You can sta
 ## Detailed Documentation
 Please consult the documentation here: [http://laracogs.com/docs](http://laracogs.com/docs)
 
-## Requirements
+## 2.0 Requirements
 
 1. PHP 5.6+
 2. OpenSSL
-3. Laravel 5.1+
+3. Laravel 5.3+
+
+## 1.9 Requirements
+
+1. PHP 5.6+
+2. OpenSSL
+3. Laravel 5.1 or Laravel 5.2
 
 ----
 
@@ -115,11 +121,11 @@ App\Repositories\User\User::class
 
 Add the following to 'app/Providers/AuthServiceProvider.php' in the boot method
 ```php
-$gate->define('admin', function ($user) {
+Gate::define('admin', function ($user) {
     return ($user->roles->first()->name === 'admin');
 });
 
-$gate->define('team-member', function ($user, $team) {
+Gate::define('team-member', function ($user, $team) {
     return ($user->teams->find($team->id));
 });
 ```

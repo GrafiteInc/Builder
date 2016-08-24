@@ -104,16 +104,16 @@ class RoleRepository
      * Updates Role in the database
      *
      * @param int $id
-     * @param array $inputs
+     * @param array $payload
      *
      * @return Role
      */
-    public function update($id, $inputs)
+    public function update($id, $payload)
     {
-        $team = $this->model->find($id);
-        $team->fill($inputs);
-        $team->save();
+        $role = $this->model->find($id);
+        $role->fill($payload);
+        $role->save();
 
-        return $team;
+        return $role;
     }
 }

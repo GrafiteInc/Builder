@@ -14,26 +14,28 @@ class UserMetaRepository
     /**
      * Update an userMeta
      * @param  int $userId User Id
-     * @param  array $inputs
+     * @param  array $payload
      * @return boolean
      */
-    public function update($userId, $inputs)
+    public function update($userId, $payload)
     {
         $userMeta = $this->findByUserId($userId);
 
-        if (! isset($inputs['marketing'])) {
-            $inputs['marketing'] = 0;
+        if (! isset($payload['marketing'])) {
+            $payload['marketing'] = 0;
         }
 
-        if (! isset($inputs['terms_and_cond'])) {
-            $inputs['terms_and_cond'] = 0;
+        if (! isset($payload['terms_and_cond'])) {
+            $payload['terms_and_cond'] = 0;
         }
 
-        $inputs['marketing'] = (bool) $inputs['marketing'];
-        $inputs['terms_and_cond'] = (bool) $inputs['terms_and_cond'];
+        $payload['marketing'] = (bool) $payload['marketing'];
+        $payload['terms_and_cond'] = (bool) $payload['terms_and_cond'];
 
-        $userMeta->fill($inputs);
-        return $userMeta->save();
+        $userMeta->fill($payload);
+        $userMeta->save();
+
+        return $userMeta;
     }
 
     /**

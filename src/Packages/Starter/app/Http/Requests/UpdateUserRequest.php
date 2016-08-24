@@ -3,10 +3,10 @@
 namespace {{App\}}Http\Requests;
 
 use Auth;
-use {{App\}}Http\Requests\Request;
+use Illuminate\Foundation\Http\FormRequest;
 use {{App\}}Repositories\User\User;
 
-class UpdateUserRequest extends Request
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
