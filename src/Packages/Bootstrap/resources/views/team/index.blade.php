@@ -51,7 +51,7 @@
                     </tbody>
                 </table>
 
-                <div class="row">
+                <div class="row text-center">
                     {!! $teams; !!}
                 </div>
             @endif
