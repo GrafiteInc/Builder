@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "illuminate/support": "5.*",
+        "illuminate/support": "5.3",
         "doctrine/dbal": "^2.5",
         "yab/formmaker": "^1.0",
         "yab/crypto": "^1.0",
