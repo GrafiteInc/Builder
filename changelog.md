@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.9.38] - 2016-08-26
+
+### Changed
+- Composer tweaks for Laravel 5.1 and 5.2
+
 ## [v1.9.37] - 2016-07-24
 
 ### Changed
