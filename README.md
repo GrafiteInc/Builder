@@ -23,7 +23,7 @@ Please consult the documentation here: [http://laracogs.com/docs](http://laracog
 
 1. PHP 5.6+
 2. OpenSSL
-3. Laravel 5.1+
+3. Laravel 5.1 - 5.2
 
 ----
 

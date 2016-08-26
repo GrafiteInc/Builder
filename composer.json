@@ -14,11 +14,11 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "illuminate/support": "5.*",
+        "illuminate/support": "^5.2|^5.1",
         "doctrine/dbal": "^2.5",
-        "yab/formmaker": "^1.0",
-        "yab/crypto": "^1.0",
-        "yab/crudmaker": "^1.0"
+        "yab/formmaker": "1.0.2",
+        "yab/crypto": "1.0.2",
+        "yab/crudmaker": "1.0.7"
     },
     "require-dev": {
         "illuminate/container": "^5.2|^5.1",
