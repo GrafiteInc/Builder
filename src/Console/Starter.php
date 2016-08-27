@@ -80,9 +80,8 @@ class Starter extends Command
             $this->info("Build something worth sharing!\n");
             // excecute composer dump-autoload command
             exec('cd '.base_path().' && composer dump-autoload');
-            // execute artisan migrate command
+            // execute migrate artisan command
             Artisan::call('migrate');
-
         } else {
             $this->info('You cancelled the laracogs starter');
         }
