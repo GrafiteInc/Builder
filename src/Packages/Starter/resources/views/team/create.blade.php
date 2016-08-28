@@ -2,12 +2,14 @@
 
 <div class="container">
 
-    {!! Form::open(['route' => 'teams.store']) !!}
+    <form method="post" action="{{ route('teams.store') }}">
+        {!! csrf_field() !!}
 
-    @form_maker_table("teams", ['name' => 'string'])
+        @form_maker_table("teams", ['name' => 'string'])
 
-    {!! Form::submit('Save') !!}
+        <a href="{{ URL::previous() }}">Cancel</a>
+        <button type="submit">Create</button>
 
-    {!! Form::close() !!}
+    </form>
 
 </div>

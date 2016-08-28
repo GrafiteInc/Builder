@@ -15,11 +15,12 @@
                             <a class="ui button primary left floated" href="{!! route('teams.create') !!}">Create New</a>
                         </div>
                         <div class="right floated column">
-                            {!! Form::open(['url' => 'teams/search', 'class' => 'ui form right floated']) !!}
+                            <form id="" class="ui form right floated" method="post" action="/teams/search">
+                                {!! csrf_field() !!}
                                 <div class="field">
-                                    <input name="search" class="fluid" placeholder="Search">
+                                    <input class="fluid" name="search" placeholder="Search">
                                 </div>
-                            {!! Form::close() !!}
+                            </form>
                         </div>
                     </div>
                 </div>

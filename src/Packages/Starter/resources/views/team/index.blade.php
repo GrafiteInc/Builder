@@ -1,22 +1,23 @@
-<div class="container">
+<div class="">
 
     @include('partials.message')
 
-    <div class="row">
-        <div class="pull-right">
-            {!! Form::open(['url' => 'teams/search']) !!}
-            <input class="form-control form-inline pull-right" name="search" placeholder="Search">
-            {!! Form::close() !!}
+    <div class="">
+        <div>
+            <form id="" method="post" action="/teams/search">
+                {!! csrf_field() !!}
+                <input class="form-control" name="search" placeholder="Search">
+            </form>
         </div>
-        <h1 class="pull-left">teams</h1>
-        <a class="btn btn-primary pull-right" style="margin-top: 25px" href="{!! route('teams.create') !!}">Add New</a>
+        <a href="{!! route('teams.create') !!}">Add New</a>
+        <h1>Teams</h1>
     </div>
 
-    <div class="row">
+    <div class="">
         @if($teams->isEmpty())
-            <div class="well text-center">No teams found.</div>
+            <div>No teams found.</div>
         @else
-            <table class="table">
+            <table>
                 <thead>
                     <th>Name</th>
                     <th width="50px">Action</th>

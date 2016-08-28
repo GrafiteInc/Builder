@@ -1,27 +1,27 @@
 @include('partials.message')
 
-<div class="container">
+<div class="">
+    <form method="patch" action="{{ url('teams/'.$team->id) }}">
+        {!! csrf_field() !!}
+        {!! method_field('PATCH') !!}
 
-    {!! Form::model($team, ['route' => ['teams.update', $team->id], 'method' => 'patch']) !!}
+        @form_maker_object($team, ['name' => 'string'])
 
-    @form_maker_object($team, ['name' => 'string'])
+        <a href="{{ URL::previous() }}">Cancel</a>
+        <button type="submit">Create</button>
 
-    {!! Form::submit('Update') !!}
-
-    {!! Form::close() !!}
+    </form>
 </div>
 
 @if (Auth::user()->isTeamAdmin($team->id))
 
 <div class="">
     <p>Invite Member</p>
-    {!! Form::model($team, ['url' => 'teams/'.$team->id.'/invite', 'method' => 'post']) !!}
-
-    <input type="email" name="email" placeholder="Email">
-
-    {!! Form::submit('Invite') !!}
-
-    {!! Form::close() !!}
+    <form method="post" action="{{ url('teams/'.$team->id.'/invite') }}">
+        {!! csrf_field() !!}
+        <input type="email" name="email" placeholder="Email">
+        <button type="submit">Create</button>
+    </form>
 </div>
 
 <div class="">

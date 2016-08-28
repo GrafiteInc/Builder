@@ -12,24 +12,30 @@
         <div class="ui two column grid">
             <div class="column">
                 <div>
-                    {!! Form::model($team, ['route' => ['teams.update', $team->id], 'method' => 'patch', 'class' => 'ui form']) !!}
-                        <div class="field">
-                            @input_maker_label('Name')
-                            @input_maker_create('name', ['type' => 'string'], $team)
+                    <form class="ui form" method="patch" action="{{ url('teams/'.$team->id) }}">
+                        {!! csrf_field() !!}
+                        {!! method_field('PATCH') !!}
+
+                        @form_maker_object($team, ['name' => 'string'])
+
+                        <div class="raw-margin-top-24">
+                            <button class="ui button primary right floated" type="submit">Create</button>
                         </div>
-                        {!! Form::submit('Update', ['class' => 'ui button primary right floated']) !!}
-                    {!! Form::close() !!}
+
+                    </form>
                 </div>
             </div>
             <div class="column">
                 @if (Auth::user()->isTeamAdmin($team->id))
-                    {!! Form::model($team, ['url' => 'teams/'.$team->id.'/invite', 'method' => 'post', 'class' => 'ui form']) !!}
+                    <form class="ui form" method="post" action="{{ url('teams/'.$team->id.'/invite') }}">
+                        {!! csrf_field() !!}
                         <div class="field">
                             <label>Invite a new member</label>
                             <input type="email" name="email" placeholder="Email">
                         </div>
-                        {!! Form::submit('Invite', ['class' => 'ui button teal right floated']) !!}
-                    {!! Form::close() !!}
+                        <button class="ui button teal right floated" type="submit">Create</button>
+                    </form>
+
                 @endif
             </div>
         </div>

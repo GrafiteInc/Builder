@@ -6,17 +6,17 @@
     <div class="ui three column grid">
         <div class="column centered">
             <h1>Team Creator</h1>
+            <form class="ui form" method="post" action="{{ route('teams.store') }}">
+                {!! csrf_field() !!}
 
-            {!! Form::open(['route' => 'teams.store', 'class' => 'ui form']) !!}
+                @form_maker_table("teams", ['name' => 'string'])
 
-            <div class="field">
-                @input_maker_label('Name')
-                @input_maker_create('name', ['type' => 'string'])
-            </div>
+                <div class="raw-margin-top-24">
+                    <a class="ui button default left floated" href="{{ URL::previous() }}">Cancel</a>
+                    <button class="ui button primary right floated" type="submit">Save</button>
+                </div>
 
-            {!! Form::submit('Save', ['class' => 'ui button primary right floated raw-margin-top-24']) !!}
-
-            {!! Form::close() !!}
+            </form>
         </div>
     </div>
 </div>
