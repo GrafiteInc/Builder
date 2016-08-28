@@ -50,11 +50,6 @@ Add this to the `config/app.php` in the providers array:
 Yab\Laracogs\LaracogsProvider::class
 ```
 
-Time to publish those assets!
-```php
-php artisan vendor:publish --provider="Yab\Laracogs\LaracogsProvider"
-```
-
 ##### After these few steps you have the following tools at your fingertips:
 
 ## CRUD
