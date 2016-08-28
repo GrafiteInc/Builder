@@ -18,8 +18,8 @@ class CreateNotificationsTable extends Migration
             $table->string('flag');
             $table->string('uuid');
             $table->string('title');
-            $table->text('details');
-            $table->boolean('is_read');
+            $table->text('details')->nullable();
+            $table->boolean('is_read')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

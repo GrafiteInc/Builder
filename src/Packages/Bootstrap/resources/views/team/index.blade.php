@@ -4,30 +4,18 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h1>Team Manager</h1>
+            <form id="" class="pull-right raw-margin-top-24 raw-margin-left-24" method="post" action="/teams/search">
+                {!! csrf_field() !!}
+                <input class="form-control" name="search" placeholder="Search">
+            </form>
+            <a class="btn btn-primary pull-right raw-margin-top-24" href="{{ url('teams/create') }}">Create Team</a>
+            <h1>Teams</h1>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            @include('partials.errors')
-            @include('partials.message')
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 raw-margin-bottom-24 raw-margin-top-24">
-            <div class="pull-right">
-                {!! Form::open(['url' => 'teams/search']) !!}
-                <input class="form-control form-inline pull-right" name="search" placeholder="Search">
-                {!! Form::close() !!}
-            </div>
-            <a class="btn btn-primary pull-left" href="{!! route('teams.create') !!}">Create New</a>
-        </div>
-
+    <div class="row raw-margin-top-24">
         <div class="col-md-12">
             @if ($teams->isEmpty())
-                <div class="col-md-12 raw-margin-bottom-24">
-                    <div class="well text-center">No teams found.</div>
-                </div>
+                <div class="well text-center">No teams found.</div>
             @else
                 <table class="table table-striped">
                     <thead>

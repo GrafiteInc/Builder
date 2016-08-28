@@ -28,8 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
     |--------------------------------------------------------------------------
     */
     Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
-        Route::resource('notifications', 'Admin\NotificationController', ['except' => ['show']]);
+        Route::resource('notifications', 'Admin\NotificationController', ['except' => ['show'], 'as' => 'admin']);
         Route::post('notifications/search', 'Admin\NotificationController@search');
     });
-
 });

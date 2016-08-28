@@ -2,21 +2,22 @@
 
 @section('content')
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="pull-right">
-                    {!! Form::open(['url' => 'admin/notifications/search']) !!}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right raw-margin-top-24">
+                <form method="post" action="{!! url('admin/notifications/search') !!}">
+                    {!! csrf_field() !!}
                     <input class="form-control form-inline pull-right" name="search" placeholder="Search">
-                    {!! Form::close() !!}
-                </div>
-                <h1 class="pull-left" style="margin: 0;">Notifications: Create</h1>
+                </form>
             </div>
+            <h1 class="pull-left raw-margin-top-24">Notifications: Create</h1>
         </div>
-        <div class="row raw-margin-top-24">
-            <div class="col-md-12">
+    </div>
+    <div class="row raw-margin-top-24">
+        <div class="col-md-12">
 
-                {!! Form::open(['route' => 'admin.notifications.store']) !!}
+            <form class="ui form" method="POST" action="{{ url('admin/notifications') }}">
+                {!! csrf_field() !!}
 
                 <div class="form-group">
                     @input_maker_label('Flag')
@@ -43,11 +44,12 @@
                     @input_maker_create('details', ['type' => 'textarea'], null, 'form-control', false, false)
                 </div>
 
-                {!! Form::submit('Save', ['class' => 'btn btn-primary pull-right raw-margin-top-24']) !!}
+                <div class="raw-margin-top-24 form-group">
+                    <button type="submit" class="btn btn-primary pull-right">Save</button>
+                </div>
 
-                {!! Form::close() !!}
+            </form>
 
-            </div>
         </div>
     </div>
 

@@ -2,23 +2,25 @@
 
 @section('content')
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="pull-right">
-                    {!! Form::open(['url' => 'admin.notifications/search']) !!}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right raw-margin-top-24">
+                <form method="post" action="{!! url('admin/notifications/search') !!}">
+                    {!! csrf_field() !!}
                     <input class="form-control form-inline pull-right" name="search" placeholder="Search">
-                    {!! Form::close() !!}
-                </div>
-                <h1 class="pull-left" style="margin: 0;">Notifications: Edit</h1>
-                <a class="btn btn-primary pull-right" style="margin-right: 8px" href="{!! route('admin.notifications.create') !!}">Add New</a>
+                </form>
             </div>
+            <h1 class="pull-left raw-margin-top-24">Notifications: Edit</h1>
+            <a class="btn btn-primary pull-right raw-margin-top-24 raw-margin-right-16" href="{!! url('admin/notifications/create') !!}">Add New</a>
         </div>
+    </div>
 
-        <div class="row raw-margin-top-24">
-            <div class="col-md-12">
+    <div class="row raw-margin-top-24">
+        <div class="col-md-12">
 
-                {!! Form::model($notification, ['route' => ['admin.notifications.update', $notification->id], 'method' => 'patch']) !!}
+            <form method="patch" action="{!! url('admin/notifications/'.$notification->id) !!}">
+                {!! csrf_field() !!}
+                {!! method_field('PATCH') !!}
 
                 <div class="form-group">
                     @input_maker_label('Flag')
@@ -42,11 +44,12 @@
                     @input_maker_create('details', ['type' => 'textarea'], $notification)
                 </div>
 
-                {!! Form::submit('Update', ['class' => 'btn btn-primary pull-right raw-margin-top-24 ']) !!}
+                <div class="raw-margin-top-24 form-group">
+                    <button type="submit" class="btn btn-primary pull-right">Update</button>
+                </div>
 
-                {!! Form::close() !!}
+            </form>
 
-            </div>
         </div>
     </div>
 

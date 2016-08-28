@@ -4,25 +4,27 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h1>Team Creator</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            @include('partials.errors')
-            @include('partials.message')
+            <form id="" class="pull-right raw-margin-top-24 raw-margin-left-24" method="post" action="/teams/search">
+                {!! csrf_field() !!}
+                <input class="form-control" name="search" placeholder="Search">
+            </form>
+            <h1>Teams: Create</h1>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-4 col-md-offset-4">
-                {!! Form::open(['route' => 'teams.store']) !!}
+                <form method="post" action="{{ route('teams.store') }}">
+                    {!! csrf_field() !!}
 
-                @form_maker_table("teams", ['name' => 'string'])
+                    @form_maker_table("teams", ['name' => 'string'])
 
-                {!! Form::submit('Save', ['class' => 'btn btn-primary pull-right']) !!}
+                    <div class="raw-margin-top-24">
+                        <a class="btn btn-default pull-left" href="{{ URL::previous() }}">Cancel</a>
+                        <button class="btn btn-primary pull-right" type="submit">Create</button>
+                    </div>
 
-                {!! Form::close() !!}
+                </form>
             </div>
 
         </div>

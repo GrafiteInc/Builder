@@ -13,18 +13,18 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9",
-        "illuminate/support": "5.3",
+        "php": ">=5.6.4",
+        "illuminate/support": "^5.3",
         "doctrine/dbal": "^2.5",
         "yab/formmaker": "^1.0",
         "yab/crypto": "^1.0",
         "yab/crudmaker": "^1.0"
     },
     "require-dev": {
-        "illuminate/container": "^5.2|^5.1",
+        "illuminate/container": "^5.3",
         "mockery/mockery": "^0.9.4",
         "mikey179/vfsStream": "^1.6",
-        "orchestra/testbench": "^3.2"
+        "orchestra/testbench": "^3.3"
     },
     "autoload": {
         "psr-4": {

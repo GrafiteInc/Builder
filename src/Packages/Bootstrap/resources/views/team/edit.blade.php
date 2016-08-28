@@ -4,39 +4,41 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h1>Team Editor</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            @include('partials.errors')
-            @include('partials.message')
+            <form id="" class="pull-right raw-margin-top-24 raw-margin-left-24" method="post" action="/teams/search">
+                {!! csrf_field() !!}
+                <input class="form-control" name="search" placeholder="Search">
+            </form>
+            <a class="btn btn-primary pull-right raw-margin-top-24" href="{{ url('teams/create') }}">Create Team</a>
+            <h1>Teams: Edit</h1>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6 raw-margin-bottom-24">
             <div>
-                {!! Form::model($team, ['route' => ['teams.update', $team->id], 'method' => 'patch']) !!}
+                <form method="patch" action="{{ url('teams/'.$team->id) }}">
+                    {!! csrf_field() !!}
+                    {!! method_field('PATCH') !!}
 
-                @form_maker_object($team, ['name' => 'string'])
+                    @form_maker_object($team, ['name' => 'string'])
 
-                {!! Form::submit('Update', ['class' => 'btn btn-primary pull-right']) !!}
+                    <div class="raw-margin-top-24">
+                        <a class="btn btn-default pull-left" href="{{ URL::previous() }}">Cancel</a>
+                        <button class="btn btn-primary pull-right" type="submit">Create</button>
+                    </div>
 
-                {!! Form::close() !!}
+                </form>
             </div>
         </div>
         <div class="col-md-6 raw-margin-bottom-24">
             @if (Auth::user()->isTeamAdmin($team->id))
-                    {!! Form::model($team, ['url' => 'teams/'.$team->id.'/invite', 'method' => 'post']) !!}
-
+                <form method="post" action="{{ url('teams/'.$team->id.'/invite') }}">
+                    {!! csrf_field() !!}
                     <div class="form-group">
                         <label>Invite a new member</label>
                         <input class="form-control" type="email" name="email" placeholder="Email">
                     </div>
-
-                    {!! Form::submit('Invite', ['class' => 'btn btn-info pull-right']) !!}
-
-                    {!! Form::close() !!}
+                    <button class="btn btn-primary pull-right" type="submit">Create</button>
+                </form>
             @endif
         </div>
         @if (Auth::user()->isTeamAdmin($team->id))

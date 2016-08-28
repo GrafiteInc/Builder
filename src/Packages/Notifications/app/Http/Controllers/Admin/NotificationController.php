@@ -32,7 +32,7 @@ class NotificationController extends Controller
      */
     public function search(Request $request)
     {
-        $notifications = $this->service->search($request->search);
+        $notifications = $this->service->search($request->search, null);
         return view('admin.notifications.index')->with('notifications', $notifications);
     }
 
