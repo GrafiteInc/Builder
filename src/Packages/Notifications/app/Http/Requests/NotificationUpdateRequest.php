@@ -4,9 +4,9 @@ namespace {{App\}}Http\Requests;
 
 use Auth;
 use Illuminate\Foundation\Http\FormRequest;
-use {{App\}}Repositories\Notification\Notification;
+use {{App\}}Models\Notification;
 
-class NotificationRequest extends FormRequest
+class NotificationUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -117,8 +117,14 @@ class RoleService
      */
     public function update($id, $input)
     {
-        $input['permissions'] = implode(',', array_keys($input['permissions']));
-        return $this->model->find($id)->update($input);
+        if (isset($input['permissions'])) {
+            $input['permissions'] = implode(',', array_keys($input['permissions']));
+        }
+
+        $role = $this->model->find($id);
+        $role->update($input);
+
+        return $role;
     }
 
     /**
@@ -135,7 +141,7 @@ class RoleService
                 $userCount = count($this->userService->findByRoleID($id));
 
                 if ($userCount == 0) {
-                    $result = $this->model->destroy($id);
+                    $result = $this->model->find($id)->delete();
                 }
 
                 return $result;

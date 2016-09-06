@@ -119,7 +119,10 @@ class TeamService
      */
     public function update($id, $input)
     {
-        return $this->model->find($id)->update($input);
+        $team = $this->model->find($id);
+        $team->update($input);
+
+        return $team;
     }
 
     /**

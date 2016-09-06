@@ -184,7 +184,7 @@ class UserService
                     $this->assignRole($payload['roles'], $userId);
                 }
 
-                return true;
+                return $user;
             });
         } catch (Exception $e) {
             throw new Exception("We were unable to update your profile", 1);

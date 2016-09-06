@@ -44,6 +44,7 @@ class UserServiceTest extends TestCase
     public function testUpdateUser()
     {
         $user = factory({{App\}}Models\User::class)->create();
+        factory({{App\}}Models\UserMeta::class)->create([ 'user_id' => $user->id ]);
 
         $response = $this->service->update($user->id, [
             'email' => $user->email,
@@ -56,7 +57,6 @@ class UserServiceTest extends TestCase
             ]
         ]);
 
-        $this->assertTrue($response);
         $this->seeInDatabase('user_meta', ['phone' => '666']);
         $this->seeInDatabase('users', ['name' => 'jim']);
     }

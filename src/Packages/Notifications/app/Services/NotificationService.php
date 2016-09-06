@@ -175,7 +175,10 @@ class NotificationService
      */
     public function update($id, $input)
     {
-        return $this->model->update($id, $input);
+        $notification = $this->model->find($id);
+        $notification->update($input);
+
+        return $notification;
     }
 
     /**
@@ -187,7 +190,7 @@ class NotificationService
     public function markAsRead($id)
     {
         $input['is_read'] = true;
-        return $this->model->update($id, $input);
+        return $this->model->find($id)->update($input);
     }
 
     /**

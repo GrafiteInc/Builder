@@ -5,7 +5,7 @@ namespace {{App\}}Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use {{App\}}Http\Controllers\Controller;
 use {{App\}}Services\NotificationService;
-use {{App\}}Http\Requests\NotificationRequest;
+use {{App\}}Http\Requests\NotificationCreateRequest;
 
 class NotificationController extends Controller
 {
@@ -49,10 +49,10 @@ class NotificationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\NotificationRequest  $request
+     * @param  \Illuminate\Http\NotificationCreateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(NotificationRequest $request)
+    public function store(NotificationCreateRequest $request)
     {
         $result = $this->service->create($request->except('_token'));
 
