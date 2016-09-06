@@ -5,7 +5,7 @@
     </div>
 
     <div class="raw-margin-top-24">
-        @input_maker_create('meta[marketing]', ['type' => 'checkbox', 'custom' => 'value="1"'], $user)
+        @input_maker_create('meta[marketing]', ['type' => 'checkbox'], $user)
         @input_maker_label('I agree to recieve marketing materials')
     </div>
 

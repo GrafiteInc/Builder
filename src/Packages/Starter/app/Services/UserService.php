@@ -168,6 +168,13 @@ class UserService
         try {
             return DB::transaction(function () use ($userId, $payload) {
                 $user = $this->model->find($userId);
+
+                if (isset($payload['meta']['marketing']) && ($payload['meta']['marketing'] == 1 || $payload['meta']['marketing'] == 'on')) {
+                    $payload['meta']['marketing'] = 1;
+                } else {
+                    $payload['meta']['marketing'] = 0;
+                }
+
                 $userMetaResult = (isset($payload['meta'])) ? $user->meta->update($payload['meta']) : true;
 
                 $user->update($payload);
