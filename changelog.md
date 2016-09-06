@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.1.1] - 2016-09-06
+
+### Changed
+- Moved the CrudMaker to the new version without Repos
+
 ## [v2.1.0] - 2016-09-06
 
 ### Added
