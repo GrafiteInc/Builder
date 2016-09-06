@@ -4,9 +4,9 @@ namespace {{App\}}Http\Requests;
 
 use Auth;
 use Illuminate\Foundation\Http\FormRequest;
-use {{App\}}Repositories\Team\Team;
+use {{App\}}Models\Role;
 
-class TeamRequest extends FormRequest
+class RoleCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +15,7 @@ class TeamRequest extends FormRequest
      */
     public function authorize()
     {
-        if (Auth::user()) {
+        if (Auth::user()->can('admin')) {
             return true;
         }
 
@@ -29,6 +29,6 @@ class TeamRequest extends FormRequest
      */
     public function rules()
     {
-        return Team::$rules;
+        return Role::$rules;
     }
 }

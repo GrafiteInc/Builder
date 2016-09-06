@@ -1,7 +1,6 @@
 <?php
 
 use {{App\}}Services\RoleService;
-use {{App\}}Repositories\User\UserRepository;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class RoleServiceTest extends TestCase
@@ -63,7 +62,7 @@ class RoleServiceTest extends TestCase
     public function testCreate()
     {
         $response = $this->service->create($this->originalArray);
-        $this->assertEquals(get_class($response), 'App\Repositories\Role\Role');
+        $this->assertEquals(get_class($response), 'App\Models\Role');
         $this->assertEquals(1, $response->id);
     }
 

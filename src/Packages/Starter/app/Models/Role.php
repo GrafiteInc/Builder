@@ -1,8 +1,8 @@
 <?php
 
-namespace {{App\}}Repositories\Role;
+namespace {{App\}}Models;
 
-use {{App\}}Repositories\User\User;
+use {{App\}}Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
@@ -57,5 +57,4 @@ class Role extends Model
     {
         return Role::where('name', $name)->firstOrFail();
     }
-
 }

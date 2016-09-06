@@ -8,7 +8,7 @@ use {{App\}}Http\Requests;
 use Illuminate\Http\Request;
 use {{App\}}Services\UserService;
 use {{App\}}Http\Controllers\Controller;
-use {{App\}}Http\Requests\UpdatePasswordRequest;
+use {{App\}}Http\Requests\PasswordUpdateRequest;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class PasswordController extends Controller
@@ -42,10 +42,10 @@ class PasswordController extends Controller
     /**
      * Change the user's password and return
      *
-     * @param  UpdatePasswordRequest $request
+     * @param  PasswordUpdateRequest $request
      * @return Response
      */
-    public function update(UpdatePasswordRequest $request)
+    public function update(PasswordUpdateRequest $request)
     {
         $password = $request->new_password;
 

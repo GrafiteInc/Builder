@@ -53,8 +53,11 @@ class Starter extends Command
             $this->line('Copying app/Http...');
             $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/app/Http', app_path('Http'));
 
-            $this->line('Copying app/Repositories...');
-            $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/app/Repositories', app_path('Repositories'));
+            $this->line('Copying app/Events...');
+            $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/app/Events', app_path('Events'));
+
+            $this->line('Copying app/Models...');
+            $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/app/Models', app_path('Models'));
 
             $this->line('Copying app/Services...');
             $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/app/Services', app_path('Services'));

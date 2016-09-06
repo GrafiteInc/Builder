@@ -3,11 +3,10 @@
 namespace {{App\}}Http\Requests;
 
 use Auth;
-use Route;
 use Illuminate\Foundation\Http\FormRequest;
-use {{App\}}Repositories\Team\Team;
+use {{App\}}Models\Team;
 
-class UpdateTeamRequest extends FormRequest
+class TeamCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,10 +15,7 @@ class UpdateTeamRequest extends FormRequest
      */
     public function authorize()
     {
-        $teamOwnerId = (int) Auth::user()->teams->find($this->segment(2))->user_id;
-        $userId = (int) Auth::id();
-
-        if ($teamOwnerId === $userId) {
+        if (Auth::user()) {
             return true;
         }
 
@@ -33,8 +29,6 @@ class UpdateTeamRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required'
-        ];
+        return Team::$rules;
     }
 }

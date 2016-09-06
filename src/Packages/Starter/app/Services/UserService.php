@@ -8,47 +8,110 @@ use Mail;
 use Config;
 use Session;
 use Exception;
-use {{App\}}Repositories\User\UserRepository;
-use {{App\}}Repositories\UserMeta\UserMetaRepository;
+use {{App\}}Models\User;
+use {{App\}}Models\UserMeta;
+use {{App\}}Models\Team;
+use {{App\}}Models\Role;
+use {{App\}}Events\UserRegisteredEmail;
+use Illuminate\Support\Facades\Schema;
 
 class UserService
 {
-    public function __construct(UserMetaRepository $userMetaRepo, UserRepository $userRepo)
-    {
-        $this->userMetaRepo = $userMetaRepo;
-        $this->userRepo = $userRepo;
+    /**
+     * User model
+     * @var User
+     */
+    public $model;
+
+    /**
+     * User Meta model
+     * @var UserMeta
+     */
+    protected $userMeta;
+
+    /**
+     * Team Service
+     * @var TeamService
+     */
+    protected $team;
+
+    /**
+     * Role Service
+     * @var RoleService
+     */
+    protected $role;
+
+    public function __construct(
+        User $model,
+        UserMeta $userMeta,
+        Team $team,
+        Role $role
+    ) {
+        $this->model = $model;
+        $this->userMeta = $userMeta;
+        $this->team = $team;
+        $this->role = $role;
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Getters
-    |--------------------------------------------------------------------------
-    */
-
+    /**
+     * Get all users
+     *
+     * @return array
+     */
     public function all()
     {
-        return $this->userRepo->all();
+        return $this->model->all();
     }
 
+    /**
+     * Find a user
+     * @param  integer $id
+     * @return User
+     */
     public function find($id)
     {
-        return $this->userRepo->find($id);
+        return $this->model->find($id);
     }
 
+    /**
+     * Search the users
+     *
+     * @param  string $input
+     * @return mixed
+     */
     public function search($input)
     {
-        return $this->userRepo->search($input, env('paginate', 25));
+        $query = $this->model->orderBy('created_at', 'desc');
+
+        $columns = Schema::getColumnListing('users');
+
+        foreach ($columns as $attribute) {
+            $query->orWhere($attribute, 'LIKE', '%'.$input.'%');
+        };
+
+        return $query->paginate(env('paginate', 25));
     }
 
+    /**
+     * Find a user by email
+     *
+     * @param  string $email
+     * @return User
+     */
     public function findByEmail($email)
     {
-        return $this->userRepo->findByEmail($email);
+        return $this->model->findByEmail($email);
     }
 
+    /**
+     * Find by Role ID
+     * @param  integer $id
+     * @return Collection
+     */
     public function findByRoleID($id)
     {
         $usersWithRepo = [];
-        $users = $this->userRepo->all();
+        $users = $this->model->all();
 
         foreach ($users as $user) {
             if ($user->roles->first()->id == $id) {
@@ -58,12 +121,6 @@ class UserService
 
         return $usersWithRepo;
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Setters
-    |--------------------------------------------------------------------------
-    */
 
     /**
      * Create a user's profile
@@ -78,21 +135,14 @@ class UserService
     {
         try {
             DB::transaction(function () use ($user, $password, $role, $sendEmail) {
-                // create the user meta
-                $this->userMetaRepo->findByUserId($user->id);
-                // Set the user's role
-                $this->userRepo->assignRole($role, $user->id);
+                $this->userMeta->firstOrCreate([
+                    'user_id' => $user->id
+                ]);
+
+                $this->assignRole($role, $user->id);
 
                 if ($sendEmail) {
-                    // Email the user about their profile
-                    Mail::send(
-                        'emails.new-user',
-                        ['user' => $user, 'password' => $password],
-                        function ($m) use ($user) {
-                            $m->from('info@app.com', 'App');
-                            $m->to($user->email, $user->name)->subject('You have a new profile!');
-                        }
-                    );
+                    event(new UserRegisteredEmail($user));
                 }
             });
 
@@ -107,23 +157,27 @@ class UserService
      *
      * @param  int $userId User Id
      * @param  array $inputs UserMeta info
-     * @return boolean
+     * @return User
      */
-    public function update($userId, $inputs)
+    public function update($userId, $payload)
     {
-        if (isset($inputs['meta']) && ! isset($inputs['meta']['terms_and_cond'])) {
+        if (isset($payload['meta']) && ! isset($payload['meta']['terms_and_cond'])) {
             throw new Exception("You must agree to the terms and conditions.", 1);
         }
 
         try {
-            return DB::transaction(function () use ($userId, $inputs) {
-                $userMetaResult = (isset($inputs['meta'])) ? $this->userMetaRepo->update($userId, $inputs['meta']) : true;
-                $userResult = $this->userRepo->update($userId, $inputs);
-                if (isset($inputs['roles'])) {
-                    $this->userRepo->unassignAllRoles($userId);
-                    $this->userRepo->assignRole($inputs['roles'], $userId);
+            return DB::transaction(function () use ($userId, $payload) {
+                $user = $this->model->find($userId);
+                $userMetaResult = (isset($payload['meta'])) ? $user->meta->update($payload['meta']) : true;
+
+                $user->update($payload);
+
+                if (isset($payload['roles'])) {
+                    $this->unassignAllRoles($userId);
+                    $this->assignRole($payload['roles'], $userId);
                 }
-                return ($userMetaResult && $userResult);
+
+                return true;
             });
         } catch (Exception $e) {
             throw new Exception("We were unable to update your profile", 1);
@@ -140,7 +194,7 @@ class UserService
         $password = substr(md5(rand(1111, 9999)), 0, 10);
 
         return DB::transaction(function () use ($password, $info) {
-            $user = $this->userRepo->create([
+            $user = $this->model->create([
                 'email' => $info['email'],
                 'name' => $info['name'],
                 'password' => bcrypt($password)
@@ -160,11 +214,11 @@ class UserService
     {
         try {
             return DB::transaction(function () use ($id) {
-                $this->userRepo->unassignAllRoles($id);
-                $this->userRepo->leaveAllTeams($id);
+                $this->unassignAllRoles($id);
+                $this->leaveAllTeams($id);
 
-                $userMetaResult = $this->userMetaRepo->destroy($id);
-                $userResult = $this->userRepo->destroy($id);
+                $userMetaResult = $this->userMeta->where('user_id', $id)->delete();
+                $userResult = $this->model->find($id)->delete();
 
                 return ($userMetaResult && $userResult);
             });
@@ -182,7 +236,7 @@ class UserService
     public function switchToUser($id)
     {
         try {
-            $user = $this->userRepo->find($id);
+            $user = $this->model->find($id);
             Session::put('original_user', Auth::id());
             Auth::login($user);
             return true;
@@ -201,7 +255,7 @@ class UserService
     {
         try {
             $original = Session::pull('original_user');
-            $user = $this->userRepo->find($original);
+            $user = $this->model->find($original);
             Auth::login($user);
             return true;
         } catch (Exception $e) {
@@ -215,19 +269,47 @@ class UserService
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Assign a role to the user
+     *
+     * @param  string $roleName
+     * @param  integer $userId
+     * @return void
+     */
     public function assignRole($roleName, $userId)
     {
-        return $this->userRepo->assignRole($roleName, $userId);
+        $role = $this->role->findByName($roleName);
+        $user = $this->model->find($userId);
+
+        $user->roles()->attach($role);
     }
 
+    /**
+     * Unassign a role from the user
+     *
+     * @param  string $roleName
+     * @param  integer $userId
+     * @return void
+     */
     public function unassignRole($roleName, $userId)
     {
-        return $this->userRepo->unassignRole($roleName, $userId);
+        $role = $this->role->findByName($roleName);
+        $user = $this->model->find($userId);
+
+        $user->roles()->detach($role);
     }
 
+    /**
+     * Unassign all roles from the user
+     *
+     * @param  string $roleName
+     * @param  integer $userId
+     * @return void
+     */
     public function unassignAllRoles($userId)
     {
-        return $this->userRepo->unassignAllRoles($userId);
+        $user = $this->model->find($userId);
+        $user->roles()->detach();
     }
 
     /*
@@ -236,19 +318,46 @@ class UserService
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Join a team
+     *
+     * @param  integer $teamId
+     * @param  integer $userId
+     * @return void
+     */
     public function joinTeam($teamId, $userId)
     {
-        return $this->userRepo->joinTeam($teamId, $userId);
+        $team = $this->team->find($teamId);
+        $user = $this->model->find($userId);
+
+        $user->teams()->attach($team);
     }
 
+    /**
+     * Leave a team
+     *
+     * @param  integer $teamId
+     * @param  integer $userId
+     * @return void
+     */
     public function leaveTeam($teamId, $userId)
     {
-        return $this->userRepo->leaveTeam($teamId, $userId);
+        $team = $this->team->find($teamId);
+        $user = $this->model->find($userId);
+
+        $user->teams()->detach($team);
     }
 
+    /**
+     * Leave all teams
+     *
+     * @param  integer $teamId
+     * @param  integer $userId
+     * @return void
+     */
     public function leaveAllTeams($userId)
     {
-        return $this->userRepo->leaveAllTeams($userId);
+        $user = $this->model->find($userId);
+        $user->teams()->detach();
     }
-
 }

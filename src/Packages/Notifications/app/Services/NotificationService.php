@@ -4,15 +4,16 @@ namespace {{App\}}Services;
 
 use Crypto;
 use {{App\}}Services\UserService;
-use {{App\}}Repositories\Notification\NotificationRepository;
+use {{App\}}Models\Notification;
+use Illuminate\Support\Facades\Schema;
 
 class NotificationService
 {
     public function __construct(
-        NotificationRepository $notificationRepository,
+        Notification $model,
         UserService $userService
     ) {
-        $this->repo = $notificationRepository;
+        $this->model = $model;
         $this->userService = $userService;
     }
 
@@ -23,7 +24,7 @@ class NotificationService
      */
     public function all()
     {
-        return $this->repo->all();
+        return $this->model->orderBy('created_at', 'desc')->get();
     }
 
     /**
@@ -33,7 +34,7 @@ class NotificationService
      */
     public function paginated()
     {
-        return $this->repo->paginated(env('paginate', 25));
+        return $this->model->orderBy('created_at', 'desc')->paginate(env('paginate', 25));
     }
 
     /**
@@ -44,7 +45,7 @@ class NotificationService
      */
     public function userBasedPaginated($id)
     {
-        return $this->repo->userBasedPaginated($id, env('paginate', 25));
+        return $this->model->where('user_id', $id)->orderBy('created_at', 'desc')->paginate(env('paginate', 25));
     }
 
     /**
@@ -55,7 +56,7 @@ class NotificationService
      */
     public function userBased($id)
     {
-        return $this->repo->userBased($id);
+        return $this->model->where('user_id', $id)->where('deleted_at', null)->orderBy('created_at', 'desc')->get();
     }
 
     /**
@@ -67,7 +68,20 @@ class NotificationService
      */
     public function search($input, $id)
     {
-        return $this->repo->search($input, env('paginate', 25), $id);
+        $query = $this->model->orderBy('created_at', 'desc');
+        $query->where('id', 'LIKE', '%'.$input.'%');
+
+        $columns = Schema::getColumnListing('notifications');
+
+        foreach ($columns as $attribute) {
+            if (is_null($id)) {
+                $query->orWhere($attribute, 'LIKE', '%'.$input.'%');
+            } else {
+                $query->orWhere($attribute, 'LIKE', '%'.$input.'%')->where('user_id', $id);
+            }
+        };
+
+        return $query->paginate(env('paginate', 25));
     }
 
     /**
@@ -87,6 +101,7 @@ class NotificationService
             'title' => $title,
             'details' => $details,
         ];
+
         $this->create($input);
     }
 
@@ -112,7 +127,7 @@ class NotificationService
             }
 
             $input['uuid'] = Crypto::uuid();
-            return $this->repo->create($input);
+            return $this->model->create($input);
         } catch (Exception $e) {
             throw new Exception("Could not send notifications please try agian.", 1);
         }
@@ -137,7 +152,7 @@ class NotificationService
      */
     public function find($id)
     {
-        return $this->repo->find($id);
+        return $this->model->find($id);
     }
 
     /**
@@ -148,7 +163,7 @@ class NotificationService
      */
     public function findByUuid($uuid)
     {
-        return $this->repo->findByUuid($uuid);
+        return $this->model->where('uuid', $uuid)->first();
     }
 
     /**
@@ -160,7 +175,7 @@ class NotificationService
      */
     public function update($id, $input)
     {
-        return $this->repo->update($id, $input);
+        return $this->model->update($id, $input);
     }
 
     /**
@@ -172,7 +187,7 @@ class NotificationService
     public function markAsRead($id)
     {
         $input['is_read'] = true;
-        return $this->repo->update($id, $input);
+        return $this->model->update($id, $input);
     }
 
     /**
@@ -183,7 +198,7 @@ class NotificationService
      */
     public function destroy($id)
     {
-        return $this->repo->destroy($id);
+        return $this->model->find($id)->delete();
     }
 
     /**

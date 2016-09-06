@@ -12,7 +12,7 @@ return [
 
     'plans' => [
 
-        'palantyr_basic' => [
+        'app_basic' => [
             'access' => [
                 'some name'
             ],

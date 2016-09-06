@@ -1,8 +1,8 @@
 <?php
 
-namespace {{App\}}Repositories\Team;
+namespace {{App\}}Models;
 
-use {{App\}}Repositories\User\User;
+use {{App\}}Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Team extends Model
@@ -26,5 +26,4 @@ class Team extends Model
     {
         return $this->belongsToMany(User::class);
     }
-
 }

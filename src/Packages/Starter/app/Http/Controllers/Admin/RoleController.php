@@ -6,7 +6,7 @@ use {{App\}}Http\Requests;
 use Illuminate\Http\Request;
 use {{App\}}Services\RoleService;
 use {{App\}}Http\Controllers\Controller;
-use {{App\}}Http\Requests\RoleRequest;
+use {{App\}}Http\Requests\RoleCreateRequest;
 
 class RoleController extends Controller
 {
@@ -56,7 +56,7 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(RoleRequest $request)
+    public function store(RoleCreateRequest $request)
     {
         $result = $this->service->create($request->except(['_token', '_method']));
 

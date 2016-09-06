@@ -1,12 +1,15 @@
 <?php
 
-namespace {{App\}}Repositories\UserMeta;
+namespace {{App\}}Models;
 
-use {{App\}}Repositories\User\User;
+use Laravel\Cashier\Billable;
+use {{App\}}Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class UserMeta extends Model
 {
+    use Billable;
+
     /**
      * The database table used by the model.
      *
@@ -23,6 +26,9 @@ class UserMeta extends Model
         'user_id',
         'phone',
         'marketing',
+        'stripe_id',
+        'card_brand',
+        'card_last_four',
         'terms_and_cond',
     ];
 
@@ -35,5 +41,4 @@ class UserMeta extends Model
     {
         return User::where('id', $this->user_id)->first();
     }
-
 }

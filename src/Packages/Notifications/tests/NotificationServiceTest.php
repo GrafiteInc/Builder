@@ -55,7 +55,7 @@ class NotificationServiceTest extends TestCase
     public function testCreate()
     {
         $response = $this->service->create($this->originalArray);
-        $this->assertEquals(get_class($response), 'App\Repositories\Notification\Notification');
+        $this->assertEquals(get_class($response), 'App\Models\Notification');
         $this->assertEquals(1, $response->id);
     }
 

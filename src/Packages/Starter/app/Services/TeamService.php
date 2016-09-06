@@ -5,78 +5,149 @@ namespace {{App\}}Services;
 use DB;
 use Illuminate\Support\Str;
 use {{App\}}Services\UserService;
-use {{App\}}Repositories\User\User;
-use {{App\}}Repositories\Team\TeamRepository;
+use {{App\}}Models\User;
+use {{App\}}Models\Team;
+use Illuminate\Support\Facades\Schema;
 
 class TeamService
 {
+    /**
+     * Team Model
+     * @var Team
+     */
+    public $model;
+
+    /**
+     * UserService
+     * @var UserService
+     */
+    protected $userService;
+
     public function __construct(
-        TeamRepository $teamRepository,
+        Team $model,
         UserService $userService
     ) {
-        $this->repo = $teamRepository;
+        $this->model = $model;
         $this->userService = $userService;
     }
 
+    /**
+     * All teams
+     * @return \Illuminate\Support\Collection|null|static|Team
+     */
     public function all($userId)
     {
-        return $this->repo->all($userId);
+        return $this->model->where('user_id', $userId)->orderBy('created_at', 'desc')->get();
     }
 
+    /**
+     * All teams paginated
+     * @return \Illuminate\Support\Collection|null|static|Team
+     */
     public function paginated($userId)
     {
-        return $this->repo->paginated($userId, env('paginate', 25));
+        return $this->model->where('user_id', $userId)->orderBy('created_at', 'desc')->paginate(env('paginate', 25));
     }
 
+    /**
+     * Search the teams
+     * @param integer $userId
+     * @param string $input
+     * @return \Illuminate\Support\Collection|null|static|Team
+     */
     public function search($userId, $input)
     {
-        return $this->repo->search($input, $userId, env('paginate', 25));
+        $query = $this->model->orderBy('created_at', 'desc');
+
+        $columns = Schema::getColumnListing('teams');
+        $query->where('id', 'LIKE', '%'.$input.'%');
+
+        foreach ($columns as $attribute) {
+            $query->orWhere($attribute, 'LIKE', '%'.$input.'%')->where('user_id', $userId);
+        };
+
+        return $query->paginate(env('paginate', 25));
     }
 
+    /**
+     * Create a team
+     * @param integer $userId
+     * @param array $input
+     * @return \Illuminate\Support\Collection|null|static|Team
+     */
     public function create($userId, $input)
     {
         try {
             $team = DB::transaction(function () use ($userId, $input) {
                 $input['user_id'] = $userId;
-                $team = $this->repo->create($input);
+                $team = $this->model->create($input);
                 $this->userService->joinTeam($team->id, $userId);
                 return $team;
             });
+
+            return $team;
         } catch (Exception $e) {
             throw new Exception("Failed to create team", 1);
         }
-
-        return $team;
     }
 
+    /**
+     * Find a team
+     * @param integer $id
+     * @return \Illuminate\Support\Collection|null|static|Team
+     */
     public function find($id)
     {
-        return $this->repo->find($id);
+        return $this->model->find($id);
     }
 
+    /**
+     * Find a team by name
+     * @param string $name
+     * @return \Illuminate\Support\Collection|null|static|Team
+     */
     public function findByName($name)
     {
-        return $this->repo->findByName($name);
+        return $this->model->where('name', $name)->firstOrFail();
     }
 
+    /**
+     * Update a team
+     * @param integer $id
+     * @param array $input
+     * @return Team
+     */
     public function update($id, $input)
     {
-        return $this->repo->update($id, $input);
+        return $this->model->find($id)->update($input);
     }
 
+    /**
+     * Delete a team
+     * @param User $user
+     * @param integer $id
+     * @return boolean
+     */
     public function destroy($user, $id)
     {
         if ($user->isTeamAdmin($id)) {
-            $team = $this->repo->find($id);
+            $team = $this->model->find($id);
             foreach ($team->members as $member) {
                 $this->userService->leaveTeam($id, $member->id);
             }
-            return $this->repo->destroy($id);
+            return $this->model->find($id)->delete();
         }
 
         return false;
     }
 
+    /**
+     * Invite a team member
+     * @param User $admin
+     * @param integer $id
+     * @param string $email
+     * @return boolean
+     */
     public function invite($admin, $id, $email)
     {
         try {
@@ -110,6 +181,13 @@ class TeamService
         }
     }
 
+    /**
+     * Remove a team member
+     * @param User $admin
+     * @param integer $id
+     * @param integer $userId
+     * @return boolean
+     */
     public function remove($admin, $id, $userId)
     {
         try {

@@ -26,7 +26,7 @@
                 @if ($user->roles->first()->name === 'admin' || $user->id == 1)
                     <div class="field">
                         @input_maker_label('Role')
-                        @input_maker_create('roles', ['type' => 'relationship', 'model' => 'App\Repositories\Role\Role', 'label' => 'label', 'value' => 'name', 'class' => 'ui fluid dropdown'], $user)
+                        @input_maker_create('roles', ['type' => 'relationship', 'model' => 'App\Models\Role', 'label' => 'label', 'value' => 'name', 'class' => 'ui fluid dropdown'], $user)
                     </div>
                 @endif
 

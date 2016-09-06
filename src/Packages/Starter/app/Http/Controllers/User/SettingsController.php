@@ -7,7 +7,7 @@ use {{App\}}Http\Requests;
 use Illuminate\Http\Request;
 use {{App\}}Services\UserService;
 use {{App\}}Http\Controllers\Controller;
-use {{App\}}Http\Requests\UpdateUserRequest;
+use {{App\}}Http\Requests\UserUpdateRequest;
 
 class SettingsController extends Controller
 {
@@ -39,7 +39,7 @@ class SettingsController extends Controller
      * @param  UpdateAccountRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserRequest $request)
+    public function update(UserUpdateRequest $request)
     {
         if ($this->service->update(Auth::id(), $request->all())) {
             return back()->with('message', 'Settings updated successfully');

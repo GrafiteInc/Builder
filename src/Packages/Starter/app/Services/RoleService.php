@@ -7,13 +7,16 @@ use Auth;
 use Config;
 use Exception;
 use {{App\}}Services\UserService;
-use {{App\}}Repositories\Role\RoleRepository;
+use {{App\}}Models\Role;
+use Illuminate\Support\Facades\Schema;
 
 class RoleService
 {
-    public function __construct(RoleRepository $repo, UserService $userService)
-    {
-        $this->repo = $repo;
+    public function __construct(
+        Role $model,
+        UserService $userService
+    ) {
+        $this->model = $model;
         $this->userService = $userService;
     }
 
@@ -23,24 +26,64 @@ class RoleService
     |--------------------------------------------------------------------------
     */
 
+
+    /**
+     * All roles
+     * @return \Illuminate\Support\Collection|null|static|Role
+     */
     public function all()
     {
-        return $this->repo->all();
+        return $this->model->all();
     }
 
+    /**
+     * Paginated roles
+     * @return \Illuminate\Support\Collection|null|static|Role
+     */
     public function paginated()
     {
-        return $this->repo->paginated(env('paginate', 25));
+        return $this->model->paginate(env('paginate', 25));
     }
 
+    /**
+     * Find a role
+     * @param  integer $id
+     * @return \Illuminate\Support\Collection|null|static|Role
+     */
     public function find($id)
     {
-        return $this->repo->find($id);
+        return $this->model->find($id);
     }
 
+
+    /**
+     * Search the roles
+     * @param  string $input
+     * @return \Illuminate\Support\Collection|null|static|Role
+     */
     public function search($input)
     {
-        return $this->repo->search($input, env('paginate', 25));
+        $query = $this->model->orderBy('name', 'desc');
+
+        $columns = Schema::getColumnListing('roles');
+
+        foreach ($columns as $attribute) {
+            $query->orWhere($attribute, 'LIKE', '%'.$input.'%');
+        };
+
+        return $query->paginate(env('paginate', 25));
+    }
+
+    /**
+     * Find Role by name
+     *
+     * @param string $name
+     *
+     * @return \Illuminate\Support\Collection|null|static|Role
+     */
+    public function findByName($name)
+    {
+        return $this->model->where('name', $name)->firstOrFail();
     }
 
     /*
@@ -59,8 +102,7 @@ class RoleService
     {
         try {
             $input['permissions'] = implode(',', array_keys($input['permissions']));
-            $role = $this->repo->create($input);
-            return $role;
+            return $this->model->create($input);
         } catch (Exception $e) {
             throw new Exception("Failed to create role", 1);
         }
@@ -76,7 +118,7 @@ class RoleService
     public function update($id, $input)
     {
         $input['permissions'] = implode(',', array_keys($input['permissions']));
-        return $this->repo->update($id, $input);
+        return $this->model->find($id)->update($input);
     }
 
     /**
@@ -93,7 +135,7 @@ class RoleService
                 $userCount = count($this->userService->findByRoleID($id));
 
                 if ($userCount == 0) {
-                    $result = $this->repo->destroy($id);
+                    $result = $this->model->destroy($id);
                 }
 
                 return $result;

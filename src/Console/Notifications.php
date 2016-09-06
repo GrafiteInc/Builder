@@ -83,7 +83,7 @@ class Notifications extends Command
 |--------------------------------------------------------------------------
 */
 
-$factory->define('.$this->getAppNamespace()."Repositories\Notification\Notification::class, function (Faker\Generator \$faker) {
+$factory->define('.$this->getAppNamespace()."Models\Notification::class, function (Faker\Generator \$faker) {
     return [
         'id' => 1,
         'user_id' => 1,

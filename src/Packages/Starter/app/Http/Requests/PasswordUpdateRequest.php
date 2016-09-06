@@ -4,9 +4,9 @@ namespace {{App\}}Http\Requests;
 
 use Auth;
 use Illuminate\Foundation\Http\FormRequest;
-use {{App\}}Repositories\Role\Role;
+use {{App\}}Models\User;
 
-class RoleRequest extends FormRequest
+class PasswordUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,11 +15,7 @@ class RoleRequest extends FormRequest
      */
     public function authorize()
     {
-        if (Auth::user()->can('admin')) {
-            return true;
-        }
-
-        return false;
+        return Auth::user();
     }
 
     /**
@@ -29,6 +25,10 @@ class RoleRequest extends FormRequest
      */
     public function rules()
     {
-        return Role::$rules;
+        return [
+            'old_password' => 'required',
+            'new_password' => 'required|confirmed',
+            'new_password_confirmation' => 'required',
+        ];
     }
 }

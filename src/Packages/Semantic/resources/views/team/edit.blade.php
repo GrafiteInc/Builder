@@ -12,7 +12,7 @@
         <div class="ui two column grid">
             <div class="column">
                 <div>
-                    <form class="ui form" method="patch" action="{{ url('teams/'.$team->id) }}">
+                    <form class="ui form" method="post" action="{{ url('teams/'.$team->id) }}">
                         {!! csrf_field() !!}
                         {!! method_field('PATCH') !!}
 

@@ -1,7 +1,7 @@
 @include('partials.message')
 
 <div class="">
-    <form method="patch" action="{{ url('teams/'.$team->id) }}">
+    <form method="post" action="{{ url('teams/'.$team->id) }}">
         {!! csrf_field() !!}
         {!! method_field('PATCH') !!}
 

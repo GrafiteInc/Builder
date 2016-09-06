@@ -1,7 +1,7 @@
 <?php
 
-use App\Services\UserService;
-use App\Repositories\User\User;
+use {{App\}}Models\User;
+use {{App\}}Services\UserService;
 use Illuminate\Database\Seeder;
 
 class UserTableSeeder extends Seeder

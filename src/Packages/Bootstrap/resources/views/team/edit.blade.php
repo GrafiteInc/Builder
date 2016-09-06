@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-md-6 raw-margin-bottom-24">
             <div>
-                <form method="patch" action="{{ url('teams/'.$team->id) }}">
+                <form method="post" action="{{ url('teams/'.$team->id) }}">
                     {!! csrf_field() !!}
                     {!! method_field('PATCH') !!}
 
@@ -23,7 +23,7 @@
 
                     <div class="raw-margin-top-24">
                         <a class="btn btn-default pull-left" href="{{ URL::previous() }}">Cancel</a>
-                        <button class="btn btn-primary pull-right" type="submit">Create</button>
+                        <button class="btn btn-primary pull-right" type="submit">Save</button>
                     </div>
 
                 </form>
@@ -37,7 +37,7 @@
                         <label>Invite a new member</label>
                         <input class="form-control" type="email" name="email" placeholder="Email">
                     </div>
-                    <button class="btn btn-primary pull-right" type="submit">Create</button>
+                    <button class="btn btn-primary pull-right" type="submit">Invite</button>
                 </form>
             @endif
         </div>

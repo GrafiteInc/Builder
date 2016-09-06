@@ -3,10 +3,11 @@
 namespace {{App\}}Http\Requests;
 
 use Auth;
+use Route;
 use Illuminate\Foundation\Http\FormRequest;
-use {{App\}}Repositories\User\User;
+use {{App\}}Models\Team;
 
-class UpdatePasswordRequest extends FormRequest
+class TeamUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +16,14 @@ class UpdatePasswordRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user();
+        $teamOwnerId = (int) Auth::user()->teams->find($this->segment(2))->user_id;
+        $userId = (int) Auth::id();
+
+        if ($teamOwnerId === $userId) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -26,9 +34,7 @@ class UpdatePasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'old_password' => 'required',
-            'new_password' => 'required|confirmed',
-            'new_password_confirmation' => 'required',
+            'name' => 'required'
         ];
     }
 }

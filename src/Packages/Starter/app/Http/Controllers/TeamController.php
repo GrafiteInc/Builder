@@ -6,10 +6,10 @@ use Auth;
 use Gate;
 use Illuminate\Http\Request;
 use {{App\}}Services\TeamService;
-use {{App\}}Http\Requests\TeamRequest;
+use {{App\}}Http\Requests\TeamCreateRequest;
 use {{App\}}Http\Controllers\Controller;
-use {{App\}}Http\Requests\InviteUserRequest;
-use {{App\}}Http\Requests\UpdateTeamRequest;
+use {{App\}}Http\Requests\UserInviteRequest;
+use {{App\}}Http\Requests\TeamUpdateRequest;
 
 class TeamController extends Controller
 {
@@ -53,10 +53,10 @@ class TeamController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\TeamRequest  $request
+     * @param  \Illuminate\Http\TeamCreateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TeamRequest $request)
+    public function store(TeamCreateRequest $request)
     {
         $result = $this->service->create(Auth::id(), $request->except('_token'));
 
@@ -103,7 +103,7 @@ class TeamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTeamRequest $request, $id)
+    public function update(TeamUpdateRequest $request, $id)
     {
         $result = $this->service->update($id, $request->except('_token'));
 
@@ -137,7 +137,7 @@ class TeamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function inviteMember(InviteUserRequest $request, $id)
+    public function inviteMember(UserInviteRequest $request, $id)
     {
         $result = $this->service->invite(Auth::user(), $id, $request->email);
 

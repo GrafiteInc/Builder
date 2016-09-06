@@ -1,11 +1,11 @@
 <?php
 
-namespace {{App\}}Repositories\User;
+namespace {{App\}}Models;
 
-use {{App\}}Repositories\Role\Role;
-use {{App\}}Repositories\Team\Team;
+use {{App\}}Models\Role;
+use {{App\}}Models\Team;
+use {{App\}}Models\UserMeta;
 use Illuminate\Auth\Authenticatable;
-use {{App\}}Repositories\UserMeta\UserMeta;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -75,8 +75,8 @@ class User extends Model implements
         }
         return in_array($role, $roles);
     }
-    
-    
+
+
 
     /**
      * Teams
@@ -112,6 +112,17 @@ class User extends Model implements
     public function isTeamAdmin($id)
     {
         $team = $this->teams->find($id);
-        return (int)$team->user_id === (int)$this->id;
+        return (int) $team->user_id === (int) $this->id;
+    }
+
+    /**
+     * Find by Email
+     *
+     * @param  string $email
+     * @return User
+     */
+    public function findByEmail($email)
+    {
+        return $this->where('email', $email)->first();
     }
 }
