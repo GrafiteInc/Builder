@@ -142,7 +142,7 @@ class UserService
                 $this->assignRole($role, $user->id);
 
                 if ($sendEmail) {
-                    event(new UserRegisteredEmail($user));
+                    event(new UserRegisteredEmail($user, $password));
                 }
             });
 

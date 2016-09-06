@@ -1,33 +1,42 @@
 <?php
 
-namespace App\Events;
+namespace {{App\}}Listeners;
 
-use App\Events\Event;
-use App\Models\User;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use {{App\}}Events\UserRegisteredEmail;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Mail;
 
-class UserRegisteredEmail extends Event
+class UserRegisteredEmailListener
 {
-    use SerializesModels;
-
     /**
-     * Create a new event instance.
+     * Create the event listener.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct()
     {
-        $this->user = $user;
+        //
     }
 
     /**
-     * Get the channels the event should be broadcast on.
+     * Handle the event.
      *
-     * @return array
+     * @param  UserRegisteredEmail  $event
+     * @return void
      */
-    public function broadcastOn()
+    public function handle(UserRegisteredEmail $event)
     {
-        return [];
+        $user = $event->user;
+        $password = $event->password;
+
+        Mail::send(
+            'emails.new-user',
+            ['user' => $user, 'password' => $password],
+            function ($m) use ($user) {
+                $m->from('info@app.com', 'App');
+                $m->to($user->email, $user->name)->subject('You have a new profile!');
+            }
+        );
     }
 }
