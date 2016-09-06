@@ -111,7 +111,7 @@ With the roles middleware you can specify which roles are applicable separating 
 
 Update the `App\User::class` in: 'config/auth.php' and 'database/factory/ModelFactory.php' to this:
 ```php
-App\Repositories\User\User::class
+App\Models\User::class
 ```
 
 Add the following to 'app/Providers/AuthServiceProvider.php' in the boot method
@@ -123,6 +123,14 @@ Gate::define('admin', function ($user) {
 Gate::define('team-member', function ($user, $team) {
     return ($user->teams->find($team->id));
 });
+```
+
+Add the following to 'app/Providers/EventServiceProvider.php' in the $listen property
+
+```php
+'App\Events\UserRegisteredEmail' => [
+    'App\Listeners\UserRegisteredEmailListener',
+],
 ```
 
 You will want to create an sqlite memory test database in the `config/database.php`
@@ -234,7 +242,7 @@ You may want to add this line to your navigation:
 
 Add this to the `app/Providers/RouteServiceProvider.php` in the `mapWebRoutes` method:
 ```php
-require app_path('Http/billing-routes.php');
+require base_path('routes/billing-routes.php');
 ```
 
 This to the .env:
@@ -246,7 +254,7 @@ STRIPE_PUBLIC=secret-key
 
 This to the `app/Providers/AuthServiceProvider.php` in the `boot` method:
 ```php
-$gate->define('access-billing', function ($user) {
+Gate::define('access-billing', function ($user) {
     return ($user->meta->subscribed('main') && is_null($user->meta->subscription('main')->endDate));
 });
 ```
@@ -254,7 +262,7 @@ $gate->define('access-billing', function ($user) {
 For the `config/services.php` you will want yours to resemble:
 ```php
 'stripe' => [
-    'model'  => App\Repositories\UserMeta\UserMeta::class,
+    'model'  => App\Models\UserMeta::class,
     'key'    => env('STRIPE_PUBLIC'),
     'secret' => env('STRIPE_SECRET'),
 ],
@@ -311,14 +319,14 @@ getClause('box_limit');
 canAccess('area_51');
 cannotAccess('restricted_area');
 getLimit('team_user');
-withinLimit('App\Repositories\Team\Team');
-creditsAvailable('App\Repositories\Team\Team');
-creditsUsed('App\Repositories\Team\Team');
-currentBillingCycle()->withinLimit('App\Repositories\Team\Team');
+withinLimit('App\Models\Team');
+creditsAvailable('App\Models\Team');
+creditsUsed('App\Models\Team');
+currentBillingCycle()->withinLimit('App\Models\Team');
 clause('custom', function($user, $subscription, $clause, $query) {
     // do your own logic!
     // model is optional if you dont provide it the query is null - otherwise it's a query builder
-}, 'App\Repositories\Team\Team');
+}, 'App\Models\Team');
 ```
 
 ## License
