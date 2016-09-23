@@ -79,14 +79,14 @@ class Starter extends Command
 
             $this->info('Update the model in: config/auth.php, database/factory/ModelFactory.php');
             $this->comment("\n");
-            $this->comment($this->getAppNamespace()."Repositories\User\User::class");
+            $this->comment($this->getAppNamespace()."Models\User::class");
             $this->comment("\n");
 
             $this->info("Build something worth sharing!\n");
             $this->info("Don't forget to run:");
             $this->comment('composer dump');
             $this->info('Then:');
-            $this->comment('artisan migrate');
+            $this->comment('artisan migrate --seed');
         } else {
             $this->info('You cancelled the laracogs starter');
         }
