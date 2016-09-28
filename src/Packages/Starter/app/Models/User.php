@@ -95,13 +95,9 @@ class User extends Model implements
      */
     public function isTeamMember($id)
     {
-        $teamIds = [];
-
-        foreach ($this->teams->toArray() as $team) {
-            $teamIds[] = $team['id'];
-        }
-
-        return in_array($id, $teamIds);
+       return array_search($id, 
+                           array_column($this->teams->toArray(), 'id')
+                          ) > -1;
     }
 
     /**
