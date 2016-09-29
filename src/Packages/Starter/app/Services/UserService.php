@@ -175,6 +175,12 @@ class UserService
                     $payload['meta']['marketing'] = 0;
                 }
 
+                if (isset($payload['meta']['terms_and_cond']) && ($payload['meta']['terms_and_cond'] == 1 || $payload['meta']['terms_and_cond'] == 'on')) {
+                    $payload['meta']['terms_and_cond'] = 1;
+                } else {
+                    $payload['meta']['terms_and_cond'] = 0;
+                }
+
                 $userMetaResult = (isset($payload['meta'])) ? $user->meta->update($payload['meta']) : true;
 
                 $user->update($payload);

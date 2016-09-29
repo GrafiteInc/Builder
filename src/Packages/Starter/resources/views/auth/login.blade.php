@@ -17,7 +17,7 @@
         <input type="checkbox" name="remember"> Remember Me
     </div>
 
-    <a href="/password/email">Forgot Password</a>
+    <a href="/password/reset">Forgot Password</a>
 
     <div>
         <button type="submit">Login</button>

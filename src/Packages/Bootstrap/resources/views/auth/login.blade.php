@@ -23,7 +23,7 @@
                     </label>
                 </div>
                 <div class="col-md-12 raw-margin-top-24">
-                    <a class="btn btn-default pull-left" href="/password/email">Forgot Password</a>
+                    <a class="btn btn-default pull-left" href="/password/reset">Forgot Password</a>
                     <button class="btn btn-primary pull-right" type="submit">Login</button>
                 </div>
 

@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="field">
-                    <a class="ui violet button left" href="/password/email">Forgot Password</a>
+                    <a class="ui violet button left" href="/password/reset">Forgot Password</a>
                     <button class="ui primary button right floated" type="submit">Login</button>
                 </div>
             </form>

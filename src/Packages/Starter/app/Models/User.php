@@ -1,24 +1,17 @@
 <?php
 
-namespace {{App\}}Models;
+namespace App\Models;
 
-use {{App\}}Models\Role;
-use {{App\}}Models\Team;
-use {{App\}}Models\UserMeta;
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Foundation\Auth\Access\Authorizable;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use App\Models\Role;
+use App\Models\Team;
+use App\Models\UserMeta;
+use App\Notifications\ResetPassword;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model implements
-    AuthenticatableContract,
-    AuthorizableContract,
-    CanResetPasswordContract
+class User extends Authenticatable
 {
-    use Authenticatable, Authorizable, CanResetPassword;
+    use Notifiable;
 
     /**
      * The database table used by the model.
@@ -69,14 +62,9 @@ class User extends Model implements
      */
     public function hasRole($role)
     {
-        $roles = [];
-        foreach ($this->roles->toArray() as $userRole) {
-            array_push($roles, $userRole['name']);
-        }
-        return in_array($role, $roles);
+        $roles = array_column($this->roles->toArray(), 'name');
+        return array_search($role, $roles) > -1;
     }
-
-
 
     /**
      * Teams
@@ -95,9 +83,8 @@ class User extends Model implements
      */
     public function isTeamMember($id)
     {
-       return array_search($id, 
-                           array_column($this->teams->toArray(), 'id')
-                          ) > -1;
+        $teams = array_column($this->teams->toArray(), 'id');
+        return array_search($id, $teams) > -1;
     }
 
     /**
@@ -120,5 +107,16 @@ class User extends Model implements
     public function findByEmail($email)
     {
         return $this->where('email', $email)->first();
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPassword($token));
     }
 }
