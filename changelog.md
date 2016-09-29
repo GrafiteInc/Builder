@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.1.2] - 2016-09-29
+
+### Changed
+- Updated the Starter kit to work with Notifications
+
+### Fixed
+- API
+-  Billing and some other features
+
 ## [v2.1.1] - 2016-09-06
 
 ### Changed
