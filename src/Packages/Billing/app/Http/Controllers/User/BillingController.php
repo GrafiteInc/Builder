@@ -8,7 +8,7 @@ use Activity;
 use Carbon\Carbon;
 use {{App\}}Http\Requests;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Http\FormRequest;
+use {{App\}}Http\Requests\BillingRequest;
 use {{App\}}Http\Controllers\Controller;
 
 class BillingController extends Controller
@@ -40,11 +40,11 @@ class BillingController extends Controller
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function postSubscribe(FormRequest $request)
+    public function postSubscribe(BillingRequest $request)
     {
         try {
-            $inputs = $request->all();
-            $creditCardToken = $inputs['stripeToken'];
+            $payload = $request->all();
+            $creditCardToken = $payload['stripeToken'];
             Auth::user()->meta->newSubscription(Config::get('plans.subscription_name'), env('SUBSCRIPTION'))->create($creditCardToken);
             return redirect('user/billing/details')->with('message', 'You\'re now subscribed!');
         } catch (Exception $e) {
@@ -74,11 +74,11 @@ class BillingController extends Controller
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function postChangeCard(FormRequest $request)
+    public function postChangeCard(BillingRequest $request)
     {
         try {
-            $inputs = $request->all();
-            $creditCardToken = $inputs['stripeToken'];
+            $payload = $request->all();
+            $creditCardToken = $payload['stripeToken'];
             Auth::user()->meta->updateCard($creditCardToken);
             return redirect('user/billing/details')->with('message', 'Your subscription has been updated!');
         } catch (Exception $e) {
@@ -108,11 +108,11 @@ class BillingController extends Controller
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function postCoupon(FormRequest $request)
+    public function postCoupon(BillingRequest $request)
     {
         try {
-            $inputs = $request->all();
-            Auth::user()->meta->coupon($inputs['coupon']);
+            $payload = $request->all();
+            Auth::user()->meta->coupon($payload['coupon']);
             return redirect('user/billing/details')->with('message', 'Your coupon was used!');
         } catch (Exception $e) {
             throw new Exception("Could not process the coupon please try again.", 1);

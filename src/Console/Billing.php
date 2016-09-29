@@ -62,7 +62,7 @@ class Billing extends Command
                 $this->line("\n Add this line to (.env):");
                 $this->comment("\n SUBSCRIPTION=basic");
                 $this->line("\n Add this to (app/Providers/AuthServiceProvider.php):");
-                $this->comment("\n \$gate->define('access-billing', function (\$user) {");
+                $this->comment("\n Gate::define('access-billing', function (\$user) {");
                 $this->comment("\n\t return (\$user->meta->subscribed('main') && is_null(\$user->meta->subscription('main')->endDate));");
                 $this->comment("\n });");
                 $this->line("\n Your gulpfile will want to resemble this: (gulpfile.js):");
