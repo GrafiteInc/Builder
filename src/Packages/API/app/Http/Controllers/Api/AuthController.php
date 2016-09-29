@@ -6,7 +6,7 @@ use DB;
 use Validator;
 use Illuminate\Http\Request;
 use {{App\}}Services\UserService;
-use {{App\}}Repositories\User\User;
+use {{App\}}Models\User;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use {{App\}}Http\Controllers\Controller;
 

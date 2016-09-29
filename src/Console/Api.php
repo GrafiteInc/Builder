@@ -79,7 +79,7 @@ class Api extends Command
                 $this->comment("\n RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]");
 
                 $this->line("\n Also update your jwt config file and set the user to:");
-                $this->comment("\n \App\Repositories\User\User::class ");
+                $this->comment("\n \App\Models\User::class ");
 
                 $this->info('Finished setting up your basic JWT API');
             } else {
