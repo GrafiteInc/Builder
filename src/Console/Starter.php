@@ -59,6 +59,9 @@ class Starter extends Command
             $this->line('Copying app/Listeners...');
             $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/app/Listeners', app_path('Listeners'));
 
+            $this->line('Copying app/Notifications...');
+            $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/app/Notifications', app_path('Notifications'));
+
             $this->line('Copying app/Models...');
             $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/app/Models', app_path('Models'));
 
