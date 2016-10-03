@@ -10,8 +10,8 @@ class BillingIntegrationTest extends TestCase
     {
         parent::setUp();
         $this->user = factory({{App\}}Models\User::class)->create([ 'id' => rand(1000, 9999) ]);
-        $this->user->meta = factory({{App\}}\Models\UserMeta::class)->create([ 'id' => $this->user->id ]);
-        $this->role = factory({{App\}}\Models\Role::class)->create(['name' => 'admin']);
+        $this->user->meta = factory({{App\}}Models\UserMeta::class)->create([ 'id' => $this->user->id ]);
+        $this->role = factory({{App\}}Models\Role::class)->create(['name' => 'admin']);
         $this->user->roles()->attach($this->role);
         $this->actor = $this->actingAs($this->user);
         $subscription = Mockery::mock('subscription')->shouldReceive('upcomingInvoice')->withAnyArgs()->andReturn([])->getMock();
