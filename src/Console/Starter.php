@@ -82,14 +82,14 @@ class Starter extends Command
             if ($this->confirm('Would you like to make migration ? [y|N]')) {
                 exec('cd '.base_path().' && composer dump-autoload');
                 // execute migrate artisan command
-                Artisan::call('migrate',['--seed']);
+                Artisan::call('migrate', ['--seed']);
             } else {
                 $this->info("Don't forget to run:");
                 $this->comment('composer dump');
                 $this->info('Then:');
                 $this->comment('artisan migrate --seed');
             }
-            
+
         } else {
             $this->info('You cancelled the laracogs starter');
         }
