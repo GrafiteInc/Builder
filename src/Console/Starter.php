@@ -89,7 +89,6 @@ class Starter extends Command
                 $this->info('Then:');
                 $this->comment('artisan migrate --seed');
             }
-
         } else {
             $this->info('You cancelled the laracogs starter');
         }
