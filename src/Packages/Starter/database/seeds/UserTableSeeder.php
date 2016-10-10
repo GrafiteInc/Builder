@@ -15,8 +15,7 @@ class UserTableSeeder extends Seeder
     {
         $service = app(UserService::class);
         
-        if (!User::where('name', 'admin')->first()) 
-        {
+        if (!User::where('name', 'admin')->first()) {
             $user = User::create([
                 'name' => 'Admin',
                 'email' => 'admin@admin.com',
