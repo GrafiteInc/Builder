@@ -4,6 +4,7 @@ namespace Yab\Laracogs\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Artisan;
 use Yab\Laracogs\Traits\FileMakerTrait;
 
 class Starter extends Command
@@ -86,10 +87,17 @@ class Starter extends Command
             $this->comment("\n");
 
             $this->info("Build something worth sharing!\n");
-            $this->info("Don't forget to run:");
-            $this->comment('composer dump');
-            $this->info('Then:');
-            $this->comment('artisan migrate --seed');
+
+            if ($this->confirm('Would you like to run the migration? [y|N]')) {
+                exec('cd '.base_path().' && composer dump-autoload');
+                // execute migrate artisan command
+                Artisan::call('migrate', ['--seed']);
+            } else {
+                $this->info("Don't forget to run:");
+                $this->comment('composer dump');
+                $this->info('Then:');
+                $this->comment('artisan migrate --seed');
+            }
         } else {
             $this->info('You cancelled the laracogs starter');
         }
