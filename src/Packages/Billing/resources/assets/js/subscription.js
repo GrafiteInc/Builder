@@ -11,6 +11,10 @@ $(function(){
     });
 
     jQuery(function($) {
+        $('.jp-card').css({
+            'backface-visibility': 'hidden'
+        });
+
         $('form').submit(function(event) {
             var $form = $(this);
             $form.find('button').prop('disabled', true);
