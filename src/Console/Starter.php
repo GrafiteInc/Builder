@@ -92,7 +92,7 @@ class Starter extends Command
                 exec('cd '.base_path().' && composer dump-autoload');
                 // execute migrate artisan command
                 Artisan::call('migrate', [
-                    '--seed' => true
+                    '--seed' => true,
                 ]);
             } else {
                 $this->info("Don't forget to run:");
