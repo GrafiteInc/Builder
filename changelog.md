@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.1.4] - 2016-10-11
+
+### Changed
+- Added auto migrate on starter kit
+
+### Fixed
+- Minor corrections for billing card.js
+
 ## [v2.1.3] - 2016-10-03
 
 ### Fixed
