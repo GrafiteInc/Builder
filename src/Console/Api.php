@@ -65,7 +65,7 @@ class Api extends Command
                 $this->line("\n And then run:");
                 $this->comment("\n artisan vendor:publish --provider=\"Tymon\JWTAuth\Providers\JWTAuthServiceProvider\"");
 
-                $this->line("\n Add to the app/Http/Kernal.php under routeMiddleware :");
+                $this->line("\n Add to the app/Http/Kernel.php under routeMiddleware :");
                 $this->comment("\n 'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class");
                 $this->comment("\n 'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class");
 
