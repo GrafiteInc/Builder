@@ -2,9 +2,9 @@
 
 namespace Yab\Laracogs\Console;
 
-use Illuminate\Console\AppNamespaceDetectorTrait;
-use Illuminate\Console\Command;
 use Markdown;
+use Illuminate\Console\Command;
+use Illuminate\Console\AppNamespaceDetectorTrait;
 
 class Docs extends Command
 {
@@ -62,8 +62,6 @@ class Docs extends Command
      * Create the docs.
      *
      * @param string $name
-     *
-     * @return void
      */
     public function createDocs($name)
     {
@@ -91,8 +89,6 @@ class Docs extends Command
 
     /**
      * Build the docs.
-     *
-     * @return void
      */
     public function buildDocs()
     {
@@ -114,7 +110,7 @@ class Docs extends Command
                 if (!file_exists(base_path('documentation/build/rules/'.basename($file)))) {
                     mkdir(base_path('documentation/build/rules/'.basename($file)));
                 }
-                $sectionIndexTemplate = file_get_contents(__DIR__.'/../Documentation/SiteTemplate/section_index.html');
+                $sectionIndexTemplate = file_get_contents(__DIR__.'/../Packages/Documentation/SiteTemplate/section_index.html');
                 $sectionLinksContent = $this->getSectionLinks($file);
 
                 $this->buildSection($file);
@@ -129,7 +125,7 @@ class Docs extends Command
                 $sectionLinksContent = $this->getSectionLinks($section);
 
                 if (basename($file) === 'index.md') {
-                    $realIndex = file_get_contents(__DIR__.'/../Documentation/SiteTemplate/index.html');
+                    $realIndex = file_get_contents(__DIR__.'/../Packages/Documentation/SiteTemplate/index.html');
                     $realIndex = str_replace('_section_links_', $sectionLinksContent, $realIndex);
                     $realIndex = str_replace('_path_to_api_', '../api', $realIndex);
                     $realIndex = str_replace('_path_to_build_', '.', $realIndex);
@@ -146,8 +142,6 @@ class Docs extends Command
 
     /**
      * Create a SAMI config.
-     *
-     * @return void
      */
     public function samiDocs()
     {
@@ -170,8 +164,6 @@ class Docs extends Command
      * Build a section of the site.
      *
      * @param string $section
-     *
-     * @return void
      */
     public function buildSection($section)
     {
@@ -200,8 +192,8 @@ class Docs extends Command
     {
         $files = glob($section.'/*');
         $sectionLinks = '';
-        $sectionLinksTemplate = file_get_contents(__DIR__.'/../Documentation/SiteTemplate/section.html');
-        $linksTemplate = file_get_contents(__DIR__.'/../Documentation/SiteTemplate/section_link.html');
+        $sectionLinksTemplate = file_get_contents(__DIR__.'/../Packages/Documentation/SiteTemplate/section.html');
+        $linksTemplate = file_get_contents(__DIR__.'/../Packages/Documentation/SiteTemplate/section_link.html');
         $sectionLinksContent = '';
 
         foreach ($files as $file) {
@@ -230,12 +222,10 @@ class Docs extends Command
 
     /**
      * Generate the SAMI docs.
-     *
-     * @return void
      */
     public function generateApiDocs()
     {
-        $configTemplate = file_get_contents(__DIR__.'/../Documentation/configTemplate.txt');
+        $configTemplate = file_get_contents(__DIR__.'/../Packages/Documentation/configTemplate.txt');
         $parseConfig = str_replace('_path_to_build_', base_path('documentation/build'), $configTemplate);
         $parseConfig = str_replace('_path_to_app_', app_path(), $parseConfig);
 
@@ -244,15 +234,13 @@ class Docs extends Command
 
     /**
      * Copy the templates.
-     *
-     * @return void
      */
     public function copyTemplate()
     {
-        copy(__DIR__.'/../Documentation/SiteTemplate/index.html', base_path('documentation/build/rules/index.html'));
-        $this->recurseCopy(__DIR__.'/../Documentation/SiteTemplate/css', base_path('documentation/build/rules/css'));
-        $this->recurseCopy(__DIR__.'/../Documentation/SiteTemplate/js', base_path('documentation/build/rules/js'));
-        $this->recurseCopy(__DIR__.'/../Documentation/SiteTemplate/fonts', base_path('documentation/build/rules/fonts'));
+        copy(__DIR__.'/../Packages/Documentation/SiteTemplate/index.html', base_path('documentation/build/rules/index.html'));
+        $this->recurseCopy(__DIR__.'/../Packages/Documentation/SiteTemplate/css', base_path('documentation/build/rules/css'));
+        $this->recurseCopy(__DIR__.'/../Packages/Documentation/SiteTemplate/js', base_path('documentation/build/rules/js'));
+        $this->recurseCopy(__DIR__.'/../Packages/Documentation/SiteTemplate/fonts', base_path('documentation/build/rules/fonts'));
     }
 
     /**
@@ -260,8 +248,6 @@ class Docs extends Command
      *
      * @param string $src
      * @param string $dst
-     *
-     * @return void
      */
     public function recurseCopy($src, $dst)
     {
@@ -305,7 +291,7 @@ class Docs extends Command
         $parsed = Markdown::parse($contents, ['purifier' => false]);
         $content = str_replace('<version>', $version, $parsed);
 
-        $pageTemplate = file_get_contents(__DIR__.'/../Documentation/SiteTemplate/page.html');
+        $pageTemplate = file_get_contents(__DIR__.'/../Packages/Documentation/SiteTemplate/page.html');
         $content = str_replace('_page_contents_', $content, $pageTemplate);
         $content = str_replace('_section_links_', $sectionLinks, $content);
 
