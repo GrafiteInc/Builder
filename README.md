@@ -16,6 +16,9 @@ This is a set of tools to help speed up development of Laravel apps. You can sta
 ## Website
 [http://laracogs.com](http://laracogs.com)
 
+## YAB Newsletter
+[Subscribe](http://eepurl.com/ck7dSv)
+
 ## Detailed Documentation
 Please consult the documentation here: [http://laracogs.com/docs](http://laracogs.com/docs)
 
