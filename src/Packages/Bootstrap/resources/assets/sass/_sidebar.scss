@@ -6,12 +6,11 @@
     top: 45px;
     width: 300px;
     padding: 0px;
-    padding-top: 24px;
+    padding-top: 5px;
     background-color: #DDD;
-    border-right: 1px solid #222;
     overflow-x: hidden;
     height: 100%;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    overflow-y: auto;
 }
 
 .sidebar-header {
@@ -55,7 +54,7 @@
 .nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
-    color: #fff;
-    background-color: #333;
+    color: #333;
+    background-color: #FFF;
 }
 
