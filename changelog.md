@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.1.6] - 2016-10-31
+
+### Added
+- Brought over other packages for faster development of projects
+
+### Changed
+- Minor improvements to Bootstrap
+
 ## [v2.1.5] - 2016-10-21
 
 ### Fixed
