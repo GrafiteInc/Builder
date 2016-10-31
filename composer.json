@@ -18,7 +18,9 @@
         "doctrine/dbal": "^2.5",
         "yab/formmaker": "^1.0",
         "yab/crypto": "^1.0",
-        "yab/crudmaker": "^1.1"
+        "yab/crudmaker": "^1.1",
+        "yab/cerebrum": "^1.0",
+        "yab/laratest": "^0.1"
     },
     "require-dev": {
         "illuminate/container": "^5.3",

@@ -32,6 +32,8 @@ class LaracogsProvider extends ServiceProvider
         $this->app->register(\Yab\FormMaker\FormMakerProvider::class);
         $this->app->register(\Yab\Crypto\CryptoProvider::class);
         $this->app->register(\Yab\CrudMaker\CrudMakerProvider::class);
+        $this->app->register(\Yab\Cerebrum\CerebrumProvider::class);
+        $this->app->register(\Yab\Laratest\LaratestProvider::class);
 
         /*
         |--------------------------------------------------------------------------

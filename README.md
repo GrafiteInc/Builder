@@ -16,7 +16,7 @@ This is a set of tools to help speed up development of Laravel apps. You can sta
 ## Website
 [http://laracogs.com](http://laracogs.com)
 
-## YAB Newsletter
+## Yab Newsletter
 [Subscribe](http://eepurl.com/ck7dSv)
 
 ## Detailed Documentation
@@ -55,8 +55,8 @@ Yab\Laracogs\LaracogsProvider::class
 
 ##### After these few steps you have the following tools at your fingertips:
 
-## CRUD
-The CRUD commands build a CRUD for a table with unit tests! Use the table-crud for tables that already exist.
+## CrudMaker
+The CrudMaker commands build a CRUD for a table with unit tests! Use the table-crud for tables that already exist.
 ```php
 php artisan crudmaker:new {name or snake_names} {--api} {--ui=bootstrap|semantic} {--serviceOnly} {--withFacade} {--migration} {--schema=} {--relationships=}
 php artisan crudmaker:table {name or snake_names} {--api} {--ui=bootstrap|semantic} {--serviceOnly} {--withFacade}
@@ -68,10 +68,12 @@ The docs can prepare documentation for business rules or prepare your app for AP
 php artisan laracogs:docs {action} {name=null} {version=null}
 ```
 
-## Facades/ Utilities
-Laracogs provides a handful of easy to use tools outside of the app starter kit, and CRUD builder:
+## Facades/ Services
+Laracogs provides a handful of easy to use tools outside of the app starter kit, and CrudMaker including:
 
 #### Crypto
+Some simple cryptography tools including a random UUID generator.
+
 ```php
 Crypto::uuid();
 Crypto::encrypt('string');
@@ -81,6 +83,8 @@ Crypto::shared()->decrypt('enc-string');
 ```
 
 #### FormMaker
+Build forms from as little as one line of code.
+
 ```php
 FormMaker::fromTable($table, $columns = null, $class = 'form-control', $view = null, $reformatted = true, $populated = false, $idAndTimestamps = false)
 FormMaker::fromObject($object, $columns = null, $view = null, $class = 'form-control', $populated = true, $reformatted = false, $idAndTimestamps = false)
@@ -88,9 +92,27 @@ FormMaker::fromArray($array, $columns = null, $view = null, $class = 'form-contr
 ```
 
 #### InputMaker
+Looking to make some inputs? Look no further.
+
 ```php
 InputMaker::label($name, $attributes = [])
 InputMaker::create($name, $field, $object = null, $class = 'form-control', $reformatted = false, $populated = false)
+```
+
+#### Cerebrum
+A set of traits which can be added to service or models to give your app extra power!
+
+```php
+Memory // Magical caching
+Linguistics // Basic NLP
+```
+
+#### Laratest
+Looking to write tests for your code? Generate test structures with this handy command.
+
+```php
+php artisan laratest:unit {path to file}
+php artisan laratest:route {route}
 ```
 
 # Kits
