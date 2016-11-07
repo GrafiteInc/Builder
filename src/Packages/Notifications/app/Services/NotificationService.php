@@ -2,9 +2,10 @@
 
 namespace {{App\}}Services;
 
-use Crypto;
-use {{App\}}Services\UserService;
 use {{App\}}Models\Notification;
+use {{App\}}Notifications\GeneralNotification;
+use {{App\}}Services\UserService;
+use Crypto;
 use Illuminate\Support\Facades\Schema;
 
 class NotificationService
@@ -120,13 +121,25 @@ class NotificationService
                 foreach ($users as $user) {
                     $input['uuid'] = Crypto::uuid();
                     $input['user_id'] = $user->id;
-                    $this->repo->create($input);
+                    $this->model->create($input);
                 }
+
+                $user->notify(new GeneralNotification([
+                    'title' => $input['title'],
+                    'details' => $input['details'],
+                ]));
 
                 return true;
             }
 
             $input['uuid'] = Crypto::uuid();
+
+            $user = $this->userService->find($input['user_id']);
+            $user->notify(new GeneralNotification([
+                'title' => $input['title'],
+                'details' => $input['details'],
+            ]));
+
             return $this->model->create($input);
         } catch (Exception $e) {
             throw new Exception("Could not send notifications please try agian.", 1);
@@ -177,6 +190,12 @@ class NotificationService
     {
         $notification = $this->model->find($id);
         $notification->update($input);
+
+        $user = $this->userService->find($notification->user_id);
+        $user->notify(new GeneralNotification([
+            'title' => $input['title'],
+            'details' => $input['details'],
+        ]));
 
         return $notification;
     }

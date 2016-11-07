@@ -18,7 +18,7 @@
     <div class="row raw-margin-top-24">
         <div class="col-md-12">
 
-            <form method="patch" action="{!! url('admin/notifications/'.$notification->id) !!}">
+            <form method="post" action="{!! url('admin/notifications/'.$notification->id) !!}">
                 {!! csrf_field() !!}
                 {!! method_field('PATCH') !!}
 

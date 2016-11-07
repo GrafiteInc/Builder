@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use {{App\}}Http\Controllers\Controller;
 use {{App\}}Services\NotificationService;
 use {{App\}}Http\Requests\NotificationCreateRequest;
+use {{App\}}Http\Requests\NotificationUpdateRequest;
 
 class NotificationController extends Controller
 {
@@ -80,11 +81,11 @@ class NotificationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\NotificationRequest  $request
+     * @param  \Illuminate\Http\NotificationUpdateRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(NotificationRequest $request, $id)
+    public function update(NotificationUpdateRequest $request, $id)
     {
         $result = $this->service->update($id, $request->except('_token'));
 
