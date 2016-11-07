@@ -174,6 +174,12 @@ Add the following line to the 'phpunit.xml' file
 <env name="MAIL_DRIVER" value="log"/>
 ```
 
+##### Regarding Email Activation
+
+The Starter kit has an email activation component added to the app to ensure your users have validated their email address.
+You can disable it by removing the `active` middleware from the `web` routes. You will also have to disable the Notification but it
+won't cause any problems if you remove the email activation.
+
 ##### For Laravel 5.2
 You will also need to set the location of the email for password reminders. (config/auth.php - at the bottom)
 
