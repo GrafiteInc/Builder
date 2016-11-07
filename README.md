@@ -130,6 +130,7 @@ Add the following to your `app/Http/Kernel.php` $routeMiddleware array.
 'admin' => \App\Http\Middleware\Admin::class,
 'permission' => \App\Http\Middleware\Permission::class,
 'roles' => \App\Http\Middleware\Roles::class,
+'active' => \App\Http\Middleware\Active::class,
 ```
 
 With the roles middleware you can specify which roles are applicable separating them with pipes: `['middleware' => ['roles:admin|moderator|member']]`

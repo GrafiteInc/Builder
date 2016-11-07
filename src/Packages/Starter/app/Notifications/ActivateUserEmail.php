@@ -5,7 +5,7 @@ namespace {{App\}}Notifications;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ResetPassword extends Notification
+class ActivateUserEmail extends Notification
 {
     /**
      * The password reset token.
@@ -47,8 +47,7 @@ class ResetPassword extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('You are receiving this email because we received a password reset request for your account.')
-            ->action('Reset Password', url('password/reset', $this->token))
-            ->line('If you did not request a password reset, no further action is required.');
+            ->line('You are receiving this email because we would like to activate your account.')
+            ->action('Activate Account', url('activate/token', $this->token));
     }
 }

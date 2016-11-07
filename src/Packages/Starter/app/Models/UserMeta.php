@@ -24,6 +24,8 @@ class UserMeta extends Model
         'phone',
         'marketing',
         'terms_and_cond',
+        'is_active',
+        'activation_token',
     ];
 
     /**

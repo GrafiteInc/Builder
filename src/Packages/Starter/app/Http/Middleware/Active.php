@@ -1,11 +1,11 @@
 <?php
 
-namespace {{App\}}Http\Middleware;
+namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
-class Authenticate
+class Active
 {
     /**
      * The Guard implementation.
@@ -34,12 +34,8 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
-        if ($this->auth->guest()) {
-            if ($request->ajax()) {
-                return response('Unauthorized.', 401);
-            } else {
-                return redirect()->guest('login');
-            }
+        if (! $this->auth->user()->meta->is_active) {
+            return redirect()->guest('activate');
         }
 
         return $next($request);

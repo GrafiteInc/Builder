@@ -13,6 +13,7 @@ use {{App\}}Models\UserMeta;
 use {{App\}}Models\Team;
 use {{App\}}Models\Role;
 use {{App\}}Events\UserRegisteredEmail;
+use {{App\}}Notifications\ActivateUserEmail;
 use Illuminate\Support\Facades\Schema;
 
 class UserService
@@ -123,6 +124,23 @@ class UserService
     }
 
     /**
+     * Find by the user meta activation token
+     *
+     * @param  string $token
+     * @return boolean
+     */
+    public function findByActivationToken($token)
+    {
+        $userMeta = $this->userMeta->where('activation_token', $token)->first();
+
+        if ($userMeta) {
+            return $userMeta->user();
+        }
+
+        return false;
+    }
+
+    /**
      * Create a user's profile
      *
      * @param  User $user User
@@ -144,7 +162,10 @@ class UserService
                 if ($sendEmail) {
                     event(new UserRegisteredEmail($user, $password));
                 }
+
             });
+
+            $this->setAndSencUserActivationToken($user);
 
             return $user;
         } catch (Exception $e) {
@@ -274,6 +295,22 @@ class UserService
         } catch (Exception $e) {
             throw new Exception("Error returning to your user", 1);
         }
+    }
+
+    /**
+     * Set and send the user activation token via email
+     *
+     * @param void
+     */
+    public function setAndSencUserActivationToken($user)
+    {
+        $token = md5(str_random(40));
+
+        $user->meta()->update([
+            'activation_token' => $token
+        ]);
+
+        $user->notify(new ActivateUserEmail($token));
     }
 
     /*

@@ -19,6 +19,10 @@ class CreateUserMetaTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->string('phone')->nullable();
+
+            $table->boolean('is_active')->default(0);
+            $table->string('activation_token')->nullable();
+
             $table->boolean('marketing')->default(0);
             $table->boolean('terms_and_cond')->default(1);
 

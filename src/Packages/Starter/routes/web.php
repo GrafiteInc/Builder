@@ -44,12 +44,16 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::get('register', 'Auth\RegisterController@showRegistrationForm');
 Route::post('register', 'Auth\RegisterController@register');
 
+Route::get('activate', 'Auth\ActivateController@showActivate');
+Route::get('activate/send-token', 'Auth\ActivateController@sendToken');
+Route::get('activate/token/{token}', 'Auth\ActivateController@activate');
+
 /*
 |--------------------------------------------------------------------------
 | Authenticated Routes
 |--------------------------------------------------------------------------
 */
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'active']], function () {
 
     Route::get('/users/switch-back', 'Admin\UserController@switchUserBack');
 
