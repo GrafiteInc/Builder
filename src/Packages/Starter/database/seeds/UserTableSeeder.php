@@ -21,8 +21,9 @@ class UserTableSeeder extends Seeder
                 'email' => 'admin@admin.com',
                 'password' => bcrypt('admin'),
             ]);
+            
+            $service->create($user, 'admin', 'admin', false);
         }
 
-        $service->create($user, 'admin', 'admin', false);
     }
 }
