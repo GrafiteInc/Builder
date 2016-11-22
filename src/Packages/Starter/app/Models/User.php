@@ -95,7 +95,11 @@ class User extends Authenticatable
     public function isTeamAdmin($id)
     {
         $team = $this->teams->find($id);
-        return (int) $team->user_id === (int) $this->id;
+        if($team){
+		return (int) $team->user_id === (int) $this->id;
+	}else{
+		return false;
+	}
     }
 
     /**
