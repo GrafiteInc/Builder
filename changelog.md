@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.1.9] - 2016-12-06
+
+### Fixed
+- Fixed some minor issues with the permissions in the starter kit
+
 ## [v2.1.8] - 2016-11-16
 
 ### Fixed
