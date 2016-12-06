@@ -119,6 +119,8 @@ class RoleService
     {
         if (isset($input['permissions'])) {
             $input['permissions'] = implode(',', array_keys($input['permissions']));
+        } else {
+            $input['permissions'] = null;
         }
 
         $role = $this->model->find($id);

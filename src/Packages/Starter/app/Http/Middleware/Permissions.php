@@ -6,7 +6,7 @@ use Gate;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
-class Permission
+class Permissions
 {
     /**
      * The Guard implementation.

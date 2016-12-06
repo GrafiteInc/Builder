@@ -128,12 +128,13 @@ In order to make use of the <u>starter kit</u> you will need to modify some file
 Add the following to your `app/Http/Kernel.php` $routeMiddleware array.
 ```php
 'admin' => \App\Http\Middleware\Admin::class,
-'permission' => \App\Http\Middleware\Permission::class,
+'permissions' => \App\Http\Middleware\Permissions::class,
 'roles' => \App\Http\Middleware\Roles::class,
 'active' => \App\Http\Middleware\Active::class,
 ```
 
 With the roles middleware you can specify which roles are applicable separating them with pipes: `['middleware' => ['roles:admin|moderator|member']]`
+With the permissions middleware you can specify which permissions (which are bound to roles) are applicable separating them with pipes: `['middleware' => ['permissions:admin|regular']]`
 
 Update the `App\User::class` in: 'config/auth.php' and 'database/factory/ModelFactory.php' to this:
 ```php

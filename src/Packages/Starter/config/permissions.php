@@ -13,7 +13,6 @@
 
 return [
 
-    'super' => 'Super',
     'admin' => 'Admin',
     'regular' => 'Regular',
 
