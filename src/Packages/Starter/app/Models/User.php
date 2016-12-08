@@ -67,6 +67,23 @@ class User extends Authenticatable
     }
 
     /**
+     * Check if user has permission
+     *
+     * @param  string  $permission
+     * @return boolean
+     */
+    public function hasPermission($permission)
+    {
+        return $this->roles->each(function ($role) use ($permission) {
+            if (in_array($permission, explode(',', $role->permissions))) {
+                return true;
+            }
+        });
+
+        return false;
+    }
+
+    /**
      * Teams
      *
      * @return Relationship
