@@ -50,7 +50,7 @@ composer require "yab/laracogs"
 
 Add this to the `config/app.php` in the providers array:
 ```php
-Yab\Laracogs\LaracogsProvider::class
+Yab\Laracogs\LaracogsProvider::class,
 ```
 
 ##### After these few steps you have the following tools at your fingertips:
