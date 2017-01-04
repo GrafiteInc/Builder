@@ -165,7 +165,7 @@ class UserService
 
             });
 
-            $this->setAndSencUserActivationToken($user);
+            $this->setAndSendUserActivationToken($user);
 
             return $user;
         } catch (Exception $e) {
@@ -302,7 +302,7 @@ class UserService
      *
      * @param void
      */
-    public function setAndSencUserActivationToken($user)
+    public function setAndSendUserActivationToken($user)
     {
         $token = md5(str_random(40));
 

@@ -38,15 +38,17 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 /*
 |--------------------------------------------------------------------------
-| Registration
+| Registration & Activation
 |--------------------------------------------------------------------------
 */
 Route::get('register', 'Auth\RegisterController@showRegistrationForm');
 Route::post('register', 'Auth\RegisterController@register');
 
-Route::get('activate', 'Auth\ActivateController@showActivate');
-Route::get('activate/send-token', 'Auth\ActivateController@sendToken');
 Route::get('activate/token/{token}', 'Auth\ActivateController@activate');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('activate', 'Auth\ActivateController@showActivate');
+    Route::get('activate/send-token', 'Auth\ActivateController@sendToken');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +56,12 @@ Route::get('activate/token/{token}', 'Auth\ActivateController@activate');
 |--------------------------------------------------------------------------
 */
 Route::group(['middleware' => ['auth', 'active']], function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | General
+    |--------------------------------------------------------------------------
+    */
 
     Route::get('/users/switch-back', 'Admin\UserController@switchUserBack');
 
