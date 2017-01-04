@@ -101,7 +101,11 @@ class RoleService
     public function create($input)
     {
         try {
-            $input['permissions'] = implode(',', array_keys($input['permissions']));
+            if (isset($input['permissions'])) {
+                $input['permissions'] = implode(',', array_keys($input['permissions']));
+            } else {
+                $input['permissions'] = null;
+            }
             return $this->model->create($input);
         } catch (Exception $e) {
             throw new Exception("Failed to create role", 1);
