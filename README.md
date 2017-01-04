@@ -78,8 +78,8 @@ Some simple cryptography tools including a random UUID generator.
 Crypto::uuid();
 Crypto::encrypt('string');
 Crypto::decrypt('enc-string');
-Crypto::shared()->encrypt('string');
-Crypto::shared()->decrypt('enc-string');
+Crypto::sharable()->encrypt('string');
+Crypto::sharable()->decrypt('enc-string');
 ```
 
 #### FormMaker
