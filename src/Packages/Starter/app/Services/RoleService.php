@@ -42,7 +42,7 @@ class RoleService
      */
     public function paginated()
     {
-        return $this->model->paginate(env('paginate', 25));
+        return $this->model->paginate(env('PAGINATE', 25));
     }
 
     /**
@@ -71,7 +71,7 @@ class RoleService
             $query->orWhere($attribute, 'LIKE', '%'.$input.'%');
         };
 
-        return $query->paginate(env('paginate', 25));
+        return $query->paginate(env('PAGINATE', 25));
     }
 
     /**

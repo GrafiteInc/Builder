@@ -27,7 +27,7 @@ class AccountService
         $this->subscription = $this->user->meta->subscription($this->config['subscription_name']);
         $this->inBillingCycle = false;
 
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe::setApiKey(config('services.stripe.secret'));
     }
 
     /**

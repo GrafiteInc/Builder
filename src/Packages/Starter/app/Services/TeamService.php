@@ -46,7 +46,7 @@ class TeamService
      */
     public function paginated($userId)
     {
-        return $this->model->where('user_id', $userId)->orderBy('created_at', 'desc')->paginate(env('paginate', 25));
+        return $this->model->where('user_id', $userId)->orderBy('created_at', 'desc')->paginate(env('PAGINATE', 25));
     }
 
     /**
@@ -66,7 +66,7 @@ class TeamService
             $query->orWhere($attribute, 'LIKE', '%'.$input.'%')->where('user_id', $userId);
         };
 
-        return $query->paginate(env('paginate', 25));
+        return $query->paginate(env('PAGINATE', 25));
     }
 
     /**

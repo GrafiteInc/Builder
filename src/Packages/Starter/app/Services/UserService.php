@@ -90,7 +90,7 @@ class UserService
             $query->orWhere($attribute, 'LIKE', '%'.$input.'%');
         };
 
-        return $query->paginate(env('paginate', 25));
+        return $query->paginate(env('PAGINATE', 25));
     }
 
     /**
