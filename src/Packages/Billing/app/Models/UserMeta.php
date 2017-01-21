@@ -25,6 +25,7 @@ class UserMeta extends Model
     protected $fillable = [
         'user_id',
         'phone',
+        'activation_token',
         'marketing',
         'stripe_id',
         'card_brand',
