@@ -1,13 +1,13 @@
 # Laracogs
 
-**Laracogs** - A handful of tools for Laravel
+**Laracogs** - A handful of tools for Rapid Laravel Development
 
 [![Codeship](https://img.shields.io/codeship/013b03f0-a7c6-0133-63e0-5a0bf9327500.svg)](https://packagist.org/packages/yab/laracogs)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/YABhq/Laracogs/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/YABhq/Laracogs/?branch=develop)
 [![Packagist](https://img.shields.io/packagist/dt/yab/laracogs.svg?maxAge=2592000)](https://packagist.org/packages/yab/laracogs)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://packagist.org/packages/yab/laracogs)
 
-This is a set of tools to help speed up development of Laravel apps. You can start an app with various parts prewritten (Users, User Meta, Roles, Teams). And it comes with a powerful FormMaker which can generate form content from tables, and objects. It can generate epic CRUD prototypes rapidly with full testing scripts prepared for you, requiring very little editing. It also provides an elegant Cryptography tool which is URL friendly. Finally it brings along some friends with the LaravelCollective as a vendor.
+This is a set of tools to help speed up development of Laravel apps. You can start an app with various parts prewritten (Users, User Meta, Roles, Teams). And it comes with a powerful FormMaker which can generate form content from tables, and objects. It can generate epic CRUD prototypes rapidly with full testing scripts prepared for you, requiring very little editing. It also provides an elegant Cryptography tool which is URL friendly. Finally it brings along some friends with LaravelCollective as a vendor.
 
 ##### Author(s):
 * [Matt Lantz](https://github.com/mlantz) ([@mattylantz](http://twitter.com/mattylantz), matt at yabhq dot com)
@@ -22,17 +22,18 @@ This is a set of tools to help speed up development of Laravel apps. You can sta
 ## Detailed Documentation
 Please consult the documentation here: [http://laracogs.com/docs](http://laracogs.com/docs)
 
-## 2.0 Requirements
+## General Requirements
 
 1. PHP 5.6+
 2. OpenSSL
-3. Laravel 5.3+
 
-## 1.9 Requirements
+## Compatibility and Support
 
-1. PHP 5.6+
-2. OpenSSL
-3. Laravel 5.1 or Laravel 5.2
+| Laravel Version | Package Tag | Supported |
+|-----------------|-------------|-----------|
+| 5.4.x | 2.2.x | yes |
+| 5.3.x | 2.0.x - 2.1.x | no |
+| 5.1.x - 5.2.x | 1.9.x | no |
 
 ----
 
@@ -132,6 +133,8 @@ Add the following to your `app/Http/Kernel.php` $routeMiddleware array.
 'roles' => \App\Http\Middleware\Roles::class,
 'active' => \App\Http\Middleware\Active::class,
 ```
+
+If you want to opt out of having your users confirm their email address, simply remove the `active` from the middleware in the routes files. You may also wish to remove the email notification from `UserService`.
 
 With the roles middleware you can specify which roles are applicable separating them with pipes: `['middleware' => ['roles:admin|moderator|member']]`
 The permissions middleware allows you to specify which permissions (which are bound to roles) are applicable to a route separating them with pipes: `['middleware' => ['permissions:admin|regular']]`

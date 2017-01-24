@@ -2,7 +2,6 @@
 
 namespace {{App\}}Http\Controllers\User;
 
-use Auth;
 use {{App\}}Http\Requests;
 use Illuminate\Http\Request;
 use {{App\}}Services\UserService;
@@ -41,7 +40,7 @@ class SettingsController extends Controller
      */
     public function update(UserUpdateRequest $request)
     {
-        if ($this->service->update(Auth::id(), $request->all())) {
+        if ($this->service->update(auth()->id(), $request->all())) {
             return back()->with('message', 'Settings updated successfully');
         }
 

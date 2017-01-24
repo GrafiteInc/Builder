@@ -3,13 +3,24 @@
 namespace Yab\Laracogs;
 
 use Illuminate\Support\ServiceProvider;
+use Yab\Cerebrum\CerebrumProvider;
+use Yab\CrudMaker\CrudMakerProvider;
+use Yab\Crypto\CryptoProvider;
+use Yab\FormMaker\FormMakerProvider;
+use Yab\LaraTest\LaraTestProvider;
+use Yab\Laracogs\Console\Api;
+use Yab\Laracogs\Console\Billing;
+use Yab\Laracogs\Console\Bootstrap;
+use Yab\Laracogs\Console\Docs;
+use Yab\Laracogs\Console\Notifications;
+use Yab\Laracogs\Console\Semantic;
+use Yab\Laracogs\Console\Socialite;
+use Yab\Laracogs\Console\Starter;
 
 class LaracogsProvider extends ServiceProvider
 {
     /**
      * Boot method.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -18,8 +29,6 @@ class LaracogsProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -29,11 +38,11 @@ class LaracogsProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
 
-        $this->app->register(\Yab\FormMaker\FormMakerProvider::class);
-        $this->app->register(\Yab\Crypto\CryptoProvider::class);
-        $this->app->register(\Yab\CrudMaker\CrudMakerProvider::class);
-        $this->app->register(\Yab\Cerebrum\CerebrumProvider::class);
-        $this->app->register(\Yab\LaraTest\LaraTestProvider::class);
+        $this->app->register(FormMakerProvider::class);
+        $this->app->register(CryptoProvider::class);
+        $this->app->register(CrudMakerProvider::class);
+        $this->app->register(CerebrumProvider::class);
+        $this->app->register(LaraTestProvider::class);
 
         /*
         |--------------------------------------------------------------------------
@@ -42,14 +51,14 @@ class LaracogsProvider extends ServiceProvider
         */
 
         $this->commands([
-            \Yab\Laracogs\Console\Api::class,
-            \Yab\Laracogs\Console\Billing::class,
-            \Yab\Laracogs\Console\Notifications::class,
-            \Yab\Laracogs\Console\Socialite::class,
-            \Yab\Laracogs\Console\Bootstrap::class,
-            \Yab\Laracogs\Console\Semantic::class,
-            \Yab\Laracogs\Console\Docs::class,
-            \Yab\Laracogs\Console\Starter::class,
+            Api::class,
+            Billing::class,
+            Notifications::class,
+            Socialite::class,
+            Bootstrap::class,
+            Semantic::class,
+            Docs::class,
+            Starter::class,
         ]);
     }
 }

@@ -14,16 +14,16 @@
     ],
     "require": {
         "php": ">=5.6.4",
-        "illuminate/support": "^5.3",
         "doctrine/dbal": "^2.5",
-        "yab/formmaker": "^1.0",
-        "yab/crypto": "^1.0",
-        "yab/crudmaker": "^1.1",
-        "yab/cerebrum": "^1.0",
-        "yab/laratest": "^0.1"
+        "illuminate/support": "5.3.*",
+        "yab/formmaker": "1.0.*",
+        "yab/crudmaker": "1.1.*",
+        "yab/crypto": "~1.0",
+        "yab/cerebrum": "~1.0",
+        "yab/laratest": "~0.1"
     },
     "require-dev": {
-        "illuminate/container": "^5.3",
+        "illuminate/container": "5.3.*",
         "mockery/mockery": "^0.9.4",
         "mikey179/vfsStream": "^1.6",
         "orchestra/testbench": "^3.3"
