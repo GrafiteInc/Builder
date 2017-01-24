@@ -2,12 +2,12 @@
 
 namespace Yab\Laracogs\Traits;
 
-use Illuminate\Console\AppNamespaceDetectorTrait;
+use Illuminate\Console\DetectsApplicationNamespace;
 use Illuminate\Filesystem\Filesystem;
 
 trait FileMakerTrait
 {
-    use AppNamespaceDetectorTrait;
+    use DetectsApplicationNamespace;
 
     public function copyPreparedFiles($directory, $destination)
     {

@@ -55,7 +55,9 @@ class Bootstrap extends Command
                 $this->comment("'dashboard.main'\n");
                 $this->info("Run the following:\n");
                 $this->comment("npm install\n");
-                $this->comment("gulp\n");
+                $this->comment("npm run dev <- local development\n");
+                $this->comment("npm run watch <- watch for changes\n");
+                $this->comment("npm run production <- run for production\n");
                 $this->info("Finished bootstrapping your app\n");
             } else {
                 $this->info('You cancelled the laracogs bootstrap');

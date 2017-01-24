@@ -1,4 +1,4 @@
-var elixir = require('laravel-elixir');
+const { mix } = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,14 +11,8 @@ var elixir = require('laravel-elixir');
  |
  */
 
-elixir(function(mix) {
-    mix.copy('semantic/dist/semantic.min.css', 'public/css/semantic.min.css');
-    mix.sass('app.scss');
-});
 
-elixir(function(mix) {
-    mix.copy('semantic/dist/semantic.min.js', 'public/js/semantic.min.js');
-    mix.scripts([
-        'app.js'
-    ]);
-});
+mix.js('resources/assets/js/app.js', 'public/js')
+    .sass('resources/assets/sass/app.scss', 'public/css')
+    .copy('semantic/dist/semantic.min.css', 'public/css/semantic.min.css')
+    .copy('semantic/dist/semantic.min.js', 'public/js/semantic.min.js');
