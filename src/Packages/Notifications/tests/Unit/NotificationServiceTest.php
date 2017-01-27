@@ -1,5 +1,6 @@
 <?php
 
+use Tests\TestCase;
 use {{App\}}Services\NotificationService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -10,6 +11,10 @@ class NotificationServiceTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+        $role = factory({{App\}}Models\Role::class)->create();
+        $user = factory({{App\}}Models\User::class)->create();
+        $this->app->make({{App\}}Services\UserService::class)->create($user, 'password');
+
         $this->service = $this->app->make(NotificationService::class);
         $this->originalArray = [
             'user_id' => 1,
@@ -55,7 +60,7 @@ class NotificationServiceTest extends TestCase
     public function testCreate()
     {
         $response = $this->service->create($this->originalArray);
-        $this->assertEquals(get_class($response), 'App\Models\Notification');
+        $this->assertEquals(get_class($response), '{{App\}}Models\Notification');
         $this->assertEquals(1, $response->id);
     }
 
@@ -76,7 +81,7 @@ class NotificationServiceTest extends TestCase
         $response = $this->service->update($item->id, $this->editedArray);
 
         $this->assertEquals(1, $response->id);
-        $this->seeInDatabase('notifications', $this->editedArray);
+        $this->assertDatabaseHas('notifications', $this->editedArray);
     }
 
     public function testDestroy()
@@ -87,6 +92,4 @@ class NotificationServiceTest extends TestCase
         $response = $this->service->destroy($item->id);
         $this->assertTrue($response);
     }
-
 }
-

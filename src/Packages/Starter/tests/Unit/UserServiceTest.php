@@ -1,5 +1,6 @@
 <?php
 
+use Tests\TestCase;
 use {{App\}}Services\UserService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -24,7 +25,7 @@ class UserServiceTest extends TestCase
     public function testGetUser()
     {
         $user = factory({{App\}}Models\User::class)->create();
-        factory({{App\}}Models\UserMeta::class)->create([ 'user_id' => $user->id ]);
+        factory({{App\}}Models\UserMeta::class)->create(['user_id' => $user->id]);
         $response = $this->service->find($user->id);
 
         $this->assertTrue(is_object($response));
@@ -44,7 +45,7 @@ class UserServiceTest extends TestCase
     public function testUpdateUser()
     {
         $user = factory({{App\}}Models\User::class)->create();
-        factory({{App\}}Models\UserMeta::class)->create([ 'user_id' => $user->id ]);
+        factory({{App\}}Models\UserMeta::class)->create(['user_id' => $user->id]);
 
         $response = $this->service->update($user->id, [
             'email' => $user->email,
@@ -53,12 +54,12 @@ class UserServiceTest extends TestCase
             'meta' => [
                 'phone' => '666',
                 'marketing' => 1,
-                'terms_and_cond' => 1
-            ]
+                'terms_and_cond' => 1,
+            ],
         ]);
 
-        $this->seeInDatabase('user_meta', ['phone' => '666']);
-        $this->seeInDatabase('users', ['name' => 'jim']);
+        $this->assertDatabaseHas('user_meta', ['phone' => '666']);
+        $this->assertDatabaseHas('users', ['name' => 'jim']);
     }
 
     public function testAssignRole()
@@ -66,7 +67,7 @@ class UserServiceTest extends TestCase
         $role = factory({{App\}}Models\Role::class)->create();
         $user = factory({{App\}}Models\User::class)->create();
         $this->service->assignRole('member', $user->id);
-        $this->seeInDatabase('role_user', ['role_id' => $role->id, 'user_id' => $user->id]);
+        $this->assertDatabaseHas('role_user', ['role_id' => $role->id, 'user_id' => $user->id]);
         $this->assertEquals($user->roles->first()->label, 'Member');
     }
 
@@ -75,7 +76,7 @@ class UserServiceTest extends TestCase
         $role = factory({{App\}}Models\Role::class)->create();
         $user = factory({{App\}}Models\User::class)->create();
         $this->service->assignRole('member', $user->id);
-        $this->seeInDatabase('role_user', ['role_id' => $role->id, 'user_id' => $user->id]);
+        $this->assertDatabaseHas('role_user', ['role_id' => $role->id, 'user_id' => $user->id]);
         $this->assertTrue($user->hasRole('member'));
     }
 
@@ -102,7 +103,7 @@ class UserServiceTest extends TestCase
         $team = factory({{App\}}Models\Team::class)->create();
         $user = factory({{App\}}Models\User::class)->create();
         $this->service->joinTeam($team->id, $user->id);
-        $this->seeInDatabase('team_user', ['team_id' => $team->id, 'user_id' => $user->id]);
+        $this->assertDatabaseHas('team_user', ['team_id' => $team->id, 'user_id' => $user->id]);
         $this->assertEquals($user->teams->first()->name, $team->name);
     }
 

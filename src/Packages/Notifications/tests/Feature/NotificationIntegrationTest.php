@@ -1,5 +1,6 @@
 <?php
 
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -30,7 +31,11 @@ class NotificationIntegrationTest extends TestCase
             'details' => 'Your car has been impounded!',
             'is_read' => 1,
         ]);
-        $user = factory({{App\}}Models\User::class)->make();
+
+        $role = factory({{App\}}Models\Role::class)->create();
+        $user = factory({{App\}}Models\User::class)->create();
+        $user->roles()->attach($role);
+
         $this->actor = $this->actingAs($user);
     }
 
@@ -38,7 +43,7 @@ class NotificationIntegrationTest extends TestCase
     {
         $response = $this->actor->call('GET', 'admin/notifications');
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertViewHas('notifications');
+        $response->assertViewHas('notifications');
     }
 
     public function testCreate()
@@ -52,7 +57,7 @@ class NotificationIntegrationTest extends TestCase
         $response = $this->actor->call('POST', 'admin/notifications', $this->notification->toArray());
 
         $this->assertEquals(302, $response->getStatusCode());
-        $this->assertRedirectedTo('admin/notifications/'.$this->notification->id.'/edit');
+        $response->assertRedirect('admin/notifications/'.$this->notification->id.'/edit');
     }
 
     public function testEdit()
@@ -61,7 +66,7 @@ class NotificationIntegrationTest extends TestCase
 
         $response = $this->actor->call('GET', 'admin/notifications/'.$this->notification->id.'/edit');
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertViewHas('notification');
+        $response->assertViewHas('notification');
     }
 
     public function testUpdate()
@@ -70,8 +75,8 @@ class NotificationIntegrationTest extends TestCase
         $response = $this->actor->call('PATCH', 'admin/notifications/1', $this->notificationEdited->toArray());
 
         $this->assertEquals(302, $response->getStatusCode());
-        $this->seeInDatabase('notifications', $this->notificationEdited->toArray());
-        $this->assertRedirectedTo('/');
+        $this->assertDatabaseHas('notifications', $this->notificationEdited->toArray());
+        $response->assertRedirect('/');
     }
 
     public function testDelete()
@@ -80,6 +85,6 @@ class NotificationIntegrationTest extends TestCase
 
         $response = $this->call('DELETE', 'admin/notifications/'.$this->notification->id);
         $this->assertEquals(302, $response->getStatusCode());
-        $this->assertRedirectedTo('admin/notifications');
+        $response->assertRedirect('admin/notifications');
     }
 }

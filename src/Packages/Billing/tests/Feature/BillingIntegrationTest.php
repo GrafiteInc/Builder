@@ -23,20 +23,20 @@ class BillingIntegrationTest extends TestCase
     {
         $response = $this->actor->call('GET', '/user/billing/details');
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertViewHas('user');
+        $response->assertViewHas('user');
     }
 
     public function testChangeCard()
     {
         $response = $this->actor->call('GET', '/user/billing/change-card');
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertViewHas('user');
+        $response->assertViewHas('user');
     }
 
     public function testCoupon()
     {
         $response = $this->actor->call('GET', '/user/billing/coupon');
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertViewHas('user');
+        $response->assertViewHas('user');
     }
 }

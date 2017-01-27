@@ -1,5 +1,6 @@
 <?php
 
+use Tests\TestCase;
 use {{App\}}Services\RoleService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -20,19 +21,19 @@ class RoleServiceTest extends TestCase
             'id' => 1,
             'name' => 'coders',
             'label' => 'Coders',
-            'permissions' => ['super' => 'on']
+            'permissions' => ['super' => 'on'],
         ];
         $this->modifiedArray = [
             'id' => 1,
             'name' => 'hackers',
             'label' => 'Hackers',
-            'permissions' => []
+            'permissions' => [],
         ];
         $this->editedArray = [
             'id' => 1,
             'name' => 'hackers',
             'label' => 'Hackers',
-            'permissions' => ''
+            'permissions' => '',
         ];
         $this->searchTerm = 'who';
     }
@@ -62,7 +63,7 @@ class RoleServiceTest extends TestCase
     public function testCreate()
     {
         $response = $this->service->create($this->originalArray);
-        $this->assertEquals(get_class($response), 'App\Models\Role');
+        $this->assertEquals(get_class($response), '{{App\}}Models\Role');
         $this->assertEquals(1, $response->id);
     }
 
@@ -72,7 +73,7 @@ class RoleServiceTest extends TestCase
         $response = $this->service->update($role->id, $this->modifiedArray);
 
         $this->assertEquals($role->id, $response->id);
-        $this->seeInDatabase('roles', $this->editedArray);
+        $this->assertDatabaseHas('roles', $this->editedArray);
     }
 
     public function testDestroy()

@@ -44,7 +44,7 @@ class TeamIntegrationTest extends TestCase
     {
         $response = $this->actor->call('GET', '/teams');
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertViewHas('teams');
+        $response->assertViewHas('teams');
     }
 
     public function testCreate()
@@ -59,7 +59,7 @@ class TeamIntegrationTest extends TestCase
         $response = $this->actingAs($admin)->call('POST', 'teams', $this->team->toArray());
 
         $this->assertEquals(302, $response->getStatusCode());
-        $this->assertRedirectedTo('teams/'.$this->team->id.'/edit');
+        $response->assertRedirect('teams/'.$this->team->id.'/edit');
     }
 
     public function testEdit()
@@ -70,7 +70,7 @@ class TeamIntegrationTest extends TestCase
 
         $response = $this->actingAs($admin)->call('GET', '/teams/'.$this->team->id.'/edit');
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertViewHas('team');
+        $response->assertViewHas('team');
     }
 
     public function testUpdate()
@@ -82,8 +82,8 @@ class TeamIntegrationTest extends TestCase
         $response = $this->actingAs($admin)->call('PATCH', '/teams/1', $this->teamEdited->toArray());
 
         $this->assertEquals(302, $response->getStatusCode());
-        $this->seeInDatabase('teams', $this->teamEdited->toArray());
-        $this->assertRedirectedTo('/');
+        $this->assertDatabaseHas('teams', $this->teamEdited->toArray());
+        $response->assertRedirect('/');
     }
 
     public function testDelete()
@@ -98,6 +98,6 @@ class TeamIntegrationTest extends TestCase
 
         $response = $this->actingAs($admin)->call('DELETE', '/teams/'.$team->id);
         $this->assertEquals(302, $response->getStatusCode());
-        $this->assertRedirectedTo('/teams');
+        $response->assertRedirect('/teams');
     }
 }

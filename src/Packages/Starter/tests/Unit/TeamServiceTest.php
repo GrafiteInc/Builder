@@ -1,5 +1,6 @@
 <?php
 
+use Tests\TestCase;
 use {{App\}}Services\TeamService;
 use {{App\}}Services\UserService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -21,11 +22,11 @@ class TeamServiceTest extends TestCase
 
         $this->originalArray = [
             'user_id' => 1,
-            'name' => 'Awesomeness'
+            'name' => 'Awesomeness',
         ];
         $this->editedArray = [
             'user_id' => 1,
-            'name' => 'Hackers'
+            'name' => 'Hackers',
         ];
         $this->searchTerm = 'who';
     }
@@ -62,7 +63,7 @@ class TeamServiceTest extends TestCase
     {
         $user = factory({{App\}}Models\User::class)->create();
         $response = $this->service->create($user->id, $this->originalArray);
-        $this->assertEquals(get_class($response), 'App\Models\Team');
+        $this->assertEquals(get_class($response), '{{App\}}Models\Team');
         $this->assertEquals(1, $response->id);
     }
 
@@ -101,7 +102,7 @@ class TeamServiceTest extends TestCase
         $response = $this->service->update($team->id, $this->editedArray);
 
         $this->assertEquals($team->id, $response->id);
-        $this->seeInDatabase('teams', $this->editedArray);
+        $this->assertDatabaseHas('teams', $this->editedArray);
     }
 
     public function testDestroy()
