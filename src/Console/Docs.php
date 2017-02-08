@@ -2,8 +2,8 @@
 
 namespace Yab\Laracogs\Console;
 
-use Illuminate\Console\DetectsApplicationNamespace;
 use Illuminate\Console\Command;
+use Illuminate\Console\DetectsApplicationNamespace;
 use Markdown;
 
 class Docs extends Command
