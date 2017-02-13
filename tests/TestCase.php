@@ -8,9 +8,9 @@ class TestCase extends Orchestra\Testbench\TestCase
     {
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => '',
+            'prefix' => '',
         ]);
         $app->make('Illuminate\Contracts\Http\Kernel');
     }
@@ -28,7 +28,6 @@ class TestCase extends Orchestra\Testbench\TestCase
         $this->withFactories(__DIR__.'/../src/Models/Factories');
         $this->artisan('migrate', [
             '--database' => 'testbench',
-            '--realpath' => realpath(__DIR__.'/../src/Migrations'),
         ]);
         $this->withoutMiddleware();
         $this->withoutEvents();
