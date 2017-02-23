@@ -17,7 +17,7 @@
             </div>
 
             <div class="col-md-6 col-md-offset-3 raw-margin-top-24 well">
-                <form method="POST" action="/user/billing/subscribe">
+                <form method="POST" class="billing" action="/user/billing/subscribe">
 
                     @include('billing.card-form')
 

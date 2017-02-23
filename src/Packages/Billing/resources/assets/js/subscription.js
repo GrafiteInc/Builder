@@ -1,5 +1,5 @@
 $(function(){
-    $('form').card({
+    $('form.billing').card({
         form: 'form',
         container: '.card-wrapper',
         placeholders: {
@@ -15,7 +15,7 @@ $(function(){
             'backface-visibility': 'hidden'
         });
 
-        $('form').submit(function(event) {
+        $('form.billing').submit(function(event) {
             var $form = $(this);
             $form.find('button').prop('disabled', true);
 
@@ -32,7 +32,7 @@ $(function(){
     });
 
     var stripeResponseHandler = function(status, response) {
-        var $form = $('form');
+        var $form = $('form.billing');
 
         if (response.error) {
             $form.find('.payment-errors').text(response.error.message);
