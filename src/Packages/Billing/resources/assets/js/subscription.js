@@ -7,6 +7,12 @@ $(function(){
             name: 'Arya Stark',
             expiry: '**/****',
             cvc: '***'
+        },
+        formSelectors: { /* Defaults use name= attributes, not available per PCI compliance */
+            numberInput: 'input#number',
+            expiryInput: 'input#expiry',
+            cvcInput: 'input#cvc',
+            nameInput: 'input#name'
         }
     });
 
