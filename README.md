@@ -2,7 +2,7 @@
 
 **Laracogs** - A handful of tools for Rapid Laravel Development
 
-[![Codeship](https://img.shields.io/codeship/013b03f0-a7c6-0133-63e0-5a0bf9327500.svg)](https://packagist.org/packages/yab/laracogs)
+[![Build Status](https://travis-ci.org/YABhq/Laracogs.svg?branch=master)](https://travis-ci.org/YABhq/Laracogs)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/YABhq/Laracogs/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/YABhq/Laracogs/?branch=develop)
 [![Packagist](https://img.shields.io/packagist/dt/yab/laracogs.svg?maxAge=2592000)](https://packagist.org/packages/yab/laracogs)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://packagist.org/packages/yab/laracogs)
