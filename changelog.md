@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.2.2] - 2017-02-25
+
+### Fixed
+- Fixed PCI compliance issues with the Billing
+
 ## [v2.2.1] - 2017-02-08
 
 ### Fixed
