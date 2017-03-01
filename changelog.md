@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.2.3] - 2017-03-01
+
+### Added
+- New automatic redirect to designated dashboards for admins and users
+
 ## [v2.2.2] - 2017-02-25
 
 ### Fixed
