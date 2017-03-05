@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Yab\Laracogs\Traits\FileMakerTrait;
 
-class Notifications extends Command
+class Features extends Command
 {
     use FileMakerTrait;
 
@@ -15,14 +15,14 @@ class Notifications extends Command
      *
      * @var string
      */
-    protected $signature = 'laracogs:notifications';
+    protected $signature = 'laracogs:features';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Laracogs will add notifications to your app';
+    protected $description = 'Add a feature management UI to your app';
 
     /**
      * Execute the console command.
@@ -38,10 +38,10 @@ class Notifications extends Command
         } else {
             $fileSystem = new Filesystem();
 
-            $files = $fileSystem->allFiles(__DIR__.'/../Packages/Notifications');
+            $files = $fileSystem->allFiles(__DIR__.'/../Packages/Features');
             $this->line("\n");
             foreach ($files as $file) {
-                $this->line(str_replace(__DIR__.'/../Packages/Notifications/', '', $file));
+                $this->line(str_replace(__DIR__.'/../Packages/Features/', '', $file));
             }
 
             $this->info("\n\nThese files will be published\n");
@@ -49,30 +49,24 @@ class Notifications extends Command
             $result = $this->confirm('Are you sure you want to overwrite any files of the same name?');
 
             if ($result) {
-                $this->copyPreparedFiles(__DIR__.'/../Packages/Notifications', base_path());
+                $this->copyPreparedFiles(__DIR__.'/../Packages/Features', base_path());
                 $this->appendTheFactory();
 
-                $this->info("\n\n Then follow the directions regarding notifications on: https://laravel.com/docs/");
-                $this->info("\n\n Please review the setup details for notifications.");
+                $this->info("\n\n Please review the setup details for features.");
                 $this->info("\n\n You will want to add things like:");
                 $this->line("\n These links: ");
-                $this->comment("\n <li><a href='{!! url('user/notifications') !!}'><span class='fa fa-envelope-o'></span> Notifications</a></li>");
-                $this->comment("\n <li><a href='{!! url('admin/notifications') !!}'><span class='fa fa-envelope-o'></span> Notifications</a></li>");
+                $this->comment("\n <li><a href='{!! url('admin/features') !!}'><span class='fa fa-cog'></span> Features</a></li>");
                 $this->line("\n Now mofify the RouteServiceProvider by switching to a closure in the `group` method (app/Providers/RouteServiceProvider.php):");
                 $this->line("\n It will look like: ->group(base_path('routes/web.php')); So you need to change it to resemble this:");
                 $this->comment("\n ->group(function () {");
                 $this->comment("\n require base_path('routes/web.php');");
-                $this->comment("\n require base_path('routes/notification.php');");
+                $this->comment("\n require base_path('routes/features.php');");
                 $this->comment("\n }");
-                $this->line("\n Add this to (app/Providers/AppServiceProvider.php) in the register() method:");
-                $this->comment("\n \$loader = \Illuminate\Foundation\AliasLoader::getInstance();");
-                $this->comment("\n \$loader->alias('Notifications', \App\Facades\Notifications::class);");
-                $this->comment("\n \$this->app->singleton('NotificationService', function (\$app) {");
-                $this->comment("\n\t return app(\App\Services\NotificationService::class);");
-                $this->comment("\n });");
-                $this->info("\n Finished setting up notifications");
+                $this->line("\n You will the feature service provider to your app config:");
+                $this->comment("\n App\Providers\FeatureServiceProvider::class,");
+                $this->info("\n Finished setting up features");
             } else {
-                $this->info("\n You cancelled the laracogs notifications");
+                $this->info("\n You cancelled the laracogs features");
             }
         }
     }
@@ -82,19 +76,15 @@ class Notifications extends Command
         $factoryPrepared = '
 /*
 |--------------------------------------------------------------------------
-| Notification Factory
+| Feature Factory
 |--------------------------------------------------------------------------
 */
 
-$factory->define('.$this->getAppNamespace()."Models\Notification::class, function (Faker\Generator \$faker) {
+$factory->define('.$this->getAppNamespace()."Models\Feature::class, function (Faker\Generator \$faker) {
     return [
         'id' => 1,
-        'user_id' => 1,
-        'flag' => 'info',
-        'uuid' => 'lksjdflaskhdf',
-        'title' => 'Testing',
-        'details' => 'Your car has been impounded!',
-        'is_read' => 0,
+        'key' => 'user-signup',
+        'is_active' => false,
     ];
 });
 ";

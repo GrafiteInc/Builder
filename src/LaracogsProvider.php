@@ -7,15 +7,16 @@ use Yab\Cerebrum\CerebrumProvider;
 use Yab\CrudMaker\CrudMakerProvider;
 use Yab\Crypto\CryptoProvider;
 use Yab\FormMaker\FormMakerProvider;
+use Yab\LaraTest\LaraTestProvider;
 use Yab\Laracogs\Console\Api;
 use Yab\Laracogs\Console\Billing;
 use Yab\Laracogs\Console\Bootstrap;
 use Yab\Laracogs\Console\Docs;
+use Yab\Laracogs\Console\Features;
 use Yab\Laracogs\Console\Notifications;
 use Yab\Laracogs\Console\Semantic;
 use Yab\Laracogs\Console\Socialite;
 use Yab\Laracogs\Console\Starter;
-use Yab\LaraTest\LaraTestProvider;
 
 class LaracogsProvider extends ServiceProvider
 {
@@ -54,6 +55,7 @@ class LaracogsProvider extends ServiceProvider
             Api::class,
             Billing::class,
             Notifications::class,
+            Features::class,
             Socialite::class,
             Bootstrap::class,
             Semantic::class,
