@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.2.4] - 2017-03-05
+
+### Added
+- Feature management kit
+
+### Fixed
+- Issue with TeamIntegrationTests
+
 ## [v2.2.3] - 2017-03-01
 
 ### Added
