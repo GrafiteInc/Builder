@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.2.5] - 2017-04-02
+
+### Fixed
+- Some doc updates
+- Repaired the starter seeder
+- Fixed issue with auth routes
+
 ## [v2.2.4] - 2017-03-05
 
 ### Added
