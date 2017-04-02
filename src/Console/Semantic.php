@@ -63,7 +63,7 @@ class Semantic extends Command
                 $this->comment('cd semantic && gulp build');
 
                 $this->info("\nThen run:");
-                $this->comment('cd ../ && gulp');
+                $this->comment('cd ../ && npm run dev');
 
                 $this->info("\nMake sure you set the PagesController@dashboard to use the following view:");
                 $this->comment("'dashboard.main'");

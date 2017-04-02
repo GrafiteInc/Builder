@@ -89,11 +89,13 @@ class Starter extends Command
             $this->info("Build something worth sharing!\n");
 
             if ($this->confirm('Would you like to run the migration?')) {
-                exec('cd '.base_path().' && composer dump-autoload');
+                $this->comment('Running command: cd '.base_path().' && composer dump ...');
+
+                exec('cd '.base_path().' && composer dump');
+
                 // execute migrate artisan command
-                Artisan::call('migrate', [
-                    '--seed' => true,
-                ]);
+                Artisan::call('migrate');
+                Artisan::call('db:seed');
             } else {
                 $this->info("Don't forget to run:");
                 $this->comment('composer dump');

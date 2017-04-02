@@ -25,7 +25,8 @@
     "require-dev": {
         "mockery/mockery": "^0.9.4",
         "mikey179/vfsStream": "^1.6",
-        "orchestra/testbench": "3.4.*|3.4-dev"
+        "orchestra/testbench": "3.4.*|3.4-dev",
+        "phpunit/phpunit": "^6.0"
     },
     "autoload": {
         "psr-4": {
