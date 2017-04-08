@@ -243,13 +243,18 @@ Semantic prepares your application with semantic-ui as a view/ css framework.
 php artisan laracogs:semantic
 ```
 
-<small>Please note that Billing and Notifications are only set for use with bootstrap</small>
-
-### Notifications
+### Features
 ----
-Notifications prepares your application with a notification system.
+A powerful and remarkably handy feature management system.
 ```php
-php artisan laracogs:notifications
+php artisan laracogs:feature
+```
+
+### Activity
+----
+The ability to track user activities and provide a layer of accountability in your app.
+```php
+php artisan laracogs:activity
 ```
 
 ### Socialite
@@ -266,6 +271,16 @@ Api prepares your application with an API system using JWT (logins, and user pro
 ```php
 php artisan laracogs:api
 ```
+
+<small>Please note that Billing and Notifications are only set for use with bootstrap</small>
+
+### Notifications
+----
+Notifications prepares your application with a notification system.
+```php
+php artisan laracogs:notifications
+```
+
 
 ### Billing
 ----
@@ -284,9 +299,14 @@ You may want to add this line to your navigation:
 <li><a href="{!! url('user/billing/details') !!}"><span class="fa fa-dollar"></span> Billing</a></li>
 ```
 
-Add this to the `app/Providers/RouteServiceProvider.php` in the `mapWebRoutes` method:
+Add this to the `app/Providers/RouteServiceProvider.php` in the `mapWebRoutes` method.
+It will look like: `->group(base_path('routes/web.php'));` So you need to change it to resemble this:
+
 ```php
-require base_path('routes/billing-routes.php');
+->group(function () {
+    require base_path('routes/web.php');
+    require base_path('routes/billing.php');
+});
 ```
 
 This to the .env:

@@ -13,7 +13,7 @@ class FeatureService
     }
 
     /**
-     * All notifications
+     * All features
      *
      * @return  Collection
      */
@@ -23,7 +23,7 @@ class FeatureService
     }
 
     /**
-     * All notifications
+     * All features
      *
      * @return  Collection
      */
@@ -33,7 +33,7 @@ class FeatureService
     }
 
     /**
-     * Paginated notifications
+     * Paginated features
      *
      * @return  PaginatedCollection
      */
@@ -43,7 +43,7 @@ class FeatureService
     }
 
     /**
-     * Search notifications
+     * Search features
      *
      * @param  string $input
      * @param  integer $id
