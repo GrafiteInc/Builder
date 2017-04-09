@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.2.7] - 2017-04-09
+
+### Fixed
+- Issue with UserInviteRequest not working with admins
+
 ## [v2.2.6] - 2017-04-09
 
 ### Added
