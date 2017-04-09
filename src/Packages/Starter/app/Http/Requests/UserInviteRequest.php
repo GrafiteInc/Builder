@@ -2,7 +2,6 @@
 
 namespace {{App\}}Http\Requests;
 
-use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserInviteRequest extends FormRequest
@@ -14,7 +13,9 @@ class UserInviteRequest extends FormRequest
      */
     public function authorize()
     {
-        if (Auth::user()->isTeamAdmin($this->route('id'))) {
+        if (auth()->user()->can('admin')) {
+            return true;
+        } elseif (auth()->user()->isTeamAdmin($this->route('id'))) {
             return true;
         }
 
