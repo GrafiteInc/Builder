@@ -106,6 +106,8 @@ Route::group(['middleware' => ['auth', 'active']], function () {
 
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
 
+        Route::get('dashboard', 'DashboardController@index');
+
         /*
         |--------------------------------------------------------------------------
         | Users

@@ -10,6 +10,9 @@
     </li>
     @if (Gate::allows('admin'))
         <li class="sidebar-header"><span>Admin</span></li>
+        <li @if(Request::is('admin/dashboard', 'admin/dashboard/*')) class="active" @endif>
+            <a href="{!! url('admin/dashboard') !!}"><span class="fa fa-dashboard"></span> Dashboard</a>
+        </li>
         <li @if(Request::is('admin/users', 'admin/users/*')) class="active" @endif>
             <a href="{!! url('admin/users') !!}"><span class="fa fa-users"></span> Users</a>
         </li>
