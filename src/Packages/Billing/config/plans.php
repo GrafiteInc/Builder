@@ -8,6 +8,8 @@
 
 return [
 
+    'subscription' => env('SUBSCRIPTION'),
+
     'subscription_name' => 'main',
 
     'plans' => [

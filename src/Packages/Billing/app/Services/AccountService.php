@@ -2,13 +2,11 @@
 
 namespace {{App\}}Services;
 
-use DB;
-use Schema;
-use Stripe\Stripe;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Stripe\Customer;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
+use Stripe\Stripe;
 
 /**
  * Account methods for billing controls
@@ -22,8 +20,8 @@ class AccountService
 
     public function __construct()
     {
-        $this->user = Auth::user();
-        $this->config = Config::get('plans');
+        $this->user = auth()->user();
+        $this->config = config('plans');
         $this->subscription = $this->user->meta->subscription($this->config['subscription_name']);
         $this->inBillingCycle = false;
 
@@ -211,5 +209,4 @@ class AccountService
 
         return $method($this->user, $this->subscription, $clause, $query);
     }
-
 }
