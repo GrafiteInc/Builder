@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.2.8] - 2017-04-17
+
+### Changed
+- Improved admin dashboard
+- Improved billing support
+
 ## [v2.2.7] - 2017-04-09
 
 ### Fixed
