@@ -8,11 +8,11 @@ use Illuminate\Notifications\Messages\MailMessage;
 class NewAccountEmail extends Notification
 {
     /**
-     * The password reset token.
+     * The password
      *
      * @var string
      */
-    public $data;
+    public $password;
 
     /**
      * Create a notification instance.
@@ -20,9 +20,9 @@ class NewAccountEmail extends Notification
      * @param  string  $token
      * @return void
      */
-    public function __construct($event)
+    public function __construct($password)
     {
-        $this->data = $event;
+        $this->password = $password;
     }
 
     /**
@@ -48,8 +48,8 @@ class NewAccountEmail extends Notification
     {
         return (new MailMessage())
             ->line('You\'ve got a new account!')
-            ->line('EM: '.$this->data->user->email)
-            ->line('PW: '.$this->data->password)
+            ->line('EM: '.$notifiable->email)
+            ->line('PW: '.$this->password)
             ->line('Click the link below to login')
             ->action('Login', url('login'));
     }
