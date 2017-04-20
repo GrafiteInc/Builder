@@ -64,6 +64,10 @@ class Features extends Command
                 $this->comment("\n }");
                 $this->line("\n You will the feature service provider to your app config:");
                 $this->comment("\n App\Providers\FeatureServiceProvider::class,");
+                $this->line("\n In order to use the helper you will have to add to your composer autoload:");
+                $this->comment("\n \"files\": [");
+                $this->comment("\n \"app/Helpers/feature_helper.php\"");
+                $this->comment("\n ]");
                 $this->info("\n Finished setting up features");
             } else {
                 $this->info("\n You cancelled the laracogs features");

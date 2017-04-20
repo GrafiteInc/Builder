@@ -19,13 +19,6 @@ class FeatureServiceProvider extends ServiceProvider
         Blade::directive('endfeature', function ($expression) {
             return "<?php endif; ?>";
         });
-
-        if (function_exists('feature')) {
-            function feature($key)
-            {
-                return Features::isActive($key);
-            }
-        }
     }
 
     /**
