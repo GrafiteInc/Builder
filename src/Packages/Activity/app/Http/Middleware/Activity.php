@@ -4,6 +4,7 @@ namespace {{App\}}Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use App\Facades\Activity as Action;
 
 class Activity
 {
@@ -16,7 +17,7 @@ class Activity
      */
     public function handle($request, Closure $next)
     {
-        activity('Standard User Action');
+        Action::log('Standard User Action');
 
         return $next($request);
     }
