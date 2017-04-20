@@ -39,14 +39,14 @@ class ActivityService
         $payload = [
             'user_id' => auth()->id(),
             'description' => $description,
-            'request' => [
+            'request' => json_encode([
                 'url' => request()->url(),
                 'method' => request()->method(),
                 'query' => request()->fullUrlWithQuery(),
                 'secure' => request()->secure(),
                 'client_ip' => request()->ip(),
                 'payload' => request()->all(),
-            ],
+            ]),
         ];
 
         return $this->model->create($payload);

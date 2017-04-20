@@ -8,6 +8,7 @@ use Yab\CrudMaker\CrudMakerProvider;
 use Yab\Crypto\CryptoProvider;
 use Yab\FormMaker\FormMakerProvider;
 use Yab\LaraTest\LaraTestProvider;
+use Yab\Laracogs\Console\Activity;
 use Yab\Laracogs\Console\Api;
 use Yab\Laracogs\Console\Billing;
 use Yab\Laracogs\Console\Bootstrap;
@@ -52,6 +53,7 @@ class LaracogsProvider extends ServiceProvider
         */
 
         $this->commands([
+            Activity::class,
             Api::class,
             Billing::class,
             Notifications::class,
