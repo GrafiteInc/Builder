@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.2.10] - 2017-04-20
+
+### Fixed
+- Fixes helper for activity package
+
 ## [v2.2.9] - 2017-04-20
 
 ### Fixed
