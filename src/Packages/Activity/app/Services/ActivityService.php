@@ -42,7 +42,7 @@ class ActivityService
             'request' => json_encode([
                 'url' => request()->url(),
                 'method' => request()->method(),
-                'query' => request()->fullUrlWithQuery(),
+                'query' => request()->fullUrl(),
                 'secure' => request()->secure(),
                 'client_ip' => request()->ip(),
                 'payload' => request()->all(),
