@@ -12,12 +12,7 @@ class ActivityServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (function_exists('activity')) {
-            function activity($description)
-            {
-                return Activity::log($description);
-            }
-        }
+        // Nothing to see here
     }
 
     /**

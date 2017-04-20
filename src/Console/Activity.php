@@ -60,6 +60,10 @@ class Activity extends Command
                 $this->line("\n Now to track all you need to do is add the middleware `activity` to your routes");
                 $this->line("\n In order to get a user's activities use this:");
                 $this->comment("\n app(App\Services\ActivityService::class)->getByUser(\$userId);");
+                $this->line("\n In order to use the helper you will have to add to your composer autoload:");
+                $this->comment("\n \"files\": [");
+                $this->comment("\n \"app/Helpers/activity_helper.php\"");
+                $this->comment("\n ]");
                 $this->info("\n Finished setting up activity");
             } else {
                 $this->info("\n You cancelled the laracogs activity");
