@@ -29,7 +29,11 @@ class FeatureService
      */
     public function isActive($key)
     {
-        return $this->model->where('key', $key)->first()->is_active;
+        if ($this->model->where('key', $key)->first()) {
+            return $this->model->where('key', $key)->first()->is_active;
+        }
+
+        return false;
     }
 
     /**
