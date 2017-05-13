@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.2.12] - 2017-05-13
+
+### Changed
+- Default admin to admin@example.org
+
+### Fixed
+- Fixes issue with features not yet defined
+
 ## [v2.2.11] - 2017-04-20
 
 ### Fixed
