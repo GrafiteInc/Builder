@@ -139,7 +139,7 @@ If you want to opt out of having your users confirm their email address, simply 
 With the roles middleware you can specify which roles are applicable separating them with pipes: `['middleware' => ['roles:admin|moderator|member']]`
 The permissions middleware allows you to specify which permissions (which are bound to roles) are applicable to a route separating them with pipes: `['middleware' => ['permissions:admin|regular']]`
 
-Update the `App\User::class` in: 'config/auth.php' and 'database/factory/ModelFactory.php' to this:
+Update the `App\User::class` in: 'config/auth.php' and 'database/factories/ModelFactory.php' to this:
 ```php
 App\Models\User::class
 ```
