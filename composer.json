@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": ">=7.0",
-        "doctrine/dbal": "^2.6",
+        "doctrine/dbal": "^2.5",
         "illuminate/support": "^5.4",
         "yab/crudmaker": "^1.2",
         "yab/formmaker": "^1.1",
