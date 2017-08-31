@@ -13,11 +13,11 @@
         }
     ],
     "require": {
-        "php": ">=5.6.4",
+        "php": ">=7.0",
         "doctrine/dbal": "^2.5",
-        "illuminate/support": "5.4.*",
-        "yab/crudmaker": "1.2.*",
-        "yab/formmaker": "1.1.*",
+        "illuminate/support": "^5.4",
+        "yab/crudmaker": "^1.2",
+        "yab/formmaker": "^1.1",
         "yab/crypto": "~1.0",
         "yab/cerebrum": "~1.0",
         "yab/laratest": "~0.1"
@@ -25,7 +25,7 @@
     "require-dev": {
         "mockery/mockery": "^0.9.4",
         "mikey179/vfsStream": "^1.6",
-        "orchestra/testbench": "3.4.*|3.4-dev",
+        "orchestra/testbench": "^3.4",
         "phpunit/phpunit": "^6.0"
     },
     "autoload": {
@@ -37,6 +37,13 @@
         "classmap": [
             "tests/TestCase.php"
         ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Yab\\Laracogs\\LaracogsProvider"
+            ]
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true

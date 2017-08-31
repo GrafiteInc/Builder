@@ -78,10 +78,7 @@ class Starter extends Command
             $this->line('Copying tests...');
             $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/tests', base_path('tests'));
 
-            $this->line('Appending database/factory...');
-            $this->createFactory();
-
-            $this->info('Update the model in: config/auth.php, database/factory/ModelFactory.php');
+            $this->info('Update the model in: config/auth.php');
             $this->comment("\n");
             $this->comment($this->getAppNamespace()."Models\User::class");
             $this->comment("\n");
@@ -105,15 +102,5 @@ class Starter extends Command
         } else {
             $this->info('You cancelled the laracogs starter');
         }
-    }
-
-    public function createFactory()
-    {
-        $factory = file_get_contents(__DIR__.'/../Packages/Starter/Factory.txt');
-        $factoryPrepared = str_replace('{{App\}}', $this->getAppNamespace(), $factory);
-        $factoryMaster = base_path('database/factories/ModelFactory.php');
-        file_put_contents($factoryMaster, str_replace($factoryPrepared, '', file_get_contents($factoryMaster)));
-
-        return file_put_contents($factoryMaster, $factoryPrepared, FILE_APPEND);
     }
 }

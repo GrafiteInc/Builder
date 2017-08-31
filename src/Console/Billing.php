@@ -31,7 +31,7 @@ class Billing extends Command
      */
     public function handle()
     {
-        if (!file_exists(base_path('resources/views/team/create.blade.php'))) {
+        if (!file_exists(base_path('app/Services/UserService.php'))) {
             $this->line("\n\nPlease perform the starter command:\n");
             $this->info("\n\nphp artisan laracogs:starter\n");
             $this->line("\n\nThen one you're able to run the unit tests successfully re-run this command, to bootstrap your app :)\n");
@@ -64,7 +64,7 @@ class Billing extends Command
                 $this->comment("\n require base_path('routes/billing.php');");
                 $this->comment("\n }");
                 $this->line("\n Add this line to (.env):");
-                $this->comment("\n SUBSCRIPTION=basic");
+                $this->comment("\n SUBSCRIPTION=app_basic");
                 $this->line("\n Add this to (app/Providers/AuthServiceProvider.php):");
                 $this->comment("\n Gate::define('access-billing', function (\$user) {");
                 $this->comment("\n\t return (\$user->meta->subscribed('main') && is_null(\$user->meta->subscription('main')->endDate));");

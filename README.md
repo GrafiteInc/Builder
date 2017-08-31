@@ -31,6 +31,7 @@ Please consult the documentation here: [http://laracogs.com/docs](http://laracog
 
 | Laravel Version | Package Tag | Supported |
 |-----------------|-------------|-----------|
+| 5.5.x | 2.3.x | yes |
 | 5.4.x | 2.2.x | yes |
 | 5.3.x | 2.0.x - 2.1.x | no |
 | 5.1.x - 5.2.x | 1.9.x | no |
@@ -139,7 +140,7 @@ If you want to opt out of having your users confirm their email address, simply 
 With the roles middleware you can specify which roles are applicable separating them with pipes: `['middleware' => ['roles:admin|moderator|member']]`
 The permissions middleware allows you to specify which permissions (which are bound to roles) are applicable to a route separating them with pipes: `['middleware' => ['permissions:admin|regular']]`
 
-Update the `App\User::class` in: 'config/auth.php' and 'database/factory/ModelFactory.php' to this:
+Update the `App\User::class` in: 'config/auth.php' and 'database/factories/ModelFactory.php' to this:
 ```php
 App\Models\User::class
 ```
