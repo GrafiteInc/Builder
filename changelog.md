@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.3.2] - 2017-09-18
+
+### Added
+- Better admin dashboard
+
+### Changed
+- Improved docs
+
 ## [v2.3.1] - 2017-09-01
 
 ### Fixed
