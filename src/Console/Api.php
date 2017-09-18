@@ -57,7 +57,7 @@ class Api extends Command
                 $this->info("\n\n Please review the setup details for JWT.");
 
                 $this->info("\n\n You will want to add things like:");
-                $this->line("\n Add this line to (app/Providers/RouteServiceProvider.php) in the mapWebRoutes() method:");
+                $this->line("\n Add this line to (app/Providers/RouteServiceProvider.php) in the mapApiRoutes() method:");
                 $this->comment("\n require base_path('routes/api.php');");
 
                 $this->line("\n Add this to the (config/app.php) providers:");

@@ -230,7 +230,7 @@ php artisan migrate --seed
 To login simply enter:
 
 ```
-admin@example.org
+admin@example.com
 admin
 ```
 
