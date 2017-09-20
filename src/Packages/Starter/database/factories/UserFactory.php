@@ -1,7 +1,5 @@
 <?php
 
-use Faker\Generator as Faker;
-
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -13,7 +11,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define({{App\}}Models\User::class, function (Faker $faker) {
+$factory->define({{App\}}Models\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
