@@ -17,7 +17,7 @@
         "doctrine/dbal": "^2.5",
         "illuminate/support": "5.4.*",
         "yab/crudmaker": "1.2.*",
-        "yab/formmaker": "1.1.*",
+        "yab/formmaker": "^1.1",
         "yab/crypto": "~1.0",
         "yab/cerebrum": "~1.0",
         "yab/laratest": "~0.1"
