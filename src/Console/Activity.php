@@ -50,8 +50,6 @@ class Activity extends Command
 
             if ($result) {
                 $this->copyPreparedFiles(__DIR__.'/../Packages/Activity', base_path());
-                $this->appendTheFactory();
-
                 $this->info("\n\n Please review the setup details for activity tracking.");
                 $this->line("\n You need to add the activity service provider to your app config:");
                 $this->comment("\n App\Providers\ActivityServiceProvider::class,");
@@ -69,29 +67,5 @@ class Activity extends Command
                 $this->info("\n You cancelled the laracogs activity");
             }
         }
-    }
-
-    public function appendTheFactory()
-    {
-        $activityPrepared = '
-/*
-|--------------------------------------------------------------------------
-| Activity Factory
-|--------------------------------------------------------------------------
-*/
-
-$factory->define('.$this->getAppNamespace()."Models\Activity::class, function (Faker\Generator \$faker) {
-    return [
-        'id' => 1,
-        'user_id' => 1,
-        'description' => 'Standard User Activity',
-        'request' => [],
-    ];
-});
-";
-
-        $factoryMaster = base_path('database/factories/ModelFactory.php');
-
-        return file_put_contents($factoryMaster, $activityPrepared, FILE_APPEND);
     }
 }
