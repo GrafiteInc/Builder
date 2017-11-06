@@ -50,8 +50,6 @@ class Notifications extends Command
 
             if ($result) {
                 $this->copyPreparedFiles(__DIR__.'/../Packages/Notifications', base_path());
-                $this->appendTheFactory();
-
                 $this->info("\n\n Then follow the directions regarding notifications on: https://laravel.com/docs/");
                 $this->info("\n\n Please review the setup details for notifications.");
                 $this->info("\n\n You will want to add things like:");
@@ -75,32 +73,5 @@ class Notifications extends Command
                 $this->info("\n You cancelled the laracogs notifications");
             }
         }
-    }
-
-    public function appendTheFactory()
-    {
-        $factoryPrepared = '
-/*
-|--------------------------------------------------------------------------
-| Notification Factory
-|--------------------------------------------------------------------------
-*/
-
-$factory->define('.$this->getAppNamespace()."Models\Notification::class, function (Faker\Generator \$faker) {
-    return [
-        'id' => 1,
-        'user_id' => 1,
-        'flag' => 'info',
-        'uuid' => 'lksjdflaskhdf',
-        'title' => 'Testing',
-        'details' => 'Your car has been impounded!',
-        'is_read' => 0,
-    ];
-});
-";
-
-        $factoryMaster = base_path('database/factories/ModelFactory.php');
-
-        return file_put_contents($factoryMaster, $factoryPrepared, FILE_APPEND);
     }
 }
