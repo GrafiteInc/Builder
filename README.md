@@ -237,7 +237,7 @@ admin@example.com
 admin
 ```
 
-Once you get the starter kit running you can register and login to your app. You can then you can visit the settings section of the app and set your role to admin to take full control of the app.
+Once you get the starter kit running you can register and log into your app. You can then visit the settings section of the app and set your role to admin to take full control of the app.
 Now its time for more boilerplate generators!
 
 ### Bootstrap

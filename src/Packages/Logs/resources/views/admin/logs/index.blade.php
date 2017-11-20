@@ -1,44 +1,35 @@
-@extends('dashboard', ['pageTitle' => 'Logs &raquo; Index'])
+@extends('admin.dashboard', ['pageTitle' => 'Logs &raquo; Index'])
 
 @section('content')
-
     <div class="row">
-        <div class="col-md-12">
-            <div class="pull-right raw-margin-top-24">
-                <form method="post" action="{!! url('admin/features/search') !!}">
-                    {!! csrf_field() !!}
-                    <input class="form-control form-inline pull-right" name="search" placeholder="Search">
-                </form>
-            </div>
-            <h1 class="pull-left raw-margin-top-24">Logs</h1>
-            <a class="btn btn-primary pull-right raw-margin-top-24 raw-margin-right-16" href="{!! url('admin/features/create') !!}">Add New</a>
+        <div class="col-md-6">
+            <h1 class="pull-left raw-margin-top-24">Admin Logs</h1>
+        </div>
+        <div class="col-md-6 text-right">
+            <a class="btn btn-info raw-margin-left-8" href="{{ url('admin/logs?level=info') }}">Info</a>
+            <a class="btn btn-danger raw-margin-left-8" href="{{ url('admin/logs?level=error') }}">Error</a>
+            <a class="btn btn-warning raw-margin-left-8" href="{{ url('admin/logs?level=warning') }}">Warning</a>
+            <a class="btn btn-default raw-margin-left-8" href="{{ url('admin/logs?level=debug') }}">Debug</a>
         </div>
     </div>
 
     <div class="row raw-margin-top-24">
         <div class="col-md-12">
-            @if ($features->isEmpty())
-                <div class="well text-center">No features found.</div>
+            @if ($logs->isEmpty())
+                <div class="well text-center">No logs found.</div>
             @else
                 <table class="table table-striped">
                     <thead>
-                        <th>Key</th>
-                        <th>Is Active</th>
-                        <th width="150px">Action</th>
+                        <th width="200px">Date</th>
+                        <th width="100px">Level</th>
+                        <th>Log</th>
                     </thead>
                     <tbody>
-                    @foreach($features as $feature)
+                    @foreach($logs as $log)
                         <tr>
-                            <td><a href="{!! route('admin.features.edit', [$feature->id]) !!}">{{ $feature->key }}</a></td>
-                            <td>@if ($feature->is_active) <span class="fa fa-check"></span> @endif</td>
-                            <td class="text-right">
-                                <form method="post" action="{!! url('admin/features/'.$feature->id) !!}">
-                                    {!! csrf_field() !!}
-                                    {!! method_field('DELETE') !!}
-                                    <button class="btn btn-danger btn-xs pull-right" type="submit" onclick="return confirm('Are you sure you want to delete this feature?')"><i class="fa fa-trash"></i> Delete</button>
-                                </form>
-                                <a class="btn btn-default btn-xs pull-right raw-margin-right-16" href="{!! route('admin.features.edit', [$feature->id]) !!}"><i class="fa fa-pencil"></i> Edit</a>
-                            </td>
+                            <td>{{ $log['date'] }}</td>
+                            <td>{{ ucfirst($log['level']) }}</td>
+                            <td><code>{{ $log['log'] }}</code></td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -49,8 +40,7 @@
 
     <div class="row">
         <div class="col-md-12 text-center">
-            {!! $features; !!}
+            {!! $logs !!}
         </div>
     </div>
-
 @stop
