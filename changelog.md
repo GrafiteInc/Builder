@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.2.14] - 2017-11-20
+
+### Added
+- New admin logs view
+
 ## [v2.3.3] - 2017-09-20
 
 ### Fixed
