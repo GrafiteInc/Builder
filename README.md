@@ -19,6 +19,9 @@ This is a set of tools to help speed up development of Laravel apps. You can sta
 ## Yab Newsletter
 [Subscribe](http://eepurl.com/ck7dSv)
 
+## Chat Support
+[Gitter](https://gitter.im/YABhq/Laracogs)
+
 ## Detailed Documentation
 Please consult the documentation here: [http://laracogs.com/docs](http://laracogs.com/docs)
 
