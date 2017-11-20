@@ -50,8 +50,6 @@ class Features extends Command
 
             if ($result) {
                 $this->copyPreparedFiles(__DIR__.'/../Packages/Features', base_path());
-                $this->appendTheFactory();
-
                 $this->info("\n\n Please review the setup details for features.");
                 $this->info("\n\n You will want to add things like:");
                 $this->line("\n These links: ");
@@ -73,28 +71,5 @@ class Features extends Command
                 $this->info("\n You cancelled the laracogs features");
             }
         }
-    }
-
-    public function appendTheFactory()
-    {
-        $factoryPrepared = '
-/*
-|--------------------------------------------------------------------------
-| Feature Factory
-|--------------------------------------------------------------------------
-*/
-
-$factory->define('.$this->getAppNamespace()."Models\Feature::class, function (Faker\Generator \$faker) {
-    return [
-        'id' => 1,
-        'key' => 'user-signup',
-        'is_active' => false,
-    ];
-});
-";
-
-        $factoryMaster = base_path('database/factories/ModelFactory.php');
-
-        return file_put_contents($factoryMaster, $factoryPrepared, FILE_APPEND);
     }
 }
