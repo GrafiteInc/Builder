@@ -1,22 +1,21 @@
 /*
 |--------------------------------------------------------------------------
-| Packages
+| Pre Vendors
 |--------------------------------------------------------------------------
 */
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "variables";
 
 /*
 |--------------------------------------------------------------------------
-| Base
+| Vendors
 |--------------------------------------------------------------------------
 */
-@import "resources/assets/sass/_base.scss";
+@import '~bootstrap/scss/bootstrap';
 
 /*
 |--------------------------------------------------------------------------
-| Sidebar
+| Post Vendors
 |--------------------------------------------------------------------------
 */
-@import "resources/assets/sass/_sidebar.scss";
-
-
+@import "base.scss";
+@import "sidebar.scss";

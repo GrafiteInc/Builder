@@ -78,10 +78,8 @@ class Starter extends Command
             $this->line('Copying tests...');
             $this->copyPreparedFiles(__DIR__.'/../Packages/Starter/tests', base_path('tests'));
 
-            $this->info('Update the model in: config/auth.php');
-            $this->comment("\n");
-            $this->comment($this->getAppNamespace()."Models\User::class");
-            $this->comment("\n");
+            $this->line('Adjusting Laravel default files...');
+            $this->defaultFileChanger();
 
             $this->info("Build something worth sharing!\n");
 
@@ -102,5 +100,27 @@ class Starter extends Command
         } else {
             $this->info('You cancelled the laracogs starter');
         }
+    }
+
+    /**
+     * Clean up files from the install of Laravel etc.
+     */
+    public function defaultFileChanger()
+    {
+        $files = [
+            base_path('config/auth.php'),
+            base_path('config/services.php'),
+        ];
+
+        foreach ($files as $file) {
+            $contents = file_get_contents($file);
+            $contents = str_replace('App\User::class', 'App\Models\User::class', $contents);
+            file_put_contents($file, $contents);
+        }
+
+        // Kernel setup
+        $routeContents = file_get_contents(app_path('Http/Kernel.php'));
+        $routeContents = str_replace("'auth' => \Illuminate\Auth\Middleware\Authenticate::class,", "'auth' => \Illuminate\Auth\Middleware\Authenticate::class,\n\t\t'cabin' => \App\Http\Middleware\Cabin::class,\n\t\t'cabin-api' => \App\Http\Middleware\CabinApi::class,\n\t\t'cabin-analytics' => \Yab\Cabin\Middleware\CabinAnalytics::class,\n\t\t'cabin-language' => \App\Http\Middleware\CabinLanguage::class,\n\t\t'admin' => \App\Http\Middleware\Admin::class,\n\t\t'active' => \App\Http\Middleware\Active::class,", $routeContents);
+        file_put_contents(app_path('Http/Kernel.php'), $routeContents);
     }
 }

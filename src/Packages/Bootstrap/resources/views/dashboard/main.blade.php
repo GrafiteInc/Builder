@@ -1,7 +1,9 @@
 @extends('dashboard')
 
+@section('pageTitle') Dashboard @stop
+
 @section('content')
 
-    <h1>Dashboard</h1>
+    {{-- Content goes here --}}
 
 @stop

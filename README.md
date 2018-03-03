@@ -27,15 +27,16 @@ Please consult the documentation here: [http://laracogs.com/docs](http://laracog
 
 ## General Requirements
 
-1. PHP 5.6+
+1. PHP 7.1.3+
 2. OpenSSL
 
 ## Compatibility and Support
 
 | Laravel Version | Package Tag | Supported |
 |-----------------|-------------|-----------|
-| 5.5.x | 2.3.x | yes |
-| 5.4.x | 2.2.x | yes |
+| 5.6.x | 2.4.x | yes |
+| 5.5.x | 2.3.x | no |
+| 5.4.x | 2.2.x | no |
 | 5.3.x | 2.0.x - 2.1.x | no |
 | 5.1.x - 5.2.x | 1.9.x | no |
 
@@ -67,12 +68,6 @@ php artisan crudmaker:new {name or snake_names} {--api} {--ui=bootstrap|semantic
 php artisan crudmaker:table {name or snake_names} {--api} {--ui=bootstrap|semantic} {--serviceOnly} {--withFacade}
 ```
 
-## Docs
-The docs can prepare documentation for business rules or prepare your app for API doc generation with Sami.
-```php
-php artisan laracogs:docs {action} {name=null} {version=null}
-```
-
 ## Facades/ Services
 Laracogs provides a handful of easy to use tools outside of the app starter kit, and CrudMaker including:
 
@@ -102,22 +97,6 @@ Looking to make some inputs? Look no further.
 ```php
 InputMaker::label($name, $attributes = [])
 InputMaker::create($name, $field, $object = null, $class = 'form-control', $reformatted = false, $populated = false)
-```
-
-#### Cerebrum
-A set of traits which can be added to service or models to give your app extra power!
-
-```php
-Memory // Magical caching
-Linguistics // Basic NLP
-```
-
-#### Laratest
-Looking to write tests for your code? Generate test structures with this handy command.
-
-```php
-php artisan laratest:unit {path to file}
-php artisan laratest:route {route}
 ```
 
 # Kits
@@ -196,20 +175,6 @@ The Starter kit has an email activation component added to the app to ensure you
 You can disable it by removing the `active` middleware from the `web` routes. You will also have to disable the Notification but it
 won't cause any problems if you remove the email activation.
 
-##### For Laravel 5.2
-You will also need to set the location of the email for password reminders. (config/auth.php - at the bottom)
-
-```php
-'passwords' => [
-    'users' => [
-        'provider' => 'users',
-        'email' => 'emails.password',
-        'table' => 'password_resets',
-        'expire' => 60,
-    ],
-],
-```
-
 ##### Things to note
 You may try and start quickly by testing the registration but please make sure your app's <u>email</u> is configured or it will throw an exception.
 You can do this in the `.env` file easily by setting it to 'log' temporarily
@@ -245,13 +210,6 @@ Now its time for more boilerplate generators!
 Bootstrap prepares your application with bootstrap as a view/ css framework.
 ```php
 php artisan laracogs:bootstrap
-```
-
-### Semantic
-----
-Semantic prepares your application with semantic-ui as a view/ css framework.
-```php
-php artisan laracogs:semantic
 ```
 
 ### Features
@@ -348,15 +306,13 @@ Finally run migrate to add the subscrptions and bind them to the user meta:
 php artisan migrate
 ```
 
-You will also want to update your gulpfile.js to include the card.js, and subscription.js
+You will also want to update your webpack mix file (webpack.mix.js) to resemble this:
 ```js
-elixir(function(mix) {
-    mix.scripts([
-        'app.js',
-        'card.js',
-        'subscription.js'
-    ]);
-});
+.js([
+    'resources/assets/js/app.js',
+    'resources/assets/js/card.js',
+    'resources/assets/js/subscription.js'
+], 'public/js');
 ```
 
 #### Accounts (Billing Only)

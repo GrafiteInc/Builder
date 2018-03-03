@@ -1,17 +1,18 @@
 @extends('dashboard')
 
+@section('pageTitle') Admin Dashboard @stop
+
 @section('content')
 
     <div class="row">
         <div class="col-md-12">
             @if (Session::get('original_user'))
-                <a class="btn btn-default pull-right" href="/users/switch-back">Return to your Login</a>
+                <a class="btn btn-secondary pull-right" href="/users/switch-back">Return to your Login</a>
             @endif
-            <h1>Admin Dashboard</h1>
         </div>
     </div>
 
-    <div class="row raw-margin-top-48">
+    <div class="row raw-margin-top-24">
         <div class="col-md-4">
             <h2 class="text-center">Server</h2>
             <table class="table table-striped raw-margin-top-48">

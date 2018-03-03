@@ -1,21 +1,16 @@
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNavbar">
-            <span class="sr-only">Brand</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <span class="navbar-brand"><span class="fa fa-cogs"></span> Brand</span>
-        @if (Auth::user())
-            <p class="navbar-text navbar-left">Signed in as {{ Auth::user()->name }}</p>
-        @endif
-    </div>
-    <div class="collapse navbar-collapse navbar-right" id="mainNavbar">
-        <ul class="nav navbar-nav">
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/"><span class="fa fa-cogs"></span> Brand</a>
+    <ul class="navbar-nav mr-auto">
+        <span class="navbar-text raw-margin-left-24 page-title">
+            <a class="sidebar-toggle text-light mr-3"><i class="fa fa-bars"></i></a>
+            @yield('pageTitle')
+        </span>
+    </ul>
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
             @if (Auth::user())
-                <li><a class="raw-margin-right-24" href="/logout">Logout</a></li>
+                <a class="nav-link" href="/logout">Sign out</a>
             @endif
-        </ul>
-    </div>
-</div>
+        </li>
+    </ul>
+</nav>

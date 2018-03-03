@@ -1,17 +1,9 @@
 @extends('dashboard')
 
+@section('pageTitle') Teams: Edit @stop
+
 @section('content')
 
-    <div class="row">
-        <div class="col-md-12">
-            <form id="" class="pull-right raw-margin-top-24 raw-margin-left-24" method="post" action="/teams/search">
-                {!! csrf_field() !!}
-                <input class="form-control" name="search" placeholder="Search">
-            </form>
-            <a class="btn btn-primary pull-right raw-margin-top-24" href="{{ url('teams/create') }}">Create Team</a>
-            <h1>Teams: Edit</h1>
-        </div>
-    </div>
     <div class="row">
         <div class="col-md-6 raw-margin-bottom-24">
             <div>
@@ -22,7 +14,7 @@
                     @form_maker_object($team, ['name' => 'string'])
 
                     <div class="raw-margin-top-24">
-                        <a class="btn btn-default pull-left" href="{{ URL::previous() }}">Cancel</a>
+                        <a class="btn btn-secondary pull-left" href="{{ url('teams') }}">Cancel</a>
                         <button class="btn btn-primary pull-right" type="submit">Save</button>
                     </div>
 
@@ -42,8 +34,8 @@
             @endif
         </div>
         @if (Auth::user()->isTeamAdmin($team->id))
-            <h2 class="text-center">Members</h2>
-            <div class="col-md-12">
+            <div class="col-md-12 raw-margin-top-24">
+                <h2 class="text-left">Members</h2>
                 @if ($team->members->isEmpty())
                     <div class="col-md-12 raw-margin-bottom-24">
                         <div class="well text-center">No members found.</div>

@@ -1,19 +1,15 @@
 @extends('dashboard')
 
-@section('content')
+@section('pageTitle') Roles: Edit @stop
 
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Role Admin: Edit</h1>
-        </div>
-    </div>
+@section('content')
     <div class="row">
         <div class="col-md-12">
             <form method="POST" action="/admin/roles/{{ $role->id }}">
                 <input name="_method" type="hidden" value="PATCH">
                 {!! csrf_field() !!}
 
-                <div class="raw-margin-top-24">
+                <div>
                     @input_maker_label('Name')
                     @input_maker_create('name', ['type' => 'string'], $role)
                 </div>
@@ -40,8 +36,10 @@
                 </div>
 
                 <div class="raw-margin-top-24">
-                    <a class="btn btn-default pull-left" href="{{ URL::previous() }}">Cancel</a>
-                    <button class="btn btn-primary pull-right" type="submit">Save</button>
+                    <div class="btn-toolbar justify-content-between">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                        <a class="btn btn-secondary" href="/admin/roles">Cancel</a>
+                    </div>
                 </div>
             </form>
         </div>

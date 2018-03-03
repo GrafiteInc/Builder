@@ -1,60 +1,86 @@
+
 .sidebar {
-    display: block;
-    position: fixed !important;
-    z-index: 1000;
-    bottom: 0;
-    top: 45px;
-    width: 300px;
-    padding: 0px;
-    padding-top: 5px;
-    background-color: #DDD;
+    width: 320px;
+    position: fixed;
+    top: 0;
+    bottom: 60px;
+    left: 0;
+    z-index: 100; /* Behind the navbar */
+    padding: 0;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    transition: all 0.3s;
+}
+
+.sidebar-sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 43px; /* Height of navbar */
+    height: calc(100vh - 103px);
+    padding-top: .5rem;
     overflow-x: hidden;
-    height: 100%;
-    overflow-y: auto;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    .active {
+        background-color: #EEE;
+    }
+}
+
+.sidebar .nav-link {
+    font-weight: 500;
+    color: #333;
+}
+
+.sidebar .nav-link .feather {
+    margin-right: 4px;
+    color: #999;
+}
+
+.sidebar .nav-link.active {
+    color: #007bff;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+    color: inherit;
+}
+
+.sidebar-heading {
+  font-size: .75rem;
+  text-transform: uppercase;
 }
 
 .sidebar-header {
-    padding: 16px 0;
-    text-align: center;
-    background-color: #EEE;
-}
-
-/*
-|--------------------------------------------------------------------------
-| Sidebar
-|--------------------------------------------------------------------------
-*/
-
-@media (min-width: 768px) {
-    .sidebar {
-        width: 16.66666667%;
-        min-width: 200px;
+    background-color: #333;
+    line-height: 48px;
+    color: #FFF;
+    span {
+        padding-left: 16px;
     }
 }
+
+.main {
+    width: calc(100% - 320px);
+}
+.sidebar-toggle {
+    display: none;
+}
+
 @media (max-width: 768px) {
+    .sidebar-toggle {
+        display: inline-block;
+    }
+    .main {
+        width: 100%;
+    }
     .sidebar {
-        left: -300px;
+        margin-left: -320px;
+    }
+    .sidebar.toggled {
+        margin-left: 0;
     }
 }
 
-.nav-sidebar > li > a {
-    padding-right: 20px;
-    padding-left: 20px;
-}
-.nav-sidebar li {
-    margin: 0px;
-    .fa {
-        margin-left: 10px;
-    }
-    .fa:before {
-        margin-right: 8px;
+@media (max-width: 576px) {
+    .sidebar-sticky {
+        margin-top: 94px;
     }
 }
-
-.nav-sidebar > .active > a,
-.nav-sidebar > .active > a:hover,
-.nav-sidebar > .active > a:focus {
-    color: #333;
-    background-color: #FFF;
-}
-

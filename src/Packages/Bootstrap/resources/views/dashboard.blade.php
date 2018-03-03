@@ -2,14 +2,16 @@
 
 @section('app-content')
 
-    <div class="col-sm-3 col-md-2 sidebar">
-        <div class="raw-margin-bottom-90">
-            @include('dashboard.panel')
+    <nav id="sidebar" class="bg-light sidebar">
+        <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+                @include('dashboard.panel')
+            </ul>
         </div>
-    </div>
+    </nav>
 
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <main class="ml-sm-auto pt-3 px-4 main">
         @yield('content')
-    </div>
+    </main>
 
 @stop

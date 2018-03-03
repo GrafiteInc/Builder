@@ -1,18 +1,14 @@
 @extends('dashboard')
 
-@section('content')
+@section('pageTitle') Password @stop
 
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Password</h1>
-        </div>
-    </div>
+@section('content')
     <div class="row">
         <div class="col-md-12">
             <form method="POST" action="/user/password">
                 {!! csrf_field() !!}
 
-                <div class="raw-margin-top-24">
+                <div>
                     @input_maker_label('Old Password')
                     @input_maker_create('old_password', ['type' => 'password', 'placeholder' => 'Old Password'])
                 </div>
@@ -28,8 +24,10 @@
                 </div>
 
                 <div class="raw-margin-top-24">
-                    <a class="btn btn-default pull-left" href="{{ URL::previous() }}">Cancel</a>
-                    <button class="btn btn-primary pull-right" type="submit">Save</button>
+                    <div class="btn-toolbar justify-content-between">
+                        <button class="btn btn-primary pull-right" type="submit">Save</button>
+                        <a class="btn btn-secondary pull-left" href="{{ URL::previous() }}">Cancel</a>
+                    </div>
                 </div>
             </form>
         </div>

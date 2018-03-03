@@ -1,13 +1,14 @@
 @extends('dashboard')
 
+@section('pageTitle') Users: Edit @stop
+
 @section('content')
 
     <div class="row">
         <div class="col-md-12">
             @if (! Session::get('original_user'))
-                <a class="btn btn-default pull-right" href="/admin/users/switch/{{ $user->id }}">Login as this User</a>
+                <a class="btn btn-secondary pull-right" href="/admin/users/switch/{{ $user->id }}">Login as this User</a>
             @endif
-            <h1>User Admin: Edit</h1>
         </div>
     </div>
     <div class="row">
@@ -34,8 +35,10 @@
                 </div>
 
                 <div class="raw-margin-top-24">
-                    <a class="btn btn-default pull-left" href="{{ URL::previous() }}">Cancel</a>
-                    <button class="btn btn-primary pull-right" type="submit">Save</button>
+                    <div class="btn-toolbar justify-content-between">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                        <a class="btn btn-secondary" href="/admin/users">Cancel</a>
+                    </div>
                 </div>
             </form>
         </div>

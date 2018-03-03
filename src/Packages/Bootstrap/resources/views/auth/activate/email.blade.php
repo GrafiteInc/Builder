@@ -3,7 +3,7 @@
 @section('app-content')
 
     <div class="row">
-        <div class="col-md-4 col-md-offset-4 text-center">
+        <div class="col-md-12 form-small text-center">
 
             <h1 class="text-center">Activate</h1>
 

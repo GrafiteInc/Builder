@@ -1,18 +1,15 @@
 @extends('dashboard')
 
+@section('pageTitle') Roles: Create @stop
+
 @section('content')
 
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Role Admin: Create</h1>
-        </div>
-    </div>
     <div class="row">
         <div class="col-md-12">
             <form method="POST" action="/admin/roles">
                 {!! csrf_field() !!}
 
-                <div class="raw-margin-top-24">
+                <div>
                     @input_maker_label('Name')
                     @input_maker_create('name', ['type' => 'string'])
                 </div>
@@ -35,8 +32,10 @@
                 </div>
 
                 <div class="raw-margin-top-24">
-                    <a class="btn btn-default pull-left" href="{{ URL::previous() }}">Cancel</a>
-                    <button class="btn btn-primary pull-right" type="submit">Create</button>
+                    <div class="btn-toolbar justify-content-between">
+                        <button class="btn btn-primary" type="submit">Create</button>
+                        <a class="btn btn-secondary" href="/admin/roles">Cancel</a>
+                    </div>
                 </div>
             </form>
         </div>
