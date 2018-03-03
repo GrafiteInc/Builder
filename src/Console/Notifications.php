@@ -54,8 +54,8 @@ class Notifications extends Command
                 $this->info("\n\n Please review the setup details for notifications.");
                 $this->info("\n\n You will want to add things like:");
                 $this->line("\n These links: ");
-                $this->comment("\n <li><a href='{!! url('user/notifications') !!}'><span class='fa fa-envelope-o'></span> Notifications</a></li>");
-                $this->comment("\n <li><a href='{!! url('admin/notifications') !!}'><span class='fa fa-envelope-o'></span> Notifications</a></li>");
+                $this->comment("\n <li><a class=\"nav-link\" href='{!! url('user/notifications') !!}'><span class='fa fa-envelope'></span> Notifications</a></li>");
+                $this->comment("\n <li><a class=\"nav-link\" href='{!! url('admin/notifications') !!}'><span class='fa fa-envelope'></span> Notifications</a></li>");
                 $this->line("\n Now mofify the RouteServiceProvider by switching to a closure in the `group` method (app/Providers/RouteServiceProvider.php):");
                 $this->line("\n It will look like: ->group(base_path('routes/web.php')); So you need to change it to resemble this:");
                 $this->comment("\n ->group(function () {");

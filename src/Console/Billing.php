@@ -74,7 +74,7 @@ class Billing extends Command
                 $this->comment("\n\t\t 'resources/assets/js/app.js',");
                 $this->comment("\n\t\t 'resources/assets/js/card.js',");
                 $this->comment("\n\t\t 'resources/assets/js/subscription.js'");
-                $this->comment("\n\t ], 'public/js');");
+                $this->comment("\n\t ], 'public/js/app.js');");
                 $this->info("\n\n Please make sure you run the migration for cashier structure.");
                 $this->comment("\n\n ** You will need to configure your app to handle cancelling subscriptions when deleting users. **");
                 $this->info('Finished setting up billing');

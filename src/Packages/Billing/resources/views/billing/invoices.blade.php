@@ -1,4 +1,4 @@
-@extends('dashboard', ['pageTitle' => 'Billing &raquo; Invoices'])
+@extends('dashboard')
 
 @section('content')
 

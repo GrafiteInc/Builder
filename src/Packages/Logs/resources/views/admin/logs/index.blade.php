@@ -1,11 +1,10 @@
-@extends('admin.dashboard', ['pageTitle' => 'Logs &raquo; Index'])
+@extends('admin.dashboard')
+
+@section('pageTitle') App Logs @stop
 
 @section('content')
     <div class="row">
-        <div class="col-md-6">
-            <h1 class="pull-left raw-margin-top-24">Admin Logs</h1>
-        </div>
-        <div class="col-md-6 text-right">
+        <div class="col-md-12 text-right">
             <a class="btn btn-info raw-margin-left-8" href="{{ url('admin/logs?level=info') }}">Info</a>
             <a class="btn btn-danger raw-margin-left-8" href="{{ url('admin/logs?level=error') }}">Error</a>
             <a class="btn btn-warning raw-margin-left-8" href="{{ url('admin/logs?level=warning') }}">Warning</a>

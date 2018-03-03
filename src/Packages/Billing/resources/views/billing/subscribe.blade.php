@@ -1,4 +1,4 @@
-@extends('dashboard', ['pageTitle' => 'Billing &raquo; Subscribe'])
+@extends('dashboard')
 
 @section('pre-javascript')
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
@@ -16,7 +16,7 @@
                 <div class='card-wrapper'></div>
             </div>
 
-            <div class="col-md-6 col-md-offset-3 raw-margin-top-24 well">
+            <div class="col-md-6 offset-md-3 raw-margin-top-24 well">
                 <form method="POST" class="billing" action="/user/billing/subscribe">
 
                     @include('billing.card-form')
