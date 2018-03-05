@@ -63,7 +63,7 @@ class FeatureController extends Controller
             return redirect('admin/features')->with('message', 'Successfully created');
         }
 
-        return redirect('admin/features')->with('message', 'Failed to create');
+        return redirect('admin/features')->with('errors', ['Failed to create']);
     }
 
     /**
@@ -93,7 +93,7 @@ class FeatureController extends Controller
             return back()->with('message', 'Successfully updated');
         }
 
-        return back()->with('message', 'Failed to update');
+        return back()->with('errors', ['Failed to update']);
     }
 
     /**
@@ -110,6 +110,6 @@ class FeatureController extends Controller
             return redirect('admin/features')->with('message', 'Successfully deleted');
         }
 
-        return redirect('admin/features')->with('message', 'Failed to delete');
+        return redirect('admin/features')->with('errors', ['Failed to delete']);
     }
 }

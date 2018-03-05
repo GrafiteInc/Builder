@@ -64,7 +64,7 @@ class UserController extends Controller
             return redirect('admin/users')->with('message', 'Successfully invited');
         }
 
-        return back()->with('error', 'Failed to invite');
+        return back()->with('errors', ['Failed to invite']);
     }
 
     /**
@@ -78,7 +78,7 @@ class UserController extends Controller
             return redirect('dashboard')->with('message', 'You\'ve switched users.');
         }
 
-        return redirect('dashboard')->with('message', 'Could not switch users');
+        return redirect('dashboard')->with('errors', ['Could not switch users']);
     }
 
     /**
@@ -92,7 +92,7 @@ class UserController extends Controller
             return back()->with('message', 'You\'ve switched back.');
         }
 
-        return back()->with('message', 'Could not switch back');
+        return back()->with('errors', ['Could not switch back']);
     }
 
     /**
@@ -122,7 +122,7 @@ class UserController extends Controller
             return back()->with('message', 'Successfully updated');
         }
 
-        return back()->with('message', 'Failed to update');
+        return back()->with('errors', ['Failed to update']);
     }
 
     /**
@@ -139,6 +139,6 @@ class UserController extends Controller
             return redirect('admin/users')->with('message', 'Successfully deleted');
         }
 
-        return redirect('admin/users')->with('message', 'Failed to delete');
+        return redirect('admin/users')->with('errors', ['Failed to delete']);
     }
 }

@@ -94,7 +94,7 @@ class RoleController extends Controller
             return back()->with('message', 'Successfully updated');
         }
 
-        return back()->with('message', 'Failed to update');
+        return back()->with('error', 'Failed to update');
     }
 
     /**
@@ -111,6 +111,6 @@ class RoleController extends Controller
             return redirect('admin/roles')->with('message', 'Successfully deleted');
         }
 
-        return redirect('admin/roles')->with('message', 'Failed to delete');
+        return redirect('admin/roles')->with('error', 'Failed to delete');
     }
 }

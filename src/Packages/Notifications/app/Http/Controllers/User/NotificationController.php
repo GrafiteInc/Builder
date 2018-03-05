@@ -65,6 +65,6 @@ class NotificationController extends Controller
             return redirect('user/notifications')->with('message', 'Successfully deleted');
         }
 
-        return redirect('user/notifications')->with('message', 'Failed to delete');
+        return redirect('user/notifications')->with('errors', ['Failed to delete']);
     }
 }

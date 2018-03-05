@@ -63,7 +63,7 @@ class NotificationController extends Controller
             return redirect('admin/notifications')->with('message', 'Successfully created');
         }
 
-        return redirect('admin/notifications')->with('message', 'Failed to create');
+        return redirect('admin/notifications')->with('errors', ['Failed to create']);
     }
 
     /**
@@ -93,7 +93,7 @@ class NotificationController extends Controller
             return back()->with('message', 'Successfully updated');
         }
 
-        return back()->with('message', 'Failed to update');
+        return back()->with('errors', ['Failed to update']);
     }
 
     /**
@@ -110,6 +110,6 @@ class NotificationController extends Controller
             return redirect('admin/notifications')->with('message', 'Successfully deleted');
         }
 
-        return redirect('admin/notifications')->with('message', 'Failed to delete');
+        return redirect('admin/notifications')->with('errors', ['Failed to delete']);
     }
 }

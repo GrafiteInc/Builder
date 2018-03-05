@@ -20,6 +20,7 @@
 
         @include('partials.errors')
         @include('partials.status')
+        @include('partials.message')
 
         <div class="container-fluid">
             <div class="row">
