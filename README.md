@@ -2,7 +2,7 @@
 
 **Builder** - A handful of tools for Rapid Laravel Development
 
-[![Build Status](https://travis-ci.org/Grafite/Builder.svg?branch=master)](https://travis-ci.org/Grafite/Builder)
+[![Build Status](https://travis-ci.org/GrafiteInc/Builder.svg?branch=master)](https://travis-ci.org/GrafiteInc/Builder)
 [![Maintainability](https://api.codeclimate.com/v1/badges/f28b73ebf600f2db7f48/maintainability)](https://codeclimate.com/github/GrafiteInc/Builder/maintainability)
 [![Packagist](https://img.shields.io/packagist/dt/grafite/builder.svg?maxAge=2592000)](https://packagist.org/packages/grafite/builder)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://packagist.org/packages/grafite/builder)
