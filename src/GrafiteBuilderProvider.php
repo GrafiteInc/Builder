@@ -1,13 +1,22 @@
 <?php
 
-namespace Yab\Laracogs;
+namespace Grafite\Builder;
 
+use Grafite\Builder\Console\Activity;
+use Grafite\Builder\Console\Api;
+use Grafite\Builder\Console\Billing;
+use Grafite\Builder\Console\Bootstrap;
+use Grafite\Builder\Console\Features;
+use Grafite\Builder\Console\Logs;
+use Grafite\Builder\Console\Notifications;
+use Grafite\Builder\Console\Socialite;
+use Grafite\Builder\Console\Starter;
+use Grafite\CrudMaker\CrudMakerProvider;
+use Grafite\Crypto\CryptoProvider;
+use Grafite\FormMaker\FormMakerProvider;
 use Illuminate\Support\ServiceProvider;
-use Yab\CrudMaker\CrudMakerProvider;
-use Yab\Crypto\CryptoProvider;
-use Yab\FormMaker\FormMakerProvider;
 
-class LaracogsProvider extends ServiceProvider
+class GrafiteBuilderProvider extends ServiceProvider
 {
     /**
      * Boot method.
@@ -39,15 +48,15 @@ class LaracogsProvider extends ServiceProvider
         */
 
         $this->commands([
-            \Yab\Laracogs\Console\Activity::class,
-            \Yab\Laracogs\Console\Api::class,
-            \Yab\Laracogs\Console\Billing::class,
-            \Yab\Laracogs\Console\Notifications::class,
-            \Yab\Laracogs\Console\Features::class,
-            \Yab\Laracogs\Console\Socialite::class,
-            \Yab\Laracogs\Console\Bootstrap::class,
-            \Yab\Laracogs\Console\Logs::class,
-            \Yab\Laracogs\Console\Starter::class,
+            Activity::class,
+            Api::class,
+            Billing::class,
+            Bootstrap::class,
+            Features::class,
+            Logs::class,
+            Notifications::class,
+            Socialite::class,
+            Starter::class,
         ]);
     }
 }

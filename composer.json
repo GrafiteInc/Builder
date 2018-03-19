@@ -1,24 +1,20 @@
 {
-    "name": "yab/laracogs",
+    "name": "grafite/builder",
     "description": "Prepare your Laravel apps incredibly fast, with various commands, services, facades and boilerplates.",
     "license": "MIT",
     "authors": [
         {
             "name": "Matt Lantz",
-            "email": "matt@yabhq.com"
-        },
-        {
-            "name": "Chris Blackwell",
-            "email": "chris@yabhq.com"
+            "email": "mattlantz@gmail.com"
         }
     ],
     "require": {
         "php": ">=7.1.3",
         "doctrine/dbal": "^2.5",
         "illuminate/support": "^5.6",
-        "yab/crudmaker": "^1.3",
-        "yab/formmaker": "^1.2",
-        "yab/crypto": "~1.0"
+        "grafite/crudmaker": "^1.3",
+        "grafite/formmaker": "^1.2",
+        "grafite/crypto": "~1.0"
     },
     "require-dev": {
         "mockery/mockery": "~",
@@ -28,7 +24,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Yab\\Laracogs\\": "src/"
+            "Grafite\\Builder\\": "src/"
         }
     },
     "autoload-dev": {
@@ -39,7 +35,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Yab\\Laracogs\\LaracogsProvider"
+                "Grafite\\Builder\\BuilderProvider"
             ]
         }
     },

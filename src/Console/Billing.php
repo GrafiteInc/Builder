@@ -1,12 +1,12 @@
 <?php
 
-namespace Yab\Laracogs\Console;
+namespace Grafite\Builder\Console;
 
-use Illuminate\Console\Command;
+use Grafite\Builder\Console\GrafiteCommand;
+use Grafite\Builder\Traits\FileMakerTrait;
 use Illuminate\Filesystem\Filesystem;
-use Yab\Laracogs\Traits\FileMakerTrait;
 
-class Billing extends Command
+class Billing extends GrafiteCommand
 {
     use FileMakerTrait;
 
@@ -15,14 +15,14 @@ class Billing extends Command
      *
      * @var string
      */
-    protected $signature = 'laracogs:billing';
+    protected $signature = 'grafite:billing';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Laracogs will add billing to your app';
+    protected $description = 'Grafite Builder will add billing to your app';
 
     /**
      * Execute the console command.
@@ -31,11 +31,7 @@ class Billing extends Command
      */
     public function handle()
     {
-        if (!file_exists(base_path('app/Services/UserService.php'))) {
-            $this->line("\n\nPlease perform the starter command:\n");
-            $this->info("\n\nphp artisan laracogs:starter\n");
-            $this->line("\n\nThen one you're able to run the unit tests successfully re-run this command, to bootstrap your app :)\n");
-        } else {
+        if ($this->starterIsInstalled()) {
             $fileSystem = new Filesystem();
 
             $files = $fileSystem->allFiles(__DIR__.'/../Packages/Billing');
@@ -79,7 +75,7 @@ class Billing extends Command
                 $this->comment("\n\n ** You will need to configure your app to handle cancelling subscriptions when deleting users. **");
                 $this->info('Finished setting up billing');
             } else {
-                $this->info('You cancelled the laracogs billing');
+                $this->info('You cancelled the grafite:billing');
             }
         }
     }

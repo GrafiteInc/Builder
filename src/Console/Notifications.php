@@ -1,12 +1,12 @@
 <?php
 
-namespace Yab\Laracogs\Console;
+namespace Grafite\Builder\Console;
 
-use Illuminate\Console\Command;
+use Grafite\Builder\Console\GrafiteCommand;
+use Grafite\Builder\Traits\FileMakerTrait;
 use Illuminate\Filesystem\Filesystem;
-use Yab\Laracogs\Traits\FileMakerTrait;
 
-class Notifications extends Command
+class Notifications extends GrafiteCommand
 {
     use FileMakerTrait;
 
@@ -15,14 +15,14 @@ class Notifications extends Command
      *
      * @var string
      */
-    protected $signature = 'laracogs:notifications';
+    protected $signature = 'grafite:notifications';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Laracogs will add notifications to your app';
+    protected $description = 'Grafite Builder will add notifications to your app';
 
     /**
      * Execute the console command.
@@ -31,11 +31,7 @@ class Notifications extends Command
      */
     public function handle()
     {
-        if (!file_exists(base_path('app/Services/UserService.php'))) {
-            $this->line("\n\nPlease perform the starter command:\n");
-            $this->info("\n\nphp artisan laracogs:starter\n");
-            $this->line("\n\nThen one you're able to run the unit tests successfully re-run this command, to bootstrap your app :)\n");
-        } else {
+        if ($this->starterIsInstalled()) {
             $fileSystem = new Filesystem();
 
             $files = $fileSystem->allFiles(__DIR__.'/../Packages/Notifications');
@@ -70,7 +66,7 @@ class Notifications extends Command
                 $this->comment("\n });");
                 $this->info("\n Finished setting up notifications");
             } else {
-                $this->info("\n You cancelled the laracogs notifications");
+                $this->info("\n You cancelled the grafite:notifications");
             }
         }
     }

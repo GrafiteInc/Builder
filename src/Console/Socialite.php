@@ -1,12 +1,12 @@
 <?php
 
-namespace Yab\Laracogs\Console;
+namespace Grafite\Builder\Console;
 
-use Illuminate\Console\Command;
+use Grafite\Builder\Console\GrafiteCommand;
+use Grafite\Builder\Traits\FileMakerTrait;
 use Illuminate\Filesystem\Filesystem;
-use Yab\Laracogs\Traits\FileMakerTrait;
 
-class Socialite extends Command
+class Socialite extends GrafiteCommand
 {
     use FileMakerTrait;
 
@@ -15,14 +15,14 @@ class Socialite extends Command
      *
      * @var string
      */
-    protected $signature = 'laracogs:socialite';
+    protected $signature = 'grafite:socialite';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Laracogs will add a Socialite auth to your app';
+    protected $description = 'Grafite Builder will add a Socialite auth to your app';
 
     /**
      * Execute the console command.
@@ -31,11 +31,7 @@ class Socialite extends Command
      */
     public function handle()
     {
-        if (!file_exists(base_path('app/Services/UserService.php'))) {
-            $this->line("\n\nPlease perform the starter command:\n");
-            $this->info("\n\nphp artisan laracogs:starter\n");
-            $this->line("\n\nThen one you're able to run the unit tests successfully re-run this command, to bootstrap your app :)\n");
-        } else {
+        if ($this->starterIsInstalled()) {
             $fileSystem = new Filesystem();
 
             $files = $fileSystem->allFiles(__DIR__.'/../Packages/Socialite');
@@ -74,7 +70,7 @@ class Socialite extends Command
                 $this->comment("\n require base_path('routes/socialite.php');");
                 $this->info('Finished setting up a basic socialite structure');
             } else {
-                $this->info('You cancelled the laracogs socialite');
+                $this->info('You cancelled the grafite:socialite');
             }
         }
     }

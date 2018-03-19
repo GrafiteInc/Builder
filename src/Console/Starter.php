@@ -1,11 +1,11 @@
 <?php
 
-namespace Yab\Laracogs\Console;
+namespace Grafite\Builder\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
-use Yab\Laracogs\Traits\FileMakerTrait;
+use Grafite\Builder\Traits\FileMakerTrait;
 
 class Starter extends Command
 {
@@ -16,14 +16,14 @@ class Starter extends Command
      *
      * @var string
      */
-    protected $signature = 'laracogs:starter';
+    protected $signature = 'grafite:starter';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Laracogs will prebuild some common parts of your app';
+    protected $description = 'Grafite Builder will build some common parts of your app';
 
     /**
      * Execute the console command.

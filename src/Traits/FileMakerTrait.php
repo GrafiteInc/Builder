@@ -1,6 +1,6 @@
 <?php
 
-namespace Yab\Laracogs\Traits;
+namespace Grafite\Builder\Traits;
 
 use Illuminate\Console\DetectsApplicationNamespace;
 use Illuminate\Filesystem\Filesystem;

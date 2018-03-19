@@ -1,12 +1,12 @@
 <?php
 
-namespace Yab\Laracogs\Console;
+namespace Grafite\Builder\Console;
 
-use Illuminate\Console\Command;
+use Grafite\Builder\Console\GrafiteCommand;
+use Grafite\Builder\Traits\FileMakerTrait;
 use Illuminate\Filesystem\Filesystem;
-use Yab\Laracogs\Traits\FileMakerTrait;
 
-class Logs extends Command
+class Logs extends GrafiteCommand
 {
     use FileMakerTrait;
 
@@ -15,14 +15,14 @@ class Logs extends Command
      *
      * @var string
      */
-    protected $signature = 'laracogs:logs';
+    protected $signature = 'grafite:logs';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Add a logs listing UI to your app';
+    protected $description = 'Grafite Builder will add a logs listing UI to your app';
 
     /**
      * Execute the console command.
@@ -31,11 +31,7 @@ class Logs extends Command
      */
     public function handle()
     {
-        if (!file_exists(base_path('app/Services/UserService.php'))) {
-            $this->line("\n\nPlease perform the starter command:\n");
-            $this->info("\n\nphp artisan laracogs:starter\n");
-            $this->line("\n\nThen one you're able to run the unit tests successfully re-run this command, to bootstrap your app :)\n");
-        } else {
+        if ($this->starterIsInstalled()) {
             $fileSystem = new Filesystem();
 
             $files = $fileSystem->allFiles(__DIR__.'/../Packages/Logs');
@@ -62,7 +58,7 @@ class Logs extends Command
                 $this->comment("\n }");
                 $this->info("\n Finished setting up logs");
             } else {
-                $this->info("\n You cancelled the laracogs logs");
+                $this->info("\n You cancelled the grafite:logs");
             }
         }
     }
