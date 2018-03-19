@@ -2,10 +2,10 @@
 
 **Builder** - A handful of tools for Rapid Laravel Development
 
-[![Build Status](https://travis-ci.org/YABhq/Laracogs.svg?branch=master)](https://travis-ci.org/YABhq/Laracogs)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/YABhq/Laracogs/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/YABhq/Laracogs/?branch=develop)
-[![Packagist](https://img.shields.io/packagist/dt/yab/laracogs.svg?maxAge=2592000)](https://packagist.org/packages/yab/laracogs)
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://packagist.org/packages/yab/laracogs)
+[![Build Status](https://travis-ci.org/Grafite/Builder.svg?branch=master)](https://travis-ci.org/Grafite/Builder)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f28b73ebf600f2db7f48/maintainability)](https://codeclimate.com/github/GrafiteInc/Builder/maintainability)
+[![Packagist](https://img.shields.io/packagist/dt/grafite/builder.svg?maxAge=2592000)](https://packagist.org/packages/grafite/builder)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://packagist.org/packages/grafite/builder)
 
 This is a set of tools to help speed up development of Laravel apps. You can start an app with various parts prewritten (Users, User Meta, Roles, Teams). And it comes with a powerful FormMaker which can generate form content from tables, and objects. It can generate epic CRUD prototypes rapidly with full testing scripts prepared for you, requiring very little editing. It also provides an elegant Cryptography tool which is URL friendly. Finally it brings along some friends with LaravelCollective as a vendor.
 
@@ -14,9 +14,6 @@ This is a set of tools to help speed up development of Laravel apps. You can sta
 
 ## Website
 [https://builder.grafite.ca](https://builder.grafite.ca)
-
-## Grafite Newsletter
-[Subscribe](http://eepurl.com/ck7dSv)
 
 ## Chat Support
 [Gitter](https://gitter.im/GrafiteInc/Builder)
