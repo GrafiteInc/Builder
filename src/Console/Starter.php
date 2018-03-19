@@ -98,7 +98,7 @@ class Starter extends Command
                 $this->comment('artisan migrate --seed');
             }
         } else {
-            $this->info('You cancelled the laracogs starter');
+            $this->info('You cancelled the grafite:starter');
         }
     }
 

@@ -17,7 +17,7 @@
         "grafite/crypto": "~1.0"
     },
     "require-dev": {
-        "mockery/mockery": "~",
+        "mockery/mockery": "~1.0",
         "mikey179/vfsStream": "^1.6",
         "orchestra/testbench": "^3.6",
         "phpunit/phpunit": "~7.0"
@@ -35,7 +35,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Grafite\\Builder\\BuilderProvider"
+                "Grafite\\Builder\\GrafiteBuilderProvider"
             ]
         }
     },

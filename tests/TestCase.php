@@ -18,7 +18,7 @@ class TestCase extends Orchestra\Testbench\TestCase
     protected function getPackageProviders($app)
     {
         return [
-            \Yab\Laracogs\LaracogsProvider::class,
+            \Grafite\Builder\GrafiteBuilderProvider::class,
         ];
     }
 

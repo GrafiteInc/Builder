@@ -6,12 +6,12 @@ class StarterTest extends TestCase
     {
         $status = $this->app['Illuminate\Contracts\Console\Kernel']->handle(
             $input = new \Symfony\Component\Console\Input\ArrayInput([
-                'command' => 'laracogs:starter',
+                'command' => 'grafite:starter',
                 '--no-interaction' => true
             ]),
             $output = new \Symfony\Component\Console\Output\BufferedOutput
         );
 
-        $this->assertTrue(strpos($output->fetch(), 'You cancelled the laracogs starter') > 0);
+        $this->assertTrue(strpos($output->fetch(), 'You cancelled the grafite:starter') > 0);
     }
 }
