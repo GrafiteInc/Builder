@@ -20,12 +20,10 @@ This is a set of tools to help speed up development of Laravel apps. You can sta
 Please consult the documentation here: [https://docs.grafite.ca/builder](https://docs.grafite.ca/builder)
 
 ## General Requirements
-
 1. PHP 7.1.3+
 2. OpenSSL
 
 ## Compatibility and Support
-
 | Laravel Version | Package Tag | Supported |
 |-----------------|-------------|-----------|
 | 5.6.x | 2.4.x | yes |
