@@ -17,7 +17,7 @@ This is a set of tools to help speed up development of Laravel apps. You can sta
 [https://builder.grafite.ca](https://builder.grafite.ca)
 
 ## Detailed Documentation
-Please consult the documentation here: [https://docs.grafite.ca/builder](https://docs.grafite.ca/builder)
+Please consult the documentation here: [https://docs.grafite.ca/builder/getting_started/](https://docs.grafite.ca/builder/getting_started/)
 
 ## General Requirements
 1. PHP 7.1.3+
