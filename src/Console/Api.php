@@ -66,8 +66,8 @@ class Api extends GrafiteCommand
                 $this->comment("\n 'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class");
 
                 $this->line("\n Add to except attribute the app/Http/Middleware/VerifyCsrfToken.php :");
-                $this->comment("\n 'api/v1/login'");
-                $this->comment("\n 'api/v1/user/profile'");
+                $this->comment("\n 'api/v1/login',");
+                $this->comment("\n 'api/v1/user/profile',");
 
                 $this->line("\n If you use Apache add this to the .htaccess file :");
                 $this->comment("\n RewriteEngine On");
