@@ -15,14 +15,8 @@ class Roles
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $roleCollection)
+    public function handle($request, Closure $next, ... $roles)
     {
-        $roles = [$roleCollection];
-
-        if (strpos($roleCollection, '|') > 0) {
-            $roles = explode('|', $roleCollection);
-        }
-
         foreach ($roles as $role) {
             if ($request->user()->hasRole($role)) {
                 return $next($request);
