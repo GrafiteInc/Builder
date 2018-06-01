@@ -109,7 +109,7 @@ class BillingController extends Controller
     {
         try {
             $payload = $request->all();
-            auth()->user()->meta->coupon($payload['coupon']);
+            auth()->user()->meta->applyCoupon($payload['coupon']);
             return redirect('user/billing/details')->with('message', 'Your coupon was used!');
         } catch (Exception $e) {
             throw new Exception("Could not process the coupon please try again.", 1);
