@@ -29,6 +29,7 @@ class LogService
     public function get($payload)
     {
         $this->page = request('page', 0);
+        $this->date = request('date', null);
         $this->level = request('level', 'all');
         $this->path = $this->getLogPath();
 
@@ -65,6 +66,28 @@ class LogService
         }
 
         return false;
+    }
+
+    public function getLogDates()
+    {
+        $dates = [];
+        $path = $this->getLogPath();
+
+        if (is_dir($path)) {
+            $files = glob($path.'/*');
+        }
+
+        if (count($files) === 1 && str_contains($files[0], 'laravel.log')) {
+            return [];
+        }
+
+        foreach ($files as $file) {
+            $date = str_replace($path, '', $file);
+            $date = str_replace('/laravel-', '', $date);
+            $dates[] = str_replace('.log', '', $date);
+        }
+
+        return $dates;
     }
 
     private function getLogFiles()

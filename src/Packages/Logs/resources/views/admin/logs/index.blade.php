@@ -4,10 +4,21 @@
 
 @section('content')
     <div class="col-md-12 text-right raw-margin-top-16">
-        <a class="btn btn-info raw-margin-left-8" href="{{ url('admin/logs?level=info') }}">Info</a>
-        <a class="btn btn-danger raw-margin-left-8" href="{{ url('admin/logs?level=error') }}">Error</a>
-        <a class="btn btn-warning raw-margin-left-8" href="{{ url('admin/logs?level=warning') }}">Warning</a>
-        <a class="btn btn-default raw-margin-left-8" href="{{ url('admin/logs?level=debug') }}">Debug</a>
+        @if (count($dates) > 0)
+            <form class="form-inline pull-left">
+                <select name="date" class="form-control">
+                    @foreach($dates as $date)
+                        <option value="{{ $date }}">{{ $date }}</option>
+                    @endforeach
+                </select>
+                <button type="submit" class="btn btn-primary ml-2">Check Date</button>
+            </form>
+        @endif
+
+        <a class="btn btn-info ml-2" href="{{ url('admin/logs?level=info') }}@if(request('date'))&date={{ request('date') }}@endif">Info</a>
+        <a class="btn btn-danger ml-2" href="{{ url('admin/logs?level=error') }}@if(request('date'))&date={{ request('date') }}@endif">Error</a>
+        <a class="btn btn-warning ml-2" href="{{ url('admin/logs?level=warning') }}@if(request('date'))&date={{ request('date') }}@endif">Warning</a>
+        <a class="btn btn-default ml-2" href="{{ url('admin/logs?level=debug') }}@if(request('date'))&date={{ request('date') }}@endif">Debug</a>
     </div>
 
     <div class="raw-margin-top-24">
