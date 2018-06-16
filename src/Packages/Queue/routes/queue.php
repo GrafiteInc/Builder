@@ -16,5 +16,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
         Route::get('queue', 'Admin\QueueController@index');
+        Route::get('queue/upcoming', 'Admin\QueueController@upcoming');
+        Route::get('queue/failed', 'Admin\QueueController@failed');
+        Route::get('queue/jobs/{job}/cancel/{table}', 'Admin\QueueController@cancel');
+        Route::get('queue/jobs/{job}/retry', 'Admin\QueueController@retry');
     });
 });
