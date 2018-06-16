@@ -2,15 +2,29 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\FailedJob;
 use App\Services\QueueService;
+use Illuminate\Http\Request;
 
 class QueueController extends Controller
 {
     public function __construct(QueueService $queueService)
     {
         $this->service = $queueService;
+    }
+
+    /**
+     * Display a listing of the active jobs.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $job = FailedJob::find($id);
+
+        return view('admin.queue.show')
+            ->with('job', $job);
     }
 
     /**
