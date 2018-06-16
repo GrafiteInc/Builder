@@ -3,6 +3,18 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.4.1] - 2018-06-16
+
+### Added
+- New Queue managment admin
+
+### Changed
+- Improved log admin UI
+
+### Fixed
+- Issue with roles middleware
+- Issue with coupon compatibility
+
 ## [v2.4.0] - 2018-03-19
 
 ### Changed
