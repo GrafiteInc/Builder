@@ -8,6 +8,7 @@ use Grafite\Builder\Console\Billing;
 use Grafite\Builder\Console\Bootstrap;
 use Grafite\Builder\Console\Features;
 use Grafite\Builder\Console\Logs;
+use Grafite\Builder\Console\Queue;
 use Grafite\Builder\Console\Notifications;
 use Grafite\Builder\Console\Socialite;
 use Grafite\Builder\Console\Starter;
@@ -54,6 +55,7 @@ class GrafiteBuilderProvider extends ServiceProvider
             Bootstrap::class,
             Features::class,
             Logs::class,
+            Queue::class,
             Notifications::class,
             Socialite::class,
             Starter::class,
