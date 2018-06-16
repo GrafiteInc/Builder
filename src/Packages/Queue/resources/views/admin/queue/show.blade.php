@@ -3,7 +3,7 @@
 @section('pageTitle') App Queue: Job #{{ $job->id }} @stop
 
 @section('content')
-    <div class="raw-margin-top-24">
+    <div class="col-md-12 raw-margin-top-24">
         <div class="row">
             <div class="col-md-6">
                 <h4>Name: {{ $job->name }}</h4>
