@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace {{App\}}Services;
 
-use App\Models\FailedJob;
-use App\Models\Job;
+use {{App\}}Models\FailedJob;
+use {{App\}}Models\Job;
 use Exception;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace {{App\}}Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\FailedJob;
-use App\Services\QueueService;
+use {{App\}}Http\Controllers\Controller;
+use {{App\}}Models\FailedJob;
+use {{App\}}Services\QueueService;
 use Illuminate\Http\Request;
 
 class QueueController extends Controller
