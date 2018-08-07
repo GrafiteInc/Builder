@@ -86,7 +86,7 @@ class Starter extends Command
             if ($this->confirm('Would you like to run the migration?')) {
                 $this->comment('Running command: cd '.base_path().' && composer dump ...');
 
-                exec('cd '.base_path().' && composer dump');
+                exec(sprintf('cd %s && composer dump', escapeshellarg(base_path()));
 
                 // execute migrate artisan command
                 Artisan::call('migrate');
