@@ -4,6 +4,7 @@ namespace {{App\}}Http\Controllers;
 
 use Auth;
 use Gate;
+use Exception;
 use Illuminate\Http\Request;
 use {{App\}}Services\TeamService;
 use {{App\}}Http\Requests\TeamCreateRequest;
@@ -58,13 +59,17 @@ class TeamController extends Controller
      */
     public function store(TeamCreateRequest $request)
     {
-        $result = $this->service->create(Auth::id(), $request->except('_token'));
+        try {
+            $result = $this->service->create(Auth::id(), $request->except('_token'));
 
-        if ($result) {
-            return redirect('teams/'.$result->id.'/edit')->with('message', 'Successfully created');
+            if ($result) {
+                return redirect('teams/'.$result->id.'/edit')->with('message', 'Successfully created');
+            }
+
+            return redirect('teams')->with('message', 'Failed to create');
+        } catch (Exception $e) {
+            return back()->withErrors($e->getMessage());
         }
-
-        return redirect('teams')->with('message', 'Failed to create');
     }
 
     /**
@@ -105,13 +110,17 @@ class TeamController extends Controller
      */
     public function update(TeamUpdateRequest $request, $id)
     {
-        $result = $this->service->update($id, $request->except('_token'));
+        try {
+            $result = $this->service->update($id, $request->except('_token'));
 
-        if ($result) {
-            return back()->with('message', 'Successfully updated');
+            if ($result) {
+                return back()->with('message', 'Successfully updated');
+            }
+
+            return back()->with('message', 'Failed to update');
+        } catch (Exception $e) {
+            return back()->withErrors($e->getMessage());
         }
-
-        return back()->with('message', 'Failed to update');
     }
 
     /**
@@ -122,13 +131,17 @@ class TeamController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->service->destroy(Auth::user(), $id);
+        try {
+            $result = $this->service->destroy(Auth::user(), $id);
 
-        if ($result) {
-            return redirect('teams')->with('message', 'Successfully deleted');
+            if ($result) {
+                return redirect('teams')->with('message', 'Successfully deleted');
+            }
+
+            return redirect('teams')->with('message', 'Failed to delete');
+        } catch (Exception $e) {
+            return back()->withErrors($e->getMessage());
         }
-
-        return redirect('teams')->with('message', 'Failed to delete');
     }
 
     /**
@@ -139,13 +152,17 @@ class TeamController extends Controller
      */
     public function inviteMember(UserInviteRequest $request, $id)
     {
-        $result = $this->service->invite(Auth::user(), $id, $request->email);
+        try {
+            $result = $this->service->invite(Auth::user(), $id, $request->email);
 
-        if ($result) {
-            return back()->with('message', 'Successfully invited member');
+            if ($result) {
+                return back()->with('message', 'Successfully invited member');
+            }
+
+            return back()->with('message', 'Failed to invite member - they may already be a member');
+        } catch (Exception $e) {
+            return back()->withErrors($e->getMessage());
         }
-
-        return back()->with('message', 'Failed to invite member - they may already be a member');
     }
 
     /**
@@ -156,12 +173,16 @@ class TeamController extends Controller
      */
     public function removeMember($id, $userId)
     {
-        $result = $this->service->remove(Auth::user(), $id, $userId);
+        try {
+            $result = $this->service->remove(Auth::user(), $id, $userId);
 
-        if ($result) {
-            return back()->with('message', 'Successfully removed member');
+            if ($result) {
+                return back()->with('message', 'Successfully removed member');
+            }
+
+            return back()->with('message', 'Failed to remove member');
+        } catch (Exception $e) {
+            return back()->withErrors($e->getMessage());
         }
-
-        return back()->with('message', 'Failed to remove member');
     }
 }

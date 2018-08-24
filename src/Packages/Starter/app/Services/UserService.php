@@ -12,12 +12,17 @@ use {{App\}}Models\User;
 use {{App\}}Models\UserMeta;
 use {{App\}}Models\Team;
 use {{App\}}Models\Role;
+use {{App\}}Servcies\Traits\HasTeams;
+use {{App\}}Servcies\Traits\HasRoles;
 use {{App\}}Events\UserRegisteredEmail;
 use {{App\}}Notifications\ActivateUserEmail;
 use Illuminate\Support\Facades\Schema;
 
 class UserService
 {
+    use HasRoles,
+        HasTeams;
+
     /**
      * User model
      * @var User
@@ -134,7 +139,7 @@ class UserService
         $userMeta = $this->userMeta->where('activation_token', $token)->first();
 
         if ($userMeta) {
-            return $userMeta->user();
+            return $userMeta->user()->first();
         }
 
         return false;
@@ -149,7 +154,7 @@ class UserService
      * @param  boolean $sendEmail Whether to send the email or not
      * @return User
      */
-    public function create($user, $password, $role = 'member', $sendEmail = true)
+    public function create($user, $password, $role = 'member', $sendEmail = false)
     {
         try {
             DB::transaction(function () use ($user, $password, $role, $sendEmail) {
@@ -162,7 +167,6 @@ class UserService
                 if ($sendEmail) {
                     event(new UserRegisteredEmail($user, $password));
                 }
-
             });
 
             $this->setAndSendUserActivationToken($user);
@@ -311,103 +315,5 @@ class UserService
         ]);
 
         $user->notify(new ActivateUserEmail($token));
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Roles
-    |--------------------------------------------------------------------------
-    */
-
-    /**
-     * Assign a role to the user
-     *
-     * @param  string $roleName
-     * @param  integer $userId
-     * @return void
-     */
-    public function assignRole($roleName, $userId)
-    {
-        $role = $this->role->findByName($roleName);
-        $user = $this->model->find($userId);
-
-        $user->roles()->attach($role);
-    }
-
-    /**
-     * Unassign a role from the user
-     *
-     * @param  string $roleName
-     * @param  integer $userId
-     * @return void
-     */
-    public function unassignRole($roleName, $userId)
-    {
-        $role = $this->role->findByName($roleName);
-        $user = $this->model->find($userId);
-
-        $user->roles()->detach($role);
-    }
-
-    /**
-     * Unassign all roles from the user
-     *
-     * @param  string $roleName
-     * @param  integer $userId
-     * @return void
-     */
-    public function unassignAllRoles($userId)
-    {
-        $user = $this->model->find($userId);
-        $user->roles()->detach();
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Teams
-    |--------------------------------------------------------------------------
-    */
-
-    /**
-     * Join a team
-     *
-     * @param  integer $teamId
-     * @param  integer $userId
-     * @return void
-     */
-    public function joinTeam($teamId, $userId)
-    {
-        $team = $this->team->find($teamId);
-        $user = $this->model->find($userId);
-
-        $user->teams()->attach($team);
-    }
-
-    /**
-     * Leave a team
-     *
-     * @param  integer $teamId
-     * @param  integer $userId
-     * @return void
-     */
-    public function leaveTeam($teamId, $userId)
-    {
-        $team = $this->team->find($teamId);
-        $user = $this->model->find($userId);
-
-        $user->teams()->detach($team);
-    }
-
-    /**
-     * Leave all teams
-     *
-     * @param  integer $teamId
-     * @param  integer $userId
-     * @return void
-     */
-    public function leaveAllTeams($userId)
-    {
-        $user = $this->model->find($userId);
-        $user->teams()->detach();
     }
 }

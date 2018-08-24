@@ -6,7 +6,7 @@ use {{App\}}Notifications\ActivateUserEmail;
 use {{App\}}Services\UserService;
 use Illuminate\Support\Str;
 
-class ActivateService
+class AdminService
 {
     /**
      * UserService
@@ -20,8 +20,7 @@ class ActivateService
      *
      * @param UserService $userService
      */
-    public function __construct(UserService $userService)
-    {
+    public function __construct(UserService $userService) {
         $this->userService = $userService;
     }
 
