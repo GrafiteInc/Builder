@@ -35,7 +35,7 @@
                     @foreach($jobs as $job)
                         <tr>
                             <td>{{ $job->queue }}</td>
-                            <td><i>{{ $job->name }}</i></td>
+                            <td><i><a href="{{ url('admin/queue/jobs/'.$job->id) }}">{{ $job->name }}</a></i></td>
                             <td><i>{{ $job->reason }}</i></td>
                             <td class="text-right">{{ \Carbon\Carbon::parse($job->failed_at)->format('M d, Y') }}</td>
                             <td class="text-right">
