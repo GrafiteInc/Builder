@@ -12,7 +12,7 @@
                 <h4>Failed At: {{ \Carbon\Carbon::parse($job->failed_at)->format('M d, Y') }}</h4>
             </div>
             <div class="col-md-12 raw-margin-top-24">
-                <pre>{{ $job->reason }}</pre>
+                <pre>{{ $job->exception }}</pre>
             </div>
         </div>
     </div>
