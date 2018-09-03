@@ -3,6 +3,18 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.4.2] - 2018-09-03
+
+### Added
+- New Forge API admin panel
+
+### Changed
+- Updated and improved Starter kit elements
+
+### Fixed
+- Fixes for Queue UI
+- Fixes for Activities UI
+
 ## [v2.4.1] - 2018-06-16
 
 ### Added
