@@ -14,10 +14,6 @@ class ForgeController extends Controller
         $this->service = $forgeService;
     }
 
-    /**
-     * Display the server settings.
-     *
-     * @return \Illuminate\Http\Response
     public function index(Request $request)
     {
         $settings = $this->service->getSettings();
