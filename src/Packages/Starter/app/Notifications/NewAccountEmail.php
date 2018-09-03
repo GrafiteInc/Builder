@@ -47,7 +47,8 @@ class NewAccountEmail extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->line('You\'ve got a new account!')
+            ->greeting('Hey '.$notifiable->name)
+            ->line('You\'ve been given a new account on '.url('/'))
             ->line('EM: '.$notifiable->email)
             ->line('PW: '.$this->password)
             ->line('Click the link below to login')

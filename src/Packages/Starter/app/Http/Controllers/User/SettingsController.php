@@ -2,6 +2,7 @@
 
 namespace {{App\}}Http\Controllers\User;
 
+use Exception;
 use {{App\}}Http\Requests;
 use Illuminate\Http\Request;
 use {{App\}}Services\UserService;
@@ -40,10 +41,14 @@ class SettingsController extends Controller
      */
     public function update(UserUpdateRequest $request)
     {
-        if ($this->service->update(auth()->id(), $request->all())) {
-            return back()->with('message', 'Settings updated successfully');
-        }
+        try {
+            if ($this->service->update(auth()->id(), $request->all())) {
+                return back()->with('message', 'Settings updated successfully');
+            }
 
-        return back()->withErrors(['Could not update user']);
+            return back()->withErrors(['Could not update user']);
+        } catch (Exception $e) {
+            return back()->withErrors($e->getMessage());
+        }
     }
 }

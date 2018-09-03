@@ -3,6 +3,7 @@
 namespace {{App\}}Services;
 
 use DB;
+use Exception;
 use Illuminate\Support\Str;
 use {{App\}}Services\UserService;
 use {{App\}}Models\User;
@@ -13,12 +14,14 @@ class TeamService
 {
     /**
      * Team Model
+     *
      * @var Team
      */
     public $model;
 
     /**
      * UserService
+     *
      * @var UserService
      */
     protected $userService;
@@ -33,26 +36,32 @@ class TeamService
 
     /**
      * All teams
+     *
      * @return \Illuminate\Support\Collection|null|static|Team
      */
     public function all($userId)
     {
-        return $this->model->where('user_id', $userId)->orderBy('created_at', 'desc')->get();
+        return $this->model->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')->get();
     }
 
     /**
      * All teams paginated
+     *
      * @return \Illuminate\Support\Collection|null|static|Team
      */
     public function paginated($userId)
     {
-        return $this->model->where('user_id', $userId)->orderBy('created_at', 'desc')->paginate(env('PAGINATE', 25));
+        return $this->model->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')->paginate(env('PAGINATE', 25));
     }
 
     /**
      * Search the teams
+     *
      * @param integer $userId
      * @param string $input
+     *
      * @return \Illuminate\Support\Collection|null|static|Team
      */
     public function search($userId, $input)
@@ -71,8 +80,10 @@ class TeamService
 
     /**
      * Create a team
+     *
      * @param integer $userId
      * @param array $input
+     *
      * @return \Illuminate\Support\Collection|null|static|Team
      */
     public function create($userId, $input)
@@ -93,7 +104,9 @@ class TeamService
 
     /**
      * Find a team
+     *
      * @param integer $id
+     *
      * @return \Illuminate\Support\Collection|null|static|Team
      */
     public function find($id)
@@ -103,7 +116,9 @@ class TeamService
 
     /**
      * Find a team by name
+     *
      * @param string $name
+     *
      * @return \Illuminate\Support\Collection|null|static|Team
      */
     public function findByName($name)
@@ -113,8 +128,10 @@ class TeamService
 
     /**
      * Update a team
+     *
      * @param integer $id
      * @param array $input
+     *
      * @return Team
      */
     public function update($id, $input)
@@ -127,8 +144,10 @@ class TeamService
 
     /**
      * Delete a team
+     *
      * @param User $user
      * @param integer $id
+     *
      * @return boolean
      */
     public function destroy($user, $id)
@@ -146,9 +165,11 @@ class TeamService
 
     /**
      * Invite a team member
+     *
      * @param User $admin
      * @param integer $id
      * @param string $email
+     *
      * @return boolean
      */
     public function invite($admin, $id, $email)
@@ -158,15 +179,7 @@ class TeamService
                 $user = $this->userService->findByEmail($email);
 
                 if (! $user) {
-                    $password = Str::random(10);
-
-                    $user = User::create([
-                        'name' => $email,
-                        'email' => $email,
-                        'password' => bcrypt($password),
-                    ]);
-
-                    $this->userService->create($user, $password);
+                    throw new Exception("We cannot find a user with this email address. You'll need to invite them to make an account on ".url('/'), 1);
                 }
 
                 if ($user->isTeamMember($id)) {
@@ -186,9 +199,11 @@ class TeamService
 
     /**
      * Remove a team member
+     *
      * @param User $admin
      * @param integer $id
      * @param integer $userId
+     *
      * @return boolean
      */
     public function remove($admin, $id, $userId)

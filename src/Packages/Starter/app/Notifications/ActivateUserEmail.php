@@ -47,7 +47,9 @@ class ActivateUserEmail extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('You are receiving this email because we would like to activate your account.')
+            ->greeting('Hey '.$notifiable->name)
+            ->line('You have a brand new account on '.url('/'))
+            ->line('But, you are receiving this email because we need you to activate your account.')
             ->action('Activate Account', url('activate/token', $this->token));
     }
 }

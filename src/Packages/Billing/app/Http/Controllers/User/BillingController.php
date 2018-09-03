@@ -4,6 +4,7 @@ namespace {{App\}}Http\Controllers\User;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use {{App\}}Http\Controllers\Controller;
 use {{App\}}Http\Requests;
 use {{App\}}Http\Requests\BillingRequest;
@@ -45,7 +46,8 @@ class BillingController extends Controller
             auth()->user()->meta->newSubscription(config('plans.subscription_name'), config('plans.subscription'))->create($creditCardToken);
             return redirect('user/billing/details')->with('message', 'You\'re now subscribed!');
         } catch (Exception $e) {
-            throw new Exception("Could not process the billing please try again.", 1);
+            Log::error($e->getMessage());
+            return back()->withErrors(['Could not process the billing please try again.']);
         }
 
         return back()->withErrors(['Could not complete billing, please try again.']);
@@ -79,7 +81,8 @@ class BillingController extends Controller
             auth()->user()->meta->updateCard($creditCardToken);
             return redirect('user/billing/details')->with('message', 'Your subscription has been updated!');
         } catch (Exception $e) {
-            throw new Exception("Could not process the billing please try again.", 1);
+            Log::error($e->getMessage());
+            return back()->withErrors(['Could not process the billing please try again.']);
         }
 
         return back()->withErrors(['Could not complete billing, please try again.']);
@@ -112,7 +115,8 @@ class BillingController extends Controller
             auth()->user()->meta->applyCoupon($payload['coupon']);
             return redirect('user/billing/details')->with('message', 'Your coupon was used!');
         } catch (Exception $e) {
-            throw new Exception("Could not process the coupon please try again.", 1);
+            Log::error($e->getMessage());
+            return back()->withErrors(['Could not process the coupon please try again.']);
         }
 
         return back()->withErrors(['Could not add your coupon, please try again.']);
@@ -175,7 +179,8 @@ class BillingController extends Controller
             $user->meta->subscription(config('plans.subscription_name'))->cancel();
             return redirect('user/billing/details')->with('message', 'Your subscription has been cancelled! It will be availale until '.$date);
         } catch (Exception $e) {
-            throw new Exception("Could not process the cancellation please try again.", 1);
+            Log::error($e->getMessage());
+            return back()->withErrors(['Could not process the cancellation please try again.']);
         }
 
         return back()->withErrors(['Could not cancel billing, please try again.']);

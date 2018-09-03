@@ -22,8 +22,10 @@ class LogsController extends Controller
     {
         $logs = $this->service->get($request->all());
         $levels = $this->service->levels;
+        $dates = $this->service->getLogDates();
 
         return view('admin.logs.index')
+            ->with('dates', $dates)
             ->with('logs', $logs)
             ->with('levels', $levels);
     }

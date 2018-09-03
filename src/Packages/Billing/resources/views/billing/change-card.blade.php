@@ -7,7 +7,7 @@
     <div class="tabs-content">
         <div role="tabpanel" class="tab-pane tab-active">
 
-            <div class=" raw-margin-top-24">
+            <div class="raw-margin-top-24">
                 <div class='card-wrapper'></div>
             </div>
 

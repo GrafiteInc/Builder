@@ -1,6 +1,6 @@
 @extends('admin.dashboard')
 
-@section('pageTitle') App Queue: Job #{{ $job->id }} @stop
+@section('pageTitle') Queue: Job #{{ $job->id }} @stop
 
 @section('content')
     <div class="col-md-12 raw-margin-top-24">
