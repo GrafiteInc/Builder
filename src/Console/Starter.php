@@ -117,10 +117,5 @@ class Starter extends Command
             $contents = str_replace('App\User::class', 'App\Models\User::class', $contents);
             file_put_contents($file, $contents);
         }
-
-        // Kernel setup
-        $routeContents = file_get_contents(app_path('Http/Kernel.php'));
-        $routeContents = str_replace("'auth' => \Illuminate\Auth\Middleware\Authenticate::class,", "'auth' => \Illuminate\Auth\Middleware\Authenticate::class,\n\t\t'cabin' => \App\Http\Middleware\Cabin::class,\n\t\t'cabin-api' => \App\Http\Middleware\CabinApi::class,\n\t\t'cabin-analytics' => \Yab\Cabin\Middleware\CabinAnalytics::class,\n\t\t'cabin-language' => \App\Http\Middleware\CabinLanguage::class,\n\t\t'admin' => \App\Http\Middleware\Admin::class,\n\t\t'active' => \App\Http\Middleware\Active::class,", $routeContents);
-        file_put_contents(app_path('Http/Kernel.php'), $routeContents);
     }
 }
