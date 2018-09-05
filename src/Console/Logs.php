@@ -49,7 +49,7 @@ class Logs extends GrafiteCommand
                 $this->info("\n\n Please review the setup details for logs.");
                 $this->info("\n\n You will want to add things like:");
                 $this->line("\n These links: ");
-                $this->comment("\n <li><a class=\"nav-link\" href='{!! url('admin/logs') !!}'><span class='fa fa-chart'></span> Logs</a></li>");
+                $this->comment("\n <li class=\"nav-item\"><a class=\"nav-link\" href='{!! url('admin/logs') !!}'><span class='fa fa-chart-line'></span> Logs</a></li>");
                 $this->line("\n Now modify the RouteServiceProvider by switching to a closure in the `group` method (app/Providers/RouteServiceProvider.php):");
                 $this->line("\n It will look like: ->group(base_path('routes/web.php')); So you need to change it to resemble this:");
                 $this->comment("\n ->group(function () {");
