@@ -23,6 +23,9 @@ class UserTableSeeder extends Seeder
             ]);
 
             $service->create($user, 'admin', 'admin', false);
+            $user->meta->update([
+                'is_active' => true,
+            ]);
         }
 
     }

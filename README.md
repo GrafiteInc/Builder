@@ -26,7 +26,8 @@ Please consult the documentation here: [https://docs.grafite.ca/builder/getting_
 ## Compatibility and Support
 | Laravel Version | Package Tag | Supported |
 |-----------------|-------------|-----------|
-| 5.6.x | 2.4.x | yes |
+| 5.7.x | 2.5.x | yes |
+| 5.6.x | 2.4.x | no |
 | 5.5.x | 2.3.x | no |
 | 5.4.x | 2.2.x | no |
 | 5.3.x | 2.0.x - 2.1.x | no |
