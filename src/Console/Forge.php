@@ -49,9 +49,9 @@ class Forge extends GrafiteCommand
                 $this->info("\n\n You will need to run: composer require themsaid/forge-sdk");
                 $this->info("\n\n You will want to add things like:");
                 $this->line("\n These links: ");
-                $this->comment("\n <li><a class=\"nav-link\" href='{!! url('admin/forge/settings') !!}'><span class=\"fa fa-fw fa-server\"></span> Forge Settings</a></li>");
-                $this->comment("\n <li><a class=\"nav-link\" href='{!! url('admin/forge/scheduler') !!}'><span class=\"fa fa-fw fa-calendar\"></span> Forge Scheduler</a></li>");
-                $this->comment("\n <li><a class=\"nav-link\" href='{!! url('admin/workers') !!}'><span class=\"fa fa-fw fa-cogs\"></span> Forge Workers</a></li>");
+                $this->comment("\n <li class=\"nav-item\"><a class=\"nav-link\" href='{!! url('admin/forge/settings') !!}'><span class=\"fa fa-fw fa-server\"></span> Forge Settings</a></li>");
+                $this->comment("\n <li class=\"nav-item\"><a class=\"nav-link\" href='{!! url('admin/forge/scheduler') !!}'><span class=\"fa fa-fw fa-calendar\"></span> Forge Scheduler</a></li>");
+                $this->comment("\n <li class=\"nav-item\"><a class=\"nav-link\" href='{!! url('admin/forge/workers') !!}'><span class=\"fa fa-fw fa-cogs\"></span> Forge Workers</a></li>");
                 $this->line("\n Now modify the RouteServiceProvider by switching to a closure in the `group` method (app/Providers/RouteServiceProvider.php):");
                 $this->line("\n Add these lines to (.env):");
                 $this->comment("\n FORGE_TOKEN=");

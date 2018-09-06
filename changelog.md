@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.5.0] - 2018-09-06
+
+### Changed
+- New support for Laravel 5.7
+- Starter kit seeder improvements
+- Better tests
+- Cleaned up command notes to match docs better
+
 ## [v2.4.2] - 2018-09-03
 
 ### Added

@@ -4,14 +4,18 @@ class StarterTest extends TestCase
 {
     public function testStarterCommandWithoutStarter()
     {
-        $status = $this->app['Illuminate\Contracts\Console\Kernel']->handle(
-            $input = new \Symfony\Component\Console\Input\ArrayInput([
-                'command' => 'grafite:starter',
-                '--no-interaction' => true
-            ]),
-            $output = new \Symfony\Component\Console\Output\BufferedOutput
-        );
+        $this->artisan('grafite:starter')
+            ->expectsQuestion('Are you sure you want to overwrite any files of the same name?', false)
+            ->assertExitCode(0);
+    }
 
-        $this->assertTrue(strpos($output->fetch(), 'You cancelled the grafite:starter') > 0);
+    public function testStarterCommand()
+    {
+        $this->artisan('grafite:starter')
+            ->expectsQuestion('Are you sure you want to overwrite any files of the same name?', true)
+            ->expectsQuestion('Would you like to run the migration?', false)
+            ->assertExitCode(0);
+
+        $this->assertTrue(file_exists(base_path('app/Services/UserService.php')));
     }
 }
